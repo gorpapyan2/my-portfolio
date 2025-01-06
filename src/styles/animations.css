@@ -1,0 +1,117 @@
+@keyframes shimmer {
+  0% {
+    transform: translateX(-100%);
+  }
+  100% {
+    transform: translateX(100%);
+  }
+}
+
+
+/* Pulse Animation for Background Grid */
+@keyframes pulseGrid {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.7;
+  }
+}
+
+/* Gradient Movement Animation */
+@keyframes gradientShift {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+/* Text Hover Animation */
+@keyframes textPop {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.1);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+/* Section Entrance Animation */
+@keyframes sectionSlideIn {
+  0% {
+    transform: translateY(50px);
+    opacity: 0;
+  }
+  100% {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+/* Card Fade-In Animation */
+@keyframes cardFadeIn {
+  0% {
+    transform: scale(0.9);
+    opacity: 0;
+  }
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+/* Icon Pop Animation */
+@keyframes iconPop {
+  0% {
+    transform: scale(0.5);
+    opacity: 0;
+  }
+  60% {
+    transform: scale(1.2);
+    opacity: 1;
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+/* Text Slide-In Animation */
+@keyframes textSlideIn {
+  0% {
+    transform: translateY(20px);
+    opacity: 0;
+  }
+  100% {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+/* Utility Classes for Animations */
+.animate-pulse-grid {
+  animation: pulseGrid 3s ease-in-out infinite;
+}
+
+.animate-pulse-gradient {
+  background: linear-gradient(270deg, #0a0a0f, #1a1a24);
+  background-size: 400% 400%;
+  animation: gradientShift 10s ease infinite;
+}
+
+.animate-text-pop:hover {
+  animation: textPop 0.3s ease-in-out;
+}
+
+/* Section Animation */
+.tools-section.animate {
+  animation: sectionSlideIn 1s ease-out forwards;
+}

@@ -1,0 +1,26 @@
+/* Custom Utilities */
+@layer utilities {
+  /* Shadow Utilities */
+  .shadow-glow {
+    box-shadow: 0 0 15px rgba(255, 255, 255, 0.2);
+  }
+
+  /* Gradient Text */
+  .text-gradient {
+    @apply bg-clip-text text-transparent bg-gradient-to-r;
+  }
+
+  .text-gradient-primary {
+    @apply text-gradient from-indigo-400 to-purple-400;
+  }
+
+  /* Backdrop Blur Variations */
+  .backdrop-blur-xs {
+    backdrop-filter: blur(2px);
+  }
+
+  /* Border Gradients */
+  .border-gradient {
+    border-image: linear-gradient(to right, rgba(255,255,255,0.1), rgba(255,255,255,0.05)) 1;
+  }
+}

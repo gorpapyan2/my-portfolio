@@ -1,0 +1,115 @@
+/* Custom Components */
+@layer components {
+  /* Grid Pattern Background */
+  .bg-grid-pattern {
+    @apply bg-black;
+    background-image: linear-gradient(rgba(255, 255, 255, 0.05) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(255, 255, 255, 0.05) 1px, transparent 1px);
+    background-size: 40px 40px;
+  }
+
+  /* Card Styles */
+  .card {
+    @apply relative bg-white/5 backdrop-blur-sm rounded-xl p-6 
+           transition-all duration-300 hover:transform hover:-translate-y-1
+           border border-white/10;
+    animation: cardFadeIn 0.8s ease-out forwards;
+  }
+
+  /* Icon Styles */
+  .icon-circle {
+    @apply relative p-3 rounded-full border border-white/20
+           transition-all duration-300 hover:border-white/40
+           hover:scale-110 hover:shadow-glow;
+  }
+
+  /* Button Styles */
+  .btn {
+    @apply px-6 py-3 rounded-full font-medium
+           transition-all duration-300
+           hover:scale-105 active:scale-95;
+  }
+
+  .btn-primary {
+    @apply bg-indigo-600 text-white
+           hover:bg-indigo-500
+           shadow-md hover:shadow-lg;
+  }
+
+  .btn-secondary {
+    @apply bg-white/10 text-white
+           hover:bg-white/20
+           backdrop-blur-sm;
+  }
+
+  /* Technology Card */
+  .tool-card {
+    animation: cardFadeIn 0.8s ease-out forwards;
+    animation-delay: calc(var(--card-index) * 0.2s);
+    opacity: 0; /* Initial state */
+    transform: scale(0.9); /* Initial state */
+    border: 1px solid #ffffff; /* White border for the card */
+    border-radius: 16px; /* Smooth corners */
+    background: #1a1a24; /* Subtle dark background */
+    padding: 24px;
+    transition: all 0.3s ease; /* Smooth hover effects */
+  }
+
+  .tool-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 4px 15px rgba(255, 255, 255, 0.3); /* White shadow */
+    transition: all 0.3s ease;
+  }
+
+  /* Icon Styles */
+  .tool-card-icon {
+    animation: iconPop 0.6s cubic-bezier(0.25, 1.5, 0.5, 1) forwards;
+    color: #d7e534; /* Icon color */
+    background: rgba(255, 255, 255, 0.1); /* Subtle white glow background */
+    border: 2px solid #ffffff; /* White border for the icon */
+    border-radius: 50%;
+    padding: 12px;
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    transition: all 0.3s ease;
+  }
+
+  .tool-card-icon:hover {
+    color: white; /* Icon hover effect */
+    border-color: #d7e534; /* Glow effect on hover */
+    box-shadow: 0 0 10px rgba(215, 229, 52, 0.5);
+  }
+
+  /* Text and List Styles */
+  .tool-card-text {
+    animation: textSlideIn 0.5s ease-out forwards;
+    animation-delay: calc(var(--card-index) * 0.4s + 0.3s);
+    opacity: 0; /* Initial state */
+    transform: translateY(20px); /* Initial state */
+    color: #d7e534; /* Text color */
+    font-size: 1.25rem;
+    font-weight: bold;
+    margin-top: 12px;
+    text-align: center;
+  }
+
+  .tool-card ul li {
+    color: #d7e534; /* List text color */
+    margin-top: 8px;
+    transition: color 0.3s ease;
+  }
+
+  .tool-card ul li:hover {
+    color: white; /* Hover effect */
+  }
+
+  /* Responsive Design */
+  @media (max-width: 768px) {
+    .tool-card {
+      transform: scale(1); /* No scaling on small screens */
+      margin-bottom: 16px;
+    }
+  }
+
+}
