@@ -2,6 +2,7 @@
   "name": "gor-papyan-portfolio",
   "private": true,
   "version": "0.0.0",
+  "homepage": "https://gorpapyan2.github.io/my-portfolio",
   "type": "module",
   "scripts": {
     "dev": "vite",
