@@ -23,10 +23,10 @@ export function HeroContent() {
         </p>
 
         <div className="flex flex-wrap gap-4">
-          <HeroButton variant="primary" href="/work">
+          <HeroButton variant="primary" href="work">
             See My Work
           </HeroButton>
-          <HeroButton variant="secondary" href="/contact">
+          <HeroButton variant="secondary" href="contact">
             Contact Me
           </HeroButton>
         </div>
