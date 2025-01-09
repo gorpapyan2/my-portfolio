@@ -12,13 +12,14 @@ export function WorkPage() {
     // Simulate loading delay
     const timer = setTimeout(() => {
       setIsLoading(false);
-    }, 1500);
+    }, 500);
 
     return () => clearTimeout(timer);
   }, []);
 
   return (
     <PageLayout>
+            <div className="absolute inset-0 bg-gradient-to-b from-transparent via-blue-400/5 to-transparent" />
       <PageHeader
         icon={Briefcase}
         title="My Work"

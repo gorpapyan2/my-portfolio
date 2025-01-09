@@ -7,6 +7,7 @@ import { ContactInfo } from './ContactInfo';
 export function ContactPage() {
   return (
     <PageLayout>
+      <div className="absolute inset-0 bg-gradient-to-b from-transparent via-blue-400/5 to-transparent" />
       <PageHeader
         icon={Mail}
         title="Contact Me"

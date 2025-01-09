@@ -7,9 +7,8 @@ export function MobileMenu() {
 
   return (
     <header className="relative z-50 md:hidden">
-      {/* Closed State - Header Bar */}
-      <div className="flex items-center justify-between px-4 py-2 bg-[#0A0A0B] rounded-full shadow-lg w-full">
-        {/* Menu Button */}
+      {/* Header Bar */}
+      <div className="flex items-center justify-between px-4 py-3 bg-[#0A0A0B] rounded-full shadow-lg transition-all duration-300">
         <button
           onClick={() => setIsOpen(!isOpen)}
           className="p-2 text-gray-300 hover:text-[#FFFF00] transition-colors duration-300"
@@ -19,59 +18,28 @@ export function MobileMenu() {
         </button>
       </div>
 
-      {/* Open State - Fullscreen Menu */}
-      {isOpen && (
-        <div className="fixed inset-0 z-40 bg-gradient-to-b from-[#0A0A0B] to-[#111112] backdrop-blur-xl">
-          {/* Backdrop */}
-          <div
-            className="absolute inset-0 bg-black/50"
-            onClick={() => setIsOpen(false)}
-          ></div>
-
-          {/* Navigation Menu */}
-          <nav className="relative z-50 flex flex-col items-center justify-center h-full space-y-8">
-            {/* Close Button */}
-            <button
+      {/* Expanding Header with Links */}
+      <div
+        className={`${isOpen ? "max-h-screen py-10" : "max-h-0"
+          } overflow-hidden transition-all duration-500 ease-in-out`}
+      >
+        <nav className="flex flex-col items-center space-y-4">
+          {[
+            { to: "/about", label: "About" },
+            { to: "/work", label: "Work" },
+            { to: "/blog", label: "Blog" },
+            { to: "/contact", label: "Contact" },
+          ].map(({ to, label }) => (
+            <MobileNavLink
+              key={to}
+              to={to}
               onClick={() => setIsOpen(false)}
-              className="absolute top-6 right-6 text-gray-400 hover:text-[#FFFF00] transition-transform duration-300 transform hover:scale-110"
-              aria-label="Close menu"
             >
-              <X className="h-8 w-8" />
-            </button>
-
-            {/* Logo at the top center */}
-            <div className="absolute top-10 flex flex-col items-center">
-              <div className="w-12 h-12 flex items-center justify-center bg-[#FFFF00] rounded-full shadow-lg">
-                <span className="text-black font-bold text-lg">⚡</span>
-              </div>
-              <span className="text-gray-300 mt-2 text-xl font-semibold">Gor Papyan</span>
-            </div>
-
-            {/* Menu Links */}
-            <MobileNavLink to="/about" onClick={() => setIsOpen(false)}>
-              About
+              {label}
             </MobileNavLink>
-            <MobileNavLink to="/work" onClick={() => setIsOpen(false)}>
-              Work
-            </MobileNavLink>
-            <MobileNavLink to="/experience" onClick={() => setIsOpen(false)}>
-              Experience
-            </MobileNavLink>
-            <MobileNavLink to="/blog" onClick={() => setIsOpen(false)}>
-              Blog
-            </MobileNavLink>
-            <MobileNavLink to="/contact" onClick={() => setIsOpen(false)}>
-              Contact
-            </MobileNavLink>
-
-            {/* Footer (optional) */}
-            <div className="absolute bottom-10 text-gray-500 text-sm">
-              © {new Date().getFullYear()} Gor Papyan
-            </div>
-          </nav>
-        </div>
-      )}
-
+          ))}
+        </nav>
+      </div>
     </header>
   );
 }
@@ -87,11 +55,11 @@ function MobileNavLink({ to, children, onClick }: MobileNavLinkProps) {
     <NavLink
       to={to}
       onClick={onClick}
-      className={({ isActive }) => `
-        text-2xl font-medium text-gray-300 
-        hover:text-[#FFFF00] transition-colors duration-300 
-        ${isActive ? "text-[#FFFF00]" : ""}
-      `}
+      className={({ isActive }) =>
+        `
+          ${isActive ? "text-[#FFFF00]" : ""}
+        `
+      }
     >
       {children}
     </NavLink>

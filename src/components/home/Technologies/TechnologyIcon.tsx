@@ -1,8 +1,8 @@
-import { LucideIcon } from 'lucide-react';
+import React from 'react';
 import { AnimationWrapper } from '../../animations/AnimationWrapper';
 
 interface TechnologyIconProps {
-  icon: LucideIcon;
+  icon: React.ElementType;
   delay?: number;
 }
 
@@ -10,9 +10,12 @@ export function TechnologyIcon({ icon: Icon, delay = 0 }: TechnologyIconProps) {
   return (
     <AnimationWrapper animation="scaleIn" delay={delay}>
       <div className="relative">
-        <div className="absolute inset-0 bg-yellow-400 blur-md rounded-full opacity-30" />
-        <div className="relative p-4 bg-gray-800 rounded-xl">
-          <Icon className="h-10 w-10 text-yellow-400"  />
+        {/* Outer Glow */}
+        <div className="absolute inset-0 bg-[#dbe938] blur-lg rounded-circle opacity-50" />
+        
+        {/* Icon Container */}
+        <div className="relative p-5 bg-black rounded-xl shadow-lg">
+          <Icon className="h-12 w-12 text-[#dbe938]" />
         </div>
       </div>
     </AnimationWrapper>

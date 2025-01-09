@@ -2,7 +2,7 @@ import { Users } from 'lucide-react';
 import { PageLayout } from '../components/shared/PageLayout';
 import { PageHeader } from '../components/shared/PageHeader';
 import { Card } from '../components/shared/Card';
-import { Skills } from '../components/about/Skills';
+import { Skills } from '../components/about/Skills/index';
 import { Education } from '../components/about/Education/index';
 import { Experience } from '../components/about/Expirence';
 
@@ -14,6 +14,7 @@ export function AboutPage() {
         title="About Me"
         subtitle="Dedicated QA Engineer with a passion for ensuring software excellence"
       />
+      <div className="absolute inset-0 bg-gradient-to-b from-transparent via-green-400/5 to-transparent" />
 
       <div className="grid md:grid-cols-2 gap-12 items-center mb-20">
         <div className="relative group">

@@ -1,12 +1,11 @@
-import { Github, Linkedin, Twitter, Youtube } from 'lucide-react';
+import { Github, Linkedin, X } from 'lucide-react';
 import { Shimmer } from '../ui/Shimmer';
 
 export function SocialLinks() {
   const socialLinks = [
-    { icon: Github, href: "https://github.com", label: "GitHub" },
-    { icon: Linkedin, href: "https://linkedin.com", label: "LinkedIn" },
-    { icon: Twitter, href: "https://twitter.com", label: "Twitter" },
-    { icon: Youtube, href: "https://youtube.com", label: "YouTube" }
+    { icon: Github, href: "https://github.com/gorpapyan2/", label: "GitHub" },
+    { icon: Linkedin, href: "https://www.linkedin.com/in/gorpapyan2/", label: "LinkedIn" },
+    { icon: X, href: "https://x.com/gorpapyan22", label: "X" },
   ];
 
   return (
