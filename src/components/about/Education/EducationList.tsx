@@ -2,18 +2,13 @@ import { EducationCard } from './EducationCard';
 
 const educationData = [
   {
-    degree: "Master's in Computer Science",
-    school: "Stanford University",
-    year: "2018 - 2020",
-    description: "Specialized in Software Engineering and Quality Assurance"
-  },
-  {
-    degree: "Bachelor's in Software Engineering",
-    school: "University of California, Berkeley",
-    year: "2014 - 2018",
-    description: "Focus on Software Development and Testing Methodologies"
+    degree: "B.Sc. in Information Technology",
+    school: "National Polytechnic University of Armenia",
+    year: "Graduated May 2024",
+    description: "Bachelor of Science in Information Technology"
   }
 ];
+
 
 export function EducationList() {
   return (

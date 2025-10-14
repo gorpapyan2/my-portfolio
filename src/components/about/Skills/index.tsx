@@ -1,4 +1,4 @@
-import { Code2, GitBranch, Workflow, Kanban, Database, Bug, Globe, Shield, Lightbulb } from 'lucide-react';
+import { Code2, GitBranch, Workflow, Kanban, Database, Bug, Globe, Shield, Lightbulb, Smartphone, Table } from 'lucide-react';
 import { motion } from 'framer-motion';
 import { useLanguage } from '../../../context/LanguageContext';
 import { SectionHeader } from '../../shared/SectionHeader';
@@ -9,54 +9,60 @@ export function Skills() {
 
     const skills = [
         {
-            icon: Code2,
-            title: 'Test Automation',
-            description: 'Expertise in Selenium, Cypress, and TestCafe for comprehensive test automation',
-            level: 90
+          icon: Code2,
+          title: 'Test Automation',
+          description: 'Playwright (TypeScript), PyTest; page objects, fixtures, tracing',
+          level: 90
         },
         {
-            icon: Bug,
-            title: 'Manual Testing',
-            description: 'In-depth experience with test case design and exploratory testing',
-            level: 95
+          icon: Bug,
+          title: 'Manual & Exploratory Testing',
+          description: 'Regression cycles, integration testing, Agile test planning',
+          level: 92
         },
         {
-            icon: Database,
-            title: 'API Testing',
-            description: 'Proficient in Postman, REST APIs, and GraphQL testing',
-            level: 85
+          icon: Database,
+          title: 'API Testing',
+          description: 'REST, Postman, contract/functional checks; service virtualization (Mountebank)',
+          level: 88
         },
         {
-            icon: Shield,
-            title: 'Security Testing',
-            description: 'Knowledge of OWASP and security testing methodologies',
-            level: 80
+          icon: Workflow,
+          title: 'CI/CD & DevOps',
+          description: 'Git; AWS CodeBuild and CodeArtifact; parallel/sharded pipelines',
+          level: 86
         },
         {
-            icon: Globe,
-            title: 'Cross-browser Testing',
-            description: 'Experience with multi-browser compatibility testing',
-            level: 88
+          icon: GitBranch,
+          title: 'Version Control',
+          description: 'Advanced Git workflows for collaborative QA/Dev',
+          level: 92
         },
         {
-            icon: Workflow,
-            title: 'CI/CD Integration',
-            description: 'Skilled in Jenkins, GitLab CI, and GitHub Actions',
-            level: 85
+          icon: Globe,
+          title: 'Cross-browser & Web',
+          description: 'Playwright across Chromium/Firefox/WebKit; network controls & timeouts',
+          level: 88
         },
         {
-            icon: GitBranch,
-            title: 'Version Control',
-            description: 'Advanced Git workflow and branching strategies',
-            level: 92
+          icon: Smartphone, // from lucide-react; swap if you prefer another
+          title: 'Mobile Automation',
+          description: 'iOS UI automation with XCUITest (Swift)',
+          level: 80
         },
         {
-            icon: Kanban,
-            title: 'Project Management',
-            description: 'Proficient in Agile methodologies and JIRA',
-            level: 88
+          icon: Kanban,
+          title: 'Test Management & Agile',
+          description: 'Jira (JQL), TestRail; Scrum ceremonies & reporting',
+          level: 87
+        },
+        {
+          icon: Table,
+          title: 'SQL & Data',
+          description: 'PostgreSQL; data setup & verification with SQL scripts',
+          level: 82
         }
-    ];
+      ];
 
     return (
         <section className="mb-20">

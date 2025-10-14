@@ -2,28 +2,23 @@ import { ExperienceCard } from './ExperienceCard';
 
 const experiences = [
   {
-    role: 'Senior QA Engineer',
-    company: 'Tech Innovations Inc',
-    period: '2020 - Present',
-    description: 'Led end-to-end testing strategies for enterprise applications, improving test coverage by 40%.',
+    role: 'QA Automation Engineer',
+    company: 'zealous (AXS)',
+    period: 'Oct 2022 – Present',
+    description:
+      'Built and owned Playwright-based UI/API automation from scratch; embedded in Agile teams, integrated suites into AWS CI/CD, and stabilized regressions.',
     achievements: [
-      'Implemented automated testing framework',
-      'Reduced bug escape rate by 60%',
-      'Mentored junior QA engineers',
-    ],
-  },
-  {
-    role: 'QA Engineer',
-    company: 'Digital Solutions Ltd',
-    period: '2018 - 2020',
-    description: 'Managed testing lifecycle for mobile and web applications.',
-    achievements: [
-      'Developed test automation suite',
-      'Improved deployment quality',
-      'Streamlined QA processes',
-    ],
-  },
+      'Cut manual regression time by ~40% via reliable Playwright suites', // Key result
+      'Reduced flaky test rate by ~70% through data isolation and tuned timeouts', // Key result
+      'Integrated E2E and integration tests into AWS CodeBuild with artifact mgmt via CodeArtifact',
+      'Developed API contract/functional suites (OpenSearch enrichment service) and gated pipelines',
+      'Improved CI runtime using parallel workers, sharding, and auth reuse (storageState)',
+      'Introduced service virtualization with Mountebank for deterministic E2E flows',
+      'Contributed iOS automation using XCUITest'
+    ]
+  }
 ];
+
 
 export function ExperienceList() {
   return (

@@ -1,5 +1,5 @@
 import { useState, useMemo } from 'react';
-import { ChevronLeft, ChevronRight } from 'lucide-react';
+import { ChevronLeft, ChevronRight, Workflow } from 'lucide-react';
 import { Code2, Bug, Database } from 'lucide-react';
 import { TechnologyCard } from './TechnologyCard';
 import { PaginationDots } from '../../ui/PaginationDots';
@@ -7,49 +7,64 @@ import { Technology } from './index';
 
 const technologys: Technology[] = [
     {
-        icon: Code2,
-        title: 'Automation Testing',
-        description: "Automation testing utilizes software tools to execute tests, compare outcomes, and report defects, thereby saving time and reducing human error. Notable tools include:",
-        detailedDescription: [
-            'Selenium: An open-source framework for web application testing across various browsers and platforms.',
-            'Appium: An open-source tool for automating mobile applications on iOS and Android platforms.',
-            'Cypress: A JavaScript-based end-to-end testing framework for web applications.',
-            'TestComplete: A functional UI testing tool for desktop, mobile, and web applications.',
-            'Katalon Studio: An all-in-one test automation solution for web, mobile, API, and desktop applications.'
-        ],
-        realWorldExample: 'Successfully automated 500+ test cases for an e-commerce platform, reducing regression testing time by 75%.',
-        level: 90,
-        ctaLink: '/work#automation'
+      icon: Code2,
+      title: 'Automation Testing',
+      description:
+        'Framework-first approach to robust UI/API automation with traceable results and CI gates.',
+      detailedDescription: [
+        'Playwright (TypeScript): E2E + integration tests with page objects, fixtures, env configs, and tracing.',
+        'PyTest: Fast, modular automation for API and integration layers.',
+        'XCUITest (Swift): Native iOS UI automation for mobile coverage.'
+      ],
+      realWorldExample:
+        'Shipped Playwright suites integrated with AWS CodeBuild/CodeArtifact; regression time ↓ ~40% and flaky tests ↓ ~70%.',
+      level: 90,
+      ctaLink: '/work#automation'
     },
     {
-        icon: Bug,
-        title: 'Manual Testing',
-        description: 'Comprehensive test case design and execution',
-        detailedDescription: [
-            'Creating detailed test plans and test cases based on requirements.',
-            'Performing exploratory testing to uncover edge cases.',
-            'Conducting usability testing sessions with stakeholders.',
-            'Documenting and tracking defects with clear reproduction steps.'
-        ],
-        realWorldExample: 'Led manual testing efforts for a financial app, identifying 150+ critical issues before production release.',
-        level: 95,
-        ctaLink: '/work#manual-testing'
+      icon: Bug,
+      title: 'Manual & Integration Testing',
+      description: 'Structured regression + exploratory testing within Agile teams.',
+      detailedDescription: [
+        'Create test plans/cases from specs; collaborate with PM/Dev.',
+        'Execute regression/integration cycles; evaluate behavior vs. docs.',
+        'Log defects with steps, logs, traces; drive fixes and retests.'
+      ],
+      realWorldExample:
+        'Maintained smoke/regression gates and post-release checks for AXS projects.',
+      level: 92,
+      ctaLink: '/work#manual-testing'
     },
     {
-        icon: Database,
-        title: 'API Testing',
-        description: 'REST and GraphQL API testing expertise',
-        detailedDescription: [
-            'Designing comprehensive API test suites using Postman and REST Assured.',
-            'Validating request/response schemas and payload structures.',
-            'Performance testing of API endpoints under various conditions.',
-            'Implementing security testing for API authentication and authorization.'
-        ],
-        realWorldExample: 'Developed an automated API testing framework that reduced testing time by 60% for a microservices architecture.',
-        level: 85,
-        ctaLink: '/work#api-testing'
+      icon: Database,
+      title: 'API & Service Validation',
+      description: 'Contract and functional testing for reliable backend services.',
+      detailedDescription: [
+        'REST and Postman-based suites with schema/payload validation.',
+        'Service virtualization using Mountebank for deterministic E2E flows.',
+        'OpenSearch enrichment service checks wired into CI pipelines.'
+      ],
+      realWorldExample:
+        'Built API suites for an Enrichment Service verifying OpenSearch query enrichment in CI.',
+      level: 88,
+      ctaLink: '/work#api-testing'
+    },
+    {
+      icon: Workflow,
+      title: 'CI/CD Acceleration',
+      description: 'Speedy, reliable pipelines with parallelism and artifact hygiene.',
+      detailedDescription: [
+        'AWS CodeBuild integration for E2E/integration tests.',
+        'Dependency management via AWS CodeArtifact.',
+        'Parallel workers, sharding, and auth reuse (storageState) to reduce runtime.'
+      ],
+      realWorldExample:
+        'Cut CI runtimes while enforcing smoke/regression gates before deploy.',
+      level: 86,
+      ctaLink: '/work#cicd'
     }
-];
+  ];
+  
 
 export function TechnologyCarousel() {
     const [currentIndex, setCurrentIndex] = useState(0);
