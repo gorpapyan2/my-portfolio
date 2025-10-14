@@ -1,74 +1,68 @@
-import { Users } from 'lucide-react';
-import { PageLayout } from '../components/shared/PageLayout';
-import { PageHeader } from '../components/shared/PageHeader';
-import { Card } from '../components/shared/Card';
-import { Skills } from '../components/about/Skills/index';
-import { Education } from '../components/about/Education/index';
-// NOTE: if your folder/file is actually spelled "Expirence", keep it;
-// otherwise consider renaming the file/folder to "Experience" for consistency.
-import { Experience } from '../components/about/Expirence';
-import Portrait from '../../Gemini_Generated_Image_5ddpzd5ddpzd5ddp-Photoroom.png';
+import { useState } from "react";
+import { User } from 'lucide-react';
+import { PageLayout } from "@/components/shared/PageLayout";
+import { PageHeader } from "@/components/shared/PageHeader";
+import AboutMe from "@/components/AboutMe";
+import ScrollIndicator from "@/components/ScrollIndicator";
+import FloatingActions from "@/components/FloatingActions";
+import ParticleBackground from "@/components/ParticleBackground";
+import SoundEffects from "@/components/SoundEffects";
+import PerformanceMonitor from "@/components/PerformanceMonitor";
+import { SectionNavigation } from "@/components/SectionNavigation";
+import { Experience } from "@/components/about/Expirence";
+import { Education } from "@/components/about/Education";
+import { Skills } from "@/components/about/Skills";
+import { useLanguage } from "@/context/LanguageContext";
 
 export function AboutPage() {
+  const [soundEnabled] = useState(false);
+  const [motionEnabled, ] = useState(true);
+  const [performanceMonitoring, setPerformanceMonitoring] = useState(false);
+  const { t } = useLanguage();
+
   return (
-    <PageLayout>
-      <PageHeader
-        icon={Users}
-        title="About Me"
-        subtitle="Mid-level QA Automation Engineer specializing in Playwright and CI/CD"
-      />
-      <div className="absolute inset-0 bg-gradient-to-b from-transparent via-green-400/5 to-transparent" />
-
-      <div className="grid md:grid-cols-2 gap-12 items-center mb-20">
-        <div className="relative group">
-          <img
-            src={Portrait}
-            alt="Gor Papyan portrait"
-            className="rounded-xl shadow-lg transition-transform duration-300 group-hover:scale-105"
-          />
-          <div className="absolute inset-0 rounded-xl bg-gradient-to-t from-black/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+    <>
+      <SoundEffects enabled={soundEnabled} />
+      <ParticleBackground />
+      <SectionNavigation />
+      
+      <PageLayout ariaLabel="About page">
+        <div className="absolute inset-0 bg-gradient-to-b from-transparent via-[#edfc3a]/5 to-transparent" />
+        
+        <PageHeader
+          icon={User}
+          title={t('pages.about.title')}
+          subtitle={t('pages.about.subtitle')}
+        />
+        
+        <div className="space-y-20">
+          <AboutMe />
+          <Experience />
+          <Education />
+          <Skills />
         </div>
+      </PageLayout>
+      
+      <ScrollIndicator />
+      <FloatingActions />
+      <PerformanceMonitor enabled={performanceMonitoring} />
 
-        <div className="space-y-6">
-          <Card>
-            <h2 className="text-xl font-semibold text-[#edfc3a] mb-4">
-              Professional Journey
-            </h2>
-            <p className="text-gray-300">
-              QA Automation Engineer delivering reliable UI and API automation with Playwright,
-              embedded in Agile teams since <span className="whitespace-nowrap">October 2022</span>.
-              I build frameworks, integrate them into CI/CD (AWS CodeBuild/CodeArtifact),
-              and use data isolation and tuned timeouts to stabilize regressions and cut runtime.
-            </p>
-          </Card>
-
-          <Card>
-            <h2 className="text-xl font-semibold text-[#edfc3a] mb-4">
-              Philosophy
-            </h2>
-            <p className="text-gray-300">
-              Quality isn’t only finding bugs—it’s enabling confident, fast delivery.
-              Every test is a design decision: make it readable, deterministic, and valuable
-              to developers and users alike.
-            </p>
-          </Card>
-
-          {/* Optional: keep or remove this third card */}
-          <Card>
-            <h2 className="text-xl font-semibold text-[#edfc3a] mb-4">
-              Toolbox
-            </h2>
-            <p className="text-gray-300">
-              Playwright (TypeScript), PyTest, XCUITest; REST, Postman, Mountebank;
-              PostgreSQL; Git; AWS CodeBuild &amp; CodeArtifact; TestRail; Jira.
-            </p>
-          </Card>
-        </div>
-      </div>
-
-      <Skills />
-      <Education />
-      <Experience />
-    </PageLayout>
+      
+      {/* Motion preference could be used to disable animations */}
+      {!motionEnabled && (
+        <style>{`
+          * { animation-duration: 0s !important; transition-duration: 0s !important; }
+        `}</style>
+      )}
+      
+      {/* Development mode - double-click to enable performance monitoring */}
+      {import.meta.env.DEV && (
+        <div 
+          className="fixed top-0 left-0 w-4 h-4 z-50"
+          onDoubleClick={() => setPerformanceMonitoring(!performanceMonitoring)}
+          title="Double-click to toggle performance monitoring"
+        />
+      )}
+    </>
   );
 }

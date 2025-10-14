@@ -1,28 +1,25 @@
-import React, { useEffect, useRef, useState } from "react";
-import { createPortal } from "react-dom";
-import { Menu, X } from "lucide-react";
+import React, { useEffect, useState } from "react";
+import { Menu, X, FileDown, Languages } from "lucide-react";
 import { NavLink, useLocation } from "react-router-dom";
+import { useLanguage, Language } from "../../context/LanguageContext";
+
+const languages: { code: Language; label: string; }[] = [
+  { code: 'en', label: 'English' },
+  { code: 'ru', label: 'Русский' },
+  { code: 'am', label: 'Հայերեն' },
+];
 
 export function MobileMenu() {
   const [isOpen, setIsOpen] = useState(false);
-  const closeButtonRef = useRef<HTMLButtonElement | null>(null);
-  const sidebarRef = useRef<HTMLDivElement | null>(null);
-  const triggerButtonRef = useRef<HTMLButtonElement | null>(null);
-  const previouslyFocusedRef = useRef<Element | null>(null);
   const location = useLocation();
+  const { t, language, setLanguage } = useLanguage();
+  
   const navItems = [
     { to: "/about", label: "About" },
     { to: "/work", label: "Work" },
     { to: "/blog", label: "Blog" },
     { to: "/contact", label: "Contact" },
   ];
-  const [isMounted, setIsMounted] = useState(false);
-
-  useEffect(() => {
-    setIsMounted(true);
-  }, []);
-
-  // (reduced-motion, focus traps, inert) intentionally omitted for baseline stability
 
   // Close on route change
   useEffect(() => {
@@ -41,95 +38,79 @@ export function MobileMenu() {
     };
   }, [isOpen]);
 
-  // Underlay inert/aria-hidden removed for simplicity
-
-  // Focus management: move focus to close button when opened
+  // Handle ESC to close
   useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === "Escape" && isOpen) {
+        setIsOpen(false);
+      }
+    };
+    
     if (isOpen) {
-      // Delay to ensure element exists after render
-      const id = window.setTimeout(() => closeButtonRef.current?.focus(), 0);
-      return () => window.clearTimeout(id);
+      document.addEventListener("keydown", handleKeyDown);
     }
+    
+    return () => {
+      document.removeEventListener("keydown", handleKeyDown);
+    };
   }, [isOpen]);
 
-  // Restore focus to the previously focused opener when closed
-  useEffect(() => {
-    if (!isOpen && previouslyFocusedRef.current instanceof HTMLElement) {
-      previouslyFocusedRef.current.focus();
-    }
-  }, [isOpen]);
-
-  // Handle ESC to close when drawer has focus
-  const onKeyDown = (e: React.KeyboardEvent<HTMLDivElement>) => {
-    if (!isOpen) return;
-    if (e.key === "Escape") {
-      e.stopPropagation();
-      setIsOpen(false);
-    }
+  const handleDownloadCV = () => {
+    const cvUrl = '/Gor-Papyan-CV.pdf';
+    const link = document.createElement('a');
+    link.href = cvUrl;
+    link.download = 'Gor-Papyan-CV.pdf';
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+    setIsOpen(false);
   };
 
   return (
-    <div className="md:hidden">
+    <div className="md:hidden relative">
       <button
-        ref={triggerButtonRef}
-        onClick={() => {
-          previouslyFocusedRef.current = document.activeElement;
-          setIsOpen(true);
-        }}
-        className="p-2 text-gray-300 hover:text-[#FFFF00] transition-colors duration-300 hover:scale-110 active:scale-95"
-        aria-label={isOpen ? "Close menu" : "Open menu"}
+        onClick={() => setIsOpen(true)}
+        className="p-2 text-gray-300 hover:text-[#edfc3a] transition-all duration-300 hover:scale-110 active:scale-95 hover:rotate-90 group"
+        aria-label="Open menu"
         aria-expanded={isOpen}
-        aria-controls="mobile-sidebar"
+        aria-controls="mobile-dropdown"
       >
-        <Menu className="h-6 w-6" />
+        <Menu className="h-6 w-6 transition-transform duration-300 group-hover:scale-110" />
       </button>
 
-      {isMounted && createPortal(
+      {/* Dropdown Menu */}
+      {isOpen && (
         <>
-          {/* Overlay */}
+          {/* Backdrop */}
           <div
-            className={`fixed inset-0 z-[1000] bg-black/70 backdrop-blur-sm transition-opacity duration-300 ${
-              isOpen ? "opacity-100 pointer-events-auto" : "opacity-0 pointer-events-none"
-            }`}
+            className="fixed inset-0 z-[1000] bg-black/50 backdrop-blur-sm animate-in fade-in duration-300"
             onClick={() => setIsOpen(false)}
-            aria-hidden={!isOpen}
+            aria-hidden="true"
           />
 
-          {/* Sidebar Drawer */}
+          {/* Dropdown */}
           <div
-            id="mobile-sidebar"
-            ref={sidebarRef}
+            id="mobile-dropdown"
             role="dialog"
             aria-modal="true"
-            aria-labelledby="mobile-sidebar-title"
-            className={`fixed top-0 right-0 z-[1001] h-full w-[90vw] max-w-sm sm:w-80 sm:max-w-[85%] text-white shadow-2xl ring-1 ring-white/10 transform transition-transform duration-300 overscroll-contain ${
-              isOpen ? "translate-x-0" : "translate-x-full"
-            } relative`}
-            onKeyDown={onKeyDown}
-            style={{
-              paddingTop: 'env(safe-area-inset-top)',
-              paddingBottom: 'env(safe-area-inset-bottom)',
-            }}
+            aria-labelledby="mobile-dropdown-title"
+            className="absolute top-full right-0 z-[1001] mt-2 w-64 bg-black/95 backdrop-blur-md rounded-lg shadow-2xl border border-white/10 overflow-hidden animate-in slide-in-from-top-2 fade-in duration-300"
           >
-            {/* Solid background layer to prevent bleeding */}
-            <div className="absolute inset-0 bg-[#0A0A0B]/95" aria-hidden="true" />
-            {/* Subtle gradient overlay */}
-            <div className="absolute inset-0 bg-gradient-to-b from-transparent to-[#0F1012]/90" aria-hidden="true" />
-
-            <div className="relative z-10 flex items-center justify-between px-4 py-4 border-b border-white/10">
-              <h2 id="mobile-sidebar-title" className="text-lg font-semibold">Menu</h2>
+            {/* Header */}
+            <div className="flex items-center justify-between px-4 py-3 border-b border-white/10">
+              <h2 id="mobile-dropdown-title" className="text-sm font-medium text-white">Menu</h2>
               <button
-                ref={closeButtonRef}
                 onClick={() => setIsOpen(false)}
-                className="p-2 rounded-md text-gray-300 hover:text-[#FFFF00] focus:outline-none focus:ring-2 focus:ring-[#FFFF00]/60 transition-transform duration-300 hover:rotate-90"
+                className="p-1 rounded text-gray-300 hover:text-[#edfc3a] transition-all duration-300 hover:rotate-90 hover:scale-110 group"
                 aria-label="Close menu"
               >
-                <X className="h-6 w-6" />
+                <X className="h-5 w-5 transition-transform duration-300 group-hover:scale-110" />
               </button>
             </div>
 
-            <nav className="relative z-10 px-4 py-6">
-              <ul className="space-y-1 divide-y divide-white/5">
+            {/* Navigation Links */}
+            <nav className="px-2 py-2">
+              <ul className="space-y-1">
                 {navItems.map(({ to, label }) => (
                   <li key={to}>
                     <MobileNavLink to={to} onClick={() => setIsOpen(false)}>
@@ -139,9 +120,47 @@ export function MobileMenu() {
                 ))}
               </ul>
             </nav>
+
+            {/* Language Selector */}
+            <div className="px-4 py-3 border-t border-white/10">
+              <div className="space-y-2">
+                <div className="flex items-center gap-2 text-sm text-gray-300">
+                  <Languages className="h-4 w-4" />
+                  <span>Language</span>
+                </div>
+                <div className="grid grid-cols-1 gap-1">
+                  {languages.map((lang) => (
+                    <button
+                      key={lang.code}
+                      onClick={() => setLanguage(lang.code)}
+                      className={`flex items-center gap-3 px-3 py-2 rounded-md text-sm transition-colors duration-200 ${
+                        language === lang.code
+                          ? 'text-[#edfc3a] bg-[#edfc3a]/10 border border-[#edfc3a]/20'
+                          : 'text-gray-300 hover:text-white hover:bg-white/5'
+                      }`}
+                    >
+                      <div className={`w-2 h-2 rounded-full transition-colors duration-200 ${
+                        language === lang.code ? 'bg-[#edfc3a]' : 'bg-gray-500'
+                      }`} />
+                      <span>{lang.label}</span>
+                    </button>
+                  ))}
+                </div>
+              </div>
+            </div>
+
+            {/* CV Download Button */}
+            <div className="px-4 py-3 border-t border-white/10">
+              <button
+                onClick={handleDownloadCV}
+                className="w-full flex items-center justify-center gap-2 px-4 py-2 rounded-md bg-[#edfc3a] text-black font-medium hover:bg-[#c4cf2b] transition-colors duration-200 group"
+              >
+                <FileDown className="h-4 w-4" />
+                <span>{t('hero.downloadCV')}</span>
+              </button>
+            </div>
           </div>
-        </>,
-        document.body
+        </>
       )}
     </div>
   );
@@ -159,14 +178,22 @@ function MobileNavLink({ to, children, onClick }: MobileNavLinkProps) {
       to={to}
       onClick={onClick}
       className={({ isActive }) =>
-        `block rounded-md px-4 py-3 text-base transition-colors duration-200 ${
+        `block rounded-md px-3 py-2 text-sm transition-colors duration-300 relative group ${
           isActive
-            ? "text-[#FFFF00]"
+            ? "text-[#edfc3a] bg-[#edfc3a]/10 border border-[#edfc3a]/20"
             : "text-gray-300 hover:text-white hover:bg-white/5"
         }`
       }
     >
-      {children}
+      {({ isActive }) => (
+        <>
+          {children}
+          {/* Simple active indicator */}
+          {isActive && (
+            <span className="absolute left-0 top-0 bottom-0 w-1 bg-[#edfc3a] rounded-r-md" />
+          )}
+        </>
+      )}
     </NavLink>
   );
 }

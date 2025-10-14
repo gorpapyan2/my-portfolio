@@ -3,6 +3,7 @@ import { Send } from 'lucide-react';
 import { Card } from '../../components/shared/Card';
 import emailjs from '@emailjs/browser';
 import { Popup } from '../../components/ui/Popup';
+import { useLanguage } from '../../context/LanguageContext';
 
 interface FormField {
   id: string;
@@ -11,16 +12,11 @@ interface FormField {
   isTextArea?: boolean;
 }
 
-const formFields: FormField[] = [
-  { id: 'from_name', label: 'Name', type: 'text' },
-  { id: 'from_email', label: 'Email', type: 'email' },
-  { id: 'message', label: 'Message', type: 'text', isTextArea: true },
-];
-
 export function ContactForm() {
   const [showPopup, setShowPopup] = useState(false);
   const [popupMessage, setPopupMessage] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const { t } = useLanguage();
 
   // Create a ref to the form
   const formRef = useRef<HTMLFormElement | null>(null);
@@ -29,6 +25,12 @@ export function ContactForm() {
   useEffect(() => {
     emailjs.init('jAUnep12KdGWp6a-W');
   }, []);
+
+  const formFields: FormField[] = [
+    { id: 'from_name', label: t('contact.name'), type: 'text' },
+    { id: 'from_email', label: t('contact.email'), type: 'email' },
+    { id: 'message', label: t('contact.message'), type: 'text', isTextArea: true },
+  ];
 
   const sendEmail = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -43,7 +45,7 @@ export function ContactForm() {
       );
 
       if (result.text === 'OK') {
-        setPopupMessage("Thank you! Your message has been sent successfully. I'll get back to you soon.");
+        setPopupMessage(t('contact.successMessage'));
         // Reset the form using the ref
         formRef.current?.reset();
       } else {
@@ -51,7 +53,7 @@ export function ContactForm() {
       }
     } catch (error) {
       console.error('Failed to send email:', error);
-      setPopupMessage('Oops! Something went wrong. Please try again later.');
+      setPopupMessage(t('contact.errorMessage'));
     } finally {
       setShowPopup(true);
       setIsSubmitting(false);
@@ -101,7 +103,7 @@ export function ContactForm() {
                      transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed"
           >
             <Send className="h-5 w-5" />
-            {isSubmitting ? 'Sending...' : 'Send Message'}
+            {isSubmitting ? t('contact.sending') : t('contact.sendMessage')}
           </button>
         </form>
       </Card>

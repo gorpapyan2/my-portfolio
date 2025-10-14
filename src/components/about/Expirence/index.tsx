@@ -1,16 +1,21 @@
 import { Briefcase } from 'lucide-react';
 import { ExperienceList } from './ExperienceList';
 import { SectionHeader } from '../../shared/SectionHeader';
+import { useLanguage } from '../../../context/LanguageContext';
 
 export function Experience() {
+  const { t } = useLanguage();
+
   return (
-    <section className="mb-20">
-      <SectionHeader
-        icon={Briefcase}
-        title="Experience"
-        subtitle="A journey through my professional career in software quality assurance"
-      />
-     <ExperienceList />
+    <section id="experience">
+      <div className="max-w-6xl mx-auto px-4">
+        <SectionHeader
+          icon={Briefcase}
+          title={t('about.experience.title')}
+          subtitle={t('about.experience.subtitle')}
+        />
+        <ExperienceList />
+      </div>
     </section>
   );
 }

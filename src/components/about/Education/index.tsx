@@ -1,16 +1,21 @@
 import { GraduationCap } from 'lucide-react';
 import { EducationList } from './EducationList';
 import { SectionHeader } from '../../shared/SectionHeader';
+import { useLanguage } from '../../../context/LanguageContext';
 
 export function Education() {
+  const { t } = useLanguage();
+
   return (
-    <section className="mb-20">
-      <SectionHeader
-        icon={GraduationCap}
-        title="Education"
-        subtitle="My education has been a journey of continuous learning, building both technical skills and personal growth."
-      />
-      <EducationList />
+    <section id="education">
+      <div className="max-w-6xl mx-auto px-4">
+        <SectionHeader
+          icon={GraduationCap}
+          title={t('about.education.title')}
+          subtitle={t('about.education.subtitle')}
+        />
+        <EducationList />
+      </div>
     </section>
-  )
+  );
 }
