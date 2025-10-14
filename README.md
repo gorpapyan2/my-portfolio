@@ -48,6 +48,38 @@ npm run dev
 
 ## 🏗️ Architecture
 
+### Service Layer Architecture
+
+The application follows Clean Architecture principles with a service layer pattern:
+
+1. **Service Hooks** (`src/lib/services/`):
+   - `useTranslationService` - CRUD operations for translations with Zod validation
+   - `useBlogService` - CRUD operations for blog posts with optimistic updates
+   - `useProjectService` - CRUD operations for projects with optimistic updates
+   - `useContactService` - Create-only operations for contact submissions
+
+2. **Validation Layer** (`src/lib/schemas/`):
+   - Zod schemas for runtime validation of all data operations
+   - Type-safe form validation with user-friendly error messages
+
+3. **Database Layer**:
+   - Supabase MCP integration with typed `supabase-js` v2 client
+   - Row Level Security (RLS) policies for data access control
+   - Optimistic UI updates with automatic rollback on errors
+
+### Database Schema
+
+**Tables:**
+- `translations` - Multi-language content with categories
+- `blog_posts` - Blog articles with publishing status
+- `projects` - Portfolio projects with tags and featured status
+- `contact_submissions` - Contact form submissions with status tracking
+
+**RLS Policies:**
+- Public read access for published content
+- Authenticated write access for admin operations
+- Public insert access for contact submissions
+
 ### Translation System
 
 The application uses a hybrid translation system:
@@ -58,9 +90,10 @@ The application uses a hybrid translation system:
 
 ### Key Components
 
-- **LanguageContext**: Centralized language state management
-- **useTranslationService**: Hook for Supabase translation operations
+- **LanguageContext**: Centralized language state management with Supabase integration
+- **Service Hooks**: Typed CRUD operations with optimistic updates and Zod validation
 - **Settings Page**: Admin interface for translation management (`/settings`)
+- **Admin Components**: BlogAdmin and ProjectAdmin for content management
 - **Translation Manager**: CRUD interface with validation and import/export
 
 ### File Structure
@@ -68,21 +101,28 @@ The application uses a hybrid translation system:
 ```
 src/
 ├── components/           # Reusable UI components
-├── context/             # React contexts (Language, Theme)
+├── context/             # React contexts (Language, Theme, Loading)
 ├── lib/                 # Utilities and services
-│   ├── services/        # Translation service hooks
+│   ├── services/        # Service hooks (useBlogService, useProjectService, etc.)
+│   ├── schemas/         # Zod validation schemas
 │   └── supabase.ts      # Supabase client configuration
 ├── pages/               # Page components
-│   └── SettingsPage/    # Translation management interface
+│   ├── SettingsPage/    # Translation management interface
+│   ├── BlogPage/        # Blog with BlogAdmin component
+│   └── WorkPage/        # Projects with ProjectAdmin component
 ├── scripts/             # Utility scripts
-│   └── seedTranslations.ts  # Database seeding utilities
+│   ├── seedTranslations.ts  # Database seeding utilities
+│   ├── seedBlogPosts.ts     # Blog posts seeding
+│   └── seedProjects.ts      # Projects seeding
 ├── translations/        # Static translation files
 │   ├── en.ts           # English translations
 │   ├── ru.ts           # Russian translations
 │   ├── am.ts           # Armenian translations
 │   └── index.ts        # Translation exports
-└── types/              # TypeScript type definitions
-    └── database.types.ts  # Supabase-generated types
+├── types/              # TypeScript type definitions
+│   └── database.types.ts  # Supabase-generated types
+└── supabase/           # Database migrations
+    └── migrations/     # Timestamped SQL migration files
 ```
 
 ## 🌐 Translation Management
@@ -147,6 +187,10 @@ Translation keys follow a hierarchical structure:
 - `npm run build` - Build for production
 - `npm run preview` - Preview production build
 - `npm run lint` - Run ESLint
+- `npm run seed:translations` - Seed translations to Supabase
+- `npm run seed:blog` - Seed blog posts to Supabase
+- `npm run seed:projects` - Seed projects to Supabase
+- `npm run seed:all` - Seed all data to Supabase
 
 ### Database Setup (Optional)
 

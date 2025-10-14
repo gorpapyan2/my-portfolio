@@ -68,9 +68,9 @@ export async function clearTranslations(): Promise<void> {
     }
 
     console.log('Translations cleared successfully!');
-  } catch (error) {
-    console.error('Error clearing translations:', error);
-    throw error;
+  } catch (err) {
+    console.error('Error clearing translations:', err);
+    throw err;
   }
 }
 

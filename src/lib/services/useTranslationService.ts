@@ -1,7 +1,8 @@
 import { useState, useEffect, useCallback } from 'react';
 import { supabase } from '../supabase';
 import { Translation, TranslationInsert, TranslationUpdate } from '../../types/database.types';
-import { translations as staticTranslations, TranslationKey } from '../../translations';
+import { translations as staticTranslations } from '../../translations';
+import { translationInsertSchema, translationUpdateSchema } from '../schemas/translationSchema';
 
 export interface TranslationService {
   translations: Record<string, Record<string, string>>;
@@ -73,18 +74,21 @@ export function useTranslationService(): TranslationService {
   // CRUD operations
   const createTranslation = useCallback(async (translation: TranslationInsert) => {
     try {
+      // Validate input
+      const validatedData = translationInsertSchema.parse(translation);
+      
       const { error } = await supabase
         .from('translations')
-        .insert(translation);
+        .insert(validatedData);
 
       if (error) throw error;
 
       // Update local state
       setTranslations(prev => ({
         ...prev,
-        [translation.language]: {
-          ...prev[translation.language],
-          [translation.key]: translation.value
+        [validatedData.language]: {
+          ...prev[validatedData.language],
+          [validatedData.key]: validatedData.value
         }
       }));
     } catch (err) {
@@ -95,9 +99,12 @@ export function useTranslationService(): TranslationService {
 
   const updateTranslation = useCallback(async (id: string, updates: TranslationUpdate) => {
     try {
+      // Validate input
+      const validatedData = translationUpdateSchema.parse(updates);
+      
       const { data, error } = await supabase
         .from('translations')
-        .update(updates)
+        .update(validatedData)
         .eq('id', id)
         .select()
         .single();
@@ -147,9 +154,14 @@ export function useTranslationService(): TranslationService {
 
   const bulkImport = useCallback(async (translations: TranslationInsert[]) => {
     try {
+      // Validate each translation
+      const validatedTranslations = translations.map(translation => 
+        translationInsertSchema.parse(translation)
+      );
+      
       const { error } = await supabase
         .from('translations')
-        .upsert(translations);
+        .upsert(validatedTranslations);
 
       if (error) throw error;
 

@@ -1,4 +1,4 @@
-import { createContext, useContext, useState, useCallback } from 'react';
+import { createContext, useState, useCallback } from 'react';
 import { LoadingScreen } from '../components/loading/LoadingScreen';
 
 interface LoadingContextType {

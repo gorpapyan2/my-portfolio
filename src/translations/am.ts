@@ -75,6 +75,7 @@ export const am = {
   'contact.sending': 'Ուղարկվում է...',
   'contact.successMessage': 'Շնորհակալություն! Ձեր հաղորդագրությունը հաջողությամբ ուղարկվեց: Ես շուտով կկապվեմ ձեզ հետ:',
   'contact.errorMessage': 'Ուփս! Ինչ-որ բան սխալ է: Խնդրում ենք փորձել ավելի ուշ:',
+  'contact.validationError': 'Խնդրում ենք ստուգել ձևը սխալների համար և փորձել կրկին:',
   'contact.phone': 'Հեռախոս',
   'contact.location': 'Տեղանք',
 
@@ -101,7 +102,9 @@ export const am = {
   'settings.emptyValues': 'Դատարկ արժեքներ',
   'settings.key': 'Բանալի',
   'settings.value': 'Արժեք',
-  'settings.category': 'Կատեգորիա',
+  'settings.deleteError': 'Չհաջողվեց ջնջել թարգմանությունը',
+  'settings.saveError': 'Չհաջողվեց պահպանել թարգմանությունը',
+  'settings.importError': 'Չհաջողվեց ներմուծել թարգմանությունները',
 
   // Technologies
   'technologies.title': 'Տեխնոլոգիաներ և Գործիքներ',

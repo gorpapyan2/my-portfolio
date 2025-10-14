@@ -4,6 +4,8 @@ import { Card } from '../../components/shared/Card';
 import emailjs from '@emailjs/browser';
 import { Popup } from '../../components/ui/Popup';
 import { useLanguage } from '../../context/LanguageContext';
+import { useContactService } from '../../lib/services/useContactService';
+import { contactFormSchema } from '../../lib/schemas/contactSchema';
 
 interface FormField {
   id: string;
@@ -16,7 +18,9 @@ export function ContactForm() {
   const [showPopup, setShowPopup] = useState(false);
   const [popupMessage, setPopupMessage] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [errors, setErrors] = useState<Record<string, string>>({});
   const { t } = useLanguage();
+  const contactService = useContactService();
 
   // Create a ref to the form
   const formRef = useRef<HTMLFormElement | null>(null);
@@ -35,16 +39,41 @@ export function ContactForm() {
   const sendEmail = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setIsSubmitting(true);
+    setErrors({});
+
+    const formData = new FormData(e.currentTarget);
+    const contactData = {
+      from_name: formData.get('from_name') as string,
+      from_email: formData.get('from_email') as string,
+      message: formData.get('message') as string,
+    };
 
     try {
-      const result = await emailjs.sendForm(
+      // Validate form data
+      const validatedData = contactFormSchema.parse(contactData);
+
+      // Send email via EmailJS
+      const emailResult = await emailjs.sendForm(
         'service_cphipqq',
         'template_nfqpjze',
         e.currentTarget,
         'jAUnep12KdGWp6a-W'
       );
 
-      if (result.text === 'OK') {
+      // Log to Supabase (continue even if this fails)
+      try {
+        await contactService.createSubmission({
+          from_name: validatedData.from_name,
+          from_email: validatedData.from_email,
+          message: validatedData.message,
+          status: 'new'
+        });
+      } catch (dbError) {
+        console.warn('Failed to log contact submission to database:', dbError);
+        // Continue with success flow even if DB logging fails
+      }
+
+      if (emailResult.text === 'OK') {
         setPopupMessage(t('contact.successMessage'));
         // Reset the form using the ref
         formRef.current?.reset();
@@ -53,7 +82,18 @@ export function ContactForm() {
       }
     } catch (error) {
       console.error('Failed to send email:', error);
-      setPopupMessage(t('contact.errorMessage'));
+      
+      if (error instanceof Error && 'issues' in error) {
+        // Zod validation error
+        const fieldErrors: Record<string, string> = {};
+        (error as { issues: Array<{ path: string[]; message: string }> }).issues.forEach((issue) => {
+          fieldErrors[issue.path[0]] = issue.message;
+        });
+        setErrors(fieldErrors);
+        setPopupMessage(t('contact.validationError'));
+      } else {
+        setPopupMessage(t('contact.errorMessage'));
+      }
     } finally {
       setShowPopup(true);
       setIsSubmitting(false);
@@ -76,9 +116,9 @@ export function ContactForm() {
                   rows={4}
                   required
                   disabled={isSubmitting}
-                  className="w-full px-4 py-2 rounded-lg bg-white/5 border border-white/10 
-                           text-white focus:ring-2 focus:ring-[#edfc3a] focus:border-transparent
-                           transition-all duration-300 disabled:opacity-50"
+                  className={`w-full px-4 py-2 rounded-lg bg-white/5 border text-white focus:ring-2 focus:ring-[#edfc3a] focus:border-transparent transition-all duration-300 disabled:opacity-50 ${
+                    errors[id] ? 'border-red-500' : 'border-white/10'
+                  }`}
                 />
               ) : (
                 <input
@@ -87,10 +127,13 @@ export function ContactForm() {
                   name={id}
                   required
                   disabled={isSubmitting}
-                  className="w-full px-4 py-2 rounded-lg bg-white/5 border border-white/10 
-                           text-white focus:ring-2 focus:ring-[#edfc3a] focus:border-transparent
-                           transition-all duration-300 disabled:opacity-50"
+                  className={`w-full px-4 py-2 rounded-lg bg-white/5 border text-white focus:ring-2 focus:ring-[#edfc3a] focus:border-transparent transition-all duration-300 disabled:opacity-50 ${
+                    errors[id] ? 'border-red-500' : 'border-white/10'
+                  }`}
                 />
+              )}
+              {errors[id] && (
+                <p className="text-red-400 text-sm mt-1">{errors[id]}</p>
               )}
             </div>
           ))}

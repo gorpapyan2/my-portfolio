@@ -33,10 +33,131 @@ export interface Database {
           updated_at?: string;
         };
       };
+      blog_posts: {
+        Row: {
+          id: string;
+          title: string;
+          slug: string;
+          excerpt: string;
+          content: string | null;
+          image: string | null;
+          read_time: string;
+          published: boolean;
+          created_at: string;
+          updated_at: string;
+        };
+        Insert: {
+          id?: string;
+          title: string;
+          slug: string;
+          excerpt: string;
+          content?: string | null;
+          image?: string | null;
+          read_time: string;
+          published?: boolean;
+          created_at?: string;
+          updated_at?: string;
+        };
+        Update: {
+          id?: string;
+          title?: string;
+          slug?: string;
+          excerpt?: string;
+          content?: string | null;
+          image?: string | null;
+          read_time?: string;
+          published?: boolean;
+          created_at?: string;
+          updated_at?: string;
+        };
+      };
+      projects: {
+        Row: {
+          id: string;
+          title: string;
+          description: string;
+          image: string | null;
+          tags: string[];
+          live_url: string | null;
+          github_url: string | null;
+          order_index: number;
+          featured: boolean;
+          created_at: string;
+          updated_at: string;
+        };
+        Insert: {
+          id?: string;
+          title: string;
+          description: string;
+          image?: string | null;
+          tags?: string[];
+          live_url?: string | null;
+          github_url?: string | null;
+          order_index?: number;
+          featured?: boolean;
+          created_at?: string;
+          updated_at?: string;
+        };
+        Update: {
+          id?: string;
+          title?: string;
+          description?: string;
+          image?: string | null;
+          tags?: string[];
+          live_url?: string | null;
+          github_url?: string | null;
+          order_index?: number;
+          featured?: boolean;
+          created_at?: string;
+          updated_at?: string;
+        };
+      };
+      contact_submissions: {
+        Row: {
+          id: string;
+          from_name: string;
+          from_email: string;
+          message: string;
+          status: 'new' | 'read' | 'replied' | 'archived';
+          created_at: string;
+        };
+        Insert: {
+          id?: string;
+          from_name: string;
+          from_email: string;
+          message: string;
+          status?: 'new' | 'read' | 'replied' | 'archived';
+          created_at?: string;
+        };
+        Update: {
+          id?: string;
+          from_name?: string;
+          from_email?: string;
+          message?: string;
+          status?: 'new' | 'read' | 'replied' | 'archived';
+          created_at?: string;
+        };
+      };
     };
   };
 }
 
+// Translation types
 export type Translation = Database['public']['Tables']['translations']['Row'];
 export type TranslationInsert = Database['public']['Tables']['translations']['Insert'];
 export type TranslationUpdate = Database['public']['Tables']['translations']['Update'];
+
+// Blog post types
+export type BlogPost = Database['public']['Tables']['blog_posts']['Row'];
+export type BlogPostInsert = Database['public']['Tables']['blog_posts']['Insert'];
+export type BlogPostUpdate = Database['public']['Tables']['blog_posts']['Update'];
+
+// Project types
+export type Project = Database['public']['Tables']['projects']['Row'];
+export type ProjectInsert = Database['public']['Tables']['projects']['Insert'];
+export type ProjectUpdate = Database['public']['Tables']['projects']['Update'];
+
+// Contact submission types
+export type ContactSubmission = Database['public']['Tables']['contact_submissions']['Row'];
+export type ContactSubmissionInsert = Database['public']['Tables']['contact_submissions']['Insert'];
+export type ContactSubmissionUpdate = Database['public']['Tables']['contact_submissions']['Update'];

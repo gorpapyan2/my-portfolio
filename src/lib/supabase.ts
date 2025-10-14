@@ -1,44 +1,14 @@
 import { createClient } from '@supabase/supabase-js';
+import type { Database } from '../types/database.types';
 
 // Use the provided Supabase project credentials
-const supabaseUrl = import.meta.env.VITE_SUPABASE_URL || 'https://lfbemjnghstybysdemys.supabase.co';
-const supabaseAnonKey = import.meta.env.VITE_SUPABASE_ANON_KEY || 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImxmYmVtam5naHN0eWJ5c2RlbXlzIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjA0Mzc4MTYsImV4cCI6MjA3NjAxMzgxNn0.1TVZjtk0-XI2HhMFUXB27PGMQg41AkILCxDxH8Z2cvg';
+// Handle both browser (import.meta.env) and Node.js (process.env) environments
+const supabaseUrl = (typeof import.meta !== 'undefined' && import.meta.env?.VITE_SUPABASE_URL) || 
+                    (typeof process !== 'undefined' && process.env?.VITE_SUPABASE_URL) || 
+                    'https://lfbemjnghstybysdemys.supabase.co';
 
-export const supabase = createClient(supabaseUrl, supabaseAnonKey);
+const supabaseAnonKey = (typeof import.meta !== 'undefined' && import.meta.env?.VITE_SUPABASE_ANON_KEY) || 
+                       (typeof process !== 'undefined' && process.env?.VITE_SUPABASE_ANON_KEY) || 
+                       'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImxmYmVtam5naHN0eWJ5c2RlbXlzIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjA0Mzc4MTYsImV4cCI6MjA3NjAxMzgxNn0.1TVZjtk0-XI2HhMFUXB27PGMQg41AkILCxDxH8Z2cvg';
 
-// Database types will be generated when Supabase is properly configured
-export interface Database {
-  public: {
-    Tables: {
-      translations: {
-        Row: {
-          id: string;
-          key: string;
-          language: 'en' | 'ru' | 'am';
-          value: string;
-          category: string;
-          created_at: string;
-          updated_at: string;
-        };
-        Insert: {
-          id?: string;
-          key: string;
-          language: 'en' | 'ru' | 'am';
-          value: string;
-          category?: string;
-          created_at?: string;
-          updated_at?: string;
-        };
-        Update: {
-          id?: string;
-          key?: string;
-          language?: 'en' | 'ru' | 'am';
-          value?: string;
-          category?: string;
-          created_at?: string;
-          updated_at?: string;
-        };
-      };
-    };
-  };
-}
+export const supabase = createClient<Database>(supabaseUrl, supabaseAnonKey);

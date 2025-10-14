@@ -75,6 +75,7 @@ export const en = {
   'contact.sending': 'Sending...',
   'contact.successMessage': 'Thank you! Your message has been sent successfully. I\'ll get back to you soon.',
   'contact.errorMessage': 'Oops! Something went wrong. Please try again later.',
+  'contact.validationError': 'Please check the form for errors and try again.',
   'contact.phone': 'Phone',
   'contact.location': 'Location',
 
@@ -101,7 +102,9 @@ export const en = {
   'settings.emptyValues': 'Empty Values',
   'settings.key': 'Key',
   'settings.value': 'Value',
-  'settings.category': 'Category',
+  'settings.deleteError': 'Failed to delete translation',
+  'settings.saveError': 'Failed to save translation',
+  'settings.importError': 'Failed to import translations',
 
   // Technologies
   'technologies.title': 'Technologies & Tools',

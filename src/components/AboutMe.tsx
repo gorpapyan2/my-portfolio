@@ -18,7 +18,7 @@ export default function AboutMe() {
           className="sticky top-24"
         >
           <HeroPortrait
-            src="public/portrait.png"
+            src="https://lfbemjnghstybysdemys.supabase.co/storage/v1/object/public/images/portrait/portrait.png"
             alt="Gor Papyan"
           />
           <Sparkles />

@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useState, useEffect } from 'react';
+import React, { createContext, useContext, useState } from 'react';
 import { translations, TranslationKey } from '../translations';
 import { useTranslationService } from '../lib/services/useTranslationService';
 
@@ -16,7 +16,25 @@ const LanguageContext = createContext<LanguageContextType | undefined>(undefined
 
 export function LanguageProvider({ children }: { children: React.ReactNode }) {
   const [language, setLanguage] = useState<Language>('en');
-  const translationService = useTranslationService();
+  
+  // Wrap useTranslationService in try-catch to prevent crashes
+  let translationService;
+  try {
+    translationService = useTranslationService();
+  } catch (error) {
+    console.error('TranslationService failed to initialize:', error);
+    // Provide fallback service
+    translationService = {
+      translations: { en: {}, ru: {}, am: {} },
+      isLoading: false,
+      error: 'Translation service unavailable',
+      createTranslation: async () => {},
+      updateTranslation: async () => {},
+      deleteTranslation: async () => {},
+      bulkImport: async () => {},
+      refreshTranslations: async () => {}
+    };
+  }
 
   const t = (key: TranslationKey): string => {
     // Try Supabase translations first, then fallback to static translations

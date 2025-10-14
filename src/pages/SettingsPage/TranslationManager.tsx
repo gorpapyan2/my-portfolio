@@ -1,21 +1,22 @@
-import { useState, useEffect } from 'react';
-import { Plus, Search, Filter, Download, Upload, AlertCircle } from 'lucide-react';
+import { useState } from 'react';
+import { Plus, Search, Filter, Download, AlertCircle } from 'lucide-react';
 import { Card } from '../../components/shared/Card';
 import { useLanguage } from '../../context/LanguageContext';
 import { useTranslationService } from '../../lib/services/useTranslationService';
+import { supabase } from '../../lib/supabase';
 import { TranslationTable } from './TranslationTable';
 import { TranslationEditor } from './TranslationEditor';
 import { ImportExport } from './ImportExport';
 import { ValidationPanel } from './ValidationPanel';
 
 export function TranslationManager() {
-  const { t, language } = useLanguage();
+  const { t } = useLanguage();
   const translationService = useTranslationService();
   const [selectedLanguage, setSelectedLanguage] = useState<'en' | 'ru' | 'am'>('en');
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedCategory, setSelectedCategory] = useState<string>('all');
   const [showEditor, setShowEditor] = useState(false);
-  const [editingTranslation, setEditingTranslation] = useState<any>(null);
+  const [editingTranslation, setEditingTranslation] = useState<{ key: string; value: string; category: string } | null>(null);
   const [showImportExport, setShowImportExport] = useState(false);
   const [showValidation, setShowValidation] = useState(false);
 
@@ -36,7 +37,7 @@ export function TranslationManager() {
     setShowEditor(true);
   };
 
-  const handleEditTranslation = (translation: any) => {
+  const handleEditTranslation = (translation: { key: string; value: string; category: string }) => {
     setEditingTranslation(translation);
     setShowEditor(true);
   };
@@ -45,11 +46,19 @@ export function TranslationManager() {
     if (confirm(t('settings.deleteTranslation'))) {
       try {
         // Find the translation ID from Supabase data
-        // For now, we'll just remove from local state
-        // In a real implementation, you'd call translationService.deleteTranslation(id)
-        console.log('Delete translation:', key);
+        const { data } = await supabase
+          .from('translations')
+          .select('id')
+          .eq('key', key)
+          .eq('language', selectedLanguage)
+          .single();
+
+        if (data) {
+          await translationService.deleteTranslation(data.id);
+        }
       } catch (error) {
         console.error('Error deleting translation:', error);
+        alert(t('settings.deleteError'));
       }
     }
   };
@@ -67,11 +76,11 @@ export function TranslationManager() {
             <select
               value={selectedLanguage}
               onChange={(e) => setSelectedLanguage(e.target.value as 'en' | 'ru' | 'am')}
-              className="px-3 py-1 rounded-lg bg-white/5 border border-white/10 text-white focus:ring-2 focus:ring-[#edfc3a] focus:border-transparent"
+              className="px-3 py-1 rounded-lg bg-white/5 border border-white/10 text-white focus:ring-2 focus:ring-[#edfc3a] focus:border-transparent min-w-32"
             >
-              <option value="en">English</option>
-              <option value="ru">Русский</option>
-              <option value="am">Հայերեն</option>
+              <option value="en" className="bg-gray-800 text-white">English</option>
+              <option value="ru" className="bg-gray-800 text-white">Русский</option>
+              <option value="am" className="bg-gray-800 text-white">Հայերեն</option>
             </select>
           </div>
 
@@ -93,11 +102,11 @@ export function TranslationManager() {
             <select
               value={selectedCategory}
               onChange={(e) => setSelectedCategory(e.target.value)}
-              className="px-3 py-1 rounded-lg bg-white/5 border border-white/10 text-white focus:ring-2 focus:ring-[#edfc3a] focus:border-transparent"
+              className="px-3 py-1 rounded-lg bg-white/5 border border-white/10 text-white focus:ring-2 focus:ring-[#edfc3a] focus:border-transparent min-w-40"
             >
-              <option value="all">{t('settings.allCategories')}</option>
+              <option value="all" className="bg-gray-800 text-white">{t('settings.allCategories')}</option>
               {categories.filter(cat => cat !== 'all').map(category => (
-                <option key={category} value={category}>
+                <option key={category} value={category} className="bg-gray-800 text-white">
                   {category.charAt(0).toUpperCase() + category.slice(1)}
                 </option>
               ))}
@@ -138,7 +147,6 @@ export function TranslationManager() {
         translations={filteredTranslations}
         onEdit={handleEditTranslation}
         onDelete={handleDeleteTranslation}
-        selectedLanguage={selectedLanguage}
       />
 
       {/* Modals */}
@@ -147,9 +155,38 @@ export function TranslationManager() {
           translation={editingTranslation}
           language={selectedLanguage}
           onClose={() => setShowEditor(false)}
-          onSave={(translation) => {
-            console.log('Save translation:', translation);
-            setShowEditor(false);
+          onSave={async (translation) => {
+            try {
+              if (editingTranslation) {
+                // Update existing translation
+                const { data } = await supabase
+                  .from('translations')
+                  .select('id')
+                  .eq('key', editingTranslation.key)
+                  .eq('language', selectedLanguage)
+                  .single();
+
+                if (data) {
+                  await translationService.updateTranslation(data.id, {
+                    key: translation.key,
+                    value: translation.value,
+                    category: translation.category
+                  });
+                }
+              } else {
+                // Create new translation
+                await translationService.createTranslation({
+                  key: translation.key,
+                  language: selectedLanguage,
+                  value: translation.value,
+                  category: translation.category
+                });
+              }
+              setShowEditor(false);
+            } catch (error) {
+              console.error('Error saving translation:', error);
+              alert(t('settings.saveError'));
+            }
           }}
         />
       )}
@@ -157,9 +194,27 @@ export function TranslationManager() {
       {showImportExport && (
         <ImportExport
           onClose={() => setShowImportExport(false)}
-          onImport={(translations) => {
-            console.log('Import translations:', translations);
-            setShowImportExport(false);
+          onImport={async (translations: Record<string, Record<string, string>>) => {
+            try {
+              // Convert bulk format to TranslationInsert[]
+              const translationInserts: TranslationInsert[] = [];
+              Object.entries(translations).forEach(([language, langTranslations]) => {
+                Object.entries(langTranslations).forEach(([key, value]) => {
+                  translationInserts.push({
+                    key,
+                    language: language as 'en' | 'ru' | 'am',
+                    value,
+                    category: key.split('.')[0] || 'common'
+                  });
+                });
+              });
+
+              await translationService.bulkImport(translationInserts);
+              setShowImportExport(false);
+            } catch (error) {
+              console.error('Error importing translations:', error);
+              alert(t('settings.importError'));
+            }
           }}
           onExport={() => {
             console.log('Export translations');

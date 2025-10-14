@@ -76,6 +76,7 @@ export const ru = {
   'contact.sending': 'Отправка...',
   'contact.successMessage': 'Спасибо! Ваше сообщение было успешно отправлено. Я свяжусь с вами в ближайшее время.',
   'contact.errorMessage': 'Упс! Что-то пошло не так. Пожалуйста, попробуйте позже.',
+  'contact.validationError': 'Пожалуйста, проверьте форму на ошибки и попробуйте снова.',
   'contact.phone': 'Телефон',
   'contact.location': 'Местоположение',
 
@@ -102,7 +103,9 @@ export const ru = {
   'settings.emptyValues': 'Пустые значения',
   'settings.key': 'Ключ',
   'settings.value': 'Значение',
-  'settings.category': 'Категория',
+  'settings.deleteError': 'Не удалось удалить перевод',
+  'settings.saveError': 'Не удалось сохранить перевод',
+  'settings.importError': 'Не удалось импортировать переводы',
 
   // Technologies
   'technologies.title': 'Технологии и Инструменты',

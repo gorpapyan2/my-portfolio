@@ -12,10 +12,9 @@ interface TranslationTableProps {
   translations: TranslationItem[];
   onEdit: (translation: TranslationItem) => void;
   onDelete: (key: string) => void;
-  selectedLanguage: string;
 }
 
-export function TranslationTable({ translations, onEdit, onDelete, selectedLanguage }: TranslationTableProps) {
+export function TranslationTable({ translations, onEdit, onDelete }: TranslationTableProps) {
   const { t } = useLanguage();
 
   return (
