@@ -138,6 +138,105 @@ export interface Database {
           created_at?: string;
         };
       };
+      experiences: {
+        Row: {
+          id: string;
+          role: string;
+          company: string;
+          period: string;
+          description: string;
+          achievements: string[];
+          order_index: number;
+          created_at: string;
+          updated_at: string;
+        };
+        Insert: {
+          id?: string;
+          role: string;
+          company: string;
+          period: string;
+          description: string;
+          achievements?: string[];
+          order_index?: number;
+          created_at?: string;
+          updated_at?: string;
+        };
+        Update: {
+          id?: string;
+          role?: string;
+          company?: string;
+          period?: string;
+          description?: string;
+          achievements?: string[];
+          order_index?: number;
+          created_at?: string;
+          updated_at?: string;
+        };
+      };
+      education: {
+        Row: {
+          id: string;
+          degree: string;
+          school: string;
+          year: string;
+          description: string;
+          order_index: number;
+          created_at: string;
+          updated_at: string;
+        };
+        Insert: {
+          id?: string;
+          degree: string;
+          school: string;
+          year: string;
+          description: string;
+          order_index?: number;
+          created_at?: string;
+          updated_at?: string;
+        };
+        Update: {
+          id?: string;
+          degree?: string;
+          school?: string;
+          year?: string;
+          description?: string;
+          order_index?: number;
+          created_at?: string;
+          updated_at?: string;
+        };
+      };
+      skills: {
+        Row: {
+          id: string;
+          title: string;
+          description: string;
+          icon: string;
+          level: number;
+          order_index: number;
+          created_at: string;
+          updated_at: string;
+        };
+        Insert: {
+          id?: string;
+          title: string;
+          description: string;
+          icon: string;
+          level: number;
+          order_index?: number;
+          created_at?: string;
+          updated_at?: string;
+        };
+        Update: {
+          id?: string;
+          title?: string;
+          description?: string;
+          icon?: string;
+          level?: number;
+          order_index?: number;
+          created_at?: string;
+          updated_at?: string;
+        };
+      };
     };
   };
 }
@@ -161,3 +260,18 @@ export type ProjectUpdate = Database['public']['Tables']['projects']['Update'];
 export type ContactSubmission = Database['public']['Tables']['contact_submissions']['Row'];
 export type ContactSubmissionInsert = Database['public']['Tables']['contact_submissions']['Insert'];
 export type ContactSubmissionUpdate = Database['public']['Tables']['contact_submissions']['Update'];
+
+// Experience types
+export type Experience = Database['public']['Tables']['experiences']['Row'];
+export type ExperienceInsert = Database['public']['Tables']['experiences']['Insert'];
+export type ExperienceUpdate = Database['public']['Tables']['experiences']['Update'];
+
+// Education types
+export type Education = Database['public']['Tables']['education']['Row'];
+export type EducationInsert = Database['public']['Tables']['education']['Insert'];
+export type EducationUpdate = Database['public']['Tables']['education']['Update'];
+
+// Skill types
+export type Skill = Database['public']['Tables']['skills']['Row'];
+export type SkillInsert = Database['public']['Tables']['skills']['Insert'];
+export type SkillUpdate = Database['public']['Tables']['skills']['Update'];

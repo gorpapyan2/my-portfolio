@@ -17,24 +17,8 @@ const LanguageContext = createContext<LanguageContextType | undefined>(undefined
 export function LanguageProvider({ children }: { children: React.ReactNode }) {
   const [language, setLanguage] = useState<Language>('en');
   
-  // Wrap useTranslationService in try-catch to prevent crashes
-  let translationService;
-  try {
-    translationService = useTranslationService();
-  } catch (error) {
-    console.error('TranslationService failed to initialize:', error);
-    // Provide fallback service
-    translationService = {
-      translations: { en: {}, ru: {}, am: {} },
-      isLoading: false,
-      error: 'Translation service unavailable',
-      createTranslation: async () => {},
-      updateTranslation: async () => {},
-      deleteTranslation: async () => {},
-      bulkImport: async () => {},
-      refreshTranslations: async () => {}
-    };
-  }
+  // Always call the hook, but handle errors gracefully
+  const translationService = useTranslationService();
 
   const t = (key: TranslationKey): string => {
     // Try Supabase translations first, then fallback to static translations

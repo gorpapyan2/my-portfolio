@@ -94,7 +94,7 @@ export function exportTranslationsToJSON(translations: Record<string, Record<str
 export function parseTranslationsFromJSON(jsonString: string): Record<string, Record<string, string>> {
   try {
     return JSON.parse(jsonString);
-  } catch (error) {
+  } catch {
     throw new Error('Invalid JSON format');
   }
 }

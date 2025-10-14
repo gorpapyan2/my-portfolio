@@ -9,7 +9,7 @@ export default function SoundEffects({ enabled = false }: SoundEffectProps) {
     if (!enabled) return;
 
     // Create audio context for subtle sound effects
-    const audioContext = new (window.AudioContext || (window as any).webkitAudioContext)();
+    const audioContext = new (window.AudioContext || (window as unknown as { webkitAudioContext: typeof AudioContext }).webkitAudioContext)();
     
     const playSound = (frequency: number, duration: number = 0.1) => {
       const oscillator = audioContext.createOscillator();

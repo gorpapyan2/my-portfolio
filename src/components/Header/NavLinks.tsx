@@ -1,6 +1,8 @@
 import React from 'react';
 import { NavLink as RouterNavLink } from 'react-router-dom';
+import { Settings } from 'lucide-react';
 import { useLanguage } from '../../context/LanguageContext';
+import { useAuth } from '../../context/AuthContext';
 
 interface NavLinkProps {
   to: string;
@@ -38,6 +40,7 @@ function NavLink({ to, children, className = '' }: NavLinkProps) {
 
 export function NavLinks() {
   const { t } = useLanguage();
+  const { isAdmin } = useAuth();
 
   return (
     <nav className="hidden md:flex items-center gap-4 lg:gap-6">
@@ -49,6 +52,13 @@ export function NavLinks() {
       <NavLink to="/settings" className="opacity-50 hover:opacity-100">
         {t('nav.settings')}
       </NavLink>
+      {/* Admin dashboard link - only visible when authenticated */}
+      {isAdmin && (
+        <NavLink to="/admin/dashboard" className="inline-flex items-center gap-1 bg-[#edfc3a]/10 text-[#edfc3a] hover:bg-[#edfc3a]/20">
+          <Settings className="h-4 w-4" />
+          Admin
+        </NavLink>
+      )}
     </nav>
   );
 }

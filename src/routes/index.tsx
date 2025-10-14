@@ -6,6 +6,9 @@ import { WorkPage } from '../pages/WorkPage/index';
 import { BlogPage } from '../pages/BlogPage/index';
 import { ContactPage } from '../pages/ContactPage/index';
 import { SettingsPage } from '../pages/SettingsPage/index';
+import { AdminLoginPage } from '../pages/AdminLoginPage';
+import { AdminDashboard } from '../pages/AdminDashboard';
+import { ProtectedRoute } from '../components/auth/ProtectedRoute';
 
 
 export const router = createBrowserRouter([
@@ -38,5 +41,17 @@ export const router = createBrowserRouter([
         element: <SettingsPage />,
       },
     ],
+  },
+  {
+    path: '/admin/login',
+    element: <AdminLoginPage />,
+  },
+  {
+    path: '/admin/dashboard',
+    element: (
+      <ProtectedRoute>
+        <AdminDashboard />
+      </ProtectedRoute>
+    ),
   },
 ], { basename: import.meta.env.BASE_URL });

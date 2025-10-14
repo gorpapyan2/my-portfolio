@@ -14,7 +14,11 @@
     "seed:blog": "tsx src/scripts/seedBlogPosts.ts",
     "seed:projects": "tsx src/scripts/seedProjects.ts",
     "seed:translations": "tsx src/scripts/seedTranslations.ts",
-    "seed:all": "npm run seed:translations && npm run seed:blog && npm run seed:projects",
+    "seed:experiences": "tsx src/scripts/seedExperiences.ts",
+    "seed:education": "tsx src/scripts/seedEducation.ts",
+    "seed:skills": "tsx src/scripts/seedSkills.ts",
+    "seed:about": "npm run seed:experiences && npm run seed:education && npm run seed:skills",
+    "seed:all": "npm run seed:translations && npm run seed:blog && npm run seed:projects && npm run seed:about",
     "upload:portrait": "tsx src/scripts/uploadPortrait.ts"
   },
   "dependencies": {

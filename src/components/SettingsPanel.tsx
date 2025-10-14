@@ -1,6 +1,6 @@
 import { motion, AnimatePresence } from "framer-motion";
 import { useState } from "react";
-import { Settings, Volume2, VolumeX, Eye, EyeOff } from "lucide-react";
+import { Settings } from "lucide-react";
 
 interface SettingsPanelProps {
   onSoundToggle: (enabled: boolean) => void;
