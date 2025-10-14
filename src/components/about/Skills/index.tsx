@@ -85,7 +85,7 @@ export function Skills() {
                         >
                             <div className="relative bg-white/5 backdrop-blur-sm rounded-xl p-6 border border-white/10 
                             transition-all duration-500 hover:transform hover:-translate-y-2 
-                            hover:bg-white/10 hover:border-[#edfc3a]/30">
+                            hover:bg-white/10 hover:border-[#edfc3a]/30 h-[320px] flex flex-col">
                                 
                                 {/* Icon */}
                                 <div className="mb-4">
@@ -101,9 +101,11 @@ export function Skills() {
                                 </h3>
 
                                 {/* Description */}
-                                <p className="text-gray-400 mb-4 leading-relaxed group-hover:text-gray-300 transition-colors duration-300">
-                                    {skill.description}
-                                </p>
+                                <div className="flex-1 overflow-y-auto mb-4 scrollbar-thin scrollbar-thumb-[#edfc3a]/30 scrollbar-track-transparent hover:scrollbar-thumb-[#edfc3a]/50">
+                                    <p className="text-gray-400 leading-relaxed group-hover:text-gray-300 transition-colors duration-300">
+                                        {skill.description}
+                                    </p>
+                                </div>
 
                                 {/* Progress Bar */}
                                 <div className="space-y-2">
