@@ -4,11 +4,28 @@ import { PageHeader } from '../../components/shared/PageHeader';
 import { BlogGrid } from './BlogGrid';
 import { useLanguage } from '../../context/LanguageContext';
 import { useBlogService } from '../../lib/services/useBlogService';
+import { usePublicFeatureFlags } from '../../lib/services/usePublicFeatureFlags';
 import { LoadingSpinner } from '../../components/loading/LoadingSpinner';
 
 export function BlogPage() {
   const { t } = useLanguage();
   const { blogPosts, isLoading, error } = useBlogService();
+  const { isFeatureEnabled } = usePublicFeatureFlags();
+
+  // Check if blog section is enabled
+  if (!isFeatureEnabled('blog_section')) {
+    return (
+      <PageLayout>
+        <div className="min-h-screen flex items-center justify-center">
+          <div className="text-center">
+            <BookOpen className="h-16 w-16 text-gray-400 mx-auto mb-4" />
+            <h2 className="text-2xl font-bold text-white mb-4">Section Unavailable</h2>
+            <p className="text-gray-400">This section is currently unavailable.</p>
+          </div>
+        </div>
+      </PageLayout>
+    );
+  }
 
   if (isLoading) {
     return (
@@ -25,7 +42,7 @@ export function BlogPage() {
       <PageLayout>
         <div className="min-h-screen flex items-center justify-center">
           <div className="text-center">
-            <h2 className="text-2xl font-bold text-white mb-4">{t('error.title')}</h2>
+            <h2 className="text-2xl font-bold text-white mb-4">Error</h2>
             <p className="text-gray-400">{error}</p>
           </div>
         </div>

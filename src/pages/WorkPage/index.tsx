@@ -5,10 +5,27 @@ import { ProjectGrid } from './ProjectGrid';
 import { ProjectSkeleton } from '../../components/skeletons/ProjectSkeleton';
 import { useLanguage } from '../../context/LanguageContext';
 import { useProjectService } from '../../lib/services/useProjectService';
+import { usePublicFeatureFlags } from '../../lib/services/usePublicFeatureFlags';
 
 export function WorkPage() {
   const { t } = useLanguage();
   const { projects, isLoading, error } = useProjectService();
+  const { isFeatureEnabled } = usePublicFeatureFlags();
+
+  // Check if work section is enabled
+  if (!isFeatureEnabled('work_section')) {
+    return (
+      <PageLayout>
+        <div className="min-h-screen flex items-center justify-center">
+          <div className="text-center">
+            <Briefcase className="h-16 w-16 text-gray-400 mx-auto mb-4" />
+            <h2 className="text-2xl font-bold text-white mb-4">Section Unavailable</h2>
+            <p className="text-gray-400">This section is currently unavailable.</p>
+          </div>
+        </div>
+      </PageLayout>
+    );
+  }
 
   if (error) {
     return (

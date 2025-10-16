@@ -8,6 +8,7 @@ A modern, responsive portfolio website built with React, TypeScript, and Vite. F
 - **Supabase Integration**: Database-backed translation management with fallback to static files
 - **Admin Authentication**: Secure admin dashboard with Supabase Auth (email/password)
 - **Content Management**: Full CRUD operations for all content types
+- **Feature Flags**: Configurable content visibility and availability control
 - **Translation Management**: Admin interface for managing translations with CRUD operations
 - **Import/Export**: JSON-based translation import/export functionality
 - **Validation**: Automatic detection of missing or empty translations
@@ -79,6 +80,7 @@ The application follows Clean Architecture principles with a service layer patte
 - `experiences` - Professional experience entries with achievements
 - `education` - Educational background entries
 - `skills` - Technical skills with proficiency levels and icons
+- `feature_flags` - Content visibility and availability control flags
 
 **RLS Policies:**
 - Public read access for published content
@@ -165,6 +167,7 @@ The portfolio includes a secure admin dashboard for managing all content. Access
    - **Experience Management**: Add/edit professional experience entries
    - **Education Management**: Manage educational background
    - **Skills Management**: Add/edit technical skills with proficiency levels
+   - **Feature Flags**: Control content visibility and availability
 
 3. **Security Features**:
    - Email/password authentication via Supabase Auth
@@ -175,6 +178,63 @@ The portfolio includes a secure admin dashboard for managing all content. Access
 ### Admin Navigation
 
 When logged in as admin, you'll see an "Admin" link in the main navigation that takes you directly to the dashboard.
+
+## 🚩 Feature Flags
+
+### Overview
+
+The portfolio includes a comprehensive feature flag system that allows you to control content visibility and availability across the site. This enables you to:
+
+- Show/hide entire sections (Blog, Work/Projects)
+- Control homepage content visibility (Featured Projects, Latest Articles)
+- Manage content availability without code changes
+- Test new features with gradual rollouts
+
+### Available Feature Flags
+
+The system comes with four pre-configured feature flags:
+
+- **`blog_section`** - Controls visibility of the entire blog section
+- **`work_section`** - Controls visibility of the entire work/projects section  
+- **`featured_projects_section`** - Controls visibility of featured projects on homepage
+- **`latest_articles_section`** - Controls visibility of latest articles on homepage
+
+### Managing Feature Flags
+
+1. **Access the Admin Dashboard**: Navigate to `/admin/dashboard` and log in
+2. **Select Feature Flags**: Click on "Feature Flags" in the sidebar navigation
+3. **Toggle Flags**: Use the toggle switches to enable/disable features instantly
+4. **Create New Flags**: Click "Add Flag" to create custom feature flags
+5. **Edit Existing Flags**: Click the edit icon to modify flag properties
+6. **Delete Flags**: Remove flags you no longer need
+
+### Feature Flag Properties
+
+Each feature flag has the following properties:
+
+- **Flag Key**: Unique identifier (e.g., `blog_section`)
+- **Content Type**: `section`, `blog_post`, or `project`
+- **Content ID**: Optional UUID for item-specific flags
+- **Description**: Human-readable description of what the flag controls
+- **Enabled**: Boolean toggle for the flag state
+
+### How It Works
+
+- **Public Pages**: Use `usePublicFeatureFlags()` hook to check flag states
+- **Admin Dashboard**: Uses `useFeatureFlagService()` for full CRUD operations
+- **Database**: Flags stored in `feature_flags` table with RLS policies
+- **Navigation**: NavLinks and MobileMenu automatically hide/show based on flag states
+- **Fallback**: Default values prevent site breakage if flags fail to load
+
+### Seeding Feature Flags
+
+To populate the database with initial feature flags:
+
+```bash
+npm run seed:flags
+```
+
+This will create the four default feature flags with `enabled: true` status.
 
 ## 🌐 Translation Management
 
@@ -241,6 +301,7 @@ Translation keys follow a hierarchical structure:
 - `npm run seed:experiences` - Seed experiences to Supabase
 - `npm run seed:education` - Seed education to Supabase
 - `npm run seed:skills` - Seed skills to Supabase
+- `npm run seed:flags` - Seed feature flags to Supabase
 - `npm run seed:about` - Seed all about content to Supabase
 - `npm run seed:all` - Seed all data to Supabase
 

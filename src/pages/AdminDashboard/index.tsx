@@ -7,7 +7,8 @@ import {
   GraduationCap, 
   Code2, 
   Languages,
-  FolderOpen
+  FolderOpen,
+  Flag
 } from 'lucide-react';
 import { Card } from '../../components/shared/Card';
 import { useAuth } from '../../context/AuthContext';
@@ -17,8 +18,9 @@ import { TranslationManager } from './TranslationManager';
 import { ExperienceAdmin } from './ExperienceAdmin';
 import { EducationAdmin } from './EducationAdmin';
 import { SkillsAdmin } from './SkillsAdmin';
+import { FeatureFlagAdmin } from './FeatureFlagAdmin';
 
-type AdminSection = 'blog' | 'projects' | 'translations' | 'experiences' | 'education' | 'skills';
+type AdminSection = 'blog' | 'projects' | 'translations' | 'experiences' | 'education' | 'skills' | 'feature-flags';
 
 const sections = [
   { id: 'blog' as AdminSection, label: 'Blog Posts', icon: FileText },
@@ -27,6 +29,7 @@ const sections = [
   { id: 'experiences' as AdminSection, label: 'Experience', icon: Briefcase },
   { id: 'education' as AdminSection, label: 'Education', icon: GraduationCap },
   { id: 'skills' as AdminSection, label: 'Skills', icon: Code2 },
+  { id: 'feature-flags' as AdminSection, label: 'Feature Flags', icon: Flag },
 ];
 
 export function AdminDashboard() {
@@ -55,6 +58,8 @@ export function AdminDashboard() {
         return <EducationAdmin onClose={() => {}} />;
       case 'skills':
         return <SkillsAdmin onClose={() => {}} />;
+      case 'feature-flags':
+        return <FeatureFlagAdmin />;
       default:
         return null;
     }

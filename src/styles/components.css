@@ -104,6 +104,15 @@
     color: white; /* Hover effect */
   }
 
+  /* Admin Dropdown Styles */
+  .admin-select {
+    @apply bg-white/5 border border-white/10 text-white rounded-lg px-3 py-2 focus:ring-2 focus:ring-[#edfc3a] focus:border-transparent;
+  }
+
+  .admin-select option {
+    @apply bg-gray-900 text-white;
+  }
+
   /* Responsive Design */
   @media (max-width: 768px) {
     .tool-card {

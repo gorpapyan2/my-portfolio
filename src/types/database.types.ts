@@ -237,6 +237,38 @@ export interface Database {
           updated_at?: string;
         };
       };
+      feature_flags: {
+        Row: {
+          id: string;
+          flag_key: string;
+          content_type: 'section' | 'blog_post' | 'project';
+          content_id: string | null;
+          enabled: boolean;
+          description: string;
+          created_at: string;
+          updated_at: string;
+        };
+        Insert: {
+          id?: string;
+          flag_key: string;
+          content_type: 'section' | 'blog_post' | 'project';
+          content_id?: string | null;
+          enabled?: boolean;
+          description: string;
+          created_at?: string;
+          updated_at?: string;
+        };
+        Update: {
+          id?: string;
+          flag_key?: string;
+          content_type?: 'section' | 'blog_post' | 'project';
+          content_id?: string | null;
+          enabled?: boolean;
+          description?: string;
+          created_at?: string;
+          updated_at?: string;
+        };
+      };
     };
   };
 }
@@ -275,3 +307,8 @@ export type EducationUpdate = Database['public']['Tables']['education']['Update'
 export type Skill = Database['public']['Tables']['skills']['Row'];
 export type SkillInsert = Database['public']['Tables']['skills']['Insert'];
 export type SkillUpdate = Database['public']['Tables']['skills']['Update'];
+
+// Feature flag types
+export type FeatureFlag = Database['public']['Tables']['feature_flags']['Row'];
+export type FeatureFlagInsert = Database['public']['Tables']['feature_flags']['Insert'];
+export type FeatureFlagUpdate = Database['public']['Tables']['feature_flags']['Update'];

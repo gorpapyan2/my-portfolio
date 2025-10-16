@@ -3,6 +3,7 @@ import { NavLink as RouterNavLink } from 'react-router-dom';
 import { Settings } from 'lucide-react';
 import { useLanguage } from '../../context/LanguageContext';
 import { useAuth } from '../../context/AuthContext';
+import { usePublicFeatureFlags } from '../../lib/services/usePublicFeatureFlags';
 
 interface NavLinkProps {
   to: string;
@@ -41,17 +42,17 @@ function NavLink({ to, children, className = '' }: NavLinkProps) {
 export function NavLinks() {
   const { t } = useLanguage();
   const { isAdmin } = useAuth();
+  const { isFeatureEnabled } = usePublicFeatureFlags();
+
+  const showWorkSection = isFeatureEnabled('work_section');
+  const showBlogSection = isFeatureEnabled('blog_section');
 
   return (
     <nav className="hidden md:flex items-center gap-4 lg:gap-6">
       <NavLink to="/about">{t('nav.about')}</NavLink>
-      <NavLink to="/work">{t('nav.work')}</NavLink>
-      <NavLink to="/blog">{t('nav.blog')}</NavLink>
+      {showWorkSection && <NavLink to="/work">{t('nav.work')}</NavLink>}
+      {showBlogSection && <NavLink to="/blog">{t('nav.blog')}</NavLink>}
       <NavLink to="/contact">{t('nav.contact')}</NavLink>
-      {/* Settings link - accessible but not prominently displayed */}
-      <NavLink to="/settings" className="opacity-50 hover:opacity-100">
-        {t('nav.settings')}
-      </NavLink>
       {/* Admin dashboard link - only visible when authenticated */}
       {isAdmin && (
         <NavLink to="/admin/dashboard" className="inline-flex items-center gap-1 bg-[#edfc3a]/10 text-[#edfc3a] hover:bg-[#edfc3a]/20">

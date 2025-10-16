@@ -194,7 +194,7 @@ export function ProjectAdmin({ onClose }: ProjectAdminProps) {
               </label>
               <input
                 type="url"
-                value={formData.live_url}
+                value={formData.live_url || ''}
                 onChange={(e) => setFormData({ ...formData, live_url: e.target.value })}
                 className="w-full px-3 py-2 rounded-lg bg-white/5 border border-white/10 text-white focus:ring-2 focus:ring-[#edfc3a] focus:border-transparent"
               />
@@ -207,7 +207,7 @@ export function ProjectAdmin({ onClose }: ProjectAdminProps) {
             </label>
             <input
               type="url"
-              value={formData.github_url}
+              value={formData.github_url || ''}
               onChange={(e) => setFormData({ ...formData, github_url: e.target.value })}
               className="w-full px-3 py-2 rounded-lg bg-white/5 border border-white/10 text-white focus:ring-2 focus:ring-[#edfc3a] focus:border-transparent"
             />

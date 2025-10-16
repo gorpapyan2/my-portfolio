@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { Menu, X, FileDown, Languages } from "lucide-react";
 import { NavLink, useLocation } from "react-router-dom";
 import { useLanguage, Language } from "../../context/LanguageContext";
+import { usePublicFeatureFlags } from "../../lib/services/usePublicFeatureFlags";
 
 const languages: { code: Language; label: string; }[] = [
   { code: 'en', label: 'English' },
@@ -13,11 +14,15 @@ export function MobileMenu() {
   const [isOpen, setIsOpen] = useState(false);
   const location = useLocation();
   const { t, language, setLanguage } = useLanguage();
+  const { isFeatureEnabled } = usePublicFeatureFlags();
+  
+  const showWorkSection = isFeatureEnabled('work_section');
+  const showBlogSection = isFeatureEnabled('blog_section');
   
   const navItems = [
     { to: "/about", label: "About" },
-    { to: "/work", label: "Work" },
-    { to: "/blog", label: "Blog" },
+    ...(showWorkSection ? [{ to: "/work", label: "Work" }] : []),
+    ...(showBlogSection ? [{ to: "/blog", label: "Blog" }] : []),
     { to: "/contact", label: "Contact" },
   ];
 
