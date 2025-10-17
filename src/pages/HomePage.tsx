@@ -77,8 +77,10 @@ export function HomePage() {
                     title={post.title}
                     date={post.created_at}
                     excerpt={post.excerpt}
+                    content={post.content || undefined}
                     image={post.image || ''}
                     readTime={post.read_time}
+                    slug={post.slug}
                   />
                 ))}
               </div>

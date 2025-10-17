@@ -3,6 +3,8 @@ import { useNavigate } from 'react-router-dom';
 import { LogIn, Eye, EyeOff } from 'lucide-react';
 import { Card } from '../components/shared/Card';
 import { useAuth } from '../context/AuthContext';
+import AnimatedGridBackground from '../components/AnimatedGridBackground';
+import ParticleBackground from '../components/ParticleBackground';
 
 export function AdminLoginPage() {
   const [email, setEmail] = useState('');
@@ -30,10 +32,10 @@ export function AdminLoginPage() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-gray-900 via-purple-900 to-gray-900 flex items-center justify-center p-4">
-      <div className="absolute inset-0 bg-gradient-to-b from-transparent via-purple-400/5 to-transparent" />
-      
-      <Card className="w-full max-w-md relative z-10">
+    <AnimatedGridBackground>
+      <ParticleBackground />
+      <div className="flex items-center justify-center p-4">
+        <Card className="w-full max-w-md relative z-10">
         <div className="text-center mb-8">
           <div className="inline-flex p-3 rounded-lg bg-[#edfc3a]/10 text-[#edfc3a] mb-4">
             <LogIn className="h-8 w-8" />
@@ -120,6 +122,7 @@ export function AdminLoginPage() {
           </button>
         </div>
       </Card>
-    </div>
+      </div>
+    </AnimatedGridBackground>
   );
 }

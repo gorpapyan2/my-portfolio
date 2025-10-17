@@ -12,6 +12,9 @@ export default defineConfig({
     },
   },
   optimizeDeps: {
-    exclude: ['lucide-react'],
+    exclude: ['lucide-react', 'reading-time'],
+  },
+  ssr: {
+    noExternal: ['remark', 'remark-parse', 'remark-gfm', 'remark-smartypants', 'remark-rehype', 'rehype-slug', 'rehype-autolink-headings', 'rehype-external-links', 'rehype-pretty-code', 'rehype-sanitize', 'rehype-stringify'],
   },
 });

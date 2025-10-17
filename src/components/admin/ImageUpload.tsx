@@ -1,139 +1,194 @@
 import { useState, useRef } from 'react';
-import { Upload, X, Image as ImageIcon } from 'lucide-react';
-import { useImageUploadService } from '../../lib/services/useImageUploadService';
+import { Upload, X, Loader } from 'lucide-react';
+import { supabase } from '../../lib/supabase';
 
 interface ImageUploadProps {
-  currentImage?: string;
-  onImageChange: (imageUrl: string) => void;
-  folder?: string;
-  className?: string;
+  onUpload: (url: string, filename: string) => void;
+  disabled?: boolean;
 }
 
-export function ImageUpload({ 
-  currentImage, 
-  onImageChange, 
-  folder = 'general',
-  className = ''
-}: ImageUploadProps) {
-  const [preview, setPreview] = useState<string | null>(currentImage || null);
-  const [isDragging, setIsDragging] = useState(false);
-  const fileInputRef = useRef<HTMLInputElement>(null);
-  const imageService = useImageUploadService();
+const BUCKET_NAME = 'portfolio';
+const FOLDER_PATH = 'blog-images';
+const MAX_FILE_SIZE = 5 * 1024 * 1024; // 5MB
+const ALLOWED_TYPES = ['image/jpeg', 'image/png', 'image/gif', 'image/webp'];
 
-  const handleFileSelect = async (file: File) => {
-    if (!file.type.startsWith('image/')) {
-      alert('Please select an image file');
-      return;
+/**
+ * Image upload component with drag-and-drop support
+ * Uploads to Supabase Storage and returns public URL
+ */
+export function ImageUpload({ onUpload, disabled = false }: ImageUploadProps) {
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+  const [preview, setPreview] = useState<string | null>(null);
+  const fileInputRef = useRef<HTMLInputElement>(null);
+
+  const validateFile = (file: File): string | null => {
+    if (!ALLOWED_TYPES.includes(file.type)) {
+      return `File type must be JPEG, PNG, GIF, or WebP. Got ${file.type}`;
     }
 
+    if (file.size > MAX_FILE_SIZE) {
+      return `File size must be less than 5MB. Got ${(file.size / 1024 / 1024).toFixed(2)}MB`;
+    }
+
+    return null;
+  };
+
+  const uploadFile = async (file: File) => {
     try {
-      // Create preview
-      const previewUrl = URL.createObjectURL(file);
-      setPreview(previewUrl);
+      setIsLoading(true);
+      setError(null);
+
+      // Validate file
+      const validationError = validateFile(file);
+      if (validationError) {
+        setError(validationError);
+        return;
+      }
 
       // Generate unique filename
       const timestamp = Date.now();
-      const extension = file.name.split('.').pop();
-      const filename = `${folder}/${timestamp}.${extension}`;
+      const random = Math.random().toString(36).substring(2, 8);
+      const ext = file.name.split('.').pop() || 'jpg';
+      const filename = `${timestamp}-${random}.${ext}`;
+      const filepath = `${FOLDER_PATH}/${filename}`;
 
-      // Upload to Supabase
-      const imageUrl = await imageService.uploadImage(file, filename);
-      onImageChange(imageUrl);
-    } catch (error) {
-      console.error('Error uploading image:', error);
-      setPreview(currentImage || null);
+      // Upload to Supabase Storage
+      const { error: uploadError } = await supabase.storage
+        .from(BUCKET_NAME)
+        .upload(filepath, file, {
+          cacheControl: '3600',
+          upsert: false,
+        });
+
+      if (uploadError) {
+        setError(`Upload failed: ${uploadError.message}`);
+        return;
+      }
+
+      // Get public URL
+      const { data: urlData } = supabase.storage
+        .from(BUCKET_NAME)
+        .getPublicUrl(filepath);
+
+      if (!urlData?.publicUrl) {
+        setError('Failed to get public URL');
+        return;
+      }
+
+      // Create preview
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        setPreview(e.target?.result as string);
+      };
+      reader.readAsDataURL(file);
+
+      // Callback with URL and original filename (for alt text)
+      onUpload(urlData.publicUrl, file.name.replace(/\.[^/.]+$/, ''));
+    } catch (err) {
+      console.error('Error uploading image:', err);
+      setError(err instanceof Error ? err.message : 'Failed to upload image');
+    } finally {
+      setIsLoading(false);
     }
   };
 
-  const handleDrop = (e: React.DragEvent) => {
-    e.preventDefault();
-    setIsDragging(false);
-    
-    const files = Array.from(e.dataTransfer.files);
-    if (files.length > 0) {
-      handleFileSelect(files[0]);
+  const handleFileSelect = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.currentTarget.files?.[0];
+    if (file) {
+      uploadFile(file);
     }
   };
 
   const handleDragOver = (e: React.DragEvent) => {
     e.preventDefault();
-    setIsDragging(true);
+    e.stopPropagation();
   };
 
-  const handleDragLeave = () => {
-    setIsDragging(false);
-  };
+  const handleDrop = (e: React.DragEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
 
-  const handleFileInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const files = e.target.files;
-    if (files && files.length > 0) {
-      handleFileSelect(files[0]);
+    const file = e.dataTransfer.files?.[0];
+    if (file) {
+      uploadFile(file);
     }
   };
 
-  const removeImage = () => {
+  const handleClear = () => {
     setPreview(null);
-    onImageChange('');
+    setError(null);
+    if (fileInputRef.current) {
+      fileInputRef.current.value = '';
+    }
   };
 
   return (
-    <div className={`space-y-2 ${className}`}>
-      <label className="block text-sm font-medium text-gray-300">
-        Image
-      </label>
-      
-      {preview ? (
-        <div className="relative">
+    <div className="space-y-3">
+      {error && (
+        <div className="p-3 bg-red-500/10 border border-red-500/20 rounded-lg text-red-400 text-sm">
+          {error}
+        </div>
+      )}
+
+      {preview && (
+        <div className="relative inline-block">
           <img
             src={preview}
             alt="Preview"
-            className="w-full h-48 object-cover rounded-lg border border-white/10"
+            className="max-w-xs h-auto rounded-lg border border-white/10"
           />
           <button
-            type="button"
-            onClick={removeImage}
-            className="absolute top-2 right-2 p-1 bg-red-500 text-white rounded-full hover:bg-red-600 transition-colors"
+            onClick={handleClear}
+            disabled={isLoading}
+            className="absolute top-2 right-2 p-1.5 bg-red-500 hover:bg-red-600 text-white rounded-lg transition-colors disabled:opacity-50"
+            title="Remove preview"
           >
             <X className="h-4 w-4" />
           </button>
         </div>
-      ) : (
-        <div
-          className={`w-full h-48 border-2 border-dashed rounded-lg flex flex-col items-center justify-center transition-colors ${
-            isDragging 
-              ? 'border-[#edfc3a] bg-[#edfc3a]/10' 
-              : 'border-white/20 hover:border-white/40'
-          }`}
-          onDrop={handleDrop}
-          onDragOver={handleDragOver}
-          onDragLeave={handleDragLeave}
-        >
-          <ImageIcon className="h-12 w-12 text-gray-400 mb-2" />
-          <p className="text-gray-400 text-sm mb-2">
-            Drag and drop an image here, or click to select
-          </p>
-          <button
-            type="button"
-            onClick={() => fileInputRef.current?.click()}
-            className="inline-flex items-center gap-2 px-4 py-2 bg-[#edfc3a] text-black rounded-lg font-medium hover:bg-[#f2ff4d] transition-colors"
-          >
-            <Upload className="h-4 w-4" />
-            Choose Image
-          </button>
+      )}
+
+      <div
+        onDragOver={handleDragOver}
+        onDrop={handleDrop}
+        onClick={() => !isLoading && fileInputRef.current?.click()}
+        className={`
+          border-2 border-dashed rounded-lg p-6 text-center transition-colors cursor-pointer
+          ${isLoading || disabled
+            ? 'border-gray-500 bg-gray-500/5 cursor-not-allowed opacity-50'
+            : 'border-white/20 bg-white/5 hover:bg-white/10 hover:border-white/30'
+          }
+        `}
+      >
+        <input
+          ref={fileInputRef}
+          type="file"
+          accept={ALLOWED_TYPES.join(',')}
+          onChange={handleFileSelect}
+          disabled={isLoading || disabled}
+          className="hidden"
+        />
+
+        <div className="flex flex-col items-center gap-2">
+          {isLoading ? (
+            <>
+              <Loader className="h-8 w-8 text-[#edfc3a] animate-spin" />
+              <p className="text-sm text-gray-400">Uploading...</p>
+            </>
+          ) : (
+            <>
+              <Upload className="h-8 w-8 text-gray-400" />
+              <p className="text-sm text-white font-medium">Drag and drop or click to upload</p>
+              <p className="text-xs text-gray-500">JPEG, PNG, GIF, or WebP up to 5MB</p>
+            </>
+          )}
         </div>
-      )}
+      </div>
 
-      <input
-        ref={fileInputRef}
-        type="file"
-        accept="image/*"
-        onChange={handleFileInputChange}
-        className="hidden"
-      />
-
-      {imageService.error && (
-        <p className="text-red-400 text-sm">{imageService.error}</p>
-      )}
+      <p className="text-xs text-gray-500">
+        Image will be uploaded to your blog and inserted as markdown: ![filename](url)
+      </p>
     </div>
   );
 }

@@ -19,6 +19,8 @@ import { ExperienceAdmin } from './ExperienceAdmin';
 import { EducationAdmin } from './EducationAdmin';
 import { SkillsAdmin } from './SkillsAdmin';
 import { FeatureFlagAdmin } from './FeatureFlagAdmin';
+import AnimatedGridBackground from '../../components/AnimatedGridBackground';
+import ParticleBackground from '../../components/ParticleBackground';
 
 type AdminSection = 'blog' | 'projects' | 'translations' | 'experiences' | 'education' | 'skills' | 'feature-flags';
 
@@ -66,9 +68,8 @@ export function AdminDashboard() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-gray-900 via-purple-900 to-gray-900">
-      <div className="absolute inset-0 bg-gradient-to-b from-transparent via-purple-400/5 to-transparent" />
-      
+    <AnimatedGridBackground>
+      <ParticleBackground />
       <div className="relative z-10 p-6">
         {/* Header */}
         <div className="flex items-center justify-between mb-8">
@@ -128,6 +129,6 @@ export function AdminDashboard() {
           </div>
         </div>
       </div>
-    </div>
+    </AnimatedGridBackground>
   );
 }

@@ -8,6 +8,7 @@ A modern, responsive portfolio website built with React, TypeScript, and Vite. F
 - **Supabase Integration**: Database-backed translation management with fallback to static files
 - **Admin Authentication**: Secure admin dashboard with Supabase Auth (email/password)
 - **Content Management**: Full CRUD operations for all content types
+- **Markdown Editor**: Rich text editing with markdown formatting, live preview, and keyboard shortcuts
 - **Feature Flags**: Configurable content visibility and availability control
 - **Translation Management**: Admin interface for managing translations with CRUD operations
 - **Import/Export**: JSON-based translation import/export functionality
@@ -161,7 +162,7 @@ The portfolio includes a secure admin dashboard for managing all content. Access
    - Set a secure password
 
 2. **Admin Dashboard Features**:
-   - **Blog Management**: Create, edit, delete blog posts
+   - **Blog Management**: Create, edit, delete blog posts with markdown formatting
    - **Project Management**: Manage portfolio projects with tags and featured status
    - **Translation Management**: Full CRUD for all translations
    - **Experience Management**: Add/edit professional experience entries
@@ -235,6 +236,194 @@ npm run seed:flags
 ```
 
 This will create the four default feature flags with `enabled: true` status.
+
+## ✍️ Markdown Content Formatting
+
+### Overview
+
+The portfolio uses a modern **GitHub-Flavored Markdown (GFM)** pipeline powered by remark/rehype for professional, safe, and beautiful content rendering. All markdown is sanitized to prevent XSS attacks while supporting advanced formatting features.
+
+### Supported Features
+
+#### GitHub-Flavored Markdown (GFM)
+
+All standard GFM features are supported:
+
+- **Headings**: `# H1`, `## H2`, `### H3`, etc.
+- **Text Formatting**: `**bold**`, `*italic*`, `~~strikethrough~~`
+- **Lists**: Ordered and unordered lists with nesting
+- **Task Lists**: `- [x] Completed` and `- [ ] Incomplete`
+- **Tables**: Full table support with proper alignment
+- **Code Blocks**: Syntax highlighting for 50+ languages
+- **Inline Code**: `` `code` `` with proper escaping
+- **Blockquotes**: `> quoted text` with styling
+- **Links**: `[text](url)` with automatic target="_blank" for external links
+- **Images**: `![alt text](url)` with lazy loading and responsive sizing
+- **Footnotes**: Reference-style links and footnotes
+- **Autolinks**: Automatic detection of URLs
+- **Horizontal Rules**: `---` or `***`
+- **Line Breaks**: Proper handling of hard and soft breaks
+
+### Admin Editor Features
+
+#### Split-Pane Editor
+
+The admin blog editor offers a professional split-pane interface:
+
+- **Left Pane**: Full-featured Markdown editor with toolbar
+- **Right Pane**: Live preview using the exact same renderer as the public blog
+- **Fullscreen Mode**: Expand preview to fullscreen for better visibility
+- **Real-time Sync**: Preview updates instantly as you type
+
+#### Keyboard Shortcuts
+
+Quick formatting with keyboard shortcuts (works in editor):
+
+| Shortcut | Action |
+|----------|--------|
+| Ctrl+B | Bold |
+| Ctrl+I | Italic |
+| Ctrl+H | Heading |
+| Ctrl+K | Link |
+| Ctrl+Shift+` | Code block |
+| Ctrl+Shift+8 | Bullet list |
+| Ctrl+Shift+7 | Numbered list |
+
+#### Toolbar Buttons
+
+Quick-format buttons for:
+- Bold, Italic, Heading
+- Bullet List, Numbered List
+- Blockquote
+- Code Block
+- Link
+- Image (uploads to Supabase Storage)
+
+#### Smart Features
+
+- **Word & Character Count**: Real-time display of content metrics
+- **Reading Time**: Auto-calculated with option to override
+- **Paste Cleanup**: Automatically converts rich-text to Markdown when pasting
+- **Auto-Save**: Drafts saved to localStorage every 5 seconds
+- **Draft Restore**: Option to restore a saved draft if differs from server
+
+#### Slug Management
+
+- **Auto-Generation**: Slug automatically generated from title
+- **Manual Override**: Click on slug field to manually edit
+- **Real-time Validation**: Async check for slug uniqueness
+- **Format Validation**: Must be lowercase alphanumeric with hyphens
+
+#### Image Upload
+
+- **Drag & Drop**: Drag images directly into upload component
+- **File Picker**: Click to browse and select images
+- **Supported Formats**: JPEG, PNG, GIF, WebP (up to 5MB)
+- **Automatic URL Insertion**: Upload returns public URL
+- **Markdown Ready**: Images formatted as `![filename](url)` for easy insertion
+
+### Writing Best Practices
+
+1. **Use Descriptive Headings**: H1 for title, H2 for sections, H3 for subsections
+2. **Line Length**: Keep lines under 80 characters for readability
+3. **Code Blocks**: Always specify language for syntax highlighting:
+   ```markdown
+   ```javascript
+   const greeting = "Hello, World!";
+   ```
+   ```
+4. **Lists**: Use for step-by-step instructions and feature lists
+5. **Blockquotes**: Highlight important notes and quotes
+6. **Images**: Use descriptive alt text for accessibility
+7. **Links**: Use descriptive link text instead of "click here"
+
+### Rendering Features
+
+#### Public Blog Display
+
+Features on the public blog view page:
+
+- **GitHub-style Rendering**: Matches GitHub markdown appearance
+- **Syntax Highlighting**: 50+ programming languages with Shiki
+- **Responsive Tables**: Tables scroll horizontally on mobile
+- **Lazy-Loading Images**: Images load only when visible
+- **Heading Anchors**: Headings link to themselves for sharing
+- **Reading Progress**: Visual reading progress bar at top
+- **Table of Contents**: Auto-generated sidebar from H2/H3 headings
+- **Reading Time Display**: Estimated time to read the article
+- **External Link Handling**: External links open in new tabs
+
+#### Typography
+
+- **Beautiful Prose Styling**: Optimized for readability
+- **Optimal Line Length**: ~70-80 characters per line
+- **Proper Spacing**: Headings, paragraphs, and lists properly spaced
+- **Dark Mode**: Full dark mode support with proper contrast
+- **Copy Button**: One-click copy for code blocks
+
+### Examples
+
+#### Markdown Example
+
+```markdown
+# Getting Started with React
+
+React makes it painless to create interactive UIs.
+
+## Why React?
+
+1. **Component-Based**: Build encapsulated components
+2. **Learn Once, Write Anywhere**: Flexible architecture
+
+## Code Example
+
+```javascript
+import React from 'react';
+
+function App() {
+  return <h1>Hello, World!</h1>;
+}
+```
+
+> React is not an MVC framework. It's a library for rendering views.
+
+| Feature | Angular | Vue | React |
+|---------|---------|-----|-------|
+| Learning Curve | Steep | Moderate | Moderate |
+| Community | Large | Growing | Very Large |
+| Performance | Good | Excellent | Excellent |
+```
+
+### Migration from Legacy Markdown
+
+All existing blog posts are compatible with the new renderer. You can optionally run the normalization script to clean up formatting:
+
+```bash
+npx tsx src/scripts/normalizeBlogPosts.ts
+```
+
+This script will:
+- Convert Unicode bullets to standard Markdown
+- Normalize line endings
+- Ensure proper heading syntax
+- Collapse multiple spaces
+- Recalculate reading times
+
+### Troubleshooting
+
+**Images not showing?**
+- Ensure image URL is publicly accessible
+- Check file format (JPEG, PNG, GIF, WebP supported)
+- Images must be under 5MB
+
+**Code highlighting not working?**
+- Specify language in code fence: `` ```javascript ``
+- Check language name against [Shiki supported languages](https://shiki.dev/languages)
+
+**Slug validation error?**
+- Slug must be lowercase alphanumeric with hyphens
+- Slug must not already exist in database
+- Try a different variation
 
 ## 🌐 Translation Management
 

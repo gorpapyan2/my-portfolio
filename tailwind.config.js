@@ -41,6 +41,89 @@ export default {
           '100%': { backgroundPosition: '100% 50%' },
         },
       },
+      typography: {
+        invert: {
+          css: {
+            'code::before': {
+              content: '""',
+            },
+            'code::after': {
+              content: '""',
+            },
+            code: {
+              backgroundColor: 'rgb(255 255 255 / 0.1)',
+              color: '#edfc3a',
+              padding: '0.125rem 0.25rem',
+              borderRadius: '0.375rem',
+              fontWeight: '600',
+            },
+            pre: {
+              backgroundColor: 'rgb(255 255 255 / 0.05)',
+              borderRadius: '0.75rem',
+              border: '1px solid rgb(255 255 255 / 0.1)',
+              padding: '1rem',
+              overflowX: 'auto',
+            },
+            'pre code': {
+              backgroundColor: 'transparent',
+              color: 'inherit',
+              padding: '0',
+              borderRadius: '0',
+            },
+            h1: {
+              letterSpacing: '-0.025em',
+              fontWeight: '700',
+            },
+            h2: {
+              letterSpacing: '-0.025em',
+              fontWeight: '700',
+            },
+            h3: {
+              fontWeight: '600',
+            },
+            img: {
+              borderRadius: '0.75rem',
+              marginTop: '1.5rem',
+              marginBottom: '1.5rem',
+            },
+            table: {
+              overflowX: 'auto',
+              width: '100%',
+            },
+            'table thead': {
+              borderBottomWidth: '1px',
+              borderColor: 'rgb(255 255 255 / 0.1)',
+            },
+            'table tbody tr': {
+              borderBottomWidth: '1px',
+              borderColor: 'rgb(255 255 255 / 0.1)',
+            },
+            'table td, table th': {
+              padding: '0.75rem 1rem',
+            },
+            blockquote: {
+              borderLeftColor: '#edfc3a',
+              opacity: '0.8',
+            },
+            a: {
+              color: '#edfc3a',
+              textDecoration: 'underline',
+              textDecorationThickness: '1px',
+              textUnderlineOffset: '0.25rem',
+              '&:hover': {
+                color: '#fff',
+              },
+            },
+            li: {
+              marginTop: '0.25rem',
+              marginBottom: '0.25rem',
+            },
+            'li::marker': {
+              color: '#edfc3a',
+            },
+          },
+        },
+      },
     },
   },
   plugins: [

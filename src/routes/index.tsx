@@ -4,6 +4,7 @@ import { HomePage } from '../pages/HomePage';
 import { AboutPage } from '../pages/AboutPage';
 import { WorkPage } from '../pages/WorkPage/index';
 import { BlogPage } from '../pages/BlogPage/index';
+import { BlogViewPage } from '../pages/BlogPage/BlogViewPage';
 import { ContactPage } from '../pages/ContactPage/index';
 import { AdminLoginPage } from '../pages/AdminLoginPage';
 import { AdminDashboard } from '../pages/AdminDashboard';
@@ -30,6 +31,10 @@ export const router = createBrowserRouter([
       {
         path: 'blog',
         element: <BlogPage />,
+      },
+      {
+        path: 'blog/:slug',
+        element: <BlogViewPage />,
       },
       {
         path: 'contact',
