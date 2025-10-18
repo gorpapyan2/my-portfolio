@@ -153,3 +153,4 @@ For any code using the old `CodeThemeContext`:
 - Code themes now automatically sync with app theme
 - No manual theme selection needed
 
+

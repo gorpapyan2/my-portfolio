@@ -41,15 +41,47 @@ npm install
 
 3. Set up environment variables (optional):
 ```bash
-# Create .env.local file
+# Copy the example file
+cp .env.example .env.local
+
+# Edit .env.local with your Supabase credentials
 VITE_SUPABASE_URL=your_supabase_url
 VITE_SUPABASE_ANON_KEY=your_supabase_anon_key
 ```
+
+**Note**: If you don't provide environment variables, the application will use default values configured in `src/lib/config.ts`.
 
 4. Start the development server:
 ```bash
 npm run dev
 ```
+
+## 🔧 Configuration Management
+
+### Centralized Configuration
+
+All configuration is centralized in `src/lib/config.ts`:
+
+- **Supabase credentials**: URL and anonymous key with environment variable support
+- **Asset URLs**: CV download URL and portrait image URL
+- **App metadata**: Application name, description, and contact information
+
+### Environment Variables
+
+The application supports the following environment variables (all optional):
+
+| Variable | Description | Default |
+|----------|-------------|---------|
+| `VITE_SUPABASE_URL` | Supabase project URL | Pre-configured |
+| `VITE_SUPABASE_ANON_KEY` | Supabase anonymous key | Pre-configured |
+| `VITE_CV_URL` | URL to CV PDF file | Supabase storage URL |
+| `VITE_PORTRAIT_URL` | URL to portrait image | Supabase storage URL |
+
+See `.env.example` for a complete template.
+
+### Shared Utilities
+
+- **`downloadCV()`** (`src/lib/utils/downloadCV.ts`): Reusable CV download function with blob handling and fallback support
 
 ## 🏗️ Architecture
 

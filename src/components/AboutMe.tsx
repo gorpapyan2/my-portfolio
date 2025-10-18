@@ -4,6 +4,7 @@ import InfoCard from "./InfoCard";
 import Sparkles from "./Sparkles";
 import Typewriter from "./Typewriter";
 import { useLanguage } from "../context/LanguageContext";
+import { assetUrls } from "../lib/config";
 
 export default function AboutMe() {
   const { t } = useLanguage();
@@ -18,7 +19,7 @@ export default function AboutMe() {
           className="sticky top-24"
         >
           <HeroPortrait
-            src="https://lfbemjnghstybysdemys.supabase.co/storage/v1/object/public/images/portrait/portrait.png"
+            src={assetUrls.portrait}
             alt="Gor Papyan"
           />
           <Sparkles />

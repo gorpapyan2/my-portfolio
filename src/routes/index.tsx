@@ -9,7 +9,6 @@ import { ContactPage } from '../pages/ContactPage/index';
 import { AdminLoginPage } from '../pages/AdminLoginPage';
 import { AdminDashboard } from '../pages/AdminDashboard';
 import { ProtectedRoute } from '../components/auth/ProtectedRoute';
-import { CodeThemeProvider } from '../context/CodeThemeContext';
 
 
 export const router = createBrowserRouter([
@@ -50,11 +49,9 @@ export const router = createBrowserRouter([
   {
     path: '/admin/dashboard',
     element: (
-      <CodeThemeProvider>
-        <ProtectedRoute>
-          <AdminDashboard />
-        </ProtectedRoute>
-      </CodeThemeProvider>
+      <ProtectedRoute>
+        <AdminDashboard />
+      </ProtectedRoute>
     ),
   },
 ], { basename: import.meta.env.BASE_URL });

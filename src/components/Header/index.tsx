@@ -62,31 +62,8 @@ export function Header() {
   };
 
   const handleDownloadCV = async () => {
-    try {
-      const cvUrl = 'https://lfbemjnghstybysdemys.supabase.co/storage/v1/object/public/documents/Gor_Papyan_CV%20(1).pdf';
-      
-      // Fetch the file as a blob to enable proper downloading
-      const response = await fetch(cvUrl);
-      const blob = await response.blob();
-      
-      // Create a temporary object URL
-      const blobUrl = URL.createObjectURL(blob);
-      
-      // Create and trigger download
-      const link = document.createElement('a');
-      link.href = blobUrl;
-      link.download = 'Gor_Papyan_CV.pdf';
-      document.body.appendChild(link);
-      link.click();
-      document.body.removeChild(link);
-      
-      // Clean up the object URL
-      URL.revokeObjectURL(blobUrl);
-    } catch (error) {
-      console.error('Failed to download CV:', error);
-      // Fallback: open in new tab if download fails
-      window.open('https://lfbemjnghstybysdemys.supabase.co/storage/v1/object/public/documents/Gor_Papyan_CV%20(1).pdf', '_blank');
-    }
+    const { downloadCV } = await import('../../lib/utils/downloadCV');
+    await downloadCV();
   };
 
   const handleLanguageChange = (newLanguage: Language) => {
