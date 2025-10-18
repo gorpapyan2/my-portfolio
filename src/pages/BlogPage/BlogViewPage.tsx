@@ -5,7 +5,6 @@ import { MarkdownRenderer } from '../../components/markdown/MarkdownRenderer';
 import { Toc } from '../../components/markdown/Toc';
 import { BlogCard } from './BlogCard';
 import { ReadingProgress } from '../../components/ReadingProgress';
-import { AuthorBio } from '../../components/AuthorBio';
 import { ShareButton } from '../../components/ShareButton';
 import { useBlogService } from '../../lib/services/useBlogService';
 import { useToc } from '../../hooks/useToc';
@@ -42,7 +41,7 @@ export function BlogViewPage() {
   const [isRetrying, setIsRetrying] = useState(false);
 
   if (!slug) {
-    return <Navigate to="/blog" replace />;
+    return <Navigate to=".." relative="path" replace />;
   }
 
   // Find the blog post by slug
@@ -74,7 +73,8 @@ export function BlogViewPage() {
               The blog post you're looking for doesn't exist or has been removed.
             </p>
             <Link 
-              to="/blog" 
+              to=".." 
+              relative="path"
               className="inline-flex items-center gap-2 px-6 py-3 bg-[#edfc3a] text-black rounded-lg font-medium hover:bg-[#f2ff4d] transition-colors"
             >
               <ArrowLeft className="h-4 w-4" />
@@ -119,7 +119,8 @@ export function BlogViewPage() {
                 {isRetrying ? 'Retrying...' : 'Try Again'}
               </button>
               <Link 
-                to="/blog" 
+                to=".." 
+                relative="path"
                 className="inline-flex items-center gap-2 px-6 py-3 text-gray-400 hover:text-white transition-colors rounded-lg hover:bg-white/5"
               >
                 <ArrowLeft className="h-4 w-4" />
@@ -134,7 +135,7 @@ export function BlogViewPage() {
 
   // Post not found and no error (shouldn't happen, but safeguard)
   if (!blogPost) {
-    return <Navigate to="/blog" replace />;
+    return <Navigate to=".." relative="path" replace />;
   }
 
   const currentUrl = typeof window !== 'undefined' ? window.location.href : '';
@@ -151,7 +152,8 @@ export function BlogViewPage() {
       {/* Navigation */}
       <div className="mb-8">
         <Link 
-          to="/blog" 
+          to=".." 
+          relative="path"
           className="inline-flex items-center gap-2 text-gray-400 hover:text-white transition-colors group"
         >
           <ArrowLeft className="h-4 w-4 group-hover:-translate-x-1 transition-transform" />
@@ -226,7 +228,8 @@ export function BlogViewPage() {
             {/* Footer Navigation */}
             <div className="flex flex-col sm:flex-row items-center justify-between gap-4 pt-12 mt-16 border-t border-white/10">
               <Link 
-                to="/blog" 
+                to=".." 
+                relative="path"
                 className="inline-flex items-center gap-2 text-[#edfc3a] hover:text-white transition-colors group"
               >
                 <ArrowLeft className="h-4 w-4 group-hover:-translate-x-1 transition-transform" />
