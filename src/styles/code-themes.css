@@ -1,110 +1,172 @@
-/* Enhanced GitHub-style code block styling */
+/* Enhanced GitHub-style code block styling with dual-theme support */
+
+/* Code block wrapper (from rehype-pretty-code) */
+.prose .code-block-wrapper {
+  @apply relative my-6;
+}
+
+/* Ensure pre elements with wrapper class are also relative */
+.prose pre.code-block-wrapper {
+  @apply relative my-6;
+}
+
+/* Code title (figcaption) */
+.prose [data-rehype-pretty-code-title] {
+  @apply px-4 py-2 text-sm font-mono text-gray-300 bg-gray-800/50 border border-gray-700 rounded-t-2xl border-b-0;
+}
+
+.light .prose [data-rehype-pretty-code-title] {
+  @apply text-gray-700 bg-gray-100/80 border-gray-300;
+}
 
 /* Code block container */
 .prose pre {
-  @apply relative overflow-hidden rounded-lg border border-gray-200 dark:border-gray-700;
-  background: var(--shiki-light-bg) !important;
+  @apply relative overflow-x-auto rounded-2xl border border-gray-700 shadow-lg my-0;
+  padding: 1rem;
+  background: rgba(0, 0, 0, 0.4) !important;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, 'Liberation Mono', 'Courier New', monospace;
 }
 
-.prose.dark pre {
-  background: var(--shiki-dark-bg) !important;
+.light .prose pre {
+  @apply border-gray-300 shadow-md;
+  background: rgba(255, 255, 255, 0.8) !important;
+}
+
+/* Round only top corners if title exists */
+.prose [data-rehype-pretty-code-title] + pre {
+  @apply rounded-t-none;
 }
 
 /* Code content */
 .prose pre code {
-  @apply block p-4 text-sm leading-relaxed;
+  @apply block text-sm leading-relaxed;
   background: transparent !important;
   color: inherit !important;
+  padding: 0;
+  counter-reset: line;
+  display: grid;
 }
 
-/* Line numbers */
-.prose pre code .line {
-  @apply block min-h-[1.5rem] leading-6;
+/* Individual code lines */
+.prose pre code > [data-line] {
+  @apply px-4 border-l-2 border-transparent;
+  display: inline-block;
+  min-height: 1.5rem;
+  width: 100%;
 }
 
-/* Copy button styling */
-.copy-button {
-  @apply absolute top-2 right-2 px-2 py-1 text-xs bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-400 rounded border border-gray-200 dark:border-gray-700 hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors opacity-0 group-hover:opacity-100;
+/* Line numbers using CSS counter */
+.prose pre code[data-line-numbers] > [data-line]::before {
+  counter-increment: line;
+  content: counter(line);
+  display: inline-block;
+  width: 2ch;
+  margin-right: 1.5rem;
+  text-align: right;
+  color: rgba(255, 255, 255, 0.4);
 }
 
-/* Code block hover effects */
-.prose pre:hover .copy-button {
-  @apply opacity-100;
+.light .prose pre code[data-line-numbers] > [data-line]::before {
+  color: rgba(0, 0, 0, 0.4);
+}
+
+/* Highlighted lines */
+.prose pre code [data-highlighted-line] {
+  background: rgba(255, 255, 255, 0.08);
+  border-left-color: #edfc3a;
+}
+
+.light .prose pre code [data-highlighted-line] {
+  background: rgba(0, 0, 0, 0.05);
+  border-left-color: #edfc3a;
+}
+
+/* Highlighted characters/words */
+.prose pre code .word {
+  @apply bg-gray-700/50 border border-gray-600 rounded px-1;
+}
+
+.light .prose pre code .word {
+  @apply bg-gray-200/70 border-gray-400;
+}
+
+/* Diff markers */
+.prose pre code [data-line][data-diff="add"] {
+  background: rgba(34, 197, 94, 0.15);
+  border-left-color: rgb(34, 197, 94);
+}
+
+.prose pre code [data-line][data-diff="remove"] {
+  background: rgba(239, 68, 68, 0.15);
+  border-left-color: rgb(239, 68, 68);
+  opacity: 0.7;
 }
 
 /* Inline code styling */
 .prose code:not(pre code) {
-  @apply px-1.5 py-0.5 text-sm font-mono bg-gray-100 dark:bg-gray-800 text-gray-800 dark:text-gray-200 rounded border border-gray-200 dark:border-gray-700;
+  @apply px-1.5 py-0.5 text-sm font-mono bg-gray-800/60 text-[#edfc3a] rounded border border-gray-700;
 }
 
-/* Syntax highlighting enhancements */
-.prose pre .token.comment {
-  @apply text-gray-500 dark:text-gray-400 italic;
-}
-
-.prose pre .token.keyword {
-  @apply text-blue-600 dark:text-blue-400 font-semibold;
-}
-
-.prose pre .token.string {
-  @apply text-green-600 dark:text-green-400;
-}
-
-.prose pre .token.number {
-  @apply text-purple-600 dark:text-purple-400;
-}
-
-.prose pre .token.function {
-  @apply text-yellow-600 dark:text-yellow-400;
-}
-
-.prose pre .token.class-name {
-  @apply text-cyan-600 dark:text-cyan-400;
-}
-
-.prose pre .token.operator {
-  @apply text-gray-600 dark:text-gray-400;
-}
-
-.prose pre .token.punctuation {
-  @apply text-gray-600 dark:text-gray-400;
-}
-
-/* Language label */
-.prose pre::before {
-  content: attr(data-language);
-  @apply absolute top-2 left-2 px-2 py-1 text-xs font-mono text-gray-500 dark:text-gray-400 bg-gray-100 dark:bg-gray-800 rounded border border-gray-200 dark:border-gray-700;
+.light .prose code:not(pre code) {
+  @apply bg-gray-200 text-gray-800 border-gray-300;
 }
 
 /* Scrollbar styling for code blocks */
 .prose pre::-webkit-scrollbar {
-  @apply h-2;
+  height: 8px;
 }
 
 .prose pre::-webkit-scrollbar-track {
-  @apply bg-gray-100 dark:bg-gray-800 rounded;
+  @apply bg-gray-900/50 rounded;
+}
+
+.light .prose pre::-webkit-scrollbar-track {
+  @apply bg-gray-200/50;
 }
 
 .prose pre::-webkit-scrollbar-thumb {
-  @apply bg-gray-300 dark:bg-gray-600 rounded hover:bg-gray-400 dark:hover:bg-gray-500;
+  @apply bg-gray-600 rounded;
+}
+
+.prose pre::-webkit-scrollbar-thumb:hover {
+  @apply bg-gray-500;
+}
+
+.light .prose pre::-webkit-scrollbar-thumb {
+  @apply bg-gray-400;
+}
+
+.light .prose pre::-webkit-scrollbar-thumb:hover {
+  @apply bg-gray-500;
 }
 
 /* Focus styles for accessibility */
 .prose pre:focus-within {
-  @apply ring-2 ring-blue-500 dark:ring-blue-400 ring-opacity-50;
+  @apply ring-2 ring-[#edfc3a] ring-opacity-50;
+}
+
+/* Copy button container */
+.copy-button-container {
+  @apply absolute top-0 right-0;
 }
 
 /* Responsive adjustments */
 @media (max-width: 640px) {
   .prose pre {
-    @apply text-xs;
+    @apply text-xs rounded-xl;
+    padding: 0.75rem;
   }
   
-  .prose pre code {
-    @apply p-3;
+  .prose pre code > [data-line] {
+    @apply px-2;
+  }
+
+  .prose pre code[data-line-numbers] > [data-line]::before {
+    width: 1.5ch;
+    margin-right: 1rem;
   }
   
-  .copy-button {
-    @apply top-1 right-1 px-1.5 py-0.5 text-xs;
+  .prose [data-rehype-pretty-code-title] {
+    @apply px-3 py-1.5 text-xs rounded-t-xl;
   }
 }

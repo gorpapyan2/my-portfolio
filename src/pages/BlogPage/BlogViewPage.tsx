@@ -223,11 +223,6 @@ export function BlogViewPage() {
               )}
             </article>
 
-            {/* Author Bio */}
-            <div className="mt-16">
-              <AuthorBio />
-            </div>
-
             {/* Footer Navigation */}
             <div className="flex flex-col sm:flex-row items-center justify-between gap-4 pt-12 mt-16 border-t border-white/10">
               <Link 

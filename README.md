@@ -9,6 +9,7 @@ A modern, responsive portfolio website built with React, TypeScript, and Vite. F
 - **Admin Authentication**: Secure admin dashboard with Supabase Auth (email/password)
 - **Content Management**: Full CRUD operations for all content types
 - **Markdown Editor**: Rich text editing with markdown formatting, live preview, and keyboard shortcuts
+- **Themed Code Highlighting**: Dual-theme syntax highlighting with line numbers, titles, diff markers, and copy buttons
 - **Feature Flags**: Configurable content visibility and availability control
 - **Translation Management**: Admin interface for managing translations with CRUD operations
 - **Import/Export**: JSON-based translation import/export functionality
@@ -339,12 +340,66 @@ Quick-format buttons for:
 
 ### Rendering Features
 
+#### Code Highlighting Features
+
+**Dual-Theme Syntax Highlighting**
+
+Code blocks automatically adapt to the site's theme:
+- **Light Theme**: `github-light` for clean, bright code display
+- **Dark Theme**: `github-dark-dimmed` for comfortable night reading
+- **Auto-Sync**: Themes switch automatically when you toggle site theme
+
+**Advanced Code Features**
+
+1. **Code Titles**: Display filenames above code blocks
+   ````markdown
+   ```typescript title="src/utils/helper.ts"
+   export const calculateSum = (a: number, b: number) => a + b;
+   ```
+   ````
+
+2. **Line Highlighting**: Emphasize specific lines
+   ````markdown
+   ```javascript {2,4-6}
+   function processData(data) {
+     const validated = validateInput(data);  // highlighted
+     
+     if (!validated) {                        // highlighted
+       throw new Error('Invalid input');      // highlighted
+     }                                         // highlighted
+     
+     return transform(validated);
+   }
+   ```
+   ````
+
+3. **Diff Markers**: Show code changes
+   ````markdown
+   ```typescript
+   function calculateTotal(items: Item[]) {
+   - return items.reduce((sum, item) => sum + item.price, 0);
+   + return items.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+   }
+   ```
+   ````
+
+4. **Line Numbers**: Automatically displayed for multi-line blocks
+5. **Copy Button**: One-click code copying with visual feedback
+6. **200+ Languages**: Full Shiki language support
+
+**Styling Features**
+- Rounded corners with subtle shadows
+- Custom scrollbars matching theme
+- Proper monospace font stack
+- Responsive design for mobile
+- Accessible with keyboard navigation
+
 #### Public Blog Display
 
 Features on the public blog view page:
 
 - **GitHub-style Rendering**: Matches GitHub markdown appearance
-- **Syntax Highlighting**: 50+ programming languages with Shiki
+- **Dual-Theme Syntax Highlighting**: Automatic light/dark code themes
 - **Responsive Tables**: Tables scroll horizontally on mobile
 - **Lazy-Loading Images**: Images load only when visible
 - **Heading Anchors**: Headings link to themselves for sharing
@@ -352,6 +407,7 @@ Features on the public blog view page:
 - **Table of Contents**: Auto-generated sidebar from H2/H3 headings
 - **Reading Time Display**: Estimated time to read the article
 - **External Link Handling**: External links open in new tabs
+- **Copy to Clipboard**: One-click copy for all code blocks
 
 #### Typography
 
@@ -359,7 +415,7 @@ Features on the public blog view page:
 - **Optimal Line Length**: ~70-80 characters per line
 - **Proper Spacing**: Headings, paragraphs, and lists properly spaced
 - **Dark Mode**: Full dark mode support with proper contrast
-- **Copy Button**: One-click copy for code blocks
+- **Interactive Code Blocks**: Hover to reveal copy button
 
 ### Examples
 

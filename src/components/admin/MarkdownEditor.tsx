@@ -20,7 +20,6 @@ import {
   RotateCcw
 } from 'lucide-react';
 import { MarkdownRenderer } from './MarkdownRenderer';
-import { ThemeSelector } from './ThemeSelector';
 
 interface MarkdownEditorProps {
   value: string;
@@ -333,8 +332,6 @@ export function MarkdownEditor({
         )}
 
         <div className="ml-auto flex items-center gap-1">
-          <ThemeSelector />
-          
           <button
             type="button"
             onClick={copyShortcuts}

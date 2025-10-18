@@ -1,6 +1,8 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useRef } from 'react';
+import { createRoot, Root } from 'react-dom/client';
 import { markdownToHtml } from '../../lib/markdown/processor';
-import { useSafeCodeTheme } from '../../context/CodeThemeContext';
+import { useTheme } from '../../context/ThemeContext';
+import { CopyButton } from './CopyButton';
 
 interface MarkdownRendererProps {
   content: string;
@@ -13,16 +15,19 @@ interface MarkdownRendererProps {
  * 
  * Features:
  * - GFM (tables, task lists, strikethrough, autolinks, footnotes)
- * - Syntax highlighting with Shiki
+ * - Dual-theme syntax highlighting with Shiki
  * - Safe HTML rendering (XSS protection via sanitizer)
  * - Responsive images with lazy loading
  * - External links with target="_blank" and rel="noopener noreferrer"
+ * - Copy-to-clipboard buttons on code blocks
  */
 export function MarkdownRenderer({ content, className = '' }: MarkdownRendererProps) {
-  const { theme } = useSafeCodeTheme();
+  const { theme } = useTheme();
   const [html, setHtml] = useState<string>('');
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
+  const containerRef = useRef<HTMLDivElement>(null);
+  const copyButtonRootsRef = useRef<Root[]>([]);
 
   useEffect(() => {
     const processMarkdown = async () => {
@@ -48,6 +53,54 @@ export function MarkdownRenderer({ content, className = '' }: MarkdownRendererPr
 
     processMarkdown();
   }, [content, theme]);
+
+  // Attach copy buttons to code blocks after HTML is rendered
+  useEffect(() => {
+    if (!containerRef.current || !html) return;
+
+    // Clean up previous copy button roots
+    copyButtonRootsRef.current.forEach(root => {
+      try {
+        root.unmount();
+      } catch {
+        // Ignore errors during unmount
+      }
+    });
+    copyButtonRootsRef.current = [];
+
+    // Find all code block wrappers and add copy buttons
+    const codeBlocks = containerRef.current.querySelectorAll('.code-block-wrapper');
+    
+    codeBlocks.forEach((block) => {
+      const codeContent = block.getAttribute('data-code-content');
+      if (!codeContent) return;
+
+      // Add group class for hover effects
+      block.classList.add('group', 'relative');
+
+      // Create a container for the copy button
+      const buttonContainer = document.createElement('div');
+      buttonContainer.className = 'copy-button-container';
+      block.appendChild(buttonContainer);
+
+      // Render the CopyButton React component
+      const root = createRoot(buttonContainer);
+      root.render(<CopyButton code={codeContent} />);
+      copyButtonRootsRef.current.push(root);
+    });
+
+    // Cleanup function
+    return () => {
+      copyButtonRootsRef.current.forEach(root => {
+        try {
+          root.unmount();
+        } catch {
+          // Ignore errors during unmount
+        }
+      });
+      copyButtonRootsRef.current = [];
+    };
+  }, [html]);
 
   if (isLoading) {
     return (
@@ -79,6 +132,7 @@ export function MarkdownRenderer({ content, className = '' }: MarkdownRendererPr
 
   return (
     <div
+      ref={containerRef}
       key={html.substring(0, 50)} // Force re-mount on content change
       className={`prose prose-invert max-w-none ${className}`}
       dangerouslySetInnerHTML={{ __html: html }}

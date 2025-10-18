@@ -2,9 +2,11 @@ import { useState } from 'react';
 import { MarkdownEditor } from '../components/admin/MarkdownEditor';
 import { MarkdownRenderer } from '../components/markdown/MarkdownRenderer';
 import { Card } from '../components/shared/Card';
-import { ThemeSelector } from '../components/admin/ThemeSelector';
+import { useTheme } from '../context/ThemeContext';
+import { Sun, Moon } from 'lucide-react';
 
 export function MarkdownDemo() {
+  const { theme, toggleTheme } = useTheme();
   const [content, setContent] = useState(`# Welcome to Enhanced Markdown Editor
 
 This is a **bold** statement and this is *italic* text.
@@ -120,11 +122,17 @@ for num in fibonacci(10):
       <Card className="p-6">
         <div className="flex items-center justify-between mb-4">
           <h1 className="text-3xl font-bold text-white">Enhanced Markdown Editor</h1>
-          <ThemeSelector />
+          <button
+            onClick={toggleTheme}
+            className="p-2 rounded-lg bg-white/5 hover:bg-white/10 text-gray-400 hover:text-white transition-colors"
+            title={`Switch to ${theme === 'dark' ? 'light' : 'dark'} mode`}
+          >
+            {theme === 'dark' ? <Sun className="h-5 w-5" /> : <Moon className="h-5 w-5" />}
+          </button>
         </div>
         <p className="text-gray-300 mb-6">
-          This demo shows the enhanced markdown formatting capabilities with GitHub-style code themes. 
-          Use the theme selector to switch between different syntax highlighting themes, or use the toolbar buttons and keyboard shortcuts to format your text.
+          This demo shows the enhanced markdown formatting capabilities. Code themes automatically sync with the app theme. 
+          Use the toolbar buttons and keyboard shortcuts to format your text.
         </p>
         
         <MarkdownEditor

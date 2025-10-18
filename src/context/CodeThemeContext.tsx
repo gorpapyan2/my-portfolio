@@ -1,5 +1,31 @@
-import { createContext, useContext, useState, useEffect, ReactNode } from 'react';
-import { GitHubTheme, GITHUB_THEMES } from '../lib/markdown/processor';
+import { createContext, useContext, ReactNode } from 'react';
+
+/**
+ * @deprecated This context is deprecated. Code themes now automatically sync with the main app theme.
+ * Use ThemeContext from './ThemeContext' instead.
+ * This is kept for backward compatibility only.
+ */
+
+// Legacy theme types for backward compatibility
+export const GITHUB_THEMES = {
+  'github-dark': 'GitHub Dark',
+  'github-light': 'GitHub Light', 
+  'dark-plus': 'VS Code Dark+',
+  'light-plus': 'VS Code Light+',
+  'dark-modern': 'Dark Modern',
+  'light-modern': 'Light Modern',
+  'min-dark': 'Minimal Dark',
+  'min-light': 'Minimal Light',
+  'one-dark-pro': 'One Dark Pro',
+  'dracula': 'Dracula',
+  'monokai': 'Monokai',
+  'nord': 'Nord',
+  'tokyo-night': 'Tokyo Night',
+  'catppuccin-mocha': 'Catppuccin Mocha',
+  'catppuccin-latte': 'Catppuccin Latte',
+} as const;
+
+export type GitHubTheme = keyof typeof GITHUB_THEMES;
 
 interface CodeThemeContextType {
   theme: GitHubTheme;
@@ -15,34 +41,22 @@ interface CodeThemeProviderProps {
 }
 
 /**
- * Provider for code theme management
- * Handles theme persistence and provides theme switching functionality
+ * @deprecated Provider for code theme management - DEPRECATED
+ * Code themes now automatically sync with the main app theme (ThemeProvider).
+ * This provider is kept for backward compatibility but does nothing.
+ * 
+ * @see ThemeProvider from './ThemeContext' for the main theme management
  */
 export function CodeThemeProvider({ children }: CodeThemeProviderProps) {
-  const [theme, setThemeState] = useState<GitHubTheme>('github-dark');
-
-  // Load theme from localStorage on mount
-  useEffect(() => {
-    const savedTheme = localStorage.getItem('code-theme') as GitHubTheme;
-    if (savedTheme && GITHUB_THEMES[savedTheme]) {
-      setThemeState(savedTheme);
-    }
-  }, []);
-
-  // Save theme to localStorage when it changes
-  const setTheme = (newTheme: GitHubTheme) => {
-    setThemeState(newTheme);
-    localStorage.setItem('code-theme', newTheme);
-  };
-
-  // Determine if current theme is dark
-  const isDarkTheme = theme.includes('dark') || theme === 'dracula' || theme === 'monokai' || theme === 'nord' || theme === 'tokyo-night' || theme === 'catppuccin-mocha';
-
+  // No-op provider for backward compatibility
+  // Code themes now sync with main app theme automatically
   const value: CodeThemeContextType = {
-    theme,
-    setTheme,
+    theme: 'github-dark',
+    setTheme: () => {
+      console.warn('CodeThemeContext.setTheme is deprecated. Code themes now sync with the main app theme automatically.');
+    },
     availableThemes: GITHUB_THEMES,
-    isDarkTheme,
+    isDarkTheme: true,
   };
 
   return (
@@ -53,20 +67,29 @@ export function CodeThemeProvider({ children }: CodeThemeProviderProps) {
 }
 
 /**
- * Hook to use code theme context
+ * @deprecated Hook to use code theme context - DEPRECATED
+ * Use useTheme from './ThemeContext' instead.
+ * Code themes now automatically sync with the main app theme.
  * @returns Code theme context value
  */
 export function useCodeTheme(): CodeThemeContextType {
   const context = useContext(CodeThemeContext);
   if (context === undefined) {
-    throw new Error('useCodeTheme must be used within a CodeThemeProvider');
+    console.warn('useCodeTheme is deprecated. Use useTheme from ThemeContext instead.');
+    return {
+      theme: 'github-dark' as GitHubTheme,
+      setTheme: () => {},
+      availableThemes: GITHUB_THEMES,
+      isDarkTheme: true,
+    };
   }
   return context;
 }
 
 /**
- * Safe hook to use code theme context with fallback
- * Returns default values if CodeThemeProvider is not available
+ * @deprecated Safe hook to use code theme context with fallback - DEPRECATED
+ * Use useTheme from './ThemeContext' instead.
+ * Code themes now automatically sync with the main app theme.
  * @returns Code theme context value or fallback values
  */
 export function useSafeCodeTheme(): CodeThemeContextType {

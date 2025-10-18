@@ -10,54 +10,9 @@
   scroll-margin-top: 80px;
 }
 
-/* Code block copy button */
+/* Code block positioning */
 .prose pre {
   position: relative;
-  overflow: hidden;
-}
-
-/* Code block wrapper styling - for rehype-pretty-code structure */
-.prose div[class*="highlight"] {
-  position: relative;
-}
-
-.prose div[class*="highlight"]:hover .copy-button {
-  opacity: 1;
-}
-
-.prose .copy-button {
-  position: absolute;
-  top: 0.5rem;
-  right: 0.5rem;
-  padding: 0.5rem;
-  background-color: rgba(31, 41, 55, 0.8);
-  color: rgb(156, 163, 175);
-  border: none;
-  border-radius: 0.375rem;
-  cursor: pointer;
-  opacity: 0;
-  transition: all 0.2s ease;
-  z-index: 10;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.prose .copy-button:hover {
-  background-color: rgba(55, 65, 81, 0.8);
-  color: white;
-}
-
-.prose .copy-button:focus {
-  outline: 2px solid #edfc3a;
-  outline-offset: 2px;
-}
-
-/* Code block padding */
-.prose pre code {
-  display: block;
-  padding: 0;
-  background-color: transparent;
 }
 
 /* Inline code styling */
