@@ -7,7 +7,7 @@ interface ImageUploadProps {
   disabled?: boolean;
 }
 
-const BUCKET_NAME = 'portfolio';
+const BUCKET_NAME = 'images';
 const FOLDER_PATH = 'blog-images';
 const MAX_FILE_SIZE = 5 * 1024 * 1024; // 5MB
 const ALLOWED_TYPES = ['image/jpeg', 'image/png', 'image/gif', 'image/webp'];

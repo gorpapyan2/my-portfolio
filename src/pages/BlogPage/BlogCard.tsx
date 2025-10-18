@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom';
 import { Card } from '../../components/shared/Card';
-import { MarkdownRenderer } from '../../components/admin/MarkdownRenderer';
+import { MarkdownRenderer } from '../../components/markdown/MarkdownRenderer';
 
 /**
  * Props for BlogCard component with explicit typing

@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import { markdownToHtml } from '../../lib/markdown/processor';
+import { useSafeCodeTheme } from '../../context/CodeThemeContext';
 
 interface MarkdownRendererProps {
   content: string;
@@ -18,6 +19,7 @@ interface MarkdownRendererProps {
  * - External links with target="_blank" and rel="noopener noreferrer"
  */
 export function MarkdownRenderer({ content, className = '' }: MarkdownRendererProps) {
+  const { theme } = useSafeCodeTheme();
   const [html, setHtml] = useState<string>('');
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
@@ -33,7 +35,7 @@ export function MarkdownRenderer({ content, className = '' }: MarkdownRendererPr
           return;
         }
 
-        const result = await markdownToHtml(content);
+        const result = await markdownToHtml(content, theme);
         setHtml(result);
       } catch (err) {
         console.error('Error rendering markdown:', err);
@@ -45,7 +47,7 @@ export function MarkdownRenderer({ content, className = '' }: MarkdownRendererPr
     };
 
     processMarkdown();
-  }, [content]);
+  }, [content, theme]);
 
   if (isLoading) {
     return (
@@ -77,8 +79,10 @@ export function MarkdownRenderer({ content, className = '' }: MarkdownRendererPr
 
   return (
     <div
+      key={html.substring(0, 50)} // Force re-mount on content change
       className={`prose prose-invert max-w-none ${className}`}
       dangerouslySetInnerHTML={{ __html: html }}
+      style={{ scrollMarginTop: '80px' }} // CSS scroll offset for headings
     />
   );
 }

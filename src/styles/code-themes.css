@@ -1,0 +1,110 @@
+/* Enhanced GitHub-style code block styling */
+
+/* Code block container */
+.prose pre {
+  @apply relative overflow-hidden rounded-lg border border-gray-200 dark:border-gray-700;
+  background: var(--shiki-light-bg) !important;
+}
+
+.prose.dark pre {
+  background: var(--shiki-dark-bg) !important;
+}
+
+/* Code content */
+.prose pre code {
+  @apply block p-4 text-sm leading-relaxed;
+  background: transparent !important;
+  color: inherit !important;
+}
+
+/* Line numbers */
+.prose pre code .line {
+  @apply block min-h-[1.5rem] leading-6;
+}
+
+/* Copy button styling */
+.copy-button {
+  @apply absolute top-2 right-2 px-2 py-1 text-xs bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-400 rounded border border-gray-200 dark:border-gray-700 hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors opacity-0 group-hover:opacity-100;
+}
+
+/* Code block hover effects */
+.prose pre:hover .copy-button {
+  @apply opacity-100;
+}
+
+/* Inline code styling */
+.prose code:not(pre code) {
+  @apply px-1.5 py-0.5 text-sm font-mono bg-gray-100 dark:bg-gray-800 text-gray-800 dark:text-gray-200 rounded border border-gray-200 dark:border-gray-700;
+}
+
+/* Syntax highlighting enhancements */
+.prose pre .token.comment {
+  @apply text-gray-500 dark:text-gray-400 italic;
+}
+
+.prose pre .token.keyword {
+  @apply text-blue-600 dark:text-blue-400 font-semibold;
+}
+
+.prose pre .token.string {
+  @apply text-green-600 dark:text-green-400;
+}
+
+.prose pre .token.number {
+  @apply text-purple-600 dark:text-purple-400;
+}
+
+.prose pre .token.function {
+  @apply text-yellow-600 dark:text-yellow-400;
+}
+
+.prose pre .token.class-name {
+  @apply text-cyan-600 dark:text-cyan-400;
+}
+
+.prose pre .token.operator {
+  @apply text-gray-600 dark:text-gray-400;
+}
+
+.prose pre .token.punctuation {
+  @apply text-gray-600 dark:text-gray-400;
+}
+
+/* Language label */
+.prose pre::before {
+  content: attr(data-language);
+  @apply absolute top-2 left-2 px-2 py-1 text-xs font-mono text-gray-500 dark:text-gray-400 bg-gray-100 dark:bg-gray-800 rounded border border-gray-200 dark:border-gray-700;
+}
+
+/* Scrollbar styling for code blocks */
+.prose pre::-webkit-scrollbar {
+  @apply h-2;
+}
+
+.prose pre::-webkit-scrollbar-track {
+  @apply bg-gray-100 dark:bg-gray-800 rounded;
+}
+
+.prose pre::-webkit-scrollbar-thumb {
+  @apply bg-gray-300 dark:bg-gray-600 rounded hover:bg-gray-400 dark:hover:bg-gray-500;
+}
+
+/* Focus styles for accessibility */
+.prose pre:focus-within {
+  @apply ring-2 ring-blue-500 dark:ring-blue-400 ring-opacity-50;
+}
+
+/* Responsive adjustments */
+@media (max-width: 640px) {
+  .prose pre {
+    @apply text-xs;
+  }
+  
+  .prose pre code {
+    @apply p-3;
+  }
+  
+  .copy-button {
+    @apply top-1 right-1 px-1.5 py-0.5 text-xs;
+  }
+}

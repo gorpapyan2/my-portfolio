@@ -14,9 +14,13 @@ import {
   Maximize2,
   Minimize2,
   Copy,
-  Check
+  Check,
+  ZoomIn,
+  ZoomOut,
+  RotateCcw
 } from 'lucide-react';
 import { MarkdownRenderer } from './MarkdownRenderer';
+import { ThemeSelector } from './ThemeSelector';
 
 interface MarkdownEditorProps {
   value: string;
@@ -42,7 +46,21 @@ export function MarkdownEditor({
   const [showPreview, setShowPreview] = useState(false);
   const [isFullscreen, setIsFullscreen] = useState(false);
   const [copiedShortcuts, setCopiedShortcuts] = useState(false);
+  const [textSize, setTextSize] = useState(14); // Default text size in pixels
   const textareaRef = useRef<HTMLTextAreaElement>(null);
+
+  // Text size management
+  const increaseTextSize = () => {
+    setTextSize(prev => Math.min(prev + 2, 24)); // Max 24px
+  };
+
+  const decreaseTextSize = () => {
+    setTextSize(prev => Math.max(prev - 2, 10)); // Min 10px
+  };
+
+  const resetTextSize = () => {
+    setTextSize(14); // Reset to default
+  };
 
   const insertText = (before: string, after: string = '', placeholder: string = '') => {
     const textarea = textareaRef.current;
@@ -165,6 +183,19 @@ export function MarkdownEditor({
           e.preventDefault();
           insertText('[', '](url)', 'link text');
           break;
+        case '=':
+        case '+':
+          e.preventDefault();
+          increaseTextSize();
+          break;
+        case '-':
+          e.preventDefault();
+          decreaseTextSize();
+          break;
+        case '0':
+          e.preventDefault();
+          resetTextSize();
+          break;
       }
     }
   };
@@ -178,7 +209,15 @@ export function MarkdownEditor({
       .map(b => `${b.label}: ${b.shortcut}`)
       .join('\n');
     
-    navigator.clipboard.writeText(shortcuts);
+    const textSizeShortcuts = [
+      'Increase Text Size: Ctrl+=',
+      'Decrease Text Size: Ctrl+-',
+      'Reset Text Size: Ctrl+0'
+    ].join('\n');
+    
+    const allShortcuts = shortcuts + '\n\n' + textSizeShortcuts;
+    
+    navigator.clipboard.writeText(allShortcuts);
     setCopiedShortcuts(true);
     setTimeout(() => setCopiedShortcuts(false), 2000);
   };
@@ -194,13 +233,14 @@ export function MarkdownEditor({
           onKeyDown={handleKeyDown}
           placeholder={placeholder}
           rows={rows}
-          className="w-full flex-1 px-3 py-2 rounded-lg bg-white/5 border border-white/10 text-white focus:ring-2 focus:ring-[#edfc3a] focus:border-transparent resize-none font-mono text-sm"
+          style={{ fontSize: `${textSize}px` }}
+          className="w-full flex-1 px-3 py-2 rounded-lg bg-white/5 border border-white/10 text-white focus:ring-2 focus:ring-[#edfc3a] focus:border-transparent resize-none font-mono"
         />
       </div>
 
       {/* Preview Pane */}
       <div className="flex-1 overflow-auto rounded-lg bg-white/5 border border-white/10 p-4">
-        <div className="prose prose-invert max-w-none text-sm">
+        <div className="prose prose-invert max-w-none" style={{ fontSize: `${textSize}px` }}>
           <MarkdownRenderer content={value} />
         </div>
       </div>
@@ -230,6 +270,44 @@ export function MarkdownEditor({
         
         <div className="h-4 w-px bg-white/20 mx-2" />
         
+        {/* Text Size Controls */}
+        <div className="flex items-center gap-1">
+          <button
+            type="button"
+            onClick={decreaseTextSize}
+            className="p-2 text-gray-400 hover:text-white hover:bg-white/10 rounded transition-colors"
+            title="Decrease Text Size (Ctrl+-)"
+            disabled={textSize <= 10}
+          >
+            <ZoomOut className="h-4 w-4" />
+          </button>
+          
+          <span className="text-xs text-gray-400 px-2 py-1 bg-white/5 rounded min-w-[3rem] text-center">
+            {textSize}px
+          </span>
+          
+          <button
+            type="button"
+            onClick={increaseTextSize}
+            className="p-2 text-gray-400 hover:text-white hover:bg-white/10 rounded transition-colors"
+            title="Increase Text Size (Ctrl+=)"
+            disabled={textSize >= 24}
+          >
+            <ZoomIn className="h-4 w-4" />
+          </button>
+          
+          <button
+            type="button"
+            onClick={resetTextSize}
+            className="p-2 text-gray-400 hover:text-white hover:bg-white/10 rounded transition-colors"
+            title="Reset Text Size (Ctrl+0)"
+          >
+            <RotateCcw className="h-4 w-4" />
+          </button>
+        </div>
+        
+        <div className="h-4 w-px bg-white/20 mx-2" />
+        
         <button
           type="button"
           onClick={() => setShowPreview(!showPreview)}
@@ -255,6 +333,8 @@ export function MarkdownEditor({
         )}
 
         <div className="ml-auto flex items-center gap-1">
+          <ThemeSelector />
+          
           <button
             type="button"
             onClick={copyShortcuts}
@@ -279,13 +359,15 @@ export function MarkdownEditor({
           onKeyDown={handleKeyDown}
           placeholder={placeholder}
           rows={rows}
-          className="w-full px-3 py-2 rounded-lg bg-white/5 border border-white/10 text-white focus:ring-2 focus:ring-[#edfc3a] focus:border-transparent resize-vertical font-mono text-sm"
+          style={{ fontSize: `${textSize}px` }}
+          className="w-full px-3 py-2 rounded-lg bg-white/5 border border-white/10 text-white focus:ring-2 focus:ring-[#edfc3a] focus:border-transparent resize-vertical font-mono"
         />
       )}
 
       {/* Help Text */}
       <div className="text-xs text-gray-500 space-y-1">
         <p><strong>Keyboard shortcuts:</strong> Ctrl+B (bold), Ctrl+I (italic), Ctrl+H (heading), Ctrl+K (link)</p>
+        <p><strong>Text size:</strong> Ctrl+= (increase), Ctrl+- (decrease), Ctrl+0 (reset)</p>
         <p><strong>Markdown syntax:</strong> **bold**, *italic*, # heading, - list, &gt; quote, `code`, [link](url), ![alt](url)</p>
         {onImageUpload && (
           <p><strong>Image upload:</strong> Use the Image button in toolbar or drag-drop into image upload component</p>

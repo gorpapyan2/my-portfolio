@@ -94,6 +94,7 @@ export function BlogAdmin({ onClose }: BlogAdminProps) {
         <div className="space-y-6">
           <BlogPostForm
             isEditing={isEditing}
+            editingPostId={editingPost?.id}
             formData={formData}
             errors={errors}
             onSubmit={handleSubmit}

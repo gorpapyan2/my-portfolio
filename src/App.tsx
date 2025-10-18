@@ -1,5 +1,6 @@
 import { ThemeProvider } from './context/ThemeContext';
 import { LanguageProvider } from './context/LanguageContext';
+import { CodeThemeProvider } from './context/CodeThemeContext';
 import { RouterProvider } from 'react-router-dom';
 import { router } from './routes';
 
@@ -9,7 +10,9 @@ export default function App() {
   return (
     <LanguageProvider>
       <ThemeProvider>
-        <RouterProvider router={router} />
+        <CodeThemeProvider>
+          <RouterProvider router={router} />
+        </CodeThemeProvider>
       </ThemeProvider>
     </LanguageProvider>
   );

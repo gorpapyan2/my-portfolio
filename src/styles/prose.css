@@ -1,30 +1,56 @@
 /* Prose Typography Enhancements */
 
+/* Heading scroll behavior for TOC navigation */
+.prose h1,
+.prose h2,
+.prose h3,
+.prose h4,
+.prose h5,
+.prose h6 {
+  scroll-margin-top: 80px;
+}
+
 /* Code block copy button */
 .prose pre {
   position: relative;
   overflow: hidden;
 }
 
-.prose pre::before {
-  content: 'Copy';
+/* Code block wrapper styling - for rehype-pretty-code structure */
+.prose div[class*="highlight"] {
+  position: relative;
+}
+
+.prose div[class*="highlight"]:hover .copy-button {
+  opacity: 1;
+}
+
+.prose .copy-button {
   position: absolute;
   top: 0.5rem;
   right: 0.5rem;
-  padding: 0.25rem 0.5rem;
-  background-color: rgb(237, 252, 58, 0.2);
-  color: #edfc3a;
+  padding: 0.5rem;
+  background-color: rgba(31, 41, 55, 0.8);
+  color: rgb(156, 163, 175);
+  border: none;
   border-radius: 0.375rem;
-  font-size: 0.75rem;
-  font-weight: 600;
+  cursor: pointer;
   opacity: 0;
-  transition: opacity 0.2s ease;
-  pointer-events: none;
+  transition: all 0.2s ease;
   z-index: 10;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
-.prose pre:hover::before {
-  opacity: 1;
+.prose .copy-button:hover {
+  background-color: rgba(55, 65, 81, 0.8);
+  color: white;
+}
+
+.prose .copy-button:focus {
+  outline: 2px solid #edfc3a;
+  outline-offset: 2px;
 }
 
 /* Code block padding */

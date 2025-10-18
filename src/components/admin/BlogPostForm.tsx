@@ -149,8 +149,25 @@ export function BlogPostForm({
   };
 
   const handleImageUpload = (url: string, alt: string) => {
-    // Insert image markdown at current cursor position in editor
-    // For now, set as featured image (alt usage would be in editor context)
+    // Insert image markdown into content at current cursor position
+    const imageMarkdown = `![${alt}](${url})`;
+    
+    // Get current content
+    const currentContent = formData.content || '';
+    
+    // For now, append to the end of content (could be enhanced to insert at cursor position)
+    const newContent = currentContent + (currentContent ? '\n\n' : '') + imageMarkdown;
+    
+    // Update both image field and content
+    onChange({
+      ...formData,
+      image: url, // Set as featured image
+      content: newContent // Insert into content
+    });
+  };
+
+  const handleFeaturedImageUpload = (url: string, _filename: string) => {
+    // For featured image upload, just set the image field
     handleInputChange('image', url);
   };
 
@@ -333,6 +350,7 @@ export function BlogPostForm({
           onChange={(content) => handleInputChange('content', content)}
           placeholder="Write your blog post content here... Use markdown formatting for better presentation."
           rows={10}
+          onImageUpload={handleImageUpload}
         />
         
         {/* Word Count and Stats */}
@@ -368,7 +386,7 @@ export function BlogPostForm({
               Featured Image
             </label>
             <ImageUpload
-              onUpload={handleImageUpload}
+              onUpload={handleFeaturedImageUpload}
               disabled={isSubmitting}
             />
           </div>
@@ -455,6 +473,15 @@ export function BlogPostForm({
         </div>
         
         <div className="flex items-center gap-3">
+          {/* Debug info - remove this after fixing */}
+          <div className="text-xs text-gray-500 space-y-1">
+            <div>Title: {formData.title ? '✓' : '✗'}</div>
+            <div>Slug: {formData.slug ? '✓' : '✗'} (valid: {slugValidation.isValid === null ? 'checking' : slugValidation.isValid ? 'yes' : 'no'})</div>
+            <div>Excerpt: {formData.excerpt ? '✓' : '✗'}</div>
+            <div>Read Time: {formData.read_time ? '✓' : '✗'}</div>
+            <div>Checking: {slugValidation.isChecking ? 'yes' : 'no'}</div>
+          </div>
+          
           <button
             type="button"
             onClick={onCancel}
@@ -465,7 +492,15 @@ export function BlogPostForm({
           </button>
           <button
             type="submit"
-            disabled={isSubmitting || slugValidation.isValid === false}
+            disabled={
+              isSubmitting || 
+              slugValidation.isValid === false || 
+              slugValidation.isChecking ||
+              !formData.title?.trim() ||
+              !formData.slug?.trim() ||
+              !formData.excerpt?.trim() ||
+              !formData.read_time?.trim()
+            }
             className="px-6 py-3 bg-[#edfc3a] text-black rounded-lg font-medium hover:bg-[#f2ff4d] transition-colors flex items-center gap-2 shadow-lg hover:shadow-xl disabled:opacity-50 disabled:cursor-not-allowed"
           >
             {isSubmitting ? 'Saving...' : isEditing ? 'Update Post' : 'Create Post'}

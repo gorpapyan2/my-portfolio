@@ -144,23 +144,22 @@ export function BlogViewPage() {
   const hasContent = Boolean(blogPost.content);
 
   return (
-    <PageLayout>
+    <PageLayout className="!overflow-visible">
       <ReadingProgress />
       <div className="absolute inset-0 bg-gradient-to-b from-transparent via-blue-400/5 to-transparent" />
       
       {/* Navigation */}
-      <div className="relative z-10 max-w-7xl mx-auto px-4 py-8">
+      <div className="mb-8">
         <Link 
           to="/blog" 
-          className="inline-flex items-center gap-2 text-gray-400 hover:text-white transition-colors mb-8 group"
+          className="inline-flex items-center gap-2 text-gray-400 hover:text-white transition-colors group"
         >
           <ArrowLeft className="h-4 w-4 group-hover:-translate-x-1 transition-transform" />
           Back to Blog
         </Link>
       </div>
 
-      <div className="relative z-10 max-w-7xl mx-auto px-4 pb-16">
-        <div className="grid grid-cols-1 lg:grid-cols-4 gap-8">
+      <div className="grid grid-cols-1 lg:grid-cols-4 gap-8">
           {/* Main Content */}
           <div className="lg:col-span-3">
             {/* Article Header */}
@@ -246,36 +245,19 @@ export function BlogViewPage() {
           </div>
 
           {/* Sidebar */}
-          <div className="lg:col-span-1">
-            <div className="sticky top-8 space-y-6">
+          <aside className="lg:col-span-1" aria-label="Table of contents sidebar">
+            <div className="sticky top-24 self-start space-y-6">
               {/* Table of Contents */}
               {headings.length > 0 && (
                 <Toc headings={headings} />
               )}
-              
-              {/* Quick Actions */}
-              <div className="bg-white/5 rounded-lg border border-white/10 p-4">
-                <h3 className="text-white font-medium mb-3">Quick Actions</h3>
-                <div className="space-y-2">
-                  <ShareButton 
-                    title={blogPost.title}
-                    url={currentUrl}
-                    className="w-full"
-                  />
-                  <button className="w-full flex items-center gap-2 px-3 py-2 text-gray-400 hover:text-white hover:bg-white/10 rounded transition-colors">
-                    <BookOpen className="h-4 w-4" />
-                    <span>Save for Later</span>
-                  </button>
-                </div>
-              </div>
             </div>
-          </div>
+          </aside>
         </div>
-      </div>
 
       {/* Related Posts Section */}
       {relatedPosts.length > 0 && (
-        <div className="relative z-10 max-w-7xl mx-auto px-4 pb-16">
+        <div className="mt-16">
           <div className="text-center mb-12">
             <h2 className="text-3xl font-bold text-white mb-4">Related Posts</h2>
             <p className="text-gray-400 text-lg">Continue reading more articles</p>

@@ -1,6 +1,5 @@
 import slugify from 'slugify';
 import { supabase } from '../supabase';
-import { BlogPost } from '../../types/database.types';
 
 /**
  * Calculate reading time estimate from markdown content
@@ -80,13 +79,18 @@ export async function validateSlugUniqueness(
       return false;
     }
 
-    // If excluding a post ID (update case), allow if only match is that ID
-    if (excludeId && data && data.length === 1) {
-      return data[0].id === excludeId;
+    // If no matches found, slug is unique
+    if (!data || data.length === 0) {
+      return true;
     }
 
-    // Otherwise, unique if no matches found
-    return !data || data.length === 0;
+    // If excluding a post ID (update case), allow if only match is that ID
+    if (excludeId && data.length === 1) {
+      return (data[0] as { id: string }).id === excludeId;
+    }
+
+    // Otherwise, slug is not unique
+    return false;
   } catch (error) {
     console.error('Error validating slug:', error);
     return false;

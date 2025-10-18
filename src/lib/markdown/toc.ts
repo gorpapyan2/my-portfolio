@@ -1,5 +1,4 @@
 import { Root, Heading } from 'mdast';
-import { visit } from 'unist-util-visit';
 
 export interface TocEntry {
   id: string;
@@ -18,24 +17,44 @@ export function extractToc(ast: Root | null): TocEntry[] {
 
   const headings: TocEntry[] = [];
 
-  visit(ast, 'heading', (node: Heading) => {
-    // Only include H2 and H3
-    if (node.depth < 2 || node.depth > 3) return;
+  // Recursive tree traversal to find all headings
+  function traverse(node: any) {
+    if (node.type === 'heading') {
+      // Only include H2 and H3
+      if (node.depth < 2 || node.depth > 3) {
+        // Still traverse children
+        if (node.children && Array.isArray(node.children)) {
+          node.children.forEach(traverse);
+        }
+        return;
+      }
 
-    // Extract text from children
-    const text = extractTextFromNode(node);
-    if (!text) return;
+      // Extract text from heading
+      const text = extractTextFromNode(node);
+      if (!text) {
+        if (node.children && Array.isArray(node.children)) {
+          node.children.forEach(traverse);
+        }
+        return;
+      }
 
-    // Generate ID from text (matching rehype-slug behavior)
-    const id = generateId(text);
+      // Generate ID from text (matching rehype-slug behavior)
+      const id = generateId(text);
 
-    headings.push({
-      id,
-      depth: node.depth,
-      text,
-    });
-  });
+      headings.push({
+        id,
+        depth: node.depth,
+        text,
+      });
+    }
 
+    // Recurse through children
+    if (node.children && Array.isArray(node.children)) {
+      node.children.forEach(traverse);
+    }
+  }
+
+  traverse(ast);
   return headings;
 }
 
@@ -68,8 +87,8 @@ function generateId(text: string): string {
   return text
     .toLowerCase()
     .trim()
-    .replace(/\s+/g, '-')
-    .replace(/[^\w\-]/g, '')
-    .replace(/\-+/g, '-')
-    .replace(/^\-+|\-+$/g, '');
+    .replace(/[^\w\s-]/g, '') // Remove special characters except spaces and hyphens
+    .replace(/\s+/g, '-') // Replace spaces with hyphens
+    .replace(/-+/g, '-') // Replace multiple hyphens with single hyphen
+    .replace(/^-+|-+$/g, ''); // Remove leading/trailing hyphens
 }
