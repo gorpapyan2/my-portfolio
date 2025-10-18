@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react';
 // import { useTheme } from '../../context/ThemeContext';
 import { useLanguage, Language } from '../../context/LanguageContext';
 import { useScrollPosition } from '../../hooks/useScrollPosition';
+import { usePublicFeatureFlags } from '../../lib/services/usePublicFeatureFlags';
 import { NavLinks } from './NavLinks';
 import { MobileMenu } from './MobileMenu';
 
@@ -16,11 +17,14 @@ const languages: { code: Language; label: string; }[] = [
 export function Header() {
   // const { theme, toggleTheme } = useTheme();
   const { t, language, setLanguage } = useLanguage();
+  const { isFeatureEnabled } = usePublicFeatureFlags();
   const isScrolled = useScrollPosition();
   const location = useLocation();
   const [isVisible, setIsVisible] = useState(false);
   const [isInitialLoad, setIsInitialLoad] = useState(true);
   const [isLanguageOpen, setIsLanguageOpen] = useState(false);
+  
+  const showLanguageSelector = isFeatureEnabled('language_selector');
 
   // Entrance animation
   useEffect(() => {
@@ -153,54 +157,56 @@ export function Header() {
             style={{ transitionDelay: isInitialLoad ? '300ms' : '0ms' }}
           >
             {/* Language Selector - Desktop only */}
-            <div className="hidden md:block relative language-dropdown">
-              <button
-                onClick={() => setIsLanguageOpen(!isLanguageOpen)}
-                className="flex items-center gap-2 px-3 py-2 rounded-lg bg-white/5 hover:bg-white/10 border border-white/10 hover:border-[#edfc3a]/30 transition-all duration-300 group"
-              >
-                <Globe className="h-4 w-4 text-gray-300 group-hover:text-[#edfc3a] transition-colors duration-300" />
-                <span className="text-sm text-white group-hover:text-[#edfc3a] transition-colors duration-300">
-                  {getCurrentLanguage().label}
-                </span>
-                <ChevronDown 
-                  className={`h-3 w-3 text-gray-400 transition-all duration-300 ${
-                    isLanguageOpen ? 'rotate-180 text-[#edfc3a]' : 'group-hover:text-[#edfc3a]'
-                  }`} 
-                />
-              </button>
+            {showLanguageSelector && (
+              <div className="hidden md:block relative language-dropdown">
+                <button
+                  onClick={() => setIsLanguageOpen(!isLanguageOpen)}
+                  className="flex items-center gap-2 px-3 py-2 rounded-lg bg-white/5 hover:bg-white/10 border border-white/10 hover:border-[#edfc3a]/30 transition-all duration-300 group"
+                >
+                  <Globe className="h-4 w-4 text-gray-300 group-hover:text-[#edfc3a] transition-colors duration-300" />
+                  <span className="text-sm text-white group-hover:text-[#edfc3a] transition-colors duration-300">
+                    {getCurrentLanguage().label}
+                  </span>
+                  <ChevronDown 
+                    className={`h-3 w-3 text-gray-400 transition-all duration-300 ${
+                      isLanguageOpen ? 'rotate-180 text-[#edfc3a]' : 'group-hover:text-[#edfc3a]'
+                    }`} 
+                  />
+                </button>
 
-              {/* Language Dropdown */}
-              {isLanguageOpen && (
-                <div className="absolute top-full right-0 mt-2 w-48 bg-black/95 backdrop-blur-md rounded-lg shadow-2xl border border-white/10 overflow-hidden animate-in slide-in-from-top-2 fade-in duration-200">
-                  <div className="py-2">
-                    {languages.map((lang, index) => (
-                      <button
-                        key={lang.code}
-                        onClick={() => handleLanguageChange(lang.code)}
-                        className={`w-full px-4 py-3 text-left text-sm transition-all duration-200 hover:bg-white/5 group ${
-                          language === lang.code 
-                            ? 'text-[#edfc3a] bg-[#edfc3a]/10' 
-                            : 'text-gray-300 hover:text-white'
-                        }`}
-                        style={{ animationDelay: `${index * 50}ms` }}
-                      >
-                        <div className="flex items-center gap-3">
-                          <div className={`w-2 h-2 rounded-full transition-all duration-200 ${
-                            language === lang.code ? 'bg-[#edfc3a]' : 'bg-gray-500 group-hover:bg-[#edfc3a]'
-                          }`} />
-                          <span className="transition-transform duration-200 group-hover:translate-x-1">
-                            {lang.label}
-                          </span>
-                          {language === lang.code && (
-                            <div className="ml-auto w-1 h-1 bg-[#edfc3a] rounded-full animate-pulse" />
-                          )}
-                        </div>
-                      </button>
-                    ))}
+                {/* Language Dropdown */}
+                {isLanguageOpen && (
+                  <div className="absolute top-full right-0 mt-2 w-48 bg-black/95 backdrop-blur-md rounded-lg shadow-2xl border border-white/10 overflow-hidden animate-in slide-in-from-top-2 fade-in duration-200">
+                    <div className="py-2">
+                      {languages.map((lang, index) => (
+                        <button
+                          key={lang.code}
+                          onClick={() => handleLanguageChange(lang.code)}
+                          className={`w-full px-4 py-3 text-left text-sm transition-all duration-200 hover:bg-white/5 group ${
+                            language === lang.code 
+                              ? 'text-[#edfc3a] bg-[#edfc3a]/10' 
+                              : 'text-gray-300 hover:text-white'
+                          }`}
+                          style={{ animationDelay: `${index * 50}ms` }}
+                        >
+                          <div className="flex items-center gap-3">
+                            <div className={`w-2 h-2 rounded-full transition-all duration-200 ${
+                              language === lang.code ? 'bg-[#edfc3a]' : 'bg-gray-500 group-hover:bg-[#edfc3a]'
+                            }`} />
+                            <span className="transition-transform duration-200 group-hover:translate-x-1">
+                              {lang.label}
+                            </span>
+                            {language === lang.code && (
+                              <div className="ml-auto w-1 h-1 bg-[#edfc3a] rounded-full animate-pulse" />
+                            )}
+                          </div>
+                        </button>
+                      ))}
+                    </div>
                   </div>
-                </div>
-              )}
-            </div>
+                )}
+              </div>
+            )}
 
             {/* Download CV Button - Desktop only */}
             <button

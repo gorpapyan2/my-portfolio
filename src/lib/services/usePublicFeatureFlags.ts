@@ -41,7 +41,8 @@ export function usePublicFeatureFlags(): PublicFeatureFlags {
         blog_section: true,
         work_section: true,
         featured_projects_section: true,
-        latest_articles_section: true
+        latest_articles_section: true,
+        language_selector: true
       });
     } finally {
       setIsLoading(false);

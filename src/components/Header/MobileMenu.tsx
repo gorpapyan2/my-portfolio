@@ -18,6 +18,7 @@ export function MobileMenu() {
   
   const showWorkSection = isFeatureEnabled('work_section');
   const showBlogSection = isFeatureEnabled('blog_section');
+  const showLanguageSelector = isFeatureEnabled('language_selector');
   
   const navItems = [
     { to: "/about", label: "About" },
@@ -146,32 +147,34 @@ export function MobileMenu() {
             </nav>
 
             {/* Language Selector */}
-            <div className="px-4 py-3 border-t border-white/10">
-              <div className="space-y-2">
-                <div className="flex items-center gap-2 text-sm text-gray-300">
-                  <Languages className="h-4 w-4" />
-                  <span>Language</span>
-                </div>
-                <div className="grid grid-cols-1 gap-1">
-                  {languages.map((lang) => (
-                    <button
-                      key={lang.code}
-                      onClick={() => setLanguage(lang.code)}
-                      className={`flex items-center gap-3 px-3 py-2 rounded-md text-sm transition-colors duration-200 ${
-                        language === lang.code
-                          ? 'text-[#edfc3a] bg-[#edfc3a]/10 border border-[#edfc3a]/20'
-                          : 'text-gray-300 hover:text-white hover:bg-white/5'
-                      }`}
-                    >
-                      <div className={`w-2 h-2 rounded-full transition-colors duration-200 ${
-                        language === lang.code ? 'bg-[#edfc3a]' : 'bg-gray-500'
-                      }`} />
-                      <span>{lang.label}</span>
-                    </button>
-                  ))}
+            {showLanguageSelector && (
+              <div className="px-4 py-3 border-t border-white/10">
+                <div className="space-y-2">
+                  <div className="flex items-center gap-2 text-sm text-gray-300">
+                    <Languages className="h-4 w-4" />
+                    <span>Language</span>
+                  </div>
+                  <div className="grid grid-cols-1 gap-1">
+                    {languages.map((lang) => (
+                      <button
+                        key={lang.code}
+                        onClick={() => setLanguage(lang.code)}
+                        className={`flex items-center gap-3 px-3 py-2 rounded-md text-sm transition-colors duration-200 ${
+                          language === lang.code
+                            ? 'text-[#edfc3a] bg-[#edfc3a]/10 border border-[#edfc3a]/20'
+                            : 'text-gray-300 hover:text-white hover:bg-white/5'
+                        }`}
+                      >
+                        <div className={`w-2 h-2 rounded-full transition-colors duration-200 ${
+                          language === lang.code ? 'bg-[#edfc3a]' : 'bg-gray-500'
+                        }`} />
+                        <span>{lang.label}</span>
+                      </button>
+                    ))}
+                  </div>
                 </div>
               </div>
-            </div>
+            )}
 
             {/* CV Download Button */}
             <div className="px-4 py-3 border-t border-white/10">

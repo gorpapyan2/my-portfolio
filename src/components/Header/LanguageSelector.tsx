@@ -1,5 +1,6 @@
 import { Languages } from 'lucide-react';
 import { useLanguage, Language } from '../../context/LanguageContext';
+import { usePublicFeatureFlags } from '../../lib/services/usePublicFeatureFlags';
 import { Shimmer } from '../ui/Shimmer';
 
 const languages: { code: Language; label: string; }[] = [
@@ -10,6 +11,13 @@ const languages: { code: Language; label: string; }[] = [
 
 export function LanguageSelector() {
   const { language, setLanguage } = useLanguage();
+  const { isFeatureEnabled } = usePublicFeatureFlags();
+  
+  const showLanguageSelector = isFeatureEnabled('language_selector');
+  
+  if (!showLanguageSelector) {
+    return null;
+  }
 
   return (
     <div className="relative group">

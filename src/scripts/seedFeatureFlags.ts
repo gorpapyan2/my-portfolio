@@ -1,15 +1,4 @@
-import { createClient } from '@supabase/supabase-js';
-
-// Initialize Supabase client
-const supabaseUrl = import.meta.env.VITE_SUPABASE_URL;
-const supabaseKey = import.meta.env.VITE_SUPABASE_ANON_KEY;
-
-if (!supabaseUrl || !supabaseKey) {
-  console.error('Missing Supabase environment variables');
-  process.exit(1);
-}
-
-const supabase = createClient(supabaseUrl, supabaseKey);
+import { supabase } from '../lib/supabase';
 
 // Initial feature flags data
 const initialFeatureFlags = [
@@ -35,6 +24,12 @@ const initialFeatureFlags = [
     flag_key: 'latest_articles_section',
     content_type: 'section',
     description: 'Controls visibility of latest articles on homepage',
+    enabled: true
+  },
+  {
+    flag_key: 'language_selector',
+    content_type: 'section',
+    description: 'Controls visibility of the language selector in header and mobile menu',
     enabled: true
   }
 ];
