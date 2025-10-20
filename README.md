@@ -113,6 +113,54 @@ The application follows **Clean Architecture** principles with a **service layer
    - `useMarkdownService` - GFM rendering with syntax highlighting
    - `useBlogAdminService` - Additional blog admin utilities
 
+### Mid-Level QA Automation Specialist Positioning
+
+This portfolio is designed to represent a **mid-level QA Automation Specialist** with a focus on:
+
+#### Messaging Strategy
+- **Outcome-focused**: "I help teams ship faster with fewer bugs" (not tool-centric)
+- **Credible metrics**: Flaky rate ↓ ~70%, regression time ↓ ~40%, CI time improvements
+- **Philosophy-driven**: Emphasis on deterministic testing, data isolation, and reliability
+- **Business impact**: Results tied to real team needs (release confidence, developer trust)
+
+#### Skills Display (Hybrid Approach)
+- **Level Badges**: Advanced (80-100%), Intermediate (50-79%), Familiar (<50%)
+- **Proficiency %**: Actual numeric proficiency level
+- **Description**: Real-world proof of use for each skill
+- **Example**: "Playwright (Advanced) — 92% — Built & maintained suites; parallelism/sharding; trace-on-fail"
+
+#### Case Studies & Real-World Results
+The portfolio includes 3 case study blog posts showcasing **Problem → Actions → Result → Stack** format:
+
+1. **Stabilized UI E2E for a SaaS Web App**
+   - Problem: Flaky test failures blocked releases
+   - Actions: Data isolation, resilient waits, parallel execution
+   - Result: Flaky rate ↓ 70%, CI time ↓ from 18min to 8min
+   - Stack: Playwright (TS), AWS CodeBuild, PostgreSQL
+
+2. **Deterministic E2E via Service Virtualization**
+   - Problem: Upstream API flakiness made E2E brittle
+   - Actions: Mountebank stubs, contract vs functional tests, trace collection
+   - Result: CI stabilized, debugging time ↓ from 20min to 2min
+   - Stack: Playwright, Mountebank, Postman
+
+3. **Integration Tests for Enrichment Service**
+   - Problem: Search enrichment service prone to regressions
+   - Actions: Contract + functional tests, SQL seeding, error-focused reporting
+   - Result: Regression escapes ↓ 80%, triage time ↓ from 15min to 3min
+   - Stack: PyTest, PostgreSQL, AWS CodeBuild
+
+**Seeding case studies:**
+```bash
+npm run seed:case-studies
+```
+
+#### Admin Access Control
+- **Authentication**: Admin link only visible when logged in
+- **Route Protection**: `/admin/dashboard` redirects unauthenticated users to `/admin/login`
+- **RLS Policies**: Supabase Row-Level Security enforces admin-only write access
+- **Email-based**: Admin email configured in RLS policies (`gorpapyan2@gmail.com`)
+
 2. **Validation Layer** (`src/lib/schemas/`):
    - Runtime validation using Zod for type safety
    - Schemas for all data types: blogs, projects, translations, etc.
