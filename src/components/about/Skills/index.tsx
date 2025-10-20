@@ -5,6 +5,13 @@ import { useLanguage } from '../../../context/LanguageContext';
 import { useSkillService } from '../../../lib/services/useSkillService';
 import { getIcon } from '../../../utils/iconMap';
 
+// Helper to compute proficiency level from percentage
+function getProficiencyLevel(level: number): string {
+  if (level >= 80) return 'Advanced';
+  if (level >= 50) return 'Intermediate';
+  return 'Familiar';
+}
+
 export function Skills() {
     const { t } = useLanguage();
     const { skills, isLoading, error } = useSkillService();
@@ -63,6 +70,8 @@ export function Skills() {
                     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                     {skills.map((skill, index) => {
                         const IconComponent = getIcon(skill.icon);
+                        const proficiencyLevel = getProficiencyLevel(skill.level);
+                        
                         return (
                             <motion.div
                                 key={skill.id}
@@ -84,21 +93,32 @@ export function Skills() {
                                         </div>
                                     </div>
 
-                                    {/* Title */}
-                                    <h3 className="text-xl font-semibold text-white mb-3 group-hover:text-[#edfc3a] transition-colors duration-300">
-                                        {skill.title}
-                                    </h3>
+                                    {/* Title with Level Badge */}
+                                    <div className="mb-3 flex items-center gap-2">
+                                        <h3 className="text-lg font-semibold text-white group-hover:text-[#edfc3a] transition-colors duration-300">
+                                            {skill.title}
+                                        </h3>
+                                        <span className={`text-xs font-bold px-2.5 py-0.5 rounded-full whitespace-nowrap ${
+                                            proficiencyLevel === 'Advanced' 
+                                                ? 'bg-[#edfc3a]/20 text-[#edfc3a]'
+                                                : proficiencyLevel === 'Intermediate'
+                                                ? 'bg-blue-400/20 text-blue-300'
+                                                : 'bg-gray-400/20 text-gray-300'
+                                        }`}>
+                                            {proficiencyLevel}
+                                        </span>
+                                    </div>
 
                                     {/* Description */}
                                     <div className="flex-1 overflow-y-auto mb-4 scrollbar-thin scrollbar-thumb-[#edfc3a]/30 scrollbar-track-transparent hover:scrollbar-thumb-[#edfc3a]/50">
-                                        <p className="text-gray-400 leading-relaxed group-hover:text-gray-300 transition-colors duration-300">
+                                        <p className="text-gray-400 leading-relaxed group-hover:text-gray-300 transition-colors duration-300 text-sm">
                                             {skill.description}
                                         </p>
                                     </div>
 
-                                    {/* Progress Bar */}
+                                    {/* Proficiency Bar */}
                                     <div className="space-y-2">
-                                        <div className="flex justify-between items-center text-sm">
+                                        <div className="flex justify-between items-center text-xs md:text-sm">
                                             <span className="text-gray-400">{t('proficiency')}</span>
                                             <span className="text-[#edfc3a] font-semibold">{skill.level}%</span>
                                         </div>
