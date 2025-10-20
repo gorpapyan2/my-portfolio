@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { motion } from 'framer-motion';
 import { User, Briefcase, GraduationCap, Lightbulb } from 'lucide-react';
 
@@ -12,25 +12,37 @@ const sections = [
 export function SectionNavigation() {
   const [activeSection, setActiveSection] = useState('about');
   const [isOpen, setIsOpen] = useState(false);
+  const observerRef = useRef<IntersectionObserver | null>(null);
 
   useEffect(() => {
-    const handleScroll = () => {
-      const scrollPosition = window.scrollY + 100;
-
-      for (const section of sections) {
-        const element = document.getElementById(section.id);
-        if (element) {
-          const { offsetTop, offsetHeight } = element;
-          if (scrollPosition >= offsetTop && scrollPosition < offsetTop + offsetHeight) {
-            setActiveSection(section.id);
-            break;
-          }
-        }
-      }
+    // Create intersection observer for more reliable section detection
+    const observerOptions = {
+      root: null,
+      rootMargin: '-50% 0px -50% 0px', // Trigger when section is in the middle of the viewport
+      threshold: 0,
     };
 
-    window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
+    observerRef.current = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          setActiveSection(entry.target.id);
+        }
+      });
+    }, observerOptions);
+
+    // Observe all section elements
+    sections.forEach((section) => {
+      const element = document.getElementById(section.id);
+      if (element && observerRef.current) {
+        observerRef.current.observe(element);
+      }
+    });
+
+    return () => {
+      if (observerRef.current) {
+        observerRef.current.disconnect();
+      }
+    };
   }, []);
 
   const scrollToSection = (sectionId: string) => {
@@ -48,7 +60,7 @@ export function SectionNavigation() {
       transition={{ duration: 0.5 }}
       className="fixed bottom-6 left-6 z-40"
     >
-      <div className="bg-white/5 backdrop-blur-sm rounded-full border border-white/10 px-4 py-2">
+      <div className="bg-white/10 backdrop-blur-md rounded-full border border-white/20 px-4 py-2">
         {/* Desktop Navigation */}
         <div className="hidden md:flex items-center space-x-1">
           {sections.map((section) => {
@@ -112,12 +124,13 @@ export function SectionNavigation() {
             initial={false}
             animate={{ 
               height: isOpen ? 'auto' : 0,
-              opacity: isOpen ? 1 : 0
+              opacity: isOpen ? 1 : 0,
+              pointerEvents: isOpen ? 'auto' : 'none'
             }}
             transition={{ duration: 0.3 }}
-            className="overflow-hidden absolute bottom-full left-0 mb-2 w-48"
+            className="absolute bottom-full left-0 mb-2 w-48 z-50"
           >
-            <div className="pb-2 space-y-1 bg-white/5 backdrop-blur-sm rounded-lg border border-white/10 p-2">
+            <div className="space-y-1 bg-white/10 backdrop-blur-md rounded-lg border border-white/20 p-2">
               {sections.map((section) => {
                 const Icon = section.icon;
                 const isActive = activeSection === section.id;
