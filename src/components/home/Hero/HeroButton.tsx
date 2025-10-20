@@ -1,10 +1,13 @@
 import { motion } from 'framer-motion';
+import { Link } from 'react-router-dom';
 
 interface HeroButtonProps {
   variant: 'primary' | 'secondary';
   href: string;
   children: React.ReactNode;
 }
+
+const MotionLink = motion(Link);
 
 export function HeroButton({ variant, href, children }: HeroButtonProps) {
   const baseStyles = "px-8 py-3 rounded-full font-medium transition-colors inline-flex items-center gap-2";
@@ -14,8 +17,8 @@ export function HeroButton({ variant, href, children }: HeroButtonProps) {
   };
   
   return (
-    <motion.a
-      href={href}
+    <MotionLink
+      to={`/${href}`}
       className={`${baseStyles} ${variants[variant]}`}
       whileHover={{ scale: 1.05 }}
       whileTap={{ scale: 0.95 }}
@@ -38,6 +41,6 @@ export function HeroButton({ variant, href, children }: HeroButtonProps) {
           />
         </svg>
       )}
-    </motion.a>
+    </MotionLink>
   );
 }
