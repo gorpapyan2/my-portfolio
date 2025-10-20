@@ -27,6 +27,12 @@ const initialFeatureFlags = [
     enabled: true
   },
   {
+    flag_key: 'case_studies_section',
+    content_type: 'section',
+    description: 'Controls visibility of case studies showcase section on homepage',
+    enabled: true
+  },
+  {
     flag_key: 'language_selector',
     content_type: 'section',
     description: 'Controls visibility of the language selector in header and mobile menu',

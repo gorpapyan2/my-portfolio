@@ -2,6 +2,7 @@ import { Hero } from '../components/home/Hero';
 import { Statistics } from '../components/home/Statistics';
 import { Technologies } from '../components/home/Technologies';
 import { PortfolioNav } from '../components/home/PortfolioNav';
+import { CaseStudies } from '../components/home/CaseStudies';
 import { ProjectCard } from './WorkPage/ProjectCard';
 import { BlogCard } from './BlogPage/BlogCard';
 import { useLanguage } from '../context/LanguageContext';
@@ -21,6 +22,7 @@ export function HomePage() {
 
   const showFeaturedProjects = isFeatureEnabled('featured_projects_section');
   const showLatestArticles = isFeatureEnabled('latest_articles_section');
+  const showCaseStudies = isFeatureEnabled('case_studies_section');
 
   return (
     <>
@@ -28,6 +30,11 @@ export function HomePage() {
       <Statistics />
       <Technologies />
       <PortfolioNav />
+
+      {showCaseStudies && (
+        <CaseStudies />
+      )}
+
       {showFeaturedProjects && (
         <section className="py-24 bg-[#0A0A0B]">
           <div className="max-w-7xl mx-auto px-4">
