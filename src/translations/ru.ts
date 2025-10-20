@@ -6,12 +6,17 @@ export const ru = {
   'nav.blog': 'Блог',
   'nav.contact': 'Контакты',
   'nav.settings': 'Настройки',
+  'nav.admin': 'Админ',
 
   // Hero
-  'hero.title': 'Инженер по контролю качества',
-  'hero.subtitle':
-    'Обеспечение качества программного обеспечения через комплексное тестирование',
+  'hero.title': 'Специалист по автоматизации QA',
+  'hero.subtitle': 'Я помогаю командам быстрее выпускать продукт с меньшим количеством ошибок. Детерминированные тестовые наборы, интеграция CI/CD и стратегическая автоматизация качества.',
   'hero.downloadCV': 'Скачать резюме',
+
+  // Hero Proof Points
+  'hero.proof1': 'Уровень нестабильности ↓ ~70% благодаря изоляции данных и настройке таймаутов',
+  'hero.proof2': 'Время регрессии ↓ ~40% благодаря надежным наборам Playwright',
+  'hero.proof3': 'Время CI ↓ с помощью параллельных работников, шардирования и storageState',
 
   // Common
   language: 'Язык',
@@ -34,7 +39,8 @@ export const ru = {
   'pages.home.latestArticles': 'Последние статьи',
   
   'pages.about.title': 'О себе',
-  'pages.about.subtitle': 'Инженер по автоматизации тестирования, специализирующийся на Playwright и CI/CD',
+  'pages.about.subtitle': 'Специалист по автоматизации QA | Детерминированное тестирование | Интеграция CI/CD',
+  'pages.about.philosophy': 'Я создаю надежную автоматизацию тестирования, которой доверяют инженеры. Мой подход: изолировать данные, делать потоки детерминированными, минимизировать нестабильность и предоставлять полезные сигналы ошибок.',
   
   'pages.work.title': 'Мои работы',
   'pages.work.subtitle': 'Демонстрация фреймворков автоматизации тестирования и проектов обеспечения качества',
@@ -49,7 +55,7 @@ export const ru = {
   'portfolioNav.title': 'Изучите мое портфолио',
   'portfolioNav.subtitle': 'Навигируйте по разным разделам, чтобы узнать о моем опыте, проектах и идеях',
   'portfolioNav.aboutTitle': 'О себе',
-  'portfolioNav.aboutDesc': 'Узнайте о моей подготовке, опыте и навыках, которые я развил как инженер по автоматизации тестирования.',
+  'portfolioNav.aboutDesc': 'Узнайте о моей подготовке, опыте и навыках, которые я развил как специалист по автоматизации тестирования.',
   'portfolioNav.workTitle': 'Мои работы',
   'portfolioNav.workDesc': 'Изучите мое портфолио фреймворков автоматизации тестирования, проектов обеспечения качества и технической экспертизы.',
   'portfolioNav.blogTitle': 'Блог',
@@ -59,10 +65,10 @@ export const ru = {
 
   // Statistics
   'statistics.experience': 'Лет Опыта',
-  'statistics.projects': 'Проектов Завершено',
-  'statistics.tests': 'Автоматизированных Тестов',
-  'statistics.expertise': 'Области Экспертизы',
-  'statistics.areas': 'Специализирован на тестировании на нескольких платформах и технологиях',
+  'statistics.projects': 'Проектов Доставлено',
+  'statistics.tests': 'Основных Стеков',
+  'statistics.expertise': 'Области Воздействия',
+  'statistics.areas': 'Автоматизация UI и API, интеграция конвейера CI/CD, архитектура детерминированного тестирования',
 
   // About Me sections
   'about.professionalJourney': 'Профессиональный путь',
@@ -73,7 +79,7 @@ export const ru = {
   'about.education.title': 'Образование',
   'about.education.subtitle': 'Академический фон и непрерывное обучение',
   'about.skills.title': 'Навыки и экспертиза',
-  'about.skills.subtitle': 'Комплексный набор навыков в области тестирования программного обеспечения и обеспечения качества',
+  'about.skills.subtitle': 'Продвинутые навыки в автоматизации тестирования, CI/CD и инженерии качества',
 
   // Skills
   'skills.testAutomation': 'Автоматизация тестирования',
@@ -85,6 +91,9 @@ export const ru = {
   'skills.mobileAutomation': 'Мобильная автоматизация',
   'skills.testManagement': 'Управление тестированием и Agile',
   'skills.sqlData': 'SQL и данные',
+  'skills.advanced': 'Продвинутый',
+  'skills.intermediate': 'Средний',
+  'skills.familiar': 'Знаком',
 
   // Contact
   'contact.getInTouch': 'Связаться',

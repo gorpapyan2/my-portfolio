@@ -6,11 +6,17 @@ export const am = {
   'nav.blog': 'Բլոգ',
   'nav.contact': 'Կապ',
   'nav.settings': 'Կարգավորումներ',
+  'nav.admin': 'Ադմին',
 
   // Hero
-  'hero.title': 'Որակի ապահովման ինժեներ',
-  'hero.subtitle': 'Ծրագրային ապահովման գերազանցության ապահովում՝ համապարփակ թեստավորման միջոցով',
+  'hero.title': 'QA Ավտոմատացման Մասնագետ',
+  'hero.subtitle': 'Ես օգնում եմ թիմերին ավելի արագ թողարկել ավելի քիչ սխալներով: Որոշ թեստային հավաքածուներ, CI/CD ինտեգրացիա և ռազմավարական որակի ավտոմատացում:',
   'hero.downloadCV': 'Ներբեռնել CV',
+
+  // Hero Proof Points
+  'hero.proof1': 'Անկայուն մակարդակ ↓ ~70% տվյալների մեկուսացման և timeout կարգավորման միջոցով',
+  'hero.proof2': 'Ռեգրեսիայի ժամանակ ↓ ~40% Playwright հուսալի հավաքածուների միջոցով',
+  'hero.proof3': 'CI ժամանակ ↓ զուգահեռ աշխատողների, sharding-ի և storageState-ի միջոցով',
 
   // Common
   'language': 'Լեզու',
@@ -33,7 +39,8 @@ export const am = {
   'pages.home.latestArticles': 'Վերջին հոդվածներ',
   
   'pages.about.title': 'Իմ մասին',
-  'pages.about.subtitle': 'Թեստավորման ավտոմատացման ինժեներ՝ մասնագիտացված Playwright-ում և CI/CD-ում',
+  'pages.about.subtitle': 'QA Ավտոմատացման Մասնագետ | Որոշ թեստավորում | CI/CD ինտեգրացիա',
+  'pages.about.philosophy': 'Ես կառուցում եմ հուսալի թեստավորման ավտոմատացում, որին վստահում են ինժեներները: Իմ մոտեցումը՝ մեկուսացնել տվյալները, որոշ հոսքեր անել, նվազագույն անկայունություն և օգտակար ձախողման ազդանշաններ:',
   
   'pages.work.title': 'Իմ աշխատանքները',
   'pages.work.subtitle': 'Թեստավորման ավտոմատացման շրջանակների և որակի ապահովման նախագծերի ցուցադրություն',
@@ -48,7 +55,7 @@ export const am = {
   'portfolioNav.title': 'Ուսումնասիրեք իմ պորտֆոլիոն',
   'portfolioNav.subtitle': 'Նավարկեք տարբեր բաժինների միջով՝ իմ փորձ, նախագծեր և գաղափարներ իմանալու համար',
   'portfolioNav.aboutTitle': 'Իմ մասին',
-  'portfolioNav.aboutDesc': 'Իմացեք իմ կրտսեությունը, փորձը և թեստավորման ավտոմատացման ինժեներ չափորոշիչ հմտությունների մասին:',
+  'portfolioNav.aboutDesc': 'Իմացեք իմ կրտսեությունը, փորձը և թեստավորման ավտոմատացման մասնագետ հմտությունների մասին:',
   'portfolioNav.workTitle': 'Իմ աշխատանքները',
   'portfolioNav.workDesc': 'Ուսումնասիրեք իմ թեստավորման ավտոմատացման շրջանակների, որակի ապահովման նախագծերի և տեխնիկական փորձագիտության պորտֆոլիո:',
   'portfolioNav.blogTitle': 'Բլոգ',
@@ -58,10 +65,10 @@ export const am = {
 
   // Statistics
   'statistics.experience': 'Փորձի Տարիներ',
-  'statistics.projects': 'Ավարտված Նախագծեր',
-  'statistics.tests': 'Ավտոմատացված Թեստեր',
-  'statistics.expertise': 'Փորձագիտության Ոլորտներ',
-  'statistics.areas': 'Մասնագիտացված բազմաթիվ հարթակների և տեխնոլոգիաների թեստավորման ճանապարհ',
+  'statistics.projects': 'Նախագծեր Մատենավորված',
+  'statistics.tests': 'Հիմնական Стеки',
+  'statistics.expertise': 'Ազդեցության Ոլորտներ',
+  'statistics.areas': 'UI և API Ավտոմատացում, CI/CD Pipeline Ինտեգրացիա, որոշ թեստային ճարտարապետություն',
 
   // About Me sections
   'about.professionalJourney': 'Մասնագիտական ճանապարհ',
@@ -72,7 +79,7 @@ export const am = {
   'about.education.title': 'Կրթություն',
   'about.education.subtitle': 'Ակադեմիական ֆոն և շարունակական ուսուցում',
   'about.skills.title': 'Հմտություններ և փորձագիտություն',
-  'about.skills.subtitle': 'Ծրագրային թեստավորման և որակի ապահովման ոլորտում համապարփակ հմտությունների հավաքածու',
+  'about.skills.subtitle': 'Ընդլայնված հմտություններ թեստավորման ավտոմատացման, CI/CD և որակի ինժեներության ոլորտում',
 
   // Skills
   'skills.testAutomation': 'Թեստավորման ավտոմատացում',
@@ -84,6 +91,9 @@ export const am = {
   'skills.mobileAutomation': 'Բջջային ավտոմատացում',
   'skills.testManagement': 'Թեստավորման կառավարում և Agile',
   'skills.sqlData': 'SQL և տվյալներ',
+  'skills.advanced': 'Ընդլայնված',
+  'skills.intermediate': 'Միջանկյալ',
+  'skills.familiar': 'Ծանոթ',
 
   // Contact
   'contact.getInTouch': 'Կապվեք',

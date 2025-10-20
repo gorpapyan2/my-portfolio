@@ -13,6 +13,7 @@ import { Experience } from "@/components/about/Expirence";
 import { Education } from "@/components/about/Education";
 import { Skills } from "@/components/about/Skills";
 import { useLanguage } from "@/context/LanguageContext";
+import { motion } from "framer-motion";
 
 export function AboutPage() {
   const [soundEnabled] = useState(false);
@@ -37,6 +38,23 @@ export function AboutPage() {
         
         <div className="space-y-20">
           <AboutMe />
+          
+          {/* Philosophy Narrative Section */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6 }}
+            viewport={{ once: true }}
+            className="max-w-3xl mx-auto"
+          >
+            <div className="bg-white/5 backdrop-blur-sm rounded-xl p-8 border border-white/10 hover:border-[#edfc3a]/30 transition-all duration-300">
+              <h3 className="text-2xl font-bold text-white mb-4">{t('about.philosophy')}</h3>
+              <p className="text-gray-300 leading-relaxed text-lg">
+                {t('pages.about.philosophy')}
+              </p>
+            </div>
+          </motion.div>
+
           <Experience />
           <Education />
           <Skills />

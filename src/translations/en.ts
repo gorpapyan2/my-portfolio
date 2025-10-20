@@ -6,11 +6,17 @@ export const en = {
   'nav.blog': 'Blog',
   'nav.contact': 'Contact',
   'nav.settings': 'Settings',
+  'nav.admin': 'Admin',
 
   // Hero
-  'hero.title': 'Quality Assurance Engineer',
-  'hero.subtitle': 'Ensuring software excellence through comprehensive testing and quality control',
+  'hero.title': 'QA Automation Specialist',
+  'hero.subtitle': 'I help teams ship faster with fewer bugs. Deterministic test suites, CI/CD integration, and strategic quality automation.',
   'hero.downloadCV': 'Download CV',
+
+  // Hero Proof Points
+  'hero.proof1': 'Flaky rate ↓ ~70% via data isolation & timeout tuning',
+  'hero.proof2': 'Regression time ↓ ~40% through robust Playwright suites',
+  'hero.proof3': 'CI time ↓ with parallel workers, sharding & storageState',
 
   // Common
   'language': 'Language',
@@ -33,7 +39,8 @@ export const en = {
   'pages.home.latestArticles': 'Latest Articles',
   
   'pages.about.title': 'About Me',
-  'pages.about.subtitle': 'QA Automation Engineer specializing in Playwright and CI/CD',
+  'pages.about.subtitle': 'QA Automation Specialist | Deterministic Testing | CI/CD Integration',
+  'pages.about.philosophy': 'I build reliable test automation that engineers trust. My approach: isolate data, make flows deterministic, minimize flakiness, and surface useful failure signals.',
   
   'pages.work.title': 'My Work',
   'pages.work.subtitle': 'A showcase of test automation frameworks and quality assurance projects',
@@ -48,7 +55,7 @@ export const en = {
   'portfolioNav.title': 'Explore My Portfolio',
   'portfolioNav.subtitle': 'Navigate through different sections to learn about my experience, projects, and insights',
   'portfolioNav.aboutTitle': 'About Me',
-  'portfolioNav.aboutDesc': 'Learn about my background, experience, and the skills I\'ve developed as a QA automation engineer.',
+  'portfolioNav.aboutDesc': 'Learn about my background, experience, and the skills I\'ve developed as a QA automation specialist.',
   'portfolioNav.workTitle': 'My Work',
   'portfolioNav.workDesc': 'Explore my portfolio of test automation frameworks, quality assurance projects, and technical expertise.',
   'portfolioNav.blogTitle': 'Blog',
@@ -58,10 +65,10 @@ export const en = {
 
   // Statistics
   'statistics.experience': 'Years of Experience',
-  'statistics.projects': 'Projects Completed',
-  'statistics.tests': 'Automated Tests',
-  'statistics.expertise': 'Expertise Areas',
-  'statistics.areas': 'Specialized in testing across multiple platforms and technologies',
+  'statistics.projects': 'Projects Delivered',
+  'statistics.tests': 'Core Stacks',
+  'statistics.expertise': 'Impact Domains',
+  'statistics.areas': 'UI & API Automation, CI/CD Pipeline Integration, Deterministic Test Architecture',
 
   // About Me sections
   'about.professionalJourney': 'Professional Journey',
@@ -72,7 +79,7 @@ export const en = {
   'about.education.title': 'Education',
   'about.education.subtitle': 'Academic background and continuous learning',
   'about.skills.title': 'Skills & Expertise',
-  'about.skills.subtitle': 'Comprehensive skill set in software testing and quality assurance',
+  'about.skills.subtitle': 'Advanced proficiencies across test automation, CI/CD, and quality engineering',
 
   // Skills
   'skills.testAutomation': 'Test Automation',
@@ -84,6 +91,9 @@ export const en = {
   'skills.mobileAutomation': 'Mobile Automation',
   'skills.testManagement': 'Test Management & Agile',
   'skills.sqlData': 'SQL & Data',
+  'skills.advanced': 'Advanced',
+  'skills.intermediate': 'Intermediate',
+  'skills.familiar': 'Familiar',
 
   // Contact
   'contact.getInTouch': 'Get in Touch',

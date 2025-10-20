@@ -1,4 +1,4 @@
-import { Award, Target, TestTubes, Zap } from 'lucide-react';
+import { Award, Target, Zap, TrendingUp } from 'lucide-react';
 import { motion } from 'framer-motion';
 import { useLanguage } from '../../../context/LanguageContext';
 import { StatCard } from './StatCard';
@@ -21,28 +21,28 @@ export function Statistics() {
       label: t('statistics.experience'),
       value: 3,
       suffix: '+',
-      description: 'Years in QA & Test Automation',
+      description: 'Years specializing in deterministic test automation',
     },
     {
       icon: Target,
       label: t('statistics.projects'),
       value: 10,
       suffix: '+',
-      description: 'Successful projects delivered',
-    },
-    {
-      icon: TestTubes,
-      label: t('statistics.tests'),
-      value: 2500,
-      suffix: '+',
-      description: 'Test cases written & maintained',
+      description: 'Delivered with measurable quality improvements',
     },
     {
       icon: Zap,
-      label: t('statistics.expertise'),
+      label: t('statistics.tests'),
       value: 5,
       suffix: '',
-      description: 'Core tech stacks mastered',
+      description: 'Playwright, PyTest, XCUITest, AWS CodeBuild, PostgreSQL',
+    },
+    {
+      icon: TrendingUp,
+      label: t('statistics.expertise'),
+      value: 3,
+      suffix: '',
+      description: 'UI & API Automation, CI/CD Integration, Data-Driven Testing',
     },
   ];
 
@@ -67,10 +67,10 @@ export function Statistics() {
           className="text-center mb-12 md:mb-16"
         >
           <h2 className="text-3xl md:text-4xl font-bold text-white mb-4">
-            Key Statistics
+            Impact Through Numbers
           </h2>
           <p className="text-gray-400 text-lg">
-            Demonstrating impact through numbers
+            Measurable results across projects and platforms
           </p>
         </motion.div>
 
@@ -98,20 +98,8 @@ export function Statistics() {
           className="text-center"
         >
           <p className="mb-6 text-sm md:text-base text-gray-400">
-            {t('statistics.areas') || 'Primary Expertise'}
+            {t('statistics.areas')}
           </p>
-          <div className="flex flex-wrap justify-center gap-3 md:gap-4">
-            {['Web Testing', 'Mobile Testing', 'API Testing'].map((area, index) => (
-              <motion.span
-                key={index}
-                whileHover={{ scale: 1.05, translateY: -2 }}
-                transition={{ type: 'spring', stiffness: 400, damping: 10 }}
-                className="px-4 md:px-5 py-2 md:py-2.5 rounded-full text-xs md:text-sm font-medium text-[#edfc3a] bg-[#edfc3a]/10 border border-[#edfc3a]/30 transition-all duration-300 hover:bg-[#edfc3a]/20 hover:border-[#edfc3a]/60 cursor-default"
-              >
-                {area}
-              </motion.span>
-            ))}
-          </div>
         </motion.div>
       </div>
     </section>
