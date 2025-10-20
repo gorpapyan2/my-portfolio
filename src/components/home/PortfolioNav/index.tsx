@@ -11,6 +11,7 @@ interface NavCard {
   title: string;
   description: string;
   href: string;
+  translationKey: string;
 }
 
 interface DisabledCardProps {
@@ -69,24 +70,28 @@ export function PortfolioNav() {
       title: t('portfolioNav.aboutTitle'),
       description: t('portfolioNav.aboutDesc'),
       href: '/about',
+      translationKey: 'portfolioNav.aboutTitle',
     },
     {
       icon: Briefcase,
       title: t('portfolioNav.workTitle'),
       description: t('portfolioNav.workDesc'),
       href: '/work',
+      translationKey: 'portfolioNav.workTitle',
     },
     {
       icon: BookOpen,
       title: t('portfolioNav.blogTitle'),
       description: t('portfolioNav.blogDesc'),
       href: '/blog',
+      translationKey: 'portfolioNav.blogTitle',
     },
     {
       icon: Mail,
       title: t('portfolioNav.contactTitle'),
       description: t('portfolioNav.contactDesc'),
       href: '/contact',
+      translationKey: 'portfolioNav.contactTitle',
     },
   ];
 
@@ -155,6 +160,7 @@ export function PortfolioNav() {
                 description={card.description}
                 href={card.href}
                 index={index}
+                translationKey={card.translationKey}
               />
             );
           })}

@@ -2,6 +2,7 @@ import { motion } from 'framer-motion';
 import { LucideIcon } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { Card } from '../../shared/Card';
+import { useLanguage } from '../../../context/LanguageContext';
 
 export interface PortfolioNavCardProps {
   icon: LucideIcon;
@@ -9,6 +10,7 @@ export interface PortfolioNavCardProps {
   description: string;
   href: string;
   index: number;
+  translationKey?: string;
 }
 
 export function PortfolioNavCard({
@@ -18,6 +20,7 @@ export function PortfolioNavCard({
   href,
   index,
 }: PortfolioNavCardProps) {
+  const { t } = useLanguage();
   return (
     <motion.div
       initial={{ opacity: 0, y: 20 }}
@@ -48,7 +51,7 @@ export function PortfolioNavCard({
 
           {/* CTA Arrow */}
           <div className="inline-flex items-center gap-2 text-[#edfc3a] font-medium transition-all duration-300 group-hover:gap-3">
-            <span className="text-sm">Learn more</span>
+            <span className="text-sm">{t('portfolioNav.learnMore')}</span>
             <span className="transition-transform duration-300 group-hover:translate-x-1">→</span>
           </div>
 

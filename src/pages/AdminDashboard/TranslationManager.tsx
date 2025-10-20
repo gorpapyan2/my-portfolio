@@ -1,66 +1,47 @@
 import { useState } from 'react';
 import { Plus, Search, Filter, Download, AlertCircle } from 'lucide-react';
 import { useLanguage } from '../../context/LanguageContext';
-import { useTranslationService } from '../../lib/services/useTranslationService';
+import { useTranslationManager } from '../../lib/services/useTranslationManager';
+import { UnifiedTranslationModal } from '../../components/shared/UnifiedTranslationModal';
 import { supabase } from '../../lib/supabase';
+import { useTranslationService } from '../../lib/services/useTranslationService';
 import { TranslationTable } from '../SettingsPage/TranslationTable';
-import { TranslationEditor } from '../SettingsPage/TranslationEditor';
 import { ImportExport } from '../SettingsPage/ImportExport';
 import { ValidationPanel } from '../SettingsPage/ValidationPanel';
+
+interface TranslationInsert {
+  key: string;
+  language: 'en' | 'ru' | 'am';
+  value: string;
+  category: string;
+}
 
 export function TranslationManager() {
   const { t } = useLanguage();
   const translationService = useTranslationService();
-  const [selectedLanguage, setSelectedLanguage] = useState<'en' | 'ru' | 'am'>('en');
-  const [searchTerm, setSearchTerm] = useState('');
-  const [selectedCategory, setSelectedCategory] = useState<string>('all');
-  const [showEditor, setShowEditor] = useState(false);
-  const [editingTranslation, setEditingTranslation] = useState<{ key: string; value: string; category: string } | null>(null);
-  const [showImportExport, setShowImportExport] = useState(false);
-  const [showValidation, setShowValidation] = useState(false);
-
-  // Get unique categories from translations
-  const categories = ['all', 'nav', 'hero', 'pages', 'about', 'skills', 'contact', 'footer', 'settings', 'technologies'];
-
-  const filteredTranslations = Object.entries(translationService.translations[selectedLanguage] || {})
-    .filter(([key, value]) => {
-      const matchesSearch = key.toLowerCase().includes(searchTerm.toLowerCase()) || 
-                           value.toLowerCase().includes(searchTerm.toLowerCase());
-      const matchesCategory = selectedCategory === 'all' || key.startsWith(selectedCategory);
-      return matchesSearch && matchesCategory;
-    })
-    .map(([key, value]) => ({ key, value, category: key.split('.')[0] }));
-
-  const handleAddTranslation = () => {
-    setEditingTranslation(null);
-    setShowEditor(true);
-  };
-
-  const handleEditTranslation = (translation: { key: string; value: string; category: string }) => {
-    setEditingTranslation(translation);
-    setShowEditor(true);
-  };
-
-  const handleDeleteTranslation = async (key: string) => {
-    if (confirm(t('settings.deleteTranslation'))) {
-      try {
-        // Find the translation ID from Supabase data
-        const { data } = await supabase
-          .from('translations')
-          .select('id')
-          .eq('key', key)
-          .eq('language', selectedLanguage)
-          .single();
-
-        if (data) {
-          await translationService.deleteTranslation(data.id);
-        }
-      } catch (error) {
-        console.error('Error deleting translation:', error);
-        alert('Failed to delete translation');
-      }
-    }
-  };
+  
+  // Use centralized translation manager hook
+  const {
+    selectedLanguage,
+    searchTerm,
+    selectedCategory,
+    showEditor,
+    editingTranslation,
+    showImportExport,
+    showValidation,
+    setSelectedLanguage,
+    setSearchTerm,
+    setSelectedCategory,
+    setShowEditor,
+    setEditingTranslation,
+    setShowImportExport,
+    setShowValidation,
+    handleAddTranslation,
+    handleEditTranslation,
+    handleDeleteTranslation,
+    filteredTranslations,
+    categories,
+  } = useTranslationManager();
 
   return (
     <div>
@@ -162,11 +143,13 @@ export function TranslationManager() {
 
       {/* Modals */}
       {showEditor && (
-        <TranslationEditor
+        <UnifiedTranslationModal
+          mode="simple"
+          isOpen={showEditor}
           language={selectedLanguage}
           translation={editingTranslation}
           onClose={() => setShowEditor(false)}
-          onSave={async (key, value, category) => {
+          onSave={async (translation) => {
             try {
               if (editingTranslation) {
                 // Update existing translation
@@ -178,11 +161,20 @@ export function TranslationManager() {
                   .single();
 
                 if (data) {
-                  await translationService.updateTranslation(data.id, { key, value, category });
+                  await translationService.updateTranslation(data.id, {
+                    key: translation.key,
+                    value: translation.value,
+                    category: translation.category
+                  });
                 }
               } else {
                 // Create new translation
-                await translationService.createTranslation({ key, value, category, language: selectedLanguage });
+                await translationService.createTranslation({
+                  key: translation.key,
+                  value: translation.value,
+                  category: translation.category,
+                  language: selectedLanguage
+                });
               }
               setShowEditor(false);
             } catch (error) {
@@ -198,10 +190,11 @@ export function TranslationManager() {
           onClose={() => setShowImportExport(false)}
           onImport={async (translations) => {
             try {
+              const translationInserts: TranslationInsert[] = [];
               for (const [lang, langTranslations] of Object.entries(translations)) {
                 for (const [key, value] of Object.entries(langTranslations)) {
                   const category = key.split('.')[0];
-                  await translationService.createTranslation({
+                  translationInserts.push({
                     key,
                     value,
                     category,
@@ -209,11 +202,15 @@ export function TranslationManager() {
                   });
                 }
               }
+              await translationService.bulkImport(translationInserts);
               setShowImportExport(false);
             } catch (error) {
               console.error('Error importing translations:', error);
               alert('Failed to import translations');
             }
+          }}
+          onExport={() => {
+            console.log('Export translations');
           }}
         />
       )}

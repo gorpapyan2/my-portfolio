@@ -1,23 +1,25 @@
 import { Mail, Phone, MapPin } from 'lucide-react';
 import { Link } from 'react-router-dom';
+import { useLanguage } from '../../context/LanguageContext';
 import { FooterSection } from './FooterSection';
 import { SocialLinks } from './SocialLinks';
 import { Shimmer } from '../ui/Shimmer';
 
 export function Footer() {
   const currentYear = new Date().getFullYear();
+  const { t } = useLanguage();
 
   return (
     <footer className="relative bg-[#0A0A0B] transition-colors duration-200">
       <div className="max-w-6xl mx-auto px-4 py-12">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12">
-          <FooterSection title="About">
+          <FooterSection title={t('footer.about')}>
             <p className="text-gray-300">
-              Dedicated QA Engineer with a passion for ensuring software excellence through comprehensive testing and quality control.
+              {t('footer.aboutDescription')}
             </p>
           </FooterSection>
 
-          <FooterSection title="Contact">
+          <FooterSection title={t('footer.contact')}>
             <div className="space-y-3">
               <a 
                 href="mailto:gorpapyan2@gmail.com" 
@@ -37,18 +39,18 @@ export function Footer() {
               </a>
               <div className="flex items-center gap-2 text-gray-300">
                 <MapPin className="h-5 w-5" />
-                Armenia Kapan, Syunik
+                {t('footer.location')}
               </div>
             </div>
           </FooterSection>
 
-          <FooterSection title="Quick Links">
+          <FooterSection title={t('footer.quickLinks')}>
             <nav className="space-y-2">
               {[
-                { label: 'About', path: '/about' },
-                { label: 'Work', path: '/work' },
-                { label: 'Blog', path: '/blog' },
-                { label: 'Contact', path: '/contact' }
+                { label: t('nav.about'), path: '/about' },
+                { label: t('nav.work'), path: '/work' },
+                { label: t('nav.blog'), path: '/blog' },
+                { label: t('nav.contact'), path: '/contact' }
               ].map((link) => (
                 <Link
                   key={link.label}
@@ -62,7 +64,7 @@ export function Footer() {
             </nav>
           </FooterSection>
 
-          <FooterSection title="Connect">
+          <FooterSection title={t('footer.connect')}>
             <SocialLinks />
           </FooterSection>
         </div>
@@ -70,11 +72,11 @@ export function Footer() {
         <div className="mt-12 pt-8 border-t border-white/10">
           <div className="flex flex-col md:flex-row justify-between items-center gap-4">
             <p className="text-gray-400">
-              © {currentYear} Gor Papyan. All rights reserved.
+              {t('footer.copyright',).replace('{year}', String(currentYear))}
             </p>
             <div className="flex gap-6 text-sm text-gray-400">
-              <a href="#" className="hover:text-[#edfc3a] transition-colors">Privacy Policy</a>
-              <a href="#" className="hover:text-[#edfc3a] transition-colors">Terms of Service</a>
+              <a href="#" className="hover:text-[#edfc3a] transition-colors">{t('footer.privacy')}</a>
+              <a href="#" className="hover:text-[#edfc3a] transition-colors">{t('footer.terms')}</a>
             </div>
           </div>
         </div>

@@ -6,19 +6,23 @@ import { Card } from '../../shared/Card';
 interface StatCardProps {
   icon: LucideIcon;
   label: string;
+  translationKey: string;
   value: number;
   suffix: string;
   index: number;
   description?: string;
+  descriptionKey?: string;
 }
 
 export function StatCard({ 
   icon: Icon, 
   label, 
+  translationKey,
   value, 
   suffix, 
   index,
-  description 
+  description,
+  descriptionKey,
 }: StatCardProps) {
   const [displayValue, setDisplayValue] = useState(0);
 

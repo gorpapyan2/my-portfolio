@@ -1,5 +1,6 @@
 import { ExternalLink, Github } from 'lucide-react';
 import { Card } from '../../components/shared/Card';
+import { useLanguage } from '../../context/LanguageContext';
 
 interface ProjectCardProps {
   title: string;
@@ -11,6 +12,7 @@ interface ProjectCardProps {
 }
 
 export function ProjectCard({ title, description, image, tags, liveUrl, githubUrl }: ProjectCardProps) {
+  const { t } = useLanguage();
   return (
     <Card>
       <div className="relative aspect-video overflow-hidden rounded-lg mb-4">
@@ -45,7 +47,7 @@ export function ProjectCard({ title, description, image, tags, liveUrl, githubUr
             className="inline-flex items-center gap-2 text-white hover:text-[#edfc3a] transition-colors"
           >
             <ExternalLink className="h-5 w-5" />
-            Live Demo
+            {t('projects.liveDemo')}
           </a>
         )}
         {githubUrl && (
@@ -56,7 +58,7 @@ export function ProjectCard({ title, description, image, tags, liveUrl, githubUr
             className="inline-flex items-center gap-2 text-white hover:text-[#edfc3a] transition-colors"
           >
             <Github className="h-5 w-5" />
-            Source Code
+            {t('projects.sourceCode')}
           </a>
         )}
       </div>

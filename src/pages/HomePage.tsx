@@ -39,7 +39,9 @@ export function HomePage() {
         <section className="py-24 bg-[#0A0A0B]">
           <div className="max-w-7xl mx-auto px-4">
             <div className="flex items-end justify-between mb-10">
-              <h2 className="text-4xl font-bold text-white">{t('pages.home.featuredProjects')}</h2>
+              <h2 className="text-4xl font-bold text-white">
+                {t('pages.home.featuredProjects')}
+              </h2>
               <a href="/work" className="text-[#edfc3a] hover:text-white transition-colors">{t('viewAll')}</a>
             </div>
             {projectsLoading ? (
@@ -48,7 +50,7 @@ export function HomePage() {
               </div>
             ) : projectsError ? (
               <div className="text-center text-gray-400">
-                <p>Failed to load projects: {projectsError}</p>
+                <p>{t('errors.projectsLoadFailed')}: {projectsError}</p>
               </div>
             ) : (
               <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
@@ -69,7 +71,9 @@ export function HomePage() {
         <section className="py-24 bg-[#0A0A0B]">
           <div className="max-w-7xl mx-auto px-4">
             <div className="flex items-end justify-between mb-10">
-              <h2 className="text-4xl font-bold text-white">{t('pages.home.latestArticles')}</h2>
+              <h2 className="text-4xl font-bold text-white">
+                {t('pages.home.latestArticles')}
+              </h2>
               <a href="/blog" className="text-[#edfc3a] hover:text-white transition-colors">{t('viewAll')}</a>
             </div>
             {blogLoading ? (
@@ -78,21 +82,15 @@ export function HomePage() {
               </div>
             ) : blogError ? (
               <div className="text-center text-gray-400">
-                <p>Failed to load blog posts: {blogError}</p>
+                <p>{t('errors.blogLoadFailed')}: {blogError}</p>
               </div>
             ) : (
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
                 {latestBlogPosts.map((post, index) => (
                   <BlogCard
                     key={post.id || index}
-                    title={post.title}
-                    created_at={post.created_at}
-                    excerpt={post.excerpt}
-                    content={post.content || null}
-                    image={post.image || ''}
-                    read_time={post.read_time}
-                    slug={post.slug}
-                    id={post.id}
+                    {...post}
+                    image={post.image ?? 'https://images.unsplash.com/photo-1517694712202-14819c9cb6e1?w=500&h=300&fit=crop'}
                   />
                 ))}
               </div>

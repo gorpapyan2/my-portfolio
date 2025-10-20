@@ -71,6 +71,38 @@ export interface Database {
           updated_at?: string;
         };
       };
+      blog_post_translations: {
+        Row: {
+          id: string;
+          blog_post_id: string;
+          language: 'en' | 'ru' | 'am';
+          title: string;
+          excerpt: string;
+          content: string | null;
+          created_at: string;
+          updated_at: string;
+        };
+        Insert: {
+          id?: string;
+          blog_post_id: string;
+          language: 'en' | 'ru' | 'am';
+          title: string;
+          excerpt: string;
+          content?: string | null;
+          created_at?: string;
+          updated_at?: string;
+        };
+        Update: {
+          id?: string;
+          blog_post_id?: string;
+          language?: 'en' | 'ru' | 'am';
+          title?: string;
+          excerpt?: string;
+          content?: string | null;
+          created_at?: string;
+          updated_at?: string;
+        };
+      };
       projects: {
         Row: {
           id: string;
@@ -211,6 +243,7 @@ export interface Database {
           title: string;
           description: string;
           icon: string;
+          category: string;
           level: number;
           order_index: number;
           created_at: string;
@@ -222,6 +255,7 @@ export interface Database {
           description: string;
           icon: string;
           level: number;
+          category?: string;
           order_index?: number;
           created_at?: string;
           updated_at?: string;
@@ -232,6 +266,7 @@ export interface Database {
           description?: string;
           icon?: string;
           level?: number;
+          category?: string;
           order_index?: number;
           created_at?: string;
           updated_at?: string;
@@ -282,6 +317,11 @@ export type TranslationUpdate = Database['public']['Tables']['translations']['Up
 export type BlogPost = Database['public']['Tables']['blog_posts']['Row'];
 export type BlogPostInsert = Database['public']['Tables']['blog_posts']['Insert'];
 export type BlogPostUpdate = Database['public']['Tables']['blog_posts']['Update'];
+
+// Blog post translation types
+export type BlogPostTranslation = Database['public']['Tables']['blog_post_translations']['Row'];
+export type BlogPostTranslationInsert = Database['public']['Tables']['blog_post_translations']['Insert'];
+export type BlogPostTranslationUpdate = Database['public']['Tables']['blog_post_translations']['Update'];
 
 // Project types
 export type Project = Database['public']['Tables']['projects']['Row'];

@@ -47,6 +47,22 @@ export const am = {
   
   'pages.blog.title': 'Բլոգ',
   'pages.blog.subtitle': 'Ծրագրային թեստավորման և որակի ապահովման մասին մտքեր և գաղափարներ',
+  // Blog
+  'blog.unavailableTitle': 'Բաժինը հասանելի չէ',
+  'blog.unavailableBody': 'Այս բաժինը ներկայումս հասանելի չէ։',
+  'blog.empty': 'Դեռևս բլոգի գրառումներ չկան։',
+  'blog.readMore': 'Կարդալ ավելին',
+  'blog.back': 'Վերադառնալ բլոգին',
+  'blog.notFound.title': 'Գրառումը չի գտնվել',
+  'blog.notFound.description': 'Այն բլոգի գրառումը, որը դուք փնտրում եք, գոյություն չունի կամ ջնջված է։',
+  'blog.error.title': 'Չհաջողվեց բեռնել գրառումը',
+  'blog.error.description': 'Այս գրառումը բեռնելիս առաջացել է սխալ։',
+  'blog.error.retry': 'Կրկին փորձել',
+  'blog.error.retrying': 'Կրկին փորձում...',
+  'blog.noContent': 'Այս գրառման համար բովանդակություն չկա։',
+  'blog.publishedOn': 'Հրապարակված',
+  'blog.related.title': 'Նմանատիպ հոդվածներ',
+  'blog.related.subtitle': 'Շարունակեք ուսումնասիրել ավելի շատ հոդվածներ',
   
   'pages.contact.title': 'Կապվեք ինձ հետ',
   'pages.contact.subtitle': 'Եկեք քննարկենք, թե ինչպես կարող եմ օգնել ձեր ծրագրային ապահովման որակն ապահովել',

@@ -1,5 +1,5 @@
 import React, { createContext, useContext, useState } from 'react';
-import { translations, TranslationKey } from '../translations';
+// DB-only i18n: no static fallback here
 import { useTranslationService } from '../lib/services/useTranslationService';
 
 export type Language = 'en' | 'ru' | 'am';
@@ -7,7 +7,7 @@ export type Language = 'en' | 'ru' | 'am';
 interface LanguageContextType {
   language: Language;
   setLanguage: (lang: Language) => void;
-  t: (key: TranslationKey) => string;
+  t: (key: string) => string;
   isLoading: boolean;
   error: string | null;
 }
@@ -20,15 +20,15 @@ export function LanguageProvider({ children }: { children: React.ReactNode }) {
   // Always call the hook, but handle errors gracefully
   const translationService = useTranslationService();
 
-  const t = (key: TranslationKey): string => {
-    // Try Supabase translations first, then fallback to static translations
+  const t = (key: string): string => {
     const supabaseTranslations = translationService.translations[language];
-    if (supabaseTranslations && supabaseTranslations[key]) {
-      return supabaseTranslations[key];
+    const value = supabaseTranslations ? supabaseTranslations[key] : undefined;
+    if (value && value.length > 0) return value;
+    if (import.meta && (import.meta as unknown as { env?: Record<string, unknown> }).env) {
+      // eslint-disable-next-line no-console
+      if ((import.meta as unknown as { env: Record<string, unknown> }).env.DEV) console.warn(`[i18n] Missing: ${key} (${language})`);
     }
-    
-    // Fallback to static translations
-    return translations[language][key] || translations['en'][key] || key;
+    return `[missing:${key}]`;
   };
 
   return (

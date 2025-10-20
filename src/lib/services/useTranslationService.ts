@@ -1,7 +1,6 @@
 import { useState, useEffect, useCallback } from 'react';
 import { supabase } from '../supabase';
 import { Translation, TranslationInsert, TranslationUpdate } from '../../types/database.types';
-import { translations as staticTranslations } from '../../translations';
 import { translationInsertSchema, translationUpdateSchema } from '../schemas/translationSchema';
 
 /**
@@ -29,7 +28,7 @@ export interface TranslationService {
 
 /**
  * Service hook for managing multi-language translations from Supabase
- * Provides full CRUD operations with automatic fallback to static translations
+ * Provides full CRUD operations from Supabase (DB is the single source of truth)
  * Supports three languages: English (en), Russian (ru), Armenian (am)
  * 
  * Hybrid system: Attempts Supabase first, falls back to static translations if unavailable
@@ -66,23 +65,18 @@ export function useTranslationService(): TranslationService {
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
-  // Load translations from Supabase or fallback to static
+  // Load translations from Supabase (no static fallback)
   const loadTranslations = useCallback(async () => {
     try {
       setIsLoading(true);
       setError(null);
 
-      // Try to fetch from Supabase first
+      // Fetch from Supabase
       const { data, error: supabaseError } = await supabase
         .from('translations')
         .select('*');
 
-      if (supabaseError) {
-        console.warn('Supabase not available, using static translations:', supabaseError.message);
-        // Fallback to static translations
-        setTranslations(staticTranslations);
-        return;
-      }
+      if (supabaseError) throw supabaseError;
 
       if (data && data.length > 0) {
         // Convert Supabase data to the format expected by LanguageContext
@@ -100,14 +94,13 @@ export function useTranslationService(): TranslationService {
 
         setTranslations(formattedTranslations);
       } else {
-        // No data in Supabase, use static translations
-        setTranslations(staticTranslations);
+        // No data available; keep empty structure
+        setTranslations({ en: {}, ru: {}, am: {} });
       }
     } catch (err) {
       console.error('Error loading translations:', err);
       setError(err instanceof Error ? err.message : 'Failed to load translations');
-      // Fallback to static translations
-      setTranslations(staticTranslations);
+      setTranslations({ en: {}, ru: {}, am: {} });
     } finally {
       setIsLoading(false);
     }
@@ -201,13 +194,60 @@ export function useTranslationService(): TranslationService {
         translationInsertSchema.parse(translation)
       );
       
-      const { error } = await supabase
+      // Fetch existing records by key and language to check for conflicts
+      const { data: existingRecords, error: fetchError } = await supabase
         .from('translations')
-        .upsert(validatedTranslations);
-
-      if (error) throw error;
-
-      // Reload translations
+        .select('id, key, language');
+      
+      if (fetchError) throw fetchError;
+      
+      // Create a lookup map for existing records using (key, language) composite
+      const existingMap = new Map(
+        (existingRecords || []).map(r => [`${r.key}::${r.language}`, r.id])
+      );
+      
+      // Separate imports into CREATE (new) and UPDATE (existing) batches
+      const recordsToInsert: TranslationInsert[] = [];
+      const recordsToUpdate: Array<{ id: string; data: TranslationInsert }> = [];
+      
+      validatedTranslations.forEach(translation => {
+        const compositeKey = `${translation.key}::${translation.language}`;
+        const existingId = existingMap.get(compositeKey);
+        
+        if (existingId) {
+          // Record exists - will update
+          recordsToUpdate.push({ id: existingId, data: translation });
+        } else {
+          // Record is new - will insert
+          recordsToInsert.push(translation);
+        }
+      });
+      
+      // Insert new records
+      if (recordsToInsert.length > 0) {
+        const { error: insertError } = await supabase
+          .from('translations')
+          .insert(recordsToInsert);
+        
+        if (insertError) throw insertError;
+      }
+      
+      // Update existing records (batch updates to minimize queries)
+      if (recordsToUpdate.length > 0) {
+        for (const { id, data } of recordsToUpdate) {
+          const { error: updateError } = await supabase
+            .from('translations')
+            .update({
+              value: data.value,
+              category: data.category
+            })
+            .eq('id', id);
+          
+          if (updateError) throw updateError;
+        }
+      }
+      
+      // Reload translations after successful import
       await loadTranslations();
     } catch (err) {
       console.error('Error bulk importing translations:', err);

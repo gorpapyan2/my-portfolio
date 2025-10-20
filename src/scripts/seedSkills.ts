@@ -5,6 +5,7 @@ const skillsData = [
     title: "Test Automation",
     description: "Playwright (TypeScript), PyTest; page objects, fixtures, tracing",
     icon: "Code2",
+    category: "UI Automation",
     level: 90,
     order_index: 0
   },
@@ -12,6 +13,7 @@ const skillsData = [
     title: "Manual Testing",
     description: "Regression cycles, integration testing, Agile test planning",
     icon: "Bug",
+    category: "Manual & Integration",
     level: 92,
     order_index: 1
   },
@@ -19,6 +21,7 @@ const skillsData = [
     title: "API Testing",
     description: "REST, Postman, contract/functional checks; service virtualization (Mountebank)",
     icon: "Database",
+    category: "API Testing",
     level: 88,
     order_index: 2
   },
@@ -26,6 +29,7 @@ const skillsData = [
     title: "CI/CD & DevOps",
     description: "Git; AWS CodeBuild and CodeArtifact; parallel/sharded pipelines",
     icon: "Workflow",
+    category: "CI/CD",
     level: 86,
     order_index: 3
   },
@@ -33,6 +37,7 @@ const skillsData = [
     title: "Version Control",
     description: "Advanced Git workflows for collaborative QA/Dev",
     icon: "GitBranch",
+    category: "Tools",
     level: 92,
     order_index: 4
   },
@@ -40,6 +45,7 @@ const skillsData = [
     title: "Cross-Browser Testing",
     description: "Playwright across Chromium/Firefox/WebKit; network controls & timeouts",
     icon: "Globe",
+    category: "UI Automation",
     level: 88,
     order_index: 5
   },
@@ -47,6 +53,7 @@ const skillsData = [
     title: "Mobile Automation",
     description: "iOS UI automation with XCUITest (Swift)",
     icon: "Smartphone",
+    category: "Mobile",
     level: 80,
     order_index: 6
   },
@@ -54,6 +61,7 @@ const skillsData = [
     title: "Test Management",
     description: "Jira (JQL), TestRail; Scrum ceremonies & reporting",
     icon: "Kanban",
+    category: "Management",
     level: 87,
     order_index: 7
   },
@@ -61,6 +69,7 @@ const skillsData = [
     title: "SQL & Data Testing",
     description: "PostgreSQL; data setup & verification with SQL scripts",
     icon: "Table",
+    category: "Data/SQL",
     level: 82,
     order_index: 8
   }

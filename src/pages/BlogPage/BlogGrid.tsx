@@ -1,8 +1,9 @@
 import { BlogCard } from './BlogCard';
-import { BlogPost } from '../../types/database.types';
+import { LocalizedBlogPost } from '../../lib/services/useBlogService';
+import { useLanguage } from '../../context/LanguageContext';
 
 interface BlogGridProps {
-  blogPosts: BlogPost[];
+  blogPosts: LocalizedBlogPost[];
 }
 
 /**
@@ -10,10 +11,11 @@ interface BlogGridProps {
  * Handles type-safe prop mapping from database BlogPost to BlogCard component
  */
 export function BlogGrid({ blogPosts }: BlogGridProps) {
+  const { t } = useLanguage();
   /**
-   * Map BlogPost to BlogCard props with explicit type safety
+   * Map LocalizedBlogPost to BlogCard props with explicit type safety
    */
-  const mapBlogPostToCardProps = (post: BlogPost) => ({
+  const mapBlogPostToCardProps = (post: LocalizedBlogPost) => ({
     id: post.id,
     title: post.title,
     slug: post.slug,
@@ -27,7 +29,7 @@ export function BlogGrid({ blogPosts }: BlogGridProps) {
   if (!blogPosts || blogPosts.length === 0) {
     return (
       <div className="text-center py-16">
-        <p className="text-gray-400 text-lg">No blog posts available yet.</p>
+        <p className="text-gray-400 text-lg">{t('blog.empty')}</p>
       </div>
     );
   }

@@ -1,5 +1,6 @@
 import { Card } from '../../shared/Card';
 import { motion } from 'framer-motion';
+import { useLanguage } from '../../../context/LanguageContext';
 
 interface ExperienceCardProps {
   role: string;
@@ -7,9 +8,24 @@ interface ExperienceCardProps {
   period: string;
   description: string;
   achievements: string[];
+  baseKey?: string; // translation base key like "experience.zealous"
 }
 
-export function ExperienceCard({ role, company, period, description, achievements }: ExperienceCardProps) {
+export function ExperienceCard({ role, company, period, description, achievements, baseKey }: ExperienceCardProps) {
+  const { t } = useLanguage();
+
+  const isMissing = (val: string) => val.startsWith('[missing:');
+  const tv = (path: string, fallback: string) => {
+    if (!baseKey) return fallback;
+    const val = t(`${baseKey}.${path}`);
+    return isMissing(val) ? fallback : val;
+  };
+
+  const translatedAchievements = baseKey
+    ? Array.from({ length: 10 }, (_, i) => t(`${baseKey}.achievements.${i + 1}`))
+        .filter((v) => !isMissing(v))
+    : [];
+  const achievementsToRender = translatedAchievements.length > 0 ? translatedAchievements : achievements;
   return (
     <motion.div
       initial={{ opacity: 0, y: 20 }}
@@ -21,23 +37,23 @@ export function ExperienceCard({ role, company, period, description, achievement
         <div className="flex justify-between items-start mb-6">
           <div>
             <h3 className="text-xl font-semibold text-white group-hover:text-[#edfc3a] transition-colors duration-300">
-              {role}
+              {tv('role', role)}
             </h3>
-            <p className="text-[#edfc3a] font-medium">{company}</p>
+            <p className="text-[#edfc3a] font-medium">{tv('company', company)}</p>
           </div>
           <span className="text-gray-400 bg-white/5 px-3 py-1 rounded-full text-sm">
-            {period}
+            {tv('period', period)}
           </span>
         </div>
 
-        <p className="text-gray-300 mb-6 leading-relaxed">{description}</p>
+        <p className="text-gray-300 mb-6 leading-relaxed">{tv('description', description)}</p>
 
         <div className="space-y-3">
           <h4 className="text-sm font-semibold text-white/80 uppercase tracking-wide">
-            Key Achievements
+            {t('experience.keyAchievements')}
           </h4>
           <ul className="space-y-3">
-            {achievements.map((achievement, index) => (
+            {achievementsToRender.map((achievement, index) => (
               <motion.li 
                 key={index} 
                 initial={{ opacity: 0, x: -20 }}

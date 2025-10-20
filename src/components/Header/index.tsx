@@ -1,23 +1,25 @@
 import { Link, useLocation } from 'react-router-dom';
-import { Bug, FileDown, ChevronDown, Globe } from 'lucide-react';
+import { Bug, FileDown, ChevronDown, Globe, Edit3 } from 'lucide-react';
 import { useEffect, useState } from 'react';
 // import { useTheme } from '../../context/ThemeContext';
 import { useLanguage, Language } from '../../context/LanguageContext';
 import { useScrollPosition } from '../../hooks/useScrollPosition';
 import { usePublicFeatureFlags } from '../../lib/services/usePublicFeatureFlags';
+import { useAuth } from '../../context/AuthContext';
 import { NavLinks } from './NavLinks';
 import { MobileMenu } from './MobileMenu';
 
-const languages: { code: Language; label: string; }[] = [
-  { code: 'en', label: 'English' },
-  { code: 'ru', label: 'Русский' },
-  { code: 'am', label: 'Հայերեն' },
+const languages: { code: Language; labelKey: string; }[] = [
+  { code: 'en', labelKey: 'language.en' },
+  { code: 'ru', labelKey: 'language.ru' },
+  { code: 'am', labelKey: 'language.am' },
 ];
 
 export function Header() {
   // const { theme, toggleTheme } = useTheme();
   const { t, language, setLanguage } = useLanguage();
   const { isFeatureEnabled } = usePublicFeatureFlags();
+  const { isAdmin, isTranslationEditMode, setIsTranslationEditMode } = useAuth();
   const isScrolled = useScrollPosition();
   const location = useLocation();
   const [isVisible, setIsVisible] = useState(false);
@@ -57,8 +59,10 @@ export function Header() {
   // Get current page name for context
   const getCurrentPageName = () => {
     const path = location.pathname;
-    if (path === '/') return 'Home';
-    return path.charAt(1).toUpperCase() + path.slice(2);
+    if (path === '/') return t('pages.home');
+    // derive key like pages.about, pages.blog, etc.
+    const slug = path.split('/').filter(Boolean)[0] || 'home';
+    return t(`pages.${slug}`);
   };
 
   const handleDownloadCV = async () => {
@@ -142,7 +146,7 @@ export function Header() {
                 >
                   <Globe className="h-4 w-4 text-gray-300 group-hover:text-[#edfc3a] transition-colors duration-300" />
                   <span className="text-sm text-white group-hover:text-[#edfc3a] transition-colors duration-300">
-                    {getCurrentLanguage().label}
+                    {t(getCurrentLanguage().labelKey)}
                   </span>
                   <ChevronDown 
                     className={`h-3 w-3 text-gray-400 transition-all duration-300 ${
@@ -171,7 +175,7 @@ export function Header() {
                               language === lang.code ? 'bg-[#edfc3a]' : 'bg-gray-500 group-hover:bg-[#edfc3a]'
                             }`} />
                             <span className="transition-transform duration-200 group-hover:translate-x-1">
-                              {lang.label}
+                              {t(lang.labelKey)}
                             </span>
                             {language === lang.code && (
                               <div className="ml-auto w-1 h-1 bg-[#edfc3a] rounded-full animate-pulse" />
@@ -183,6 +187,24 @@ export function Header() {
                   </div>
                 )}
               </div>
+            )}
+
+            {/* Edit Mode Toggle - Admin only */}
+            {isAdmin && (
+              <button
+                onClick={() => setIsTranslationEditMode(!isTranslationEditMode)}
+                title={isTranslationEditMode ? 'Disable translation edit mode' : 'Enable translation edit mode'}
+                className={`hidden md:inline-flex items-center gap-2 px-3 py-2 rounded-lg transition-all duration-300 group ${
+                  isTranslationEditMode
+                    ? 'bg-[#edfc3a]/20 border border-[#edfc3a] text-[#edfc3a]'
+                    : 'bg-white/5 border border-white/10 text-gray-300 hover:text-[#edfc3a] hover:border-[#edfc3a]/50'
+                }`}
+              >
+                <Edit3 className="h-4 w-4" />
+                <span className="text-xs font-medium">
+                  {isTranslationEditMode ? t('nav.editOn') : t('nav.edit')}
+                </span>
+              </button>
             )}
 
             {/* Download CV Button - Desktop only */}

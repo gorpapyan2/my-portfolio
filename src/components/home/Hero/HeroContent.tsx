@@ -41,7 +41,7 @@ export function HeroContent() {
               className="flex items-start gap-3 text-sm md:text-base text-gray-300"
             >
               <span className="text-[#edfc3a] font-bold mt-1">✓</span>
-              <span>{point}</span>
+              {point}
             </motion.div>
           ))}
         </div>
@@ -49,11 +49,11 @@ export function HeroContent() {
         <div className="flex flex-wrap gap-4">
           {showWorkSection && (
             <HeroButton variant="primary" href="work">
-              See My Work
+              {t('hero.ctaWork')}
             </HeroButton>
           )}
           <HeroButton variant="secondary" href="contact">
-            Contact Me
+            {t('hero.ctaContact')}
           </HeroButton>
         </div>
       </motion.div>

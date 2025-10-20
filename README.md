@@ -5,7 +5,7 @@ A modern, responsive portfolio website built with React, TypeScript, and Vite. F
 ## 🌟 Features
 
 - **Multi-language Support**: English, Russian, and Armenian translations
-- **Supabase Integration**: Database-backed translation management with fallback to static files
+- **Supabase Integration**: Database-backed translation management (DB is the single source of truth)
 - **Admin Authentication**: Secure admin dashboard with Supabase Auth (email/password)
 - **Content Management**: Full CRUD operations for all content types
 - **Markdown Editor**: Rich text editing with markdown formatting, live preview, and keyboard shortcuts
@@ -17,6 +17,81 @@ A modern, responsive portfolio website built with React, TypeScript, and Vite. F
 - **Responsive Design**: Mobile-first design with Tailwind CSS
 - **Modern UI**: Smooth animations with Framer Motion
 - **Type Safety**: Full TypeScript support with strict typing
+
+## 🏗️ i18n Architecture (DB-only)
+
+- All text (UI + long-form) is sourced from `public.translations` in Supabase.
+- `LanguageContext.t(key)` performs DB lookup only and returns `[missing:key]` if not found (logs in DEV).
+- `useTranslationService` fetches and caches all translations per language.
+
+### Key Conventions
+
+- UI: `nav.*`, `pages.*`, `footer.*`, `hero.*`, `portfolioNav.*`, `statistics.*`, `settings.*`, `contact.*`, `about.*`
+- Blog: `blog.<slug>.{title,excerpt,content}` (markdown in `content`)
+- Projects: `projects.*` and per-project keys as needed later
+- Languages: `language.en`, `language.ru`, `language.am`
+
+### Examples
+
+- Header labels: `nav.about`, `nav.work`, `nav.blog`, `nav.contact`, `nav.admin`
+- Language names: `language.en`, `language.ru`, `language.am`
+- Page names: `pages.home`, `pages.about`, `pages.blog`, `pages.work`, `pages.contact`
+- Hero: `hero.title`, `hero.subtitle`, `hero.proof1..3`, `hero.ctaWork`, `hero.ctaContact`
+- Footer: `footer.about`, `footer.aboutDescription`, `footer.contact`, `footer.location`, `footer.quickLinks`, `footer.connect`, `footer.privacy`, `footer.terms`, `footer.copyright`
+- Home sections: `pages.home.featuredProjects`, `pages.home.latestArticles`, `viewAll`
+- Blog UI: `blog.back`, `blog.readMore`, `blog.noContent`, `blog.publishedOn`, `blog.related.title`, `blog.related.subtitle`, `blog.error.*`, `blog.notFound.*`
+
+## 🌐 Translation Management
+
+### Accessing the Settings Page
+
+Navigate to `/settings` to access the translation management interface. The Settings link is available in the navigation menu.
+
+### Features
+
+1. **Language Selection**: Switch between languages to edit translations
+2. **Search & Filter**: Find translations by key, value, or category
+3. **CRUD Operations**: Add, edit, and delete translation keys
+4. **Import/Export**: 
+   - Export all translations to JSON
+   - Import translations from JSON files
+   - Download template for new translations
+5. **Validation**: Check for missing or empty translations
+
+### Adding New Translations
+
+1. Go to `/settings`
+2. Select the language you want to edit
+3. Click "Add Translation"
+4. Fill in the key, value, and category
+5. Save the translation
+
+### Translation Key Structure
+
+Translation keys follow a hierarchical structure. See i18n Architecture above for categories.
+
+### Import/Export Format
+
+```json
+{
+  "en": {
+    "nav.about": "About",
+    "pages.home.title": "Home"
+  },
+  "ru": {
+    "nav.about": "О себе",
+    "pages.home.title": "Главная"
+  },
+  "am": {
+    "nav.about": "Իմ մասին",
+    "pages.home.title": "Գլխավոր"
+  }
+}
+```
+
+### Seeding Translations
+
+Use `src/scripts/seedTranslations.ts` to upsert static files into the DB initially. You can also add new keys ad-hoc via the Settings page.
 
 ## 🚀 Getting Started
 
@@ -236,6 +311,16 @@ The application uses a hybrid translation system:
 2. **Database Translations**: Supabase-backed translations for dynamic management
 3. **Fallback Mechanism**: Automatic fallback to static translations if Supabase is unavailable
 
+### About Page Content via Translations
+
+- All new About sections are backed by `public.translations` and editable in the Settings page:
+  - Professional Summary paragraphs: `about.summary.1..n`
+  - Key Results list: `about.keyResults.1..n`
+  - Languages list: `about.languages.1..n`
+  - Optional titles: `about.summary.title`, `about.keyResults.title`, `about.languages.title`
+- RU/AM are intentionally not auto-seeded; missing keys render as `[missing:key]` until edited.
+- Programmatic access provided by `src/lib/services/useAboutService.ts`.
+
 ### Key Components
 
 - **LanguageContext**: Centralized language state management with Supabase integration
@@ -246,6 +331,39 @@ The application uses a hybrid translation system:
 - **Settings Page**: Admin interface for translation management (`/settings`)
 - **Admin Components**: BlogAdmin, ProjectAdmin, ExperienceAdmin, EducationAdmin, SkillsAdmin
 - **Translation Manager**: CRUD interface with validation and import/export
+
+### Enhanced In-Place Translation Editing
+
+The portfolio features a modern side drawer for editing translations directly from any page in edit mode:
+
+**Features:**
+- **Modern Drawer UI**: Slides in from right with smooth animations
+- **Real-Time Validation**: Character count, field status icons, and error messages
+- **Undo/Redo**: Full history support with `Ctrl+Z`/`Ctrl+Y` shortcuts
+- **Auto-Save**: Debounced (1.5s) with visual status indicator (saving/saved/error)
+- **Comparison View**: Toggle to see original vs. new values side-by-side
+- **Keyboard Shortcuts**: ESC to close, Ctrl+S to save, Tab for navigation
+- **Accessibility**: ARIA labels, focus management, screen reader support
+- **Multi-Language**: All three languages (EN/RU/AM) in a single drawer
+
+**Usage:**
+```tsx
+<EditableTranslationText 
+  translationKey="nav.about" 
+  editMode={isEditMode}
+  as="span"
+>
+  {t('nav.about')}
+</EditableTranslationText>
+```
+
+When admin hovers over text in edit mode, a yellow edit icon appears. Click to open the drawer:
+1. All three language fields displayed vertically
+2. Real-time validation with character limits (soft: 200, hard: 500)
+3. Compare button shows original vs. new values
+4. Changes auto-save after 1.5s
+5. Undo/redo available within session
+6. ESC closes drawer and resets drafts
 
 ### File Structure
 
@@ -647,13 +765,7 @@ Navigate to `/settings` to access the translation management interface. The Sett
 
 ### Translation Key Structure
 
-Translation keys follow a hierarchical structure:
-- `nav.*` - Navigation items
-- `pages.*` - Page titles and subtitles
-- `about.*` - About page content
-- `skills.*` - Skills section
-- `contact.*` - Contact form and info
-- `settings.*` - Settings page interface
+Translation keys follow a hierarchical structure. See i18n Architecture above for categories.
 
 ### Import/Export Format
 
@@ -673,6 +785,10 @@ Translation keys follow a hierarchical structure:
   }
 }
 ```
+
+### Seeding Translations
+
+Use `src/scripts/seedTranslations.ts` to upsert static files into the DB initially. You can also add new keys ad-hoc via the Settings page.
 
 ## 🛠️ Development
 

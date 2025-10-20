@@ -47,6 +47,22 @@ export const en = {
   
   'pages.blog.title': 'Blog',
   'pages.blog.subtitle': 'Insights and thoughts on software testing and quality assurance',
+  // Blog
+  'blog.unavailableTitle': 'Section Unavailable',
+  'blog.unavailableBody': 'This section is currently unavailable.',
+  'blog.empty': 'No blog posts available yet.',
+  'blog.readMore': 'Read More',
+  'blog.back': 'Back to Blog',
+  'blog.notFound.title': 'Blog Post Not Found',
+  'blog.notFound.description': 'The blog post you\'re looking for doesn\'t exist or has been removed.',
+  'blog.error.title': 'Failed to Load Blog Post',
+  'blog.error.description': 'We encountered an error while loading this post.',
+  'blog.error.retry': 'Try Again',
+  'blog.error.retrying': 'Retrying...',
+  'blog.noContent': 'No content available for this post.',
+  'blog.publishedOn': 'Published on',
+  'blog.related.title': 'Related Articles',
+  'blog.related.subtitle': 'Continue exploring more articles',
   
   'pages.contact.title': 'Contact Me',
   'pages.contact.subtitle': 'Let\'s discuss how I can help ensure the quality of your software',

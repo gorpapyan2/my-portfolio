@@ -1,8 +1,10 @@
 import { ExperienceCard } from './ExperienceCard';
 import { useExperienceService } from '../../../lib/services/useExperienceService';
+import { useLanguage } from '../../../context/LanguageContext';
 
 export function ExperienceList() {
   const { experiences, isLoading, error } = useExperienceService();
+  const { t } = useLanguage();
 
   if (isLoading) {
     return (
@@ -19,7 +21,7 @@ export function ExperienceList() {
   if (error) {
     return (
       <div className="text-center py-8">
-        <p className="text-red-400">Failed to load experiences: {error}</p>
+        <p className="text-red-400">{t('errors.experiencesLoadFailed')}: {error}</p>
       </div>
     );
   }
@@ -34,6 +36,7 @@ export function ExperienceList() {
           period={experience.period}
           description={experience.description}
           achievements={experience.achievements}
+          baseKey={`experience.${experience.company.toLowerCase().split(' ')[0] || 'entry'}`}
         />
       ))}
     </div>

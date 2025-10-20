@@ -1,9 +1,9 @@
-import { LucideIcon } from 'lucide-react';
+import { LucideIcon, ReactNode } from 'lucide-react';
 
 interface SectionHeaderProps {
   icon: LucideIcon;
-  title: string;
-  subtitle?: string;
+  title: ReactNode;
+  subtitle?: ReactNode;
 }
 
 export function SectionHeader({ icon: Icon, title, subtitle }: SectionHeaderProps) {

@@ -3,6 +3,8 @@ import { User } from 'lucide-react';
 import { PageLayout } from "@/components/shared/PageLayout";
 import { PageHeader } from "@/components/shared/PageHeader";
 import AboutMe from "@/components/AboutMe";
+import { KeyResults } from "@/components/about/KeyResults";
+import { Languages } from "@/components/about/Languages";
 import ScrollIndicator from "@/components/ScrollIndicator";
 import FloatingActions from "@/components/FloatingActions";
 import ParticleBackground from "@/components/ParticleBackground";
@@ -13,7 +15,6 @@ import { Experience } from "@/components/about/Expirence";
 import { Education } from "@/components/about/Education";
 import { Skills } from "@/components/about/Skills";
 import { useLanguage } from "@/context/LanguageContext";
-import { motion } from "framer-motion";
 
 export function AboutPage() {
   const [soundEnabled] = useState(false);
@@ -38,9 +39,19 @@ export function AboutPage() {
         
         <div className="space-y-20">
           <AboutMe />
+          <div className="max-w-6xl mx-auto px-4">
+            <div className="h-px bg-gradient-to-r from-transparent via-[#edfc3a]/30 to-transparent" />
+          </div>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-10 items-stretch mb-24 md:mb-32 lg:mb-40">
+            <KeyResults />
+            <Languages />
+          </div>
+          <div className="max-w-6xl mx-auto px-4">
+            <div className="h-px bg-gradient-to-r from-transparent via-[#edfc3a]/30 to-transparent" />
+          </div>
           
           {/* Philosophy Narrative Section */}
-          <motion.div
+          {/* <motion.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6 }}
@@ -48,12 +59,14 @@ export function AboutPage() {
             className="max-w-3xl mx-auto"
           >
             <div className="bg-white/5 backdrop-blur-sm rounded-xl p-8 border border-white/10 hover:border-[#edfc3a]/30 transition-all duration-300">
-              <h3 className="text-2xl font-bold text-white mb-4">{t('about.philosophy')}</h3>
+              <h3 className="text-2xl font-bold text-white mb-4">
+                {t('about.philosophy')}
+              </h3>
               <p className="text-gray-300 leading-relaxed text-lg">
                 {t('pages.about.philosophy')}
               </p>
             </div>
-          </motion.div>
+          </motion.div> */}
 
           <Experience />
           <Education />

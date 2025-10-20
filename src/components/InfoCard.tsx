@@ -1,7 +1,7 @@
 import { motion } from "framer-motion";
 import { transitionFast } from "@/lib/motion";
 
-export default function InfoCard({ title, children, delay = 0 }: { title: string; children: React.ReactNode; delay?: number }) {
+export default function InfoCard({ title, children, delay = 0 }: { title: React.ReactNode; children: React.ReactNode; delay?: number }) {
   return (
     <motion.article
       initial={{ opacity: 0, y: 18 }} whileInView={{ opacity: 1, y: 0 }}

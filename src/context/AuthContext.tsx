@@ -1,4 +1,4 @@
-import React, { createContext, useContext, ReactNode } from 'react';
+import React, { createContext, useContext, ReactNode, useState } from 'react';
 import { useAuthService } from '../lib/services/useAuthService';
 import type { User } from '@supabase/supabase-js';
 
@@ -7,6 +7,8 @@ interface AuthContextType {
   isLoading: boolean;
   error: string | null;
   isAdmin: boolean;
+  isTranslationEditMode: boolean;
+  setIsTranslationEditMode: (value: boolean) => void;
   signIn: (email: string, password: string) => Promise<User>;
   signOut: () => Promise<void>;
   checkSession: () => Promise<void>;
@@ -20,9 +22,14 @@ interface AuthProviderProps {
 
 export function AuthProvider({ children }: AuthProviderProps) {
   const authService = useAuthService();
+  const [isTranslationEditMode, setIsTranslationEditMode] = useState(false);
 
   return (
-    <AuthContext.Provider value={authService}>
+    <AuthContext.Provider value={{
+      ...authService,
+      isTranslationEditMode,
+      setIsTranslationEditMode,
+    }}>
       {children}
     </AuthContext.Provider>
   );

@@ -1,9 +1,9 @@
-import { LucideIcon } from 'lucide-react';
+import { LucideIcon, ReactNode } from 'lucide-react';
 
 interface PageHeaderProps {
   icon: LucideIcon;
-  title: string;
-  subtitle?: string;
+  title: ReactNode;
+  subtitle?: ReactNode;
 }
 
 export function PageHeader({ icon: Icon, title, subtitle }: PageHeaderProps) {

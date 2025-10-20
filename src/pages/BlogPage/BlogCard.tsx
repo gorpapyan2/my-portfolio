@@ -1,6 +1,7 @@
 import { Link } from 'react-router-dom';
 import { Card } from '../../components/shared/Card';
 import { MarkdownRenderer } from '../../components/markdown/MarkdownRenderer';
+import { useLanguage } from '../../context/LanguageContext';
 
 /**
  * Props for BlogCard component with explicit typing
@@ -30,6 +31,7 @@ export function BlogCard({
   created_at,
   read_time
 }: BlogCardProps) {
+  const { t } = useLanguage();
   /**
    * Format date string to readable format
    */
@@ -61,7 +63,8 @@ export function BlogCard({
     return cleaned.length > 150 ? `${cleaned.substring(0, 150)}...` : cleaned;
   };
 
-  const preview = getContentPreview();
+  // Use database-provided localized content directly
+  const preview = content ? getContentPreview() : excerpt;
   const displayImage = image || '';
   const formattedDate = formatDate(created_at);
 
@@ -106,7 +109,7 @@ export function BlogCard({
         to={`/blog/${slug}`}
         className="inline-flex items-center text-[#edfc3a] hover:text-white transition-colors font-medium mt-auto"
       >
-        Read More
+        {t('blog.readMore')}
         <svg 
           className="w-4 h-4 ml-2 transform group-hover:translate-x-1 transition-transform" 
           fill="none" 

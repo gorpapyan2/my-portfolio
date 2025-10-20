@@ -82,7 +82,24 @@ export function ImportExport({ onClose, onImport, onExport }: ImportExportProps)
         setIsImporting(false);
       } catch (error) {
         console.error('Import validation error:', error);
-        setImportError('Invalid JSON format or validation failed');
+        
+        // Provide specific error messages based on error type
+        let userMessage = 'Import failed: Invalid JSON format or validation failed';
+        
+        if (error instanceof Error) {
+          const errorMsg = error.message.toLowerCase();
+          
+          // Detect specific validation errors
+          if (errorMsg.includes('duplicate') || errorMsg.includes('unique')) {
+            userMessage = 'One or more translations already exist. Existing translations will be updated with the new values.';
+          } else if (errorMsg.includes('json')) {
+            userMessage = 'Invalid JSON format. Please check your file and try again.';
+          } else if (errorMsg.includes('validation') || errorMsg.includes('parse')) {
+            userMessage = 'Validation failed. Ensure file follows the template format with "en", "ru", "am" language keys.';
+          }
+        }
+        
+        setImportError(userMessage);
         setIsImporting(false);
       }
     };

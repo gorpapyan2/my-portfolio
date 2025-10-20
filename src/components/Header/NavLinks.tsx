@@ -57,7 +57,7 @@ export function NavLinks() {
       {isAdmin && (
         <NavLink to="/admin/dashboard" className="inline-flex items-center gap-1 bg-[#edfc3a]/10 text-[#edfc3a] hover:bg-[#edfc3a]/20">
           <Settings className="h-4 w-4" />
-          Admin
+          {t('nav.admin')}
         </NavLink>
       )}
     </nav>

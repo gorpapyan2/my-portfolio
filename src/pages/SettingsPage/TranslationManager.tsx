@@ -1,67 +1,48 @@
 import { useState } from 'react';
 import { Plus, Search, Filter, Download, AlertCircle } from 'lucide-react';
 import { Card } from '../../components/shared/Card';
+import { UnifiedTranslationModal } from '../../components/shared/UnifiedTranslationModal';
 import { useLanguage } from '../../context/LanguageContext';
-import { useTranslationService } from '../../lib/services/useTranslationService';
+import { useTranslationManager } from '../../lib/services/useTranslationManager';
 import { supabase } from '../../lib/supabase';
+import { useTranslationService } from '../../lib/services/useTranslationService';
 import { TranslationTable } from './TranslationTable';
-import { TranslationEditor } from './TranslationEditor';
 import { ImportExport } from './ImportExport';
 import { ValidationPanel } from './ValidationPanel';
+
+interface TranslationInsert {
+  key: string;
+  language: 'en' | 'ru' | 'am';
+  value: string;
+  category: string;
+}
 
 export function TranslationManager() {
   const { t } = useLanguage();
   const translationService = useTranslationService();
-  const [selectedLanguage, setSelectedLanguage] = useState<'en' | 'ru' | 'am'>('en');
-  const [searchTerm, setSearchTerm] = useState('');
-  const [selectedCategory, setSelectedCategory] = useState<string>('all');
-  const [showEditor, setShowEditor] = useState(false);
-  const [editingTranslation, setEditingTranslation] = useState<{ key: string; value: string; category: string } | null>(null);
-  const [showImportExport, setShowImportExport] = useState(false);
-  const [showValidation, setShowValidation] = useState(false);
-
-  // Get unique categories from translations
-  const categories = ['all', 'nav', 'hero', 'pages', 'about', 'skills', 'contact', 'footer', 'settings', 'technologies'];
-
-  const filteredTranslations = Object.entries(translationService.translations[selectedLanguage] || {})
-    .filter(([key, value]) => {
-      const matchesSearch = key.toLowerCase().includes(searchTerm.toLowerCase()) || 
-                           value.toLowerCase().includes(searchTerm.toLowerCase());
-      const matchesCategory = selectedCategory === 'all' || key.startsWith(selectedCategory);
-      return matchesSearch && matchesCategory;
-    })
-    .map(([key, value]) => ({ key, value, category: key.split('.')[0] }));
-
-  const handleAddTranslation = () => {
-    setEditingTranslation(null);
-    setShowEditor(true);
-  };
-
-  const handleEditTranslation = (translation: { key: string; value: string; category: string }) => {
-    setEditingTranslation(translation);
-    setShowEditor(true);
-  };
-
-  const handleDeleteTranslation = async (key: string) => {
-    if (confirm(t('settings.deleteTranslation'))) {
-      try {
-        // Find the translation ID from Supabase data
-        const { data } = await supabase
-          .from('translations')
-          .select('id')
-          .eq('key', key)
-          .eq('language', selectedLanguage)
-          .single();
-
-        if (data) {
-          await translationService.deleteTranslation(data.id);
-        }
-      } catch (error) {
-        console.error('Error deleting translation:', error);
-        alert(t('settings.deleteError'));
-      }
-    }
-  };
+  
+  // Use centralized translation manager hook
+  const {
+    selectedLanguage,
+    searchTerm,
+    selectedCategory,
+    showEditor,
+    editingTranslation,
+    showImportExport,
+    showValidation,
+    setSelectedLanguage,
+    setSearchTerm,
+    setSelectedCategory,
+    setShowEditor,
+    setEditingTranslation,
+    setShowImportExport,
+    setShowValidation,
+    handleAddTranslation,
+    handleEditTranslation,
+    handleDeleteTranslation,
+    filteredTranslations,
+    categories,
+  } = useTranslationManager();
 
   return (
     <div className="space-y-6">
@@ -151,7 +132,9 @@ export function TranslationManager() {
 
       {/* Modals */}
       {showEditor && (
-        <TranslationEditor
+        <UnifiedTranslationModal
+          mode="simple"
+          isOpen={showEditor}
           translation={editingTranslation}
           language={selectedLanguage}
           onClose={() => setShowEditor(false)}

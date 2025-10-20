@@ -20,7 +20,7 @@ export default function AboutMe() {
         >
           <HeroPortrait
             src={assetUrls.portrait}
-            alt="Gor Papyan"
+            alt={t('about.portraitAlt')}
           />
           <Sparkles />
         </motion.div>
@@ -33,7 +33,7 @@ export default function AboutMe() {
             className="text-2xl md:text-3xl font-semibold text-slate-100 bg-gradient-to-r from-slate-100 to-slate-300 bg-clip-text text-transparent"
           >
             <Typewriter 
-              text="Mid-level QA Automation Engineer specializing in Playwright and CI/CD"
+              text={t('about.headline')}
               speed={30}
               delay={0.5}
             />
@@ -44,8 +44,11 @@ export default function AboutMe() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.2 }}
           >
-            <InfoCard title={t('about.professionalJourney')} delay={0.20}>
-              QA Automation Engineer delivering reliable UI and API automation with Playwright, embedded in Agile teams since October 2022. I build frameworks, integrate them into CI/CD (AWS CodeBuild/CodeArtifact), and use data isolation and tuned timeouts to stabilize regressions and cut runtime.
+            <InfoCard 
+              title={t('about.professionalJourney')}
+              delay={0.20}
+            >
+              {t('about.professionalJourney.content')}
             </InfoCard>
           </motion.div>
 
@@ -54,8 +57,11 @@ export default function AboutMe() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.26 }}
           >
-            <InfoCard title={t('about.philosophy')} delay={0.26}>
-              Quality isn't only finding bugs—it's enabling confident, fast delivery. Every test is a design decision: make it readable, deterministic, and valuable to developers and users alike.
+            <InfoCard 
+              title={t('about.philosophy')}
+              delay={0.26}
+            >
+              {t('about.philosophy.content')}
             </InfoCard>
           </motion.div>
 
@@ -64,8 +70,11 @@ export default function AboutMe() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.32 }}
           >
-            <InfoCard title={t('about.toolbox')} delay={0.32}>
-              Playwright (TypeScript), PyTest, XCUITest; REST, Postman, Mountebank; PostgreSQL; Git; AWS CodeBuild & CodeArtifact; TestRail; Jira.
+            <InfoCard 
+              title={t('about.toolbox')}
+              delay={0.32}
+            >
+              {t('about.toolbox.content')}
             </InfoCard>
           </motion.div>
         </div>

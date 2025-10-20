@@ -8,8 +8,8 @@ import { usePublicFeatureFlags } from '../../lib/services/usePublicFeatureFlags'
 import { LoadingSpinner } from '../../components/loading/LoadingSpinner';
 
 export function BlogPage() {
-  const { t } = useLanguage();
-  const { blogPosts, isLoading, error } = useBlogService();
+  const { t, language } = useLanguage();
+  const { blogPosts, isLoading, error } = useBlogService(language);
   const { isFeatureEnabled } = usePublicFeatureFlags();
 
   // Check if blog section is enabled
@@ -19,8 +19,8 @@ export function BlogPage() {
         <div className="min-h-screen flex items-center justify-center">
           <div className="text-center">
             <BookOpen className="h-16 w-16 text-gray-400 mx-auto mb-4" />
-            <h2 className="text-2xl font-bold text-white mb-4">Section Unavailable</h2>
-            <p className="text-gray-400">This section is currently unavailable.</p>
+            <h2 className="text-2xl font-bold text-white mb-4">{t('blog.unavailableTitle')}</h2>
+            <p className="text-gray-400">{t('blog.unavailableBody')}</p>
           </div>
         </div>
       </PageLayout>
@@ -42,7 +42,7 @@ export function BlogPage() {
       <PageLayout>
         <div className="min-h-screen flex items-center justify-center">
           <div className="text-center">
-            <h2 className="text-2xl font-bold text-white mb-4">Error</h2>
+            <h2 className="text-2xl font-bold text-white mb-4">{t('error')}</h2>
             <p className="text-gray-400">{error}</p>
           </div>
         </div>
@@ -58,6 +58,7 @@ export function BlogPage() {
         title={t('pages.blog.title')}
         subtitle={t('pages.blog.subtitle')}
       />
+      
       <BlogGrid blogPosts={blogPosts} />
     </PageLayout>
   );

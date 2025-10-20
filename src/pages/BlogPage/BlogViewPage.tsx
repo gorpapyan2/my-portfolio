@@ -10,6 +10,7 @@ import { useBlogService } from '../../lib/services/useBlogService';
 import { useToc } from '../../hooks/useToc';
 import { LoadingSpinner } from '../../components/loading/LoadingSpinner';
 import { useState } from 'react';
+import { useLanguage } from '../../context/LanguageContext';
 
 /**
  * Formats a date string to readable format with error handling
@@ -37,7 +38,8 @@ function getRelatedPosts(currentPostId: string, allPosts: any[], limit: number =
 
 export function BlogViewPage() {
   const { slug } = useParams<{ slug: string }>();
-  const { blogPosts, isLoading, error, refreshBlogPosts } = useBlogService();
+  const { t, language } = useLanguage();
+  const { blogPosts, isLoading, error, refreshBlogPosts } = useBlogService(language);
   const [isRetrying, setIsRetrying] = useState(false);
 
   if (!slug) {
@@ -68,9 +70,9 @@ export function BlogViewPage() {
         <div className="min-h-screen flex items-center justify-center">
           <div className="text-center max-w-md">
             <BookOpen className="h-16 w-16 text-gray-400 mx-auto mb-4" />
-            <h2 className="text-2xl font-bold text-white mb-4">Post Not Found</h2>
+            <h2 className="text-2xl font-bold text-white mb-4">{t('blog.notFound.title')}</h2>
             <p className="text-gray-400 mb-6">
-              The blog post you're looking for doesn't exist or has been removed.
+              {t('blog.notFound.description')}
             </p>
             <Link 
               to=".." 
@@ -78,7 +80,7 @@ export function BlogViewPage() {
               className="inline-flex items-center gap-2 px-6 py-3 bg-[#edfc3a] text-black rounded-lg font-medium hover:bg-[#f2ff4d] transition-colors"
             >
               <ArrowLeft className="h-4 w-4" />
-              Back to Blog
+              {t('blog.back')}
             </Link>
           </div>
         </div>
@@ -104,10 +106,10 @@ export function BlogViewPage() {
             <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-red-500/10 text-red-400 mb-4">
               <BookOpen className="h-8 w-8" />
             </div>
-            <h2 className="text-2xl font-bold text-white mb-2">Unable to Load Post</h2>
+            <h2 className="text-2xl font-bold text-white mb-2">{t('blog.error.title')}</h2>
             <p className="text-gray-400 mb-2 text-sm">{error}</p>
             <p className="text-gray-500 mb-6 text-sm">
-              There was an error loading this blog post. Please try again.
+              {t('blog.error.description')}
             </p>
             <div className="flex flex-col sm:flex-row gap-3 justify-center">
               <button
@@ -116,7 +118,7 @@ export function BlogViewPage() {
                 className="inline-flex items-center gap-2 px-6 py-3 bg-[#edfc3a] text-black rounded-lg font-medium hover:bg-[#f2ff4d] transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
               >
                 <RotateCw className={`h-4 w-4 ${isRetrying ? 'animate-spin' : ''}`} />
-                {isRetrying ? 'Retrying...' : 'Try Again'}
+                {isRetrying ? t('blog.error.retrying') : t('blog.error.retry')}
               </button>
               <Link 
                 to=".." 
@@ -124,7 +126,7 @@ export function BlogViewPage() {
                 className="inline-flex items-center gap-2 px-6 py-3 text-gray-400 hover:text-white transition-colors rounded-lg hover:bg-white/5"
               >
                 <ArrowLeft className="h-4 w-4" />
-                Back to Blog
+                {t('blog.back')}
               </Link>
             </div>
           </div>
@@ -142,6 +144,7 @@ export function BlogViewPage() {
   const relatedPosts = getRelatedPosts(blogPost.id, blogPosts);
   const formattedDate = formatDate(blogPost.created_at);
   const hasImage = Boolean(blogPost.image);
+  // Use localized content from database
   const hasContent = Boolean(blogPost.content);
 
   return (
@@ -157,7 +160,7 @@ export function BlogViewPage() {
           className="inline-flex items-center gap-2 text-gray-400 hover:text-white transition-colors group"
         >
           <ArrowLeft className="h-4 w-4 group-hover:-translate-x-1 transition-transform" />
-          Back to Blog
+          {t('blog.back')}
         </Link>
       </div>
 
@@ -205,7 +208,7 @@ export function BlogViewPage() {
               )}
 
               {/* Excerpt */}
-              <div className="text-xl text-gray-300 max-w-4xl mx-auto leading-[1.65]">
+                <div className="text-xl text-gray-300 max-w-4xl mx-auto leading-[1.65]">
                 <p>{blogPost.excerpt}</p>
               </div>
             </div>
@@ -220,7 +223,7 @@ export function BlogViewPage() {
               ) : (
                 <div className="text-center py-16">
                   <BookOpen className="h-16 w-16 text-gray-400 mx-auto mb-4" />
-                  <p className="text-gray-400 text-lg">No content available for this blog post.</p>
+                  <p className="text-gray-400 text-lg">{t('blog.noContent')}</p>
                 </div>
               )}
             </article>
@@ -233,11 +236,11 @@ export function BlogViewPage() {
                 className="inline-flex items-center gap-2 text-[#edfc3a] hover:text-white transition-colors group"
               >
                 <ArrowLeft className="h-4 w-4 group-hover:-translate-x-1 transition-transform" />
-                Back to Blog
+                {t('blog.back')}
               </Link>
               
               <div className="text-sm text-gray-400">
-                Published on {formattedDate}
+                {t('blog.publishedOn')} {formattedDate}
               </div>
             </div>
           </div>
@@ -257,8 +260,8 @@ export function BlogViewPage() {
       {relatedPosts.length > 0 && (
         <div className="mt-16">
           <div className="text-center mb-12">
-            <h2 className="text-3xl font-bold text-white mb-4">Related Posts</h2>
-            <p className="text-gray-400 text-lg">Continue reading more articles</p>
+            <h2 className="text-3xl font-bold text-white mb-4">{t('blog.related.title')}</h2>
+            <p className="text-gray-400 text-lg">{t('blog.related.subtitle')}</p>
           </div>
           
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">

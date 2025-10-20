@@ -7,9 +7,11 @@ import { LucideIcon } from 'lucide-react';
 interface Stat {
   icon: LucideIcon;
   label: string;
+  translationKey: string;
   value: number;
   suffix: string;
   description?: string;
+  descriptionKey?: string;
 }
 
 export function Statistics() {
@@ -19,30 +21,38 @@ export function Statistics() {
     {
       icon: Award,
       label: t('statistics.experience'),
+      translationKey: 'statistics.experience',
       value: 3,
       suffix: '+',
-      description: 'Years specializing in deterministic test automation',
+      description: t('statistics.experienceDescription'),
+      descriptionKey: 'statistics.experienceDescription',
     },
     {
       icon: Target,
       label: t('statistics.projects'),
+      translationKey: 'statistics.projects',
       value: 10,
       suffix: '+',
-      description: 'Delivered with measurable quality improvements',
+      description: t('statistics.projectsDescription'),
+      descriptionKey: 'statistics.projectsDescription',
     },
     {
       icon: Zap,
       label: t('statistics.tests'),
+      translationKey: 'statistics.tests',
       value: 5,
       suffix: '',
-      description: 'Playwright, PyTest, XCUITest, AWS CodeBuild, PostgreSQL',
+      description: t('statistics.testsDescription'),
+      descriptionKey: 'statistics.testsDescription',
     },
     {
       icon: TrendingUp,
       label: t('statistics.expertise'),
+      translationKey: 'statistics.expertise',
       value: 3,
       suffix: '',
-      description: 'UI & API Automation, CI/CD Integration, Data-Driven Testing',
+      description: t('statistics.expertiseDescription'),
+      descriptionKey: 'statistics.expertiseDescription',
     },
   ];
 
@@ -67,10 +77,10 @@ export function Statistics() {
           className="text-center mb-12 md:mb-16"
         >
           <h2 className="text-3xl md:text-4xl font-bold text-white mb-4">
-            Impact Through Numbers
+            {t('statistics.title')}
           </h2>
           <p className="text-gray-400 text-lg">
-            Measurable results across projects and platforms
+            {t('statistics.subtitle')}
           </p>
         </motion.div>
 
@@ -81,9 +91,11 @@ export function Statistics() {
               key={index}
               icon={stat.icon}
               label={stat.label}
+              translationKey={stat.translationKey}
               value={stat.value}
               suffix={stat.suffix}
               description={stat.description}
+              descriptionKey={stat.descriptionKey}
               index={index}
             />
           ))}

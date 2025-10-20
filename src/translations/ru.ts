@@ -47,6 +47,22 @@ export const ru = {
   
   'pages.blog.title': 'Блог',
   'pages.blog.subtitle': 'Размышления и идеи о тестировании программного обеспечения и обеспечении качества',
+  // Blog
+  'blog.unavailableTitle': 'Раздел недоступен',
+  'blog.unavailableBody': 'Этот раздел сейчас недоступен.',
+  'blog.empty': 'Пока нет доступных записей блога.',
+  'blog.readMore': 'Читать далее',
+  'blog.back': 'Вернуться к блогу',
+  'blog.notFound.title': 'Запись не найдена',
+  'blog.notFound.description': 'Запись блога, которую вы ищете, не существует или была удалена.',
+  'blog.error.title': 'Не удалось загрузить запись',
+  'blog.error.description': 'Произошла ошибка при загрузке этой записи.',
+  'blog.error.retry': 'Попробовать снова',
+  'blog.error.retrying': 'Повтор...',
+  'blog.noContent': 'Для этой записи нет доступного содержания.',
+  'blog.publishedOn': 'Опубликовано',
+  'blog.related.title': 'Похожие статьи',
+  'blog.related.subtitle': 'Продолжайте изучать больше статей',
   
   'pages.contact.title': 'Связаться со мной',
   'pages.contact.subtitle': 'Давайте обсудим, как я могу помочь обеспечить качество вашего программного обеспечения',
