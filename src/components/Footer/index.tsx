@@ -1,4 +1,5 @@
 import { Mail, Phone, MapPin } from 'lucide-react';
+import { Link } from 'react-router-dom';
 import { FooterSection } from './FooterSection';
 import { SocialLinks } from './SocialLinks';
 import { Shimmer } from '../ui/Shimmer';
@@ -43,15 +44,20 @@ export function Footer() {
 
           <FooterSection title="Quick Links">
             <nav className="space-y-2">
-              {['About', 'Work', 'Experience', 'Blog', 'Contact'].map((link) => (
-                <a
-                  key={link}
-                  href={`/${link.toLowerCase()}`}
+              {[
+                { label: 'About', path: '/about' },
+                { label: 'Work', path: '/work' },
+                { label: 'Blog', path: '/blog' },
+                { label: 'Contact', path: '/contact' }
+              ].map((link) => (
+                <Link
+                  key={link.label}
+                  to={link.path}
                   className="relative group block text-gray-300 hover:text-[#edfc3a] transition-colors"
                 >
-                  {link}
+                  {link.label}
                   <Shimmer className="absolute inset-0" />
-                </a>
+                </Link>
               ))}
             </nav>
           </FooterSection>
