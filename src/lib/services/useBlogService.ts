@@ -3,6 +3,17 @@ import { supabase } from '../supabase';
 import { BlogPost, BlogPostInsert, BlogPostUpdate } from '../../types/database.types';
 import { blogPostInsertSchema, blogPostUpdateSchema } from '../schemas/blogSchema';
 
+/**
+ * BlogService interface - defines the shape of the blog service
+ * @interface BlogService
+ * @property {BlogPost[]} blogPosts - Array of published blog posts, sorted by newest first
+ * @property {boolean} isLoading - Indicates if data is currently being fetched
+ * @property {string|null} error - Error message if an operation fails, null if successful
+ * @property {Function} createBlogPost - Creates a new blog post with optimistic updates
+ * @property {Function} updateBlogPost - Updates an existing blog post
+ * @property {Function} deleteBlogPost - Deletes a blog post
+ * @property {Function} refreshBlogPosts - Manually refresh the blog posts list
+ */
 export interface BlogService {
   blogPosts: BlogPost[];
   isLoading: boolean;
@@ -13,6 +24,25 @@ export interface BlogService {
   refreshBlogPosts: () => Promise<void>;
 }
 
+/**
+ * Service hook for managing blog posts from Supabase
+ * Provides full CRUD operations with optimistic updates and validation
+ * Only fetches published blog posts for public display
+ * 
+ * @example
+ * const { blogPosts, isLoading, error, createBlogPost, updateBlogPost, deleteBlogPost, refreshBlogPosts } = useBlogService();
+ * 
+ * if (isLoading) return <LoadingSpinner />;
+ * if (error) return <ErrorDisplay message={error} />;
+ * 
+ * return (
+ *   <>
+ *     {blogPosts.map(post => <BlogCard key={post.id} post={post} />)}
+ *   </>
+ * );
+ * 
+ * @returns {BlogService} Service object with blog state and CRUD operations
+ */
 export function useBlogService(): BlogService {
   const [blogPosts, setBlogPosts] = useState<BlogPost[]>([]);
   const [isLoading, setIsLoading] = useState(true);

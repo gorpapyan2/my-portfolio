@@ -87,39 +87,98 @@ See `.env.example` for a complete template.
 
 ### Service Layer Architecture
 
-The application follows Clean Architecture principles with a service layer pattern:
+The application follows **Clean Architecture** principles with a **service layer pattern** that separates concerns and promotes reusability:
 
 1. **Service Hooks** (`src/lib/services/`):
-   - `useTranslationService` - CRUD operations for translations with Zod validation
-   - `useBlogService` - CRUD operations for blog posts with optimistic updates
-   - `useProjectService` - CRUD operations for projects with optimistic updates
-   - `useContactService` - Create-only operations for contact submissions
+   - **Data Management**: 14 custom React hooks providing CRUD operations for all data domains
+   - **Type Safety**: Full TypeScript support with auto-generated Supabase types
+   - **Validation**: Zod schemas validate all inputs before database operations
+   - **Optimistic Updates**: Immediate UI feedback with automatic rollback on errors
+   - **Error Handling**: User-friendly error messages with detailed console logging
+   - **Fallback Strategies**: Graceful degradation when services unavailable (e.g., translations)
+
+   **Complete Service Hooks:**
+   - `useBlogService` - Create/Read/Update/Delete blog posts (published content only)
+   - `useProjectService` - Manage portfolio projects with featured/ordering support
+   - `useTranslationService` - Multi-language translations with Supabase+static fallback
+   - `useContactService` - Log contact form submissions (create-only for security)
+   - `useExperienceService` - Professional experience entries with ordering
+   - `useEducationService` - Educational background management
+   - `useSkillService` - Technical skills with proficiency levels
+   - `useFeatureFlagService` - Admin CRUD for feature toggles
+   - `usePublicFeatureFlags` - Public read-only feature flag access with defaults
+   - `useAuthService` - Session management and authentication
+   - `useBlogAdminState` - Form state management for blog editing
+   - `useImageUploadService` - Supabase Storage integration for images
+   - `useMarkdownService` - GFM rendering with syntax highlighting
+   - `useBlogAdminService` - Additional blog admin utilities
 
 2. **Validation Layer** (`src/lib/schemas/`):
-   - Zod schemas for runtime validation of all data operations
-   - Type-safe form validation with user-friendly error messages
+   - Runtime validation using Zod for type safety
+   - Schemas for all data types: blogs, projects, translations, etc.
+   - Partial schemas for update operations (optional fields)
+   - Form-friendly error messages
 
 3. **Database Layer**:
-   - Supabase MCP integration with typed `supabase-js` v2 client
-   - Row Level Security (RLS) policies for data access control
-   - Optimistic UI updates with automatic rollback on errors
+   - **Supabase Integration**: Typed `supabase-js` v2 client with full TypeScript support
+   - **Typed Client**: Auto-generated `Database` type from migrations
+   - **Row Level Security**: RLS policies enforce data access control
+   - **Optimistic Updates**: Immediate state changes with server confirmation
+   - **Performance**: Efficient queries with proper indexing and select specificity
+
+### Service Hook Usage Pattern
+
+Each service hook follows a consistent pattern for reliability and predictability:
+
+```typescript
+// Hook returns interface with typed state and operations
+export interface ServiceName {
+  data: DataType[];
+  isLoading: boolean;
+  error: string | null;
+  createData: (item: DataInsert) => Promise<void>;
+  updateData: (id: string, updates: DataUpdate) => Promise<void>;
+  deleteData: (id: string) => Promise<void>;
+  refetch: () => Promise<void>;
+}
+
+// Component usage
+const { data, isLoading, error, createData, updateData, deleteData } = useServiceName();
+
+// Loading state
+if (isLoading) return <LoadingSpinner />;
+
+// Error handling
+if (error) return <ErrorDisplay message={error} />;
+
+// Render with data
+return <DataGrid items={data} onEdit={updateData} onDelete={deleteData} />;
+```
+
+### Error Handling Strategy
+
+- **Validation Errors**: Zod parsing failures provide field-level feedback
+- **Database Errors**: Supabase errors converted to user-friendly messages
+- **Network Errors**: Graceful fallbacks with retry capability
+- **Optimistic Rollback**: Failed operations automatically revert UI state
+- **Console Logging**: Detailed errors logged for debugging
 
 ### Database Schema
 
 **Tables:**
-- `translations` - Multi-language content with categories
-- `blog_posts` - Blog articles with publishing status
-- `projects` - Portfolio projects with tags and featured status
-- `contact_submissions` - Contact form submissions with status tracking
-- `experiences` - Professional experience entries with achievements
-- `education` - Educational background entries
-- `skills` - Technical skills with proficiency levels and icons
-- `feature_flags` - Content visibility and availability control flags
+|- `translations` - Multi-language content with categories
+|- `blog_posts` - Blog articles with publishing status
+|- `projects` - Portfolio projects with tags and featured status
+|- `contact_submissions` - Contact form submissions with status tracking
+|- `experiences` - Professional experience entries with achievements
+|- `education` - Educational background entries
+|- `skills` - Technical skills with proficiency levels and icons
+|- `feature_flags` - Content visibility and availability control flags
 
 **RLS Policies:**
-- Public read access for published content
-- Admin-only write access (email-based authentication)
-- Public insert access for contact submissions
+|- Public read access for published content
+|- Admin-only write access (email-based authentication)
+|- Public insert access for contact submissions
 
 ### Translation System
 

@@ -4,6 +4,18 @@ import { Translation, TranslationInsert, TranslationUpdate } from '../../types/d
 import { translations as staticTranslations } from '../../translations';
 import { translationInsertSchema, translationUpdateSchema } from '../schemas/translationSchema';
 
+/**
+ * TranslationService interface - defines the shape of the translation service
+ * @interface TranslationService
+ * @property {Record<string, Record<string, string>>} translations - Translations organized by language and key (en, ru, am)
+ * @property {boolean} isLoading - Indicates if translations are being fetched
+ * @property {string|null} error - Error message if operation fails, null if successful
+ * @property {Function} createTranslation - Creates a new translation with validation
+ * @property {Function} updateTranslation - Updates an existing translation
+ * @property {Function} deleteTranslation - Deletes a translation
+ * @property {Function} bulkImport - Imports multiple translations at once
+ * @property {Function} refreshTranslations - Manually refresh all translations
+ */
 export interface TranslationService {
   translations: Record<string, Record<string, string>>;
   isLoading: boolean;
@@ -15,6 +27,36 @@ export interface TranslationService {
   refreshTranslations: () => Promise<void>;
 }
 
+/**
+ * Service hook for managing multi-language translations from Supabase
+ * Provides full CRUD operations with automatic fallback to static translations
+ * Supports three languages: English (en), Russian (ru), Armenian (am)
+ * 
+ * Hybrid system: Attempts Supabase first, falls back to static translations if unavailable
+ * Perfect for dynamic translation management without requiring Supabase in production
+ * 
+ * @example
+ * const { translations, isLoading, error, createTranslation, updateTranslation, deleteTranslation, bulkImport } = useTranslationService();
+ * 
+ * // Access translations
+ * const appName = translations['en']['app.name'];
+ * 
+ * // Create new translation
+ * await createTranslation({
+ *   key: 'about.hero.title',
+ *   language: 'en',
+ *   value: 'Full Stack Developer',
+ *   category: 'about'
+ * });
+ * 
+ * // Bulk import
+ * await bulkImport([
+ *   { key: 'nav.home', language: 'en', value: 'Home', category: 'nav' },
+ *   { key: 'nav.about', language: 'en', value: 'About', category: 'nav' }
+ * ]);
+ * 
+ * @returns {TranslationService} Service object with translations and CRUD operations
+ */
 export function useTranslationService(): TranslationService {
   const [translations, setTranslations] = useState<Record<string, Record<string, string>>>({
     en: {},

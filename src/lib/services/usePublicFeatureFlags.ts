@@ -1,12 +1,44 @@
 import { useState, useEffect, useCallback } from 'react';
 import { supabase } from '../supabase';
 
+/**
+ * PublicFeatureFlags interface - defines the shape of the public feature flags service
+ * @interface PublicFeatureFlags
+ * @property {Function} isFeatureEnabled - Checks if a feature flag is enabled
+ * @property {boolean} isLoading - Indicates if flags are being loaded
+ * @property {string|null} error - Error message if loading fails, null if successful
+ */
 export interface PublicFeatureFlags {
   isFeatureEnabled: (flagKey: string) => boolean;
   isLoading: boolean;
   error: string | null;
 }
 
+/**
+ * Service hook for reading public feature flags from Supabase
+ * Provides read-only access to feature flags for controlling content visibility
+ * Includes sensible defaults for all critical flags to prevent site breakage
+ * 
+ * Available flags:
+ * - blog_section: Controls visibility of the blog section
+ * - work_section: Controls visibility of the work/projects section
+ * - featured_projects_section: Controls featured projects on homepage
+ * - latest_articles_section: Controls latest articles on homepage
+ * - language_selector: Controls visibility of language selector
+ * 
+ * @example
+ * const { isFeatureEnabled, isLoading, error } = usePublicFeatureFlags();
+ * 
+ * if (isFeatureEnabled('blog_section')) {
+ *   return <BlogSection />;
+ * }
+ * 
+ * if (isFeatureEnabled('featured_projects_section')) {
+ *   return <FeaturedProjects />;
+ * }
+ * 
+ * @returns {PublicFeatureFlags} Service object with flag lookup and loading state
+ */
 export function usePublicFeatureFlags(): PublicFeatureFlags {
   const [flags, setFlags] = useState<Record<string, boolean>>({});
   const [isLoading, setIsLoading] = useState(true);
