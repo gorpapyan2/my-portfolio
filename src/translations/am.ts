@@ -44,6 +44,25 @@ export const am = {
   'pages.contact.title': 'Կապվեք ինձ հետ',
   'pages.contact.subtitle': 'Եկեք քննարկենք, թե ինչպես կարող եմ օգնել ձեր ծրագրային ապահովման որակն ապահովել',
 
+  // Portfolio Navigation
+  'portfolioNav.title': 'Ուսումնասիրեք իմ պորտֆոլիոն',
+  'portfolioNav.subtitle': 'Նավարկեք տարբեր բաժինների միջով՝ իմ փորձ, նախագծեր և գաղափարներ իմանալու համար',
+  'portfolioNav.aboutTitle': 'Իմ մասին',
+  'portfolioNav.aboutDesc': 'Իմացեք իմ կրտսեությունը, փորձը և թեստավորման ավտոմատացման ինժեներ չափորոշիչ հմտությունների մասին:',
+  'portfolioNav.workTitle': 'Իմ աշխատանքները',
+  'portfolioNav.workDesc': 'Ուսումնասիրեք իմ թեստավորման ավտոմատացման շրջանակների, որակի ապահովման նախագծերի և տեխնիկական փորձագիտության պորտֆոլիո:',
+  'portfolioNav.blogTitle': 'Բլոգ',
+  'portfolioNav.blogDesc': 'Կարդացեք իմ վերջին հոդվածները և գաղափարները ծրագրային թեստավորման և որակի ապահովման պրակտիկայի մասին:',
+  'portfolioNav.contactTitle': 'Կապվեք',
+  'portfolioNav.contactDesc': 'Ունե՞ք հարց կամ նախագիծ կարծիքում: Կապվեք և քննարկենք, թե ինչպես կարող եմ օգնել:',
+
+  // Statistics
+  'statistics.experience': 'Փորձի Տարիներ',
+  'statistics.projects': 'Ավարտված Նախագծեր',
+  'statistics.tests': 'Ավտոմատացված Թեստեր',
+  'statistics.expertise': 'Փորձագիտության Ոլորտներ',
+  'statistics.areas': 'Մասնագիտացված բազմաթիվ հարթակների և տեխնոլոգիաների թեստավորման ճանապարհ',
+
   // About Me sections
   'about.professionalJourney': 'Մասնագիտական ճանապարհ',
   'about.philosophy': 'Փիլիսոփայություն',

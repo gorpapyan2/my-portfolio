@@ -1,5 +1,7 @@
 import { Hero } from '../components/home/Hero';
+import { Statistics } from '../components/home/Statistics';
 import { Technologies } from '../components/home/Technologies';
+import { PortfolioNav } from '../components/home/PortfolioNav';
 import { ProjectCard } from './WorkPage/ProjectCard';
 import { BlogCard } from './BlogPage/BlogCard';
 import { useLanguage } from '../context/LanguageContext';
@@ -23,7 +25,9 @@ export function HomePage() {
   return (
     <>
       <Hero />
+      <Statistics />
       <Technologies />
+      <PortfolioNav />
       {showFeaturedProjects && (
         <section className="py-24 bg-[#0A0A0B]">
           <div className="max-w-7xl mx-auto px-4">
@@ -77,7 +81,7 @@ export function HomePage() {
                     title={post.title}
                     date={post.created_at}
                     excerpt={post.excerpt}
-                    content={post.content || undefined}
+                    content={post.content || null}
                     image={post.image || ''}
                     readTime={post.read_time}
                     slug={post.slug}

@@ -45,6 +45,25 @@ export const ru = {
   'pages.contact.title': 'Связаться со мной',
   'pages.contact.subtitle': 'Давайте обсудим, как я могу помочь обеспечить качество вашего программного обеспечения',
 
+  // Portfolio Navigation
+  'portfolioNav.title': 'Изучите мое портфолио',
+  'portfolioNav.subtitle': 'Навигируйте по разным разделам, чтобы узнать о моем опыте, проектах и идеях',
+  'portfolioNav.aboutTitle': 'О себе',
+  'portfolioNav.aboutDesc': 'Узнайте о моей подготовке, опыте и навыках, которые я развил как инженер по автоматизации тестирования.',
+  'portfolioNav.workTitle': 'Мои работы',
+  'portfolioNav.workDesc': 'Изучите мое портфолио фреймворков автоматизации тестирования, проектов обеспечения качества и технической экспертизы.',
+  'portfolioNav.blogTitle': 'Блог',
+  'portfolioNav.blogDesc': 'Прочитайте мои последние статьи и идеи о тестировании программного обеспечения и практике обеспечения качества.',
+  'portfolioNav.contactTitle': 'Связаться',
+  'portfolioNav.contactDesc': 'Есть вопрос или проект в виду? Давайте свяжемся и обсудим, как я могу помочь.',
+
+  // Statistics
+  'statistics.experience': 'Лет Опыта',
+  'statistics.projects': 'Проектов Завершено',
+  'statistics.tests': 'Автоматизированных Тестов',
+  'statistics.expertise': 'Области Экспертизы',
+  'statistics.areas': 'Специализирован на тестировании на нескольких платформах и технологиях',
+
   // About Me sections
   'about.professionalJourney': 'Профессиональный путь',
   'about.philosophy': 'Философия',

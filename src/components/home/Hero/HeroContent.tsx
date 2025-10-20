@@ -1,7 +1,11 @@
 import { motion } from 'framer-motion';
+import { usePublicFeatureFlags } from '../../../lib/services/usePublicFeatureFlags';
 import { HeroButton } from './HeroButton';
 
 export function HeroContent() {
+  const { isFeatureEnabled } = usePublicFeatureFlags();
+  const showWorkSection = isFeatureEnabled('work_section');
+
   return (
     <div className="relative z-10 max-w-7xl mx-auto px-4 h-[calc(100vh-80px)] flex flex-col justify-center">
       <motion.div 
@@ -23,9 +27,11 @@ export function HeroContent() {
         </p>
 
         <div className="flex flex-wrap gap-4">
-          <HeroButton variant="primary" href="work">
-            See My Work
-          </HeroButton>
+          {showWorkSection && (
+            <HeroButton variant="primary" href="work">
+              See My Work
+            </HeroButton>
+          )}
           <HeroButton variant="secondary" href="contact">
             Contact Me
           </HeroButton>

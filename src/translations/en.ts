@@ -44,6 +44,25 @@ export const en = {
   'pages.contact.title': 'Contact Me',
   'pages.contact.subtitle': 'Let\'s discuss how I can help ensure the quality of your software',
 
+  // Portfolio Navigation
+  'portfolioNav.title': 'Explore My Portfolio',
+  'portfolioNav.subtitle': 'Navigate through different sections to learn about my experience, projects, and insights',
+  'portfolioNav.aboutTitle': 'About Me',
+  'portfolioNav.aboutDesc': 'Learn about my background, experience, and the skills I\'ve developed as a QA automation engineer.',
+  'portfolioNav.workTitle': 'My Work',
+  'portfolioNav.workDesc': 'Explore my portfolio of test automation frameworks, quality assurance projects, and technical expertise.',
+  'portfolioNav.blogTitle': 'Blog',
+  'portfolioNav.blogDesc': 'Read my latest articles and insights on software testing, automation, and quality assurance practices.',
+  'portfolioNav.contactTitle': 'Get in Touch',
+  'portfolioNav.contactDesc': 'Have a question or project in mind? Let\'s connect and discuss how I can help you.',
+
+  // Statistics
+  'statistics.experience': 'Years of Experience',
+  'statistics.projects': 'Projects Completed',
+  'statistics.tests': 'Automated Tests',
+  'statistics.expertise': 'Expertise Areas',
+  'statistics.areas': 'Specialized in testing across multiple platforms and technologies',
+
   // About Me sections
   'about.professionalJourney': 'Professional Journey',
   'about.philosophy': 'Philosophy',
