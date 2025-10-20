@@ -8,6 +8,7 @@ import { BlogViewPage } from '../pages/BlogPage/BlogViewPage';
 import { ContactPage } from '../pages/ContactPage/index';
 import { AdminLoginPage } from '../pages/AdminLoginPage';
 import { AdminDashboard } from '../pages/AdminDashboard';
+import { NotFoundPage } from '../pages/NotFoundPage';
 import { ProtectedRoute } from '../components/auth/ProtectedRoute';
 
 
@@ -40,6 +41,10 @@ export const router = createBrowserRouter([
         path: 'contact',
         element: <ContactPage />,
       },
+      {
+        path: '*',
+        element: <NotFoundPage />,
+      },
     ],
   },
   {
@@ -53,5 +58,9 @@ export const router = createBrowserRouter([
         <AdminDashboard />
       </ProtectedRoute>
     ),
+  },
+  {
+    path: '*',
+    element: <NotFoundPage />,
   },
 ], { basename: import.meta.env.BASE_URL });
