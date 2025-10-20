@@ -76,15 +76,16 @@ export function HomePage() {
             ) : (
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
                 {latestBlogPosts.map((post, index) => (
-                  <BlogCard 
-                    key={post.id || index} 
+                  <BlogCard
+                    key={post.id || index}
                     title={post.title}
-                    date={post.created_at}
+                    created_at={post.created_at}
                     excerpt={post.excerpt}
                     content={post.content || null}
                     image={post.image || ''}
-                    readTime={post.read_time}
+                    read_time={post.read_time}
                     slug={post.slug}
+                    id={post.id}
                   />
                 ))}
               </div>
