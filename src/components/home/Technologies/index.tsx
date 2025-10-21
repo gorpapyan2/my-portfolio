@@ -1,4 +1,6 @@
 import { TechnologyCarousel } from "./TechnologiesCarousel";
+import { TechnologiesBackground } from "./TechnologiesBackground";
+import { motion } from "framer-motion";
 
 export interface Technology {
   icon: React.ElementType;
@@ -7,30 +9,47 @@ export interface Technology {
   detailedDescription: string[];
   realWorldExample: string;
   level: number;
-  ctaLink?: string;
+  category: string;
+  tags: string[];
 }
 
-
 export function Technologies() {
-
   return (
     <section className="py-32 bg-[#0A0A0B] relative overflow-hidden">
-      {/* Background Elements */}
-      <div className="absolute inset-0 bg-[linear-gradient(to_right,#1a1a1a_1px,transparent_1px),linear-gradient(to_bottom,#1a1a1a_1px,transparent_1px)] bg-[size:3rem_3rem]" />
-
-      <div className="absolute inset-0 bg-gradient-to-b from-transparent via-lime-400/5 to-transparent" />
+      <TechnologiesBackground />
 
       <div className="max-w-7xl mx-auto px-4 relative z-10">
-        <div className="text-center mb-16">
-          <h2 className="text-5xl font-bold text-white mb-4">
-            Technologies & Tools
+        {/* Enhanced Header with Better Typography */}
+        <motion.div 
+          className="text-center mb-20"
+          initial={{ opacity: 0, y: 30 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8, ease: "easeOut" }}
+          viewport={{ once: true }}
+        >
+          <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-lime-400/10 border border-lime-400/20 mb-6">
+            <div className="w-2 h-2 bg-lime-400 rounded-full animate-pulse" />
+            <span className="text-sm font-medium text-lime-400 uppercase tracking-wider">Technical Expertise</span>
+          </div>
+          
+          <h2 className="text-6xl lg:text-7xl font-bold mb-6">
+            <span className="bg-gradient-to-r from-white via-gray-200 to-gray-400 bg-clip-text text-transparent">
+              Technologies
+            </span>
+            <br />
+            <span className="bg-gradient-to-r from-lime-400 via-emerald-400 to-teal-400 bg-clip-text text-transparent">
+              & Tools
+            </span>
           </h2>
-          <p className="text-lg text-gray-400 max-w-2xl mx-auto">
-            Leveraging modern tools and technologies to ensure software quality
+          
+          <p className="text-xl text-gray-300 max-w-3xl mx-auto leading-relaxed">
+            Comprehensive testing frameworks and automation tools that drive quality engineering excellence
           </p>
-        </div>
+        </motion.div>
+
         <TechnologyCarousel />
       </div>
+      
       <div className="absolute bottom-0 left-0 right-0 h-64 bg-gradient-to-t from-[#0A0A0B] to-transparent" />
     </section>
   );

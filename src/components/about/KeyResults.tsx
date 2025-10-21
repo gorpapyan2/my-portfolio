@@ -9,15 +9,15 @@ export function KeyResults() {
   const { keyResults, isLoading, error } = useAboutService();
 
   return (
-    <section id="key-results" className="scroll-mt-24 h-full">
-      <div className="max-w-3xl mx-auto px-4 h-full">
+    <section id="key-results" className="scroll-mt-24">
+      <div className="max-w-3xl mx-auto px-4">
         <SectionHeader
           icon={CheckCircle2}
           title={t('about.keyResults.title')}
         />
 
         {isLoading && (
-          <div className="bg-white/5 backdrop-blur-sm rounded-xl p-4 border border-white/10 h-full">
+          <div className="bg-white/5 backdrop-blur-sm rounded-xl p-4 border border-white/10">
             <div className="space-y-2">
               {[0,1,2].map(i => (
                 <div key={i} className="h-5 bg-white/10 rounded animate-pulse" />
@@ -31,7 +31,7 @@ export function KeyResults() {
         )}
 
         {!isLoading && !error && (
-          <div className="bg-white/5 backdrop-blur-sm rounded-xl p-4 border border-white/10 hover:border-[#edfc3a]/30 transition-colors h-full">
+          <div className="bg-white/5 backdrop-blur-sm rounded-xl p-4 border border-white/10 hover:border-[#edfc3a]/30 transition-colors">
             <ul className="space-y-2">
               {keyResults.map((item, idx) => (
                 <motion.li

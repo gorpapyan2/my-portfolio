@@ -9,17 +9,16 @@ const technologys: Technology[] = [
     {
       icon: Code2,
       title: 'Automation Testing',
-      description:
-        'Framework-first approach to robust UI/API automation with traceable results and CI gates.',
+      description: 'Framework-first approach to robust UI/API automation with traceable results and CI gates.',
       detailedDescription: [
         'Playwright (TypeScript): E2E + integration tests with page objects, fixtures, env configs, and tracing.',
         'PyTest: Fast, modular automation for API and integration layers.',
         'XCUITest (Swift): Native iOS UI automation for mobile coverage.'
       ],
-      realWorldExample:
-        'Shipped Playwright suites integrated with AWS CodeBuild/CodeArtifact; regression time ↓ ~40% and flaky tests ↓ ~70%.',
+      realWorldExample: 'Shipped Playwright suites integrated with AWS CodeBuild/CodeArtifact; regression time ↓ ~40% and flaky tests ↓ ~70%.',
       level: 90,
-      ctaLink: '/work#automation'
+      category: 'Testing',
+      tags: ['Playwright', 'PyTest', 'XCUITest', 'TypeScript', 'Swift']
     },
     {
       icon: Bug,
@@ -30,10 +29,10 @@ const technologys: Technology[] = [
         'Execute regression/integration cycles; evaluate behavior vs. docs.',
         'Log defects with steps, logs, traces; drive fixes and retests.'
       ],
-      realWorldExample:
-        'Maintained smoke/regression gates and post-release checks for AXS projects.',
+      realWorldExample: 'Maintained smoke/regression gates and post-release checks for AXS projects.',
       level: 92,
-      ctaLink: '/work#manual-testing'
+      category: 'Testing',
+      tags: ['Manual Testing', 'Regression', 'Agile', 'Test Planning']
     },
     {
       icon: Database,
@@ -44,10 +43,10 @@ const technologys: Technology[] = [
         'Service virtualization using Mountebank for deterministic E2E flows.',
         'OpenSearch enrichment service checks wired into CI pipelines.'
       ],
-      realWorldExample:
-        'Built API suites for an Enrichment Service verifying OpenSearch query enrichment in CI.',
+      realWorldExample: 'Built API suites for an Enrichment Service verifying OpenSearch query enrichment in CI.',
       level: 88,
-      ctaLink: '/work#api-testing'
+      category: 'Backend',
+      tags: ['REST API', 'Postman', 'Mountebank', 'OpenSearch']
     },
     {
       icon: Workflow,
@@ -58,16 +57,16 @@ const technologys: Technology[] = [
         'Dependency management via AWS CodeArtifact.',
         'Parallel workers, sharding, and auth reuse (storageState) to reduce runtime.'
       ],
-      realWorldExample:
-        'Cut CI runtimes while enforcing smoke/regression gates before deploy.',
+      realWorldExample: 'Cut CI runtimes while enforcing smoke/regression gates before deploy.',
       level: 86,
-      ctaLink: '/work#cicd'
+      category: 'DevOps',
+      tags: ['AWS CodeBuild', 'CI/CD', 'Parallelization', 'Artifact Management']
     }
   ];
-  
 
 export function TechnologyCarousel() {
     const [currentIndex, setCurrentIndex] = useState(0);
+    
     const currentTechnology = useMemo(
         () => technologys[currentIndex],
         [currentIndex]
@@ -81,40 +80,47 @@ export function TechnologyCarousel() {
             return next;
         });
     };
+
     return (
-        <div className="relative max-w]">
-            {/* Navigation Buttons */}
-            <div className="absolute -left-4 top-1/2 -translate-y-1/2 z-10">
+        <div className="relative">
+            {/* Navigation Controls */}
+            <div className="flex items-center justify-between mb-8">
                 <button
                     onClick={() => navigate(-1)}
-                    className="p-3 rounded-full bg-black/50 hover:bg-black/70 text-white backdrop-blur-sm transition-colors border border-gray-800"
+                    className="group flex items-center gap-3 px-6 py-3 rounded-2xl bg-white/5 hover:bg-white/10 border border-white/10 hover:border-lime-400/30 backdrop-blur-sm transition-all duration-300"
                     aria-label="Previous technology"
                 >
-                    <ChevronLeft className="w-6 h-6" />
+                    <div className="p-2 rounded-xl bg-lime-400/10 group-hover:bg-lime-400/20 transition-colors">
+                        <ChevronLeft className="w-5 h-5 text-lime-400" />
+                    </div>
+                    <span className="text-sm font-medium text-gray-300 group-hover:text-white transition-colors">Previous</span>
                 </button>
-            </div>
 
-            <div className="absolute -right-4 top-1/2 -translate-y-1/2 z-10">
                 <button
                     onClick={() => navigate(1)}
-                    className="p-3 rounded-full bg-black/50 hover:bg-black/70 text-white backdrop-blur-sm transition-colors border border-gray-800"
+                    className="group flex items-center gap-3 px-6 py-3 rounded-2xl bg-white/5 hover:bg-white/10 border border-white/10 hover:border-lime-400/30 backdrop-blur-sm transition-all duration-300"
                     aria-label="Next technology"
                 >
-                    <ChevronRight className="w-6 h-6" />
+                    <span className="text-sm font-medium text-gray-300 group-hover:text-white transition-colors">Next</span>
+                    <div className="p-2 rounded-xl bg-lime-400/10 group-hover:bg-lime-400/20 transition-colors">
+                        <ChevronRight className="w-5 h-5 text-lime-400" />
+                    </div>
                 </button>
             </div>
 
             {/* Carousel Content */}
-            <div className="transition-all duration-500 ease-out">
+            <div className="relative overflow-hidden rounded-3xl">
                 <TechnologyCard technology={currentTechnology} />
             </div>
 
             {/* Pagination */}
-            <PaginationDots
-                total={technologys.length}
-                current={currentIndex}
-                onChange={setCurrentIndex}
-            />
+            <div className="flex items-center justify-center mt-12 gap-4">
+                <PaginationDots
+                    total={technologys.length}
+                    current={currentIndex}
+                    onChange={setCurrentIndex}
+                />
+            </div>
         </div>
     );
 }

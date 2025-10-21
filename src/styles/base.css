@@ -30,5 +30,10 @@ button {
 
 /* Custom Components */
 
+/* Ensure sections scroll properly with fixed header */
+section[id] {
+  scroll-margin-top: 100px;
+}
+
 
 

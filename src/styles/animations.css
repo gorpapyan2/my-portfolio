@@ -115,3 +115,63 @@
 .tools-section.animate {
   animation: sectionSlideIn 1s ease-out forwards;
 }
+
+/* Technologies Background Animations */
+
+/* Floating code snippets animation */
+@keyframes techFloat {
+  0% {
+    transform: translateY(0px);
+    opacity: 0;
+  }
+  20% {
+    opacity: 0.3;
+  }
+  80% {
+    opacity: 0.3;
+  }
+  100% {
+    transform: translateY(-60px);
+    opacity: 0;
+  }
+}
+
+/* Binary stream flow animation */
+@keyframes binaryFlow {
+  0% {
+    transform: translateY(-100vh);
+  }
+  100% {
+    transform: translateY(100vh);
+  }
+}
+
+/* Circuit pulse animation */
+@keyframes circuitPulse {
+  0%, 100% {
+    stroke-opacity: 0.3;
+  }
+  50% {
+    stroke-opacity: 1;
+  }
+}
+
+/* Tech shape rotation animation */
+@keyframes techRotate {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+/* Reduced motion support */
+@media (prefers-reduced-motion: reduce) {
+  .tech-float,
+  .binary-flow,
+  .circuit-pulse,
+  .tech-rotate {
+    animation: none !important;
+  }
+}

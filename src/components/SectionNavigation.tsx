@@ -50,7 +50,15 @@ export function SectionNavigation() {
   const scrollToSection = (sectionId: string) => {
     const element = document.getElementById(sectionId);
     if (element) {
-      element.scrollIntoView({ behavior: 'smooth' });
+      // Calculate the position accounting for the fixed header
+      const headerHeight = 100;
+      const elementPosition = element.offsetTop - headerHeight;
+      
+      // Smooth scroll to the calculated position
+      window.scrollTo({
+        top: elementPosition,
+        behavior: 'smooth'
+      });
     }
     setIsOpen(false);
   };
@@ -132,7 +140,7 @@ export function SectionNavigation() {
             transition={{ duration: 0.3 }}
             className="absolute bottom-full left-0 mb-2 w-48 z-50"
           >
-            <div className="space-y-1 bg-white/10 backdrop-blur-md rounded-lg border border-white/20 p-2">
+            <div className="space-y-1 bg-slate-900/80 backdrop-blur-md rounded-lg border border-white/20 p-2 shadow-xl">
               {sectionsBase.map((section) => {
                 const Icon = section.icon;
                 const isActive = activeSection === section.id;

@@ -42,7 +42,7 @@ export function AboutPage() {
           <div className="max-w-6xl mx-auto px-4">
             <div className="h-px bg-gradient-to-r from-transparent via-[#edfc3a]/30 to-transparent" />
           </div>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-10 items-stretch mb-24 md:mb-32 lg:mb-40">
+          <div className="flex flex-col md:grid md:grid-cols-2 gap-10 mb-24 md:mb-32 lg:mb-40">
             <KeyResults />
             <Languages />
           </div>

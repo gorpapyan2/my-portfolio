@@ -35,15 +35,15 @@ export function Languages() {
 	}
 
   return (
-    <section id="languages" className="scroll-mt-24 h-full">
-      <div className="max-w-3xl mx-auto px-4 h-full">
+    <section id="languages" className="scroll-mt-24">
+      <div className="max-w-3xl mx-auto px-4">
         <SectionHeader
           icon={LanguagesIcon}
           title={t('about.languages.title')}
         />
 
 		{isLoading && (
-			<div className="bg-white/5 backdrop-blur-sm rounded-xl p-4 border border-white/10 h-full">
+			<div className="bg-white/5 backdrop-blur-sm rounded-xl p-4 border border-white/10">
 				<div className="grid grid-cols-1 gap-2" aria-label="language badges loading">
 					{Array.from({ length: 6 }).map((_, i) => (
 						<div key={i} className="h-9 rounded-full bg-white/10 border border-white/10 animate-pulse" />
@@ -57,7 +57,7 @@ export function Languages() {
         )}
 
 		{!isLoading && !error && (
-			<div className="bg-white/5 backdrop-blur-sm rounded-xl p-4 border border-white/10 hover:border-[#edfc3a]/30 transition-colors h-full">
+			<div className="bg-white/5 backdrop-blur-sm rounded-xl p-4 border border-white/10 hover:border-[#edfc3a]/30 transition-colors">
 				<div className="grid grid-cols-1 gap-2" aria-label="language badges">
 					{languages.map((raw, idx) => {
 						const { name, level } = parseLanguage(raw);
