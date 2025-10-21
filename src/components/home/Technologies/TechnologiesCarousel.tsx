@@ -83,34 +83,26 @@ export function TechnologyCarousel() {
 
     return (
         <div className="relative">
-            {/* Navigation Controls */}
-            <div className="flex items-center justify-between mb-8">
+            {/* Carousel Content */}
+            <div className="relative overflow-hidden rounded-3xl">
+                <TechnologyCard technology={currentTechnology} />
+                
+                {/* Navigation Controls - Positioned at corners */}
                 <button
                     onClick={() => navigate(-1)}
-                    className="group flex items-center gap-3 px-6 py-3 rounded-2xl bg-white/5 hover:bg-white/10 border border-white/10 hover:border-lime-400/30 backdrop-blur-sm transition-all duration-300"
+                    className="absolute left-4 top-1/2 -translate-y-1/2 group flex items-center justify-center w-12 h-12 rounded-full bg-white/10 hover:bg-white/20 border border-white/20 hover:border-lime-400/50 backdrop-blur-sm transition-all duration-300 z-10"
                     aria-label="Previous technology"
                 >
-                    <div className="p-2 rounded-xl bg-lime-400/10 group-hover:bg-lime-400/20 transition-colors">
-                        <ChevronLeft className="w-5 h-5 text-lime-400" />
-                    </div>
-                    <span className="text-sm font-medium text-gray-300 group-hover:text-white transition-colors">Previous</span>
+                    <ChevronLeft className="w-6 h-6 text-white group-hover:text-lime-400 transition-colors" />
                 </button>
 
                 <button
                     onClick={() => navigate(1)}
-                    className="group flex items-center gap-3 px-6 py-3 rounded-2xl bg-white/5 hover:bg-white/10 border border-white/10 hover:border-lime-400/30 backdrop-blur-sm transition-all duration-300"
+                    className="absolute right-4 top-1/2 -translate-y-1/2 group flex items-center justify-center w-12 h-12 rounded-full bg-white/10 hover:bg-white/20 border border-white/20 hover:border-lime-400/50 backdrop-blur-sm transition-all duration-300 z-10"
                     aria-label="Next technology"
                 >
-                    <span className="text-sm font-medium text-gray-300 group-hover:text-white transition-colors">Next</span>
-                    <div className="p-2 rounded-xl bg-lime-400/10 group-hover:bg-lime-400/20 transition-colors">
-                        <ChevronRight className="w-5 h-5 text-lime-400" />
-                    </div>
+                    <ChevronRight className="w-6 h-6 text-white group-hover:text-lime-400 transition-colors" />
                 </button>
-            </div>
-
-            {/* Carousel Content */}
-            <div className="relative overflow-hidden rounded-3xl">
-                <TechnologyCard technology={currentTechnology} />
             </div>
 
             {/* Pagination */}
