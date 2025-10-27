@@ -29,7 +29,7 @@ const technologys: Technology[] = [
         'Execute regression/integration cycles; evaluate behavior vs. docs.',
         'Log defects with steps, logs, traces; drive fixes and retests.'
       ],
-      realWorldExample: 'Maintained smoke/regression gates and post-release checks for AXS projects.',
+      realWorldExample: 'Maintained smoke/regression gates and post-release checks for various projects.',
       level: 92,
       category: 'Testing',
       tags: ['Manual Testing', 'Regression', 'Agile', 'Test Planning']
