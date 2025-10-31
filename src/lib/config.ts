@@ -32,7 +32,7 @@ export const supabaseConfig = {
 export const assetUrls = {
   cv: getEnvVar(
     'VITE_CV_URL',
-    'https://lfbemjnghstybysdemys.supabase.co/storage/v1/object/public/documents/Gor_Papyan_CV%20(1).pdf'
+    'https://lfbemjnghstybysdemys.supabase.co/storage/v1/object/public/documents/Gor_Papyan_CV.pdf'
   ),
   portrait: getEnvVar(
     'VITE_PORTRAIT_URL',

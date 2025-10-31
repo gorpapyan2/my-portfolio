@@ -237,6 +237,76 @@ export interface Database {
           updated_at?: string;
         };
       };
+      technologies: {
+        Row: {
+          id: string;
+          slug: string;
+          language: 'en' | 'ru' | 'am';
+          title: string;
+          description: string;
+          category: string;
+          level: number;
+          icon_name: string | null;
+          created_at: string;
+          updated_at: string;
+        };
+        Insert: {
+          id?: string;
+          slug: string;
+          language: 'en' | 'ru' | 'am';
+          title: string;
+          description: string;
+          category: string;
+          level: number;
+          icon_name?: string | null;
+          created_at?: string;
+          updated_at?: string;
+        };
+        Update: {
+          id?: string;
+          slug?: string;
+          language?: 'en' | 'ru' | 'am';
+          title?: string;
+          description?: string;
+          category?: string;
+          level?: number;
+          icon_name?: string | null;
+          created_at?: string;
+          updated_at?: string;
+        };
+      };
+      technology_details: {
+        Row: {
+          id: string;
+          technology_id: string;
+          language: 'en' | 'ru' | 'am';
+          detailed_description: any;
+          tags: any;
+          real_world_example: string;
+          created_at: string;
+          updated_at: string;
+        };
+        Insert: {
+          id?: string;
+          technology_id: string;
+          language: 'en' | 'ru' | 'am';
+          detailed_description: any;
+          tags: any;
+          real_world_example: string;
+          created_at?: string;
+          updated_at?: string;
+        };
+        Update: {
+          id?: string;
+          technology_id?: string;
+          language?: 'en' | 'ru' | 'am';
+          detailed_description?: any;
+          tags?: any;
+          real_world_example?: string;
+          created_at?: string;
+          updated_at?: string;
+        };
+      };
       skills: {
         Row: {
           id: string;
@@ -347,6 +417,16 @@ export type EducationUpdate = Database['public']['Tables']['education']['Update'
 export type Skill = Database['public']['Tables']['skills']['Row'];
 export type SkillInsert = Database['public']['Tables']['skills']['Insert'];
 export type SkillUpdate = Database['public']['Tables']['skills']['Update'];
+
+// Technology types
+export type Technology = Database['public']['Tables']['technologies']['Row'];
+export type TechnologyInsert = Database['public']['Tables']['technologies']['Insert'];
+export type TechnologyUpdate = Database['public']['Tables']['technologies']['Update'];
+
+// Technology detail types
+export type TechnologyDetail = Database['public']['Tables']['technology_details']['Row'];
+export type TechnologyDetailInsert = Database['public']['Tables']['technology_details']['Insert'];
+export type TechnologyDetailUpdate = Database['public']['Tables']['technology_details']['Update'];
 
 // Feature flag types
 export type FeatureFlag = Database['public']['Tables']['feature_flags']['Row'];
