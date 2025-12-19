@@ -2,6 +2,7 @@ import { motion } from 'framer-motion';
 import { Link } from 'react-router-dom';
 import { Home, ArrowLeft, Search } from 'lucide-react';
 import { useLanguage } from '../context/LanguageContext';
+import { TranslationText } from '../components/shared/TranslationText';
 
 export function NotFoundPage() {
   const { t } = useLanguage();
@@ -90,28 +91,28 @@ export function NotFoundPage() {
                 to="/about"
                 className="text-sm text-gray-400 hover:text-[#edfc3a] transition-colors"
               >
-                {t('nav.about')}
+                <TranslationText translationKey="nav.about" shimmerWidth="60px" />
               </Link>
               <span className="text-gray-700">•</span>
               <Link
                 to="/work"
                 className="text-sm text-gray-400 hover:text-[#edfc3a] transition-colors"
               >
-                {t('nav.work')}
+                <TranslationText translationKey="nav.work" shimmerWidth="50px" />
               </Link>
               <span className="text-gray-700">•</span>
               <Link
                 to="/blog"
                 className="text-sm text-gray-400 hover:text-[#edfc3a] transition-colors"
               >
-                {t('nav.blog')}
+                <TranslationText translationKey="nav.blog" shimmerWidth="50px" />
               </Link>
               <span className="text-gray-700">•</span>
               <Link
                 to="/contact"
                 className="text-sm text-gray-400 hover:text-[#edfc3a] transition-colors"
               >
-                {t('nav.contact')}
+                <TranslationText translationKey="nav.contact" shimmerWidth="70px" />
               </Link>
             </div>
           </motion.div>

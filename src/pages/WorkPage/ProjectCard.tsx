@@ -1,6 +1,7 @@
 import { ExternalLink, Github } from 'lucide-react';
 import { Card } from '../../components/shared/Card';
 import { useLanguage } from '../../context/LanguageContext';
+import { TranslationText } from '../../components/shared/TranslationText';
 
 interface ProjectCardProps {
   title: string;
@@ -47,7 +48,7 @@ export function ProjectCard({ title, description, image, tags, liveUrl, githubUr
             className="inline-flex items-center gap-2 text-white hover:text-[#edfc3a] transition-colors"
           >
             <ExternalLink className="h-5 w-5" />
-            {t('projects.liveDemo')}
+            <TranslationText translationKey="projects.liveDemo" shimmerWidth="100px" />
           </a>
         )}
         {githubUrl && (
@@ -58,7 +59,7 @@ export function ProjectCard({ title, description, image, tags, liveUrl, githubUr
             className="inline-flex items-center gap-2 text-white hover:text-[#edfc3a] transition-colors"
           >
             <Github className="h-5 w-5" />
-            {t('projects.sourceCode')}
+            <TranslationText translationKey="projects.sourceCode" shimmerWidth="120px" />
           </a>
         )}
       </div>

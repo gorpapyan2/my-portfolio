@@ -6,6 +6,7 @@ import { useLanguage } from '../../../context/LanguageContext';
 import { useSkillService } from '../../../lib/services/useSkillService';
 import { getIcon } from '../../../utils/iconMap';
 import { PaginationDots } from '../../ui/PaginationDots';
+import { TranslationText } from '../../../components/shared/TranslationText';
 
 // Helper to compute proficiency level from percentage
 function getProficiencyLevel(level: number): string {
@@ -54,8 +55,8 @@ export function Skills() {
                 <div className="max-w-6xl mx-auto px-4">
                     <SectionHeader
                         icon={Lightbulb}
-                        title={t('about.skills.title')}
-                        subtitle={t('about.skills.subtitle')}
+                        title={<TranslationText translationKey="about.skills.title" shimmerWidth="120px" />}
+                        subtitle={<TranslationText translationKey="about.skills.subtitle" as="span" shimmerWidth="300px" />}
                     />
 
                     <div className="relative z-10">
@@ -78,8 +79,8 @@ export function Skills() {
                 <div className="max-w-6xl mx-auto px-4">
                     <SectionHeader
                         icon={Lightbulb}
-                        title={t('about.skills.title')}
-                        subtitle={t('about.skills.subtitle')}
+                        title={<TranslationText translationKey="about.skills.title" shimmerWidth="120px" />}
+                        subtitle={<TranslationText translationKey="about.skills.subtitle" as="span" shimmerWidth="300px" />}
                     />
                     <div className="text-center py-8">
                         <p className="text-red-400">Failed to load skills: {error}</p>
@@ -185,7 +186,9 @@ export function Skills() {
                                                     {/* Proficiency Bar */}
                                                     <div className="space-y-2">
                                                         <div className="flex justify-between items-center text-xs md:text-sm">
-                                                            <span className="text-gray-400">{t('proficiency')}</span>
+                                                            <span className="text-gray-400">
+                                                                <TranslationText translationKey="proficiency" shimmerWidth="100px" />
+                                                            </span>
                                                             <span className="text-[#edfc3a] font-semibold">{skill.level}%</span>
                                                         </div>
                                                         

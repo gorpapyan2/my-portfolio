@@ -7,6 +7,121 @@
   }
 }
 
+/* Enhanced Shimmer Animation */
+@keyframes shimmer-smooth {
+  0% {
+    background-position: -200% 0;
+  }
+  100% {
+    background-position: 200% 0;
+  }
+}
+
+/* Professional shimmer effect with gradient */
+.shimmer {
+  background: linear-gradient(
+    90deg,
+    rgba(255, 255, 255, 0.05) 0%,
+    rgba(255, 255, 255, 0.1) 50%,
+    rgba(255, 255, 255, 0.05) 100%
+  );
+  background-size: 200% 100%;
+  animation: shimmer-smooth 1.5s ease-in-out infinite;
+  position: relative;
+  overflow: hidden;
+}
+
+.shimmer::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    rgba(255, 255, 255, 0.15) 50%,
+    transparent 100%
+  );
+  animation: shimmer 2s infinite;
+}
+
+/* Dark mode shimmer variant */
+.dark .shimmer {
+  background: linear-gradient(
+    90deg,
+    rgba(255, 255, 255, 0.03) 0%,
+    rgba(255, 255, 255, 0.08) 50%,
+    rgba(255, 255, 255, 0.03) 100%
+  );
+  background-size: 200% 100%;
+}
+
+/* Reduced motion support for shimmer */
+@media (prefers-reduced-motion: reduce) {
+  .shimmer {
+    animation: none;
+  }
+  .shimmer::before {
+    animation: none;
+  }
+}
+
+/* Modern Smooth Spinner Animations - Hardware Accelerated */
+@keyframes spin-smooth {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes spin-reverse {
+  0% {
+    transform: rotate(360deg);
+  }
+  100% {
+    transform: rotate(0deg);
+  }
+}
+
+@keyframes pulse-smooth {
+  0%, 100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.6;
+    transform: scale(0.85);
+  }
+}
+
+/* Utility classes for modern spinner - optimized for performance */
+.animate-spin-smooth {
+  animation: spin-smooth 1.2s cubic-bezier(0.5, 0, 0.5, 1) infinite;
+  will-change: transform;
+}
+
+.animate-spin-reverse {
+  animation: spin-reverse 0.8s cubic-bezier(0.5, 0, 0.5, 1) infinite;
+  will-change: transform;
+}
+
+.animate-pulse-smooth {
+  animation: pulse-smooth 1.5s ease-in-out infinite;
+  will-change: transform, opacity;
+}
+
+/* Reduced motion support for spinner */
+@media (prefers-reduced-motion: reduce) {
+  .animate-spin-smooth,
+  .animate-spin-reverse,
+  .animate-pulse-smooth {
+    animation: none;
+  }
+}
 
 /* Pulse Animation for Background Grid */
 @keyframes pulseGrid {
@@ -96,82 +211,5 @@
   }
 }
 
-/* Utility Classes for Animations */
-.animate-pulse-grid {
-  animation: pulseGrid 3s ease-in-out infinite;
-}
-
-.animate-pulse-gradient {
-  background: linear-gradient(270deg, #0a0a0f, #1a1a24);
-  background-size: 400% 400%;
-  animation: gradientShift 10s ease infinite;
-}
-
-.animate-text-pop:hover {
-  animation: textPop 0.3s ease-in-out;
-}
-
-/* Section Animation */
-.tools-section.animate {
-  animation: sectionSlideIn 1s ease-out forwards;
-}
-
-/* Technologies Background Animations */
-
-/* Floating code snippets animation */
-@keyframes techFloat {
-  0% {
-    transform: translateY(0px);
-    opacity: 0;
-  }
-  20% {
-    opacity: 0.3;
-  }
-  80% {
-    opacity: 0.3;
-  }
-  100% {
-    transform: translateY(-60px);
-    opacity: 0;
-  }
-}
-
-/* Binary stream flow animation */
-@keyframes binaryFlow {
-  0% {
-    transform: translateY(-100vh);
-  }
-  100% {
-    transform: translateY(100vh);
-  }
-}
-
-/* Circuit pulse animation */
-@keyframes circuitPulse {
-  0%, 100% {
-    stroke-opacity: 0.3;
-  }
-  50% {
-    stroke-opacity: 1;
-  }
-}
-
-/* Tech shape rotation animation */
-@keyframes techRotate {
-  0% {
-    transform: rotate(0deg);
-  }
-  100% {
-    transform: rotate(360deg);
-  }
-}
-
-/* Reduced motion support */
-@media (prefers-reduced-motion: reduce) {
-  .tech-float,
-  .binary-flow,
-  .circuit-pulse,
-  .tech-rotate {
-    animation: none !important;
-  }
-}
+/* Note: pulseGrid, gradientShift, textPop, sectionSlideIn keyframes are kept
+   as they may be used by components.css or future components */

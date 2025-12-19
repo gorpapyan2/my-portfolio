@@ -8,6 +8,7 @@ import { usePublicFeatureFlags } from '../../lib/services/usePublicFeatureFlags'
 import { useAuth } from '../../context/AuthContext';
 import { NavLinks } from './NavLinks';
 import { MobileMenu } from './MobileMenu';
+import { TranslationText } from '../shared/TranslationText';
 
 const languages: { code: Language; labelKey: string; }[] = [
   { code: 'en', labelKey: 'language.en' },
@@ -146,7 +147,7 @@ export function Header() {
                 >
                   <Globe className="h-4 w-4 text-gray-300 group-hover:text-[#edfc3a] transition-colors duration-300" />
                   <span className="text-sm text-white group-hover:text-[#edfc3a] transition-colors duration-300">
-                    {t(getCurrentLanguage().labelKey)}
+                    <TranslationText translationKey={getCurrentLanguage().labelKey} shimmerWidth="80px" />
                   </span>
                   <ChevronDown 
                     className={`h-3 w-3 text-gray-400 transition-all duration-300 ${
@@ -175,7 +176,7 @@ export function Header() {
                               language === lang.code ? 'bg-[#edfc3a]' : 'bg-gray-500 group-hover:bg-[#edfc3a]'
                             }`} />
                             <span className="transition-transform duration-200 group-hover:translate-x-1">
-                              {t(lang.labelKey)}
+                              <TranslationText translationKey={lang.labelKey} shimmerWidth="80px" />
                             </span>
                             {language === lang.code && (
                               <div className="ml-auto w-1 h-1 bg-[#edfc3a] rounded-full animate-pulse" />
@@ -202,7 +203,11 @@ export function Header() {
               >
                 <Edit3 className="h-4 w-4" />
                 <span className="text-xs font-medium">
-                  {isTranslationEditMode ? t('nav.editOn') : t('nav.edit')}
+                  {isTranslationEditMode ? (
+                    <TranslationText translationKey="nav.editOn" shimmerWidth="60px" />
+                  ) : (
+                    <TranslationText translationKey="nav.edit" shimmerWidth="40px" />
+                  )}
                 </span>
               </button>
             )}
@@ -214,7 +219,7 @@ export function Header() {
             >
               <FileDown className="h-4 w-4 md:h-5 md:w-5 transition-transform duration-300 group-hover:translate-y-[-2px]" />
               <span className="transition-transform duration-300 group-hover:translate-y-[-1px]">
-                {t('hero.downloadCV')}
+                <TranslationText translationKey="hero.downloadCV" shimmerWidth="100px" />
               </span>
             </button>
 

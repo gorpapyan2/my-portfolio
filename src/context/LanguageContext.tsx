@@ -1,6 +1,8 @@
 import React, { createContext, useContext, useState } from 'react';
 // DB-only i18n: no static fallback here
 import { useTranslationService } from '../lib/services/useTranslationService';
+import { TranslationLoadingScreen } from '../components/loading/TranslationLoadingScreen';
+import { ErrorScreen } from '../components/loading/ErrorScreen';
 
 export type Language = 'en' | 'ru' | 'am';
 
@@ -15,7 +17,17 @@ interface LanguageContextType {
 const LanguageContext = createContext<LanguageContextType | undefined>(undefined);
 
 export function LanguageProvider({ children }: { children: React.ReactNode }) {
-  const [language, setLanguage] = useState<Language>('en');
+  // Initialize language from localStorage or default to 'en'
+  const [language, setLanguageState] = useState<Language>(() => {
+    const stored = localStorage.getItem('preferred-language');
+    return (stored === 'en' || stored === 'ru' || stored === 'am') ? stored : 'en';
+  });
+  
+  // Wrapper to persist language changes to localStorage
+  const setLanguage = (lang: Language) => {
+    setLanguageState(lang);
+    localStorage.setItem('preferred-language', lang);
+  };
   
   // Always call the hook, but handle errors gracefully
   const translationService = useTranslationService();
@@ -30,6 +42,23 @@ export function LanguageProvider({ children }: { children: React.ReactNode }) {
     }
     return `[missing:${key}]`;
   };
+
+  // Don't render children until translations are loaded
+  if (translationService.isLoading) {
+    return <TranslationLoadingScreen />;
+  }
+
+  // Show error state if translations failed to load
+  if (translationService.error) {
+    return (
+      <ErrorScreen
+        title="Unable to Load Your Language"
+        message="We couldn't load your preferred language settings. This might be a temporary issue."
+        onRetry={() => window.location.reload()}
+        retryText="Try Again"
+      />
+    );
+  }
 
   return (
     <LanguageContext.Provider value={{ 

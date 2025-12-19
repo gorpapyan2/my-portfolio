@@ -1,6 +1,7 @@
 import { Mail, Phone, MapPin } from 'lucide-react';
 import { Card } from '../../components/shared/Card';
 import { useLanguage } from '../../context/LanguageContext';
+import { TranslationText } from '../../components/shared/TranslationText';
 
 interface ContactDetail {
   icon: typeof Mail | typeof Phone | typeof MapPin;
@@ -34,7 +35,9 @@ export function ContactInfo() {
 
   return (
     <Card>
-      <h2 className="text-xl font-semibold text-white mb-6">{t('contact.getInTouch')}</h2>
+      <h2 className="text-xl font-semibold text-white mb-6">
+        <TranslationText translationKey="contact.getInTouch" as="span" shimmerWidth="150px" />
+      </h2>
       <div className="space-y-6">
         {contactDetails.map(({ icon: Icon, label, value, href }) => (
           <div key={label} className="flex items-start gap-4">

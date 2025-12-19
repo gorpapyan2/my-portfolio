@@ -3,6 +3,7 @@ import { LucideIcon } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { Card } from '../../shared/Card';
 import { useLanguage } from '../../../context/LanguageContext';
+import { TranslationText } from '../../../components/shared/TranslationText';
 
 export interface PortfolioNavCardProps {
   icon: LucideIcon;
@@ -51,7 +52,9 @@ export function PortfolioNavCard({
 
           {/* CTA Arrow */}
           <div className="inline-flex items-center gap-2 text-[#edfc3a] font-medium transition-all duration-300 group-hover:gap-3">
-            <span className="text-sm">{t('portfolioNav.learnMore')}</span>
+            <span className="text-sm">
+              <TranslationText translationKey="portfolioNav.learnMore" shimmerWidth="100px" />
+            </span>
             <span className="transition-transform duration-300 group-hover:translate-x-1">→</span>
           </div>
 

@@ -8,7 +8,7 @@ export function useRouteLoading() {
 
   useEffect(() => {
     if (navigation.state === 'loading') {
-      startLoading('Loading page...');
+      startLoading('Navigating to your destination...');
     } else {
       stopLoading();
     }

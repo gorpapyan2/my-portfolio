@@ -4,6 +4,7 @@ import { SectionHeader } from '../shared/SectionHeader';
 import { useLanguage } from '../../context/LanguageContext';
 import { useAboutService } from '../../lib/services/useAboutService';
 import { cn } from '../../utils/cn';
+import { TranslationText } from '../../components/shared/TranslationText';
 
 export function Languages() {
   const { t } = useLanguage();
@@ -39,7 +40,7 @@ export function Languages() {
       <div className="max-w-3xl mx-auto px-4">
         <SectionHeader
           icon={LanguagesIcon}
-          title={t('about.languages.title')}
+          title={<TranslationText translationKey="about.languages.title" shimmerWidth="150px" />}
         />
 
 		{isLoading && (

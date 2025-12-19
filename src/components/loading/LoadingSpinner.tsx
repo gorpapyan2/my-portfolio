@@ -1,19 +1,15 @@
 export function LoadingSpinner() {
   return (
-    <div className="relative w-32 h-32">
-      {/* Main rotating circle */}
-      <div className="absolute inset-0 rounded-full animate-[spin_3s_linear_infinite]">
-        <div className="absolute inset-0 bg-gradient-to-r from-purple-500 to-pink-500 rounded-full blur-sm" />
-      </div>
+    <div className="relative w-16 h-16">
+      {/* Modern rotating ring with gradient */}
+      <div className="absolute inset-0 rounded-full border-4 border-transparent border-t-[#edfc3a] border-r-[#edfc3a]/30 animate-spin-smooth" />
       
-      {/* Inner pulsing circle */}
-      <div className="absolute inset-4 bg-black rounded-full">
-        <div className="absolute inset-0 bg-gradient-to-r from-purple-600 to-pink-600 rounded-full animate-pulse blur-md" />
-      </div>
+      {/* Inner rotating ring (counter-rotation for depth) */}
+      <div className="absolute inset-2 rounded-full border-[3px] border-transparent border-b-[#dbe938] border-l-[#dbe938]/30 animate-spin-reverse" />
       
-      {/* Orbiting element */}
-      <div className="absolute w-4 h-4 bg-white rounded-full animate-[orbit_2s_linear_infinite]">
-        <div className="absolute inset-0 bg-white rounded-full blur-sm" />
+      {/* Center pulsing dot */}
+      <div className="absolute inset-0 flex items-center justify-center">
+        <div className="w-2 h-2 bg-[#edfc3a] rounded-full animate-pulse-smooth" />
       </div>
     </div>
   );

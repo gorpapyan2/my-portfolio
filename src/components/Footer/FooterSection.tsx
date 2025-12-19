@@ -2,7 +2,7 @@ import React from 'react';
 import { Shimmer } from '../ui/Shimmer';
 
 interface FooterSectionProps {
-  title: string;
+  title: string | React.ReactNode;
   children: React.ReactNode;
 }
 

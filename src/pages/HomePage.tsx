@@ -10,6 +10,7 @@ import { useProjectService } from '../lib/services/useProjectService';
 import { useBlogService } from '../lib/services/useBlogService';
 import { usePublicFeatureFlags } from '../lib/services/usePublicFeatureFlags';
 import { LoadingSpinner } from '../components/loading/LoadingSpinner';
+import { TranslationText } from '../components/shared/TranslationText';
 
 export function HomePage() {
   const { t } = useLanguage();
@@ -40,9 +41,11 @@ export function HomePage() {
           <div className="max-w-7xl mx-auto px-4">
             <div className="flex items-end justify-between mb-10">
               <h2 className="text-4xl font-bold text-white">
-                {t('pages.home.featuredProjects')}
+                <TranslationText translationKey="pages.home.featuredProjects" as="span" shimmerWidth="250px" />
               </h2>
-              <a href="/work" className="text-[#edfc3a] hover:text-white transition-colors">{t('viewAll')}</a>
+              <a href="/work" className="text-[#edfc3a] hover:text-white transition-colors">
+                <TranslationText translationKey="viewAll" shimmerWidth="80px" />
+              </a>
             </div>
             {projectsLoading ? (
               <div className="flex justify-center">
@@ -72,9 +75,11 @@ export function HomePage() {
           <div className="max-w-7xl mx-auto px-4">
             <div className="flex items-end justify-between mb-10">
               <h2 className="text-4xl font-bold text-white">
-                {t('pages.home.latestArticles')}
+                <TranslationText translationKey="pages.home.latestArticles" as="span" shimmerWidth="200px" />
               </h2>
-              <a href="/blog" className="text-[#edfc3a] hover:text-white transition-colors">{t('viewAll')}</a>
+              <a href="/blog" className="text-[#edfc3a] hover:text-white transition-colors">
+                <TranslationText translationKey="viewAll" shimmerWidth="80px" />
+              </a>
             </div>
             {blogLoading ? (
               <div className="flex justify-center">

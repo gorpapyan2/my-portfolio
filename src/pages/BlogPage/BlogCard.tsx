@@ -2,6 +2,7 @@ import { Link } from 'react-router-dom';
 import { Card } from '../../components/shared/Card';
 import { MarkdownRenderer } from '../../components/markdown/MarkdownRenderer';
 import { useLanguage } from '../../context/LanguageContext';
+import { TranslationText } from '../../components/shared/TranslationText';
 
 /**
  * Props for BlogCard component with explicit typing
@@ -109,7 +110,7 @@ export function BlogCard({
         to={`/blog/${slug}`}
         className="inline-flex items-center text-[#edfc3a] hover:text-white transition-colors font-medium mt-auto"
       >
-        {t('blog.readMore')}
+        <TranslationText translationKey="blog.readMore" shimmerWidth="100px" />
         <svg 
           className="w-4 h-4 ml-2 transform group-hover:translate-x-1 transition-transform" 
           fill="none" 

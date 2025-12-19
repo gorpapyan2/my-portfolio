@@ -3,20 +3,14 @@ import { ParticlesBackground } from './ParticlesBackground';
 import { ProgressRing } from './ProgressRing';
 import { motion } from 'framer-motion';
 
-interface LoadingScreenProps {
-  progress?: number;
-  message?: string;
-}
-
-const defaultMessages = [
-  "Just a moment, please...",
-  "Almost ready!",
-  "Getting things ready for you...",
+const loadingMessages = [
+  "Welcome! Getting everything ready for you...",
+  "Just a moment, we're setting things up...",
+  "Almost ready! Preparing your experience...",
+  "Thanks for your patience...",
 ];
 
-export function LoadingScreen({ progress, message }: LoadingScreenProps) {
-  const displayMessage = message || defaultMessages[Math.floor(Math.random() * defaultMessages.length)];
-
+export function TranslationLoadingScreen() {
   return (
     <motion.div 
       initial={{ opacity: 0 }}
@@ -33,7 +27,7 @@ export function LoadingScreen({ progress, message }: LoadingScreenProps) {
           transition={{ duration: 0.5, ease: "easeOut" }}
           className="relative"
         >
-          <ProgressRing progress={progress} />
+          <ProgressRing progress={undefined} />
           <LoadingSpinner />
         </motion.div>
         
@@ -54,7 +48,7 @@ export function LoadingScreen({ progress, message }: LoadingScreenProps) {
             }}
             className="text-xl font-medium text-white mb-2"
           >
-            {displayMessage}
+            {loadingMessages[Math.floor(Math.random() * loadingMessages.length)]}
           </motion.p>
 
           {/* Loading dots animation */}
@@ -77,6 +71,16 @@ export function LoadingScreen({ progress, message }: LoadingScreenProps) {
             ))}
           </div>
         </motion.div>
+
+        {/* Hint text */}
+        <motion.p
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ delay: 1 }}
+          className="text-xs text-white/40 mt-4"
+        >
+          Please wait while we load your preferred language...
+        </motion.p>
       </div>
 
       {/* Ambient glow effect */}
@@ -84,3 +88,4 @@ export function LoadingScreen({ progress, message }: LoadingScreenProps) {
     </motion.div>
   );
 }
+

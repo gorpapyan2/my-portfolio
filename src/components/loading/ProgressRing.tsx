@@ -34,8 +34,8 @@ export function ProgressRing({ progress = 0 }: ProgressRingProps) {
         />
         <defs>
           <linearGradient id="progressGradient" x1="0%" y1="0%" x2="100%" y2="0%">
-            <stop offset="0%" stopColor="#8B5CF6" />
-            <stop offset="100%" stopColor="#EC4899" />
+            <stop offset="0%" stopColor="#edfc3a" />
+            <stop offset="100%" stopColor="#dbe938" />
           </linearGradient>
         </defs>
       </svg>

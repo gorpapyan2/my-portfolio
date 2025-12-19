@@ -1,6 +1,7 @@
 import { ProjectCard } from './ProjectCard';
 import { Project } from '../../types/database.types';
 import { useLanguage } from '../../context/LanguageContext';
+import { TranslationText } from '../../components/shared/TranslationText';
 
 interface ProjectGridProps {
   projects: Project[];
@@ -11,7 +12,7 @@ export function ProjectGrid({ projects }: ProjectGridProps) {
   if (!projects || projects.length === 0) {
     return (
       <div className="text-center text-gray-400 py-12">
-        {t('projects.none')}
+        <TranslationText translationKey="projects.none" as="span" shimmerWidth="150px" />
       </div>
     );
   }

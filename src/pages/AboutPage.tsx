@@ -15,6 +15,7 @@ import { Experience } from "@/components/about/Expirence";
 import { Education } from "@/components/about/Education";
 import { Skills } from "@/components/about/Skills";
 import { useLanguage } from "@/context/LanguageContext";
+import { TranslationText } from "@/components/shared/TranslationText";
 
 export function AboutPage() {
   const [soundEnabled] = useState(false);
@@ -33,8 +34,8 @@ export function AboutPage() {
         
         <PageHeader
           icon={User}
-          title={t('pages.about.title')}
-          subtitle={t('pages.about.subtitle')}
+          title={<TranslationText translationKey="pages.about.title" shimmerWidth="150px" />}
+          subtitle={<TranslationText translationKey="pages.about.subtitle" as="span" shimmerWidth="400px" />}
         />
         
         <div className="space-y-20">

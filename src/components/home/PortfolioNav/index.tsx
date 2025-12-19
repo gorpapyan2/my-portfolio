@@ -5,6 +5,7 @@ import { usePublicFeatureFlags } from '../../../lib/services/usePublicFeatureFla
 import { PortfolioNavCard } from './PortfolioNavCard';
 import { Card } from '../../shared/Card';
 import { LucideIcon } from 'lucide-react';
+import { TranslationText } from '../../../components/shared/TranslationText';
 
 interface NavCard {
   icon: LucideIcon;
@@ -119,10 +120,10 @@ export function PortfolioNav() {
           className="mb-12 md:mb-16 text-center"
         >
           <h2 className="mb-3 md:mb-4 text-3xl md:text-4xl font-bold text-white">
-            {t('portfolioNav.title')}
+            <TranslationText translationKey="portfolioNav.title" as="span" shimmerWidth="250px" />
           </h2>
           <p className="mx-auto max-w-2xl text-base md:text-lg text-gray-400">
-            {t('portfolioNav.subtitle')}
+            <TranslationText translationKey="portfolioNav.subtitle" as="span" shimmerWidth="400px" />
           </p>
         </motion.div>
 

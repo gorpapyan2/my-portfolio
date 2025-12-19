@@ -4,6 +4,7 @@ import { Settings } from 'lucide-react';
 import { useLanguage } from '../../context/LanguageContext';
 import { useAuth } from '../../context/AuthContext';
 import { usePublicFeatureFlags } from '../../lib/services/usePublicFeatureFlags';
+import { TranslationText } from '../shared/TranslationText';
 
 interface NavLinkProps {
   to: string;
@@ -49,15 +50,27 @@ export function NavLinks() {
 
   return (
     <nav className="hidden md:flex items-center gap-4 lg:gap-6">
-      <NavLink to="/about">{t('nav.about')}</NavLink>
-      {showWorkSection && <NavLink to="/work">{t('nav.work')}</NavLink>}
-      {showBlogSection && <NavLink to="/blog">{t('nav.blog')}</NavLink>}
-      <NavLink to="/contact">{t('nav.contact')}</NavLink>
+      <NavLink to="/about">
+        <TranslationText translationKey="nav.about" shimmerWidth="60px" />
+      </NavLink>
+      {showWorkSection && (
+        <NavLink to="/work">
+          <TranslationText translationKey="nav.work" shimmerWidth="50px" />
+        </NavLink>
+      )}
+      {showBlogSection && (
+        <NavLink to="/blog">
+          <TranslationText translationKey="nav.blog" shimmerWidth="50px" />
+        </NavLink>
+      )}
+      <NavLink to="/contact">
+        <TranslationText translationKey="nav.contact" shimmerWidth="70px" />
+      </NavLink>
       {/* Admin dashboard link - only visible when authenticated */}
       {isAdmin && (
         <NavLink to="/admin/dashboard" className="inline-flex items-center gap-1 bg-[#edfc3a]/10 text-[#edfc3a] hover:bg-[#edfc3a]/20">
           <Settings className="h-4 w-4" />
-          {t('nav.admin')}
+          <TranslationText translationKey="nav.admin" shimmerWidth="60px" />
         </NavLink>
       )}
     </nav>

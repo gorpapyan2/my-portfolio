@@ -1,6 +1,7 @@
 import { Card } from '../../shared/Card';
 import { motion } from 'framer-motion';
 import { useLanguage } from '../../../context/LanguageContext';
+import { TranslationText } from '../../../components/shared/TranslationText';
 
 interface ExperienceCardProps {
   role: string;
@@ -50,7 +51,7 @@ export function ExperienceCard({ role, company, period, description, achievement
 
         <div className="space-y-3">
           <h4 className="text-sm font-semibold text-white/80 uppercase tracking-wide">
-            {t('experience.keyAchievements')}
+            <TranslationText translationKey="experience.keyAchievements" shimmerWidth="150px" />
           </h4>
           <ul className="space-y-3">
             {achievementsToRender.map((achievement, index) => (

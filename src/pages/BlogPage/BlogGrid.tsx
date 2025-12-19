@@ -1,6 +1,7 @@
 import { BlogCard } from './BlogCard';
 import { LocalizedBlogPost } from '../../lib/services/useBlogService';
 import { useLanguage } from '../../context/LanguageContext';
+import { TranslationText } from '../../components/shared/TranslationText';
 
 interface BlogGridProps {
   blogPosts: LocalizedBlogPost[];
@@ -29,7 +30,9 @@ export function BlogGrid({ blogPosts }: BlogGridProps) {
   if (!blogPosts || blogPosts.length === 0) {
     return (
       <div className="text-center py-16">
-        <p className="text-gray-400 text-lg">{t('blog.empty')}</p>
+        <p className="text-gray-400 text-lg">
+          <TranslationText translationKey="blog.empty" as="span" shimmerWidth="200px" />
+        </p>
       </div>
     );
   }

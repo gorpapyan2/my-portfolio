@@ -6,6 +6,7 @@ import { ProjectSkeleton } from '../../components/skeletons/ProjectSkeleton';
 import { useLanguage } from '../../context/LanguageContext';
 import { useProjectService } from '../../lib/services/useProjectService';
 import { usePublicFeatureFlags } from '../../lib/services/usePublicFeatureFlags';
+import { TranslationText } from '../../components/shared/TranslationText';
 
 export function WorkPage() {
   const { t } = useLanguage();
@@ -45,8 +46,8 @@ export function WorkPage() {
       <div className="absolute inset-0 bg-gradient-to-b from-transparent via-blue-400/5 to-transparent" />
       <PageHeader
         icon={Briefcase}
-        title={t('pages.work.title')}
-        subtitle={t('pages.work.subtitle')}
+        title={<TranslationText translationKey="pages.work.title" shimmerWidth="150px" />}
+        subtitle={<TranslationText translationKey="pages.work.subtitle" as="span" shimmerWidth="400px" />}
       />
       
       {isLoading ? <ProjectSkeleton /> : <ProjectGrid projects={projects} />}

@@ -2,6 +2,7 @@ import { useState, useEffect, useRef } from 'react';
 import { motion } from 'framer-motion';
 import { User, Briefcase, GraduationCap, Lightbulb } from 'lucide-react';
 import { useLanguage } from '../context/LanguageContext';
+import { TranslationText } from './shared/TranslationText';
 
 const sectionsBase = [
   { id: 'about', labelKey: 'pages.about', icon: User },
@@ -91,7 +92,9 @@ export function SectionNavigation() {
               >
                 <div className="flex items-center space-x-2">
                   <Icon className="h-4 w-4" />
-                  <span className="text-sm font-medium">{t(section.labelKey)}</span>
+                  <span className="text-sm font-medium">
+                    <TranslationText translationKey={section.labelKey} shimmerWidth="100px" />
+                  </span>
                 </div>
                 {isActive && (
                   <motion.div
@@ -127,7 +130,9 @@ export function SectionNavigation() {
                 className="w-full h-0.5 bg-white"
               />
             </div>
-            <span className="text-sm font-medium">{t('pages.sections')}</span>
+            <span className="text-sm font-medium">
+              <TranslationText translationKey="pages.sections" shimmerWidth="100px" />
+            </span>
           </motion.button>
 
           <motion.div
@@ -158,7 +163,9 @@ export function SectionNavigation() {
                     whileTap={{ scale: 0.98 }}
                   >
                     <Icon className="h-4 w-4" />
-                    <span className="text-sm font-medium">{t(section.labelKey)}</span>
+                    <span className="text-sm font-medium">
+                    <TranslationText translationKey={section.labelKey} shimmerWidth="100px" />
+                  </span>
                   </motion.button>
                 );
               })}

@@ -3,6 +3,7 @@ import { Menu, X, FileDown, Languages } from "lucide-react";
 import { NavLink, useLocation } from "react-router-dom";
 import { useLanguage, Language } from "../../context/LanguageContext";
 import { usePublicFeatureFlags } from "../../lib/services/usePublicFeatureFlags";
+import { TranslationText } from "../shared/TranslationText";
 
 const languages: { code: Language; label: string; }[] = [
   { code: 'en', label: 'English' },
@@ -159,7 +160,9 @@ export function MobileMenu() {
                 className="w-full flex items-center justify-center gap-2 px-4 py-2 rounded-md bg-[#edfc3a] text-black font-medium hover:bg-[#c4cf2b] transition-colors duration-200 group"
               >
                 <FileDown className="h-4 w-4" />
-                <span>{t('hero.downloadCV')}</span>
+                <span>
+                  <TranslationText translationKey="hero.downloadCV" shimmerWidth="100px" />
+                </span>
               </button>
             </div>
           </div>

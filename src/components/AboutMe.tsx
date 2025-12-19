@@ -5,6 +5,7 @@ import Sparkles from "./Sparkles";
 import Typewriter from "./Typewriter";
 import { useLanguage } from "../context/LanguageContext";
 import { assetUrls } from "../lib/config";
+import { TranslationText } from "./shared/TranslationText";
 
 export default function AboutMe() {
   const { t } = useLanguage();
@@ -45,10 +46,10 @@ export default function AboutMe() {
             transition={{ duration: 0.6, delay: 0.2 }}
           >
             <InfoCard 
-              title={t('about.professionalJourney')}
+              title={<TranslationText translationKey="about.professionalJourney" shimmerWidth="200px" />}
               delay={0.20}
             >
-              {t('about.professionalJourney.content')}
+              <TranslationText translationKey="about.professionalJourney.content" as="span" shimmerWidth="400px" />
             </InfoCard>
           </motion.div>
 
@@ -58,10 +59,10 @@ export default function AboutMe() {
             transition={{ duration: 0.6, delay: 0.26 }}
           >
             <InfoCard 
-              title={t('about.philosophy')}
+              title={<TranslationText translationKey="about.philosophy" shimmerWidth="150px" />}
               delay={0.26}
             >
-              {t('about.philosophy.content')}
+              <TranslationText translationKey="about.philosophy.content" as="span" shimmerWidth="400px" />
             </InfoCard>
           </motion.div>
 
@@ -71,10 +72,10 @@ export default function AboutMe() {
             transition={{ duration: 0.6, delay: 0.32 }}
           >
             <InfoCard 
-              title={t('about.toolbox')}
+              title={<TranslationText translationKey="about.toolbox" shimmerWidth="120px" />}
               delay={0.32}
             >
-              {t('about.toolbox.content')}
+              <TranslationText translationKey="about.toolbox.content" as="span" shimmerWidth="400px" />
             </InfoCard>
           </motion.div>
         </div>

@@ -15,24 +15,23 @@ export function SkeletonBase({
   width = '100%',
   height = '1rem',
   rounded = 'md',
-  animation = 'pulse',
+  animation = 'shimmer', // Changed default to shimmer
 }: SkeletonBaseProps) {
-  const animations = {
-    pulse: 'animate-pulse',
-    shimmer: 'before:animate-[shimmer_2s_infinite]',
-    none: '',
-  };
-
+  const roundedClass = rounded ? `rounded-${rounded}` : 'rounded-md';
+  
   return (
     <div
       className={cn(
-        `bg-white/5 relative overflow-hidden ${animations[animation]}`,
-        animation === 'shimmer' &&
-          'before:absolute before:inset-0 before:bg-gradient-to-r before:from-transparent before:via-white/10 before:to-transparent',
-        `w-${width} h-${height} rounded-${rounded}`,
+        'bg-white/5 relative overflow-hidden',
+        animation === 'pulse' && 'animate-pulse',
+        animation === 'shimmer' && 'shimmer',
+        roundedClass,
         className
       )}
-      style={{ width, height }}
+      style={{ 
+        width: typeof width === 'number' ? `${width}px` : width, 
+        height: typeof height === 'number' ? `${height}px` : height 
+      }}
       aria-hidden="true"
       aria-label={ariaLabel}
     />

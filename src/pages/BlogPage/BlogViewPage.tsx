@@ -11,6 +11,7 @@ import { useToc } from '../../hooks/useToc';
 import { LoadingSpinner } from '../../components/loading/LoadingSpinner';
 import { useState } from 'react';
 import { useLanguage } from '../../context/LanguageContext';
+import { TranslationText } from '../../components/shared/TranslationText';
 
 /**
  * Formats a date string to readable format with error handling
@@ -70,9 +71,11 @@ export function BlogViewPage() {
         <div className="min-h-screen flex items-center justify-center">
           <div className="text-center max-w-md">
             <BookOpen className="h-16 w-16 text-gray-400 mx-auto mb-4" />
-            <h2 className="text-2xl font-bold text-white mb-4">{t('blog.notFound.title')}</h2>
+            <h2 className="text-2xl font-bold text-white mb-4">
+              <TranslationText translationKey="blog.notFound.title" as="span" shimmerWidth="200px" />
+            </h2>
             <p className="text-gray-400 mb-6">
-              {t('blog.notFound.description')}
+              <TranslationText translationKey="blog.notFound.description" as="span" shimmerWidth="300px" />
             </p>
             <Link 
               to=".." 
@@ -80,7 +83,7 @@ export function BlogViewPage() {
               className="inline-flex items-center gap-2 px-6 py-3 bg-[#edfc3a] text-black rounded-lg font-medium hover:bg-[#f2ff4d] transition-colors"
             >
               <ArrowLeft className="h-4 w-4" />
-              {t('blog.back')}
+              <TranslationText translationKey="blog.back" shimmerWidth="100px" />
             </Link>
           </div>
         </div>
@@ -106,10 +109,12 @@ export function BlogViewPage() {
             <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-red-500/10 text-red-400 mb-4">
               <BookOpen className="h-8 w-8" />
             </div>
-            <h2 className="text-2xl font-bold text-white mb-2">{t('blog.error.title')}</h2>
+            <h2 className="text-2xl font-bold text-white mb-2">
+              <TranslationText translationKey="blog.error.title" as="span" shimmerWidth="150px" />
+            </h2>
             <p className="text-gray-400 mb-2 text-sm">{error}</p>
             <p className="text-gray-500 mb-6 text-sm">
-              {t('blog.error.description')}
+              <TranslationText translationKey="blog.error.description" as="span" shimmerWidth="300px" />
             </p>
             <div className="flex flex-col sm:flex-row gap-3 justify-center">
               <button
@@ -118,7 +123,11 @@ export function BlogViewPage() {
                 className="inline-flex items-center gap-2 px-6 py-3 bg-[#edfc3a] text-black rounded-lg font-medium hover:bg-[#f2ff4d] transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
               >
                 <RotateCw className={`h-4 w-4 ${isRetrying ? 'animate-spin' : ''}`} />
-                {isRetrying ? t('blog.error.retrying') : t('blog.error.retry')}
+                {isRetrying ? (
+                  <TranslationText translationKey="blog.error.retrying" shimmerWidth="100px" />
+                ) : (
+                  <TranslationText translationKey="blog.error.retry" shimmerWidth="80px" />
+                )}
               </button>
               <Link 
                 to=".." 
@@ -126,7 +135,7 @@ export function BlogViewPage() {
                 className="inline-flex items-center gap-2 px-6 py-3 text-gray-400 hover:text-white transition-colors rounded-lg hover:bg-white/5"
               >
                 <ArrowLeft className="h-4 w-4" />
-                {t('blog.back')}
+                <TranslationText translationKey="blog.back" shimmerWidth="100px" />
               </Link>
             </div>
           </div>
@@ -160,7 +169,7 @@ export function BlogViewPage() {
           className="inline-flex items-center gap-2 text-gray-400 hover:text-white transition-colors group"
         >
           <ArrowLeft className="h-4 w-4 group-hover:-translate-x-1 transition-transform" />
-          {t('blog.back')}
+          <TranslationText translationKey="blog.back" shimmerWidth="100px" />
         </Link>
       </div>
 
@@ -223,7 +232,9 @@ export function BlogViewPage() {
               ) : (
                 <div className="text-center py-16">
                   <BookOpen className="h-16 w-16 text-gray-400 mx-auto mb-4" />
-                  <p className="text-gray-400 text-lg">{t('blog.noContent')}</p>
+                  <p className="text-gray-400 text-lg">
+                    <TranslationText translationKey="blog.noContent" as="span" shimmerWidth="200px" />
+                  </p>
                 </div>
               )}
             </article>
@@ -236,11 +247,11 @@ export function BlogViewPage() {
                 className="inline-flex items-center gap-2 text-[#edfc3a] hover:text-white transition-colors group"
               >
                 <ArrowLeft className="h-4 w-4 group-hover:-translate-x-1 transition-transform" />
-                {t('blog.back')}
+                <TranslationText translationKey="blog.back" shimmerWidth="100px" />
               </Link>
               
               <div className="text-sm text-gray-400">
-                {t('blog.publishedOn')} {formattedDate}
+                <TranslationText translationKey="blog.publishedOn" shimmerWidth="120px" /> {formattedDate}
               </div>
             </div>
           </div>
@@ -260,8 +271,12 @@ export function BlogViewPage() {
       {relatedPosts.length > 0 && (
         <div className="mt-16">
           <div className="text-center mb-12">
-            <h2 className="text-3xl font-bold text-white mb-4">{t('blog.related.title')}</h2>
-            <p className="text-gray-400 text-lg">{t('blog.related.subtitle')}</p>
+            <h2 className="text-3xl font-bold text-white mb-4">
+              <TranslationText translationKey="blog.related.title" as="span" shimmerWidth="200px" />
+            </h2>
+            <p className="text-gray-400 text-lg">
+              <TranslationText translationKey="blog.related.subtitle" as="span" shimmerWidth="250px" />
+            </p>
           </div>
           
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">

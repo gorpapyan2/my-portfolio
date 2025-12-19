@@ -3,6 +3,7 @@ import { motion } from 'framer-motion';
 import { useLanguage } from '../../../context/LanguageContext';
 import { StatCard } from './StatCard';
 import { LucideIcon } from 'lucide-react';
+import { TranslationText } from '../../../components/shared/TranslationText';
 
 interface Stat {
   icon: LucideIcon;
@@ -77,10 +78,10 @@ export function Statistics() {
           className="text-center mb-12 md:mb-16"
         >
           <h2 className="text-3xl md:text-4xl font-bold text-white mb-4">
-            {t('statistics.title')}
+            <TranslationText translationKey="statistics.title" as="span" shimmerWidth="200px" />
           </h2>
           <p className="text-gray-400 text-lg">
-            {t('statistics.subtitle')}
+            <TranslationText translationKey="statistics.subtitle" as="span" shimmerWidth="300px" />
           </p>
         </motion.div>
 
@@ -110,7 +111,7 @@ export function Statistics() {
           className="text-center"
         >
           <p className="mb-6 text-sm md:text-base text-gray-400">
-            {t('statistics.areas')}
+            <TranslationText translationKey="statistics.areas" as="span" shimmerWidth="200px" />
           </p>
         </motion.div>
       </div>

@@ -2,6 +2,7 @@ import { Briefcase } from 'lucide-react';
 import { ExperienceList } from './ExperienceList';
 import { SectionHeader } from '../../shared/SectionHeader';
 import { useLanguage } from '../../../context/LanguageContext';
+import { TranslationText } from '../../../components/shared/TranslationText';
 
 export function Experience() {
   const { t } = useLanguage();
@@ -11,8 +12,8 @@ export function Experience() {
       <div className="max-w-6xl mx-auto px-4">
         <SectionHeader
           icon={Briefcase}
-          title={t('about.experience.title')}
-          subtitle={t('about.experience.subtitle')}
+          title={<TranslationText translationKey="about.experience.title" shimmerWidth="180px" />}
+          subtitle={<TranslationText translationKey="about.experience.subtitle" as="span" shimmerWidth="300px" />}
         />
         <ExperienceList />
       </div>

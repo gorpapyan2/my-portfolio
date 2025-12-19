@@ -3,6 +3,7 @@ import { motion } from 'framer-motion';
 import { SectionHeader } from '../shared/SectionHeader';
 import { useLanguage } from '../../context/LanguageContext';
 import { useAboutService } from '../../lib/services/useAboutService';
+import { TranslationText } from '../../components/shared/TranslationText';
 
 export function KeyResults() {
   const { t } = useLanguage();
@@ -13,7 +14,7 @@ export function KeyResults() {
       <div className="max-w-3xl mx-auto px-4">
         <SectionHeader
           icon={CheckCircle2}
-          title={t('about.keyResults.title')}
+          title={<TranslationText translationKey="about.keyResults.title" shimmerWidth="180px" />}
         />
 
         {isLoading && (

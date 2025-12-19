@@ -4,6 +4,7 @@ import { PageHeader } from '../../components/shared/PageHeader';
 import { ContactForm } from './ContactForm';
 import { ContactInfo } from './ContactInfo';
 import { useLanguage } from '../../context/LanguageContext';
+import { TranslationText } from '../../components/shared/TranslationText';
 
 export function ContactPage() {
   const { t } = useLanguage();
@@ -13,8 +14,8 @@ export function ContactPage() {
       <div className="absolute inset-0 bg-gradient-to-b from-transparent via-blue-400/5 to-transparent" />
       <PageHeader
         icon={Mail}
-        title={t('pages.contact.title')}
-        subtitle={t('pages.contact.subtitle')}
+        title={<TranslationText translationKey="pages.contact.title" shimmerWidth="150px" />}
+        subtitle={<TranslationText translationKey="pages.contact.subtitle" as="span" shimmerWidth="300px" />}
       />
 
       <div className="grid md:grid-cols-2 gap-8">

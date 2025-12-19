@@ -3,6 +3,7 @@ import { motion } from 'framer-motion';
 import { SectionHeader } from '../shared/SectionHeader';
 import { useLanguage } from '../../context/LanguageContext';
 import { useAboutService } from '../../lib/services/useAboutService';
+import { TranslationText } from '../../components/shared/TranslationText';
 
 export function ProfessionalSummary() {
   const { t } = useLanguage();
@@ -27,7 +28,7 @@ export function ProfessionalSummary() {
       <div className="max-w-3xl mx-auto px-4">
         <SectionHeader
           icon={BookOpen}
-          title={t('about.summary.title')}
+          title={<TranslationText translationKey="about.summary.title" shimmerWidth="200px" />}
         />
 
         {isLoading && (

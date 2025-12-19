@@ -23,6 +23,8 @@ A modern, responsive portfolio website built with React, TypeScript, and Vite. F
 - All text (UI + long-form) is sourced from `public.translations` in Supabase.
 - `LanguageContext.t(key)` performs DB lookup only and returns `[missing:key]` if not found (logs in DEV).
 - `useTranslationService` fetches and caches all translations per language.
+- **Loading Strategy**: App shows a loading screen until all translations are loaded, preventing flash of missing translations.
+- **Language Persistence**: User's language preference is saved to `localStorage` and persists across sessions.
 
 ### Key Conventions
 
@@ -310,6 +312,72 @@ The application uses a hybrid translation system:
 1. **Static Translations**: Default translations stored in `src/translations/` as TypeScript files
 2. **Database Translations**: Supabase-backed translations for dynamic management
 3. **Fallback Mechanism**: Automatic fallback to static translations if Supabase is unavailable
+
+### Shimmer Loading for Translations
+
+To prevent users from seeing `[missing:localization]` text during page load or language switches, the application uses the `TranslationText` component with professional shimmer animations.
+
+#### TranslationText Component
+
+The `TranslationText` component automatically detects missing translations and displays shimmer skeletons instead of error text:
+
+```typescript
+import { TranslationText } from '../components/shared/TranslationText';
+
+// Basic usage
+<TranslationText translationKey="nav.about" shimmerWidth="60px" />
+
+// With semantic HTML element
+<TranslationText 
+  translationKey="hero.title" 
+  as="h1" 
+  shimmerWidth="300px"
+  className="text-5xl font-bold"
+/>
+
+// In navigation links
+<NavLink to="/about">
+  <TranslationText translationKey="nav.about" shimmerWidth="60px" />
+</NavLink>
+```
+
+#### Features
+
+- **Automatic Detection**: Detects `[missing:key]` pattern and shows shimmer
+- **Width Estimation**: Automatically estimates shimmer width based on translation key patterns
+- **Semantic HTML**: Supports all HTML elements (span, p, div, h1-h6)
+- **Accessibility**: Includes proper ARIA labels for screen readers
+- **Smooth Animation**: Professional shimmer effect using CSS animations
+
+#### Width Estimation Patterns
+
+The component uses pattern matching to estimate appropriate shimmer widths:
+- `nav.*` → 60-80px (short navigation labels)
+- `hero.title` → 300px (main heading)
+- `hero.subtitle` → 500px (longer subtitle)
+- `pages.*` → 120-150px (page titles)
+- `blog.*` → 150-200px (blog content)
+- Default → Based on key length (60px-200px range)
+
+#### Migration Pattern
+
+When migrating existing `t()` calls to `TranslationText`:
+
+1. Import the component: `import { TranslationText } from '../components/shared/TranslationText'`
+2. Replace `{t('key')}` with `<TranslationText translationKey="key" />`
+3. Add appropriate `as` prop for semantic HTML
+4. Set `shimmerWidth` based on expected text length
+5. Preserve existing `className` props for styling
+
+#### useTranslationText Hook
+
+For advanced use cases where you need the raw translation value:
+
+```typescript
+import { useTranslationText } from '../hooks/useTranslationText';
+
+const { text, isMissing, isLoading, showShimmer } = useTranslationText('nav.about');
+```
 
 ### About Page Content via Translations
 
