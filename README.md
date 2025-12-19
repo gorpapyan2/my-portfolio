@@ -190,9 +190,9 @@ The application follows **Clean Architecture** principles with a **service layer
    - `useMarkdownService` - GFM rendering with syntax highlighting
    - `useBlogAdminService` - Additional blog admin utilities
 
-### Mid-Level QA Automation Specialist Positioning
+### QA Automation Specialist Positioning
 
-This portfolio is designed to represent a **mid-level QA Automation Specialist** with a focus on:
+This portfolio is designed to represent a **QA Automation Specialist** with a focus on:
 
 #### Messaging Strategy
 - **Outcome-focused**: "I help teams ship faster with fewer bugs" (not tool-centric)
