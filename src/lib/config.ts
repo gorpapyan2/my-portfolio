@@ -16,10 +16,11 @@ const getEnvVar = (key: string, fallback: string): string => {
 
 /**
  * Supabase configuration
+ * Note: VITE_SUPABASE_ANON_KEY must be provided via environment variables
  */
 export const supabaseConfig = {
   url: getEnvVar('VITE_SUPABASE_URL', 'https://ocsoqppieozakfmjrrsh.supabase.co'),
-  anonKey: getEnvVar('VITE_SUPABASE_ANON_KEY', '') || getEnvVar('VITE_SUPABASE_PUBLISHABLE_DEFAULT_KEY', 'sb_publishable_1pFhXLkA6yWF4A9zy47onw_jhztMNEt'),
+  anonKey: getEnvVar('VITE_SUPABASE_ANON_KEY', '') || getEnvVar('VITE_SUPABASE_PUBLISHABLE_DEFAULT_KEY', ''),
 } as const;
 
 /**

@@ -14,7 +14,9 @@ export async function seedTranslations(): Promise<void> {
     console.log('Starting translation seeding...');
     
     const translationsToSeed: TranslationSeed[] = [];
-    const sb = createClient(supabaseConfig.url, supabaseConfig.anonKey);
+    // Use service role key for seeding (bypasses RLS) or fall back to anon key
+    const serviceRoleKey = import.meta.env.VITE_SUPABASE_SERVICE_ROLE_KEY || supabaseConfig.anonKey;
+    const sb = createClient(supabaseConfig.url, serviceRoleKey);
     
     // Convert static translations to Supabase format
     Object.entries(staticTranslations).forEach(([language, langTranslations]) => {
@@ -184,7 +186,9 @@ export async function clearTranslations(): Promise<void> {
   try {
     console.log('Clearing existing translations...');
     
-    const sb = createClient(supabaseConfig.url, supabaseConfig.anonKey);
+    // Use service role key for clearing (bypasses RLS) or fall back to anon key
+    const serviceRoleKey = import.meta.env.VITE_SUPABASE_SERVICE_ROLE_KEY || supabaseConfig.anonKey;
+    const sb = createClient(supabaseConfig.url, serviceRoleKey);
     const { error } = await sb
       .from('translations')
       .delete()

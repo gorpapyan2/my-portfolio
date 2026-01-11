@@ -116,17 +116,15 @@ cd my-portfolio
 npm install
 ```
 
-3. Set up environment variables (optional):
+3. Set up environment variables (**required**):
 ```bash
-# Copy the example file
-cp .env.example .env.local
-
-# Edit .env.local with your Supabase credentials
-VITE_SUPABASE_URL=your_supabase_url
-VITE_SUPABASE_ANON_KEY=your_supabase_anon_key
+# Create a .env file in the project root
+# Add your Supabase credentials:
+VITE_SUPABASE_URL=https://ocsoqppieozakfmjrrsh.supabase.co
+VITE_SUPABASE_ANON_KEY=your_supabase_anon_key_here
 ```
 
-**Note**: If you don't provide environment variables, the application will use default values configured in `src/lib/config.ts`.
+**Important**: You must provide a valid `VITE_SUPABASE_ANON_KEY` for the application to work. Get your key from the [Supabase Dashboard](https://supabase.com/dashboard) → Project Settings → API → `anon` `public` key.
 
 4. Start the development server:
 ```bash
@@ -145,14 +143,23 @@ All configuration is centralized in `src/lib/config.ts`:
 
 ### Environment Variables
 
-The application supports the following environment variables (all optional):
+The application requires the following environment variables:
 
-| Variable | Description | Default |
-|----------|-------------|---------|
-| `VITE_SUPABASE_URL` | Supabase project URL | Pre-configured |
-| `VITE_SUPABASE_ANON_KEY` | Supabase anonymous key | Pre-configured |
-| `VITE_CV_URL` | URL to CV PDF file | Supabase storage URL |
-| `VITE_PORTRAIT_URL` | URL to portrait image | Supabase storage URL |
+| Variable | Description | Required | Default |
+|----------|-------------|----------|---------|
+| `VITE_SUPABASE_URL` | Supabase project URL | Yes | `https://ocsoqppieozakfmjrrsh.supabase.co` |
+| `VITE_SUPABASE_ANON_KEY` | Supabase anonymous key | **Yes** | None (must be provided) |
+| `VITE_SUPABASE_SERVICE_ROLE_KEY` | Supabase service role key (for seeding scripts only) | No | None |
+| `VITE_CV_URL` | URL to CV PDF file | No | Supabase storage URL |
+| `VITE_PORTRAIT_URL` | URL to portrait image | No | Supabase storage URL |
+
+**Important:** Create a `.env` file in the project root with your Supabase credentials:
+
+```env
+VITE_SUPABASE_URL=https://ocsoqppieozakfmjrrsh.supabase.co
+VITE_SUPABASE_ANON_KEY=your_supabase_anon_key_here
+VITE_SUPABASE_SERVICE_ROLE_KEY=your_service_role_key_here  # Only for seeding
+```
 
 See `.env.example` for a complete template.
 
