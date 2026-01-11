@@ -1,5 +1,6 @@
 import { Technology } from ".";
 import { motion } from "framer-motion";
+import { TranslationText } from "../../shared/TranslationText";
 
 export const TechnologyCard = ({ technology }: { technology: Technology }) => {
   const { icon: Icon, title, description, level, detailedDescription, realWorldExample, category, tags } = technology;
@@ -71,7 +72,7 @@ export const TechnologyCard = ({ technology }: { technology: Technology }) => {
               {/* Enhanced Progress Bar */}
               <div className="space-y-4">
                 <div className="flex justify-between items-center">
-                  <span className="text-sm font-medium text-gray-400 uppercase tracking-wider">Proficiency Level</span>
+                  <TranslationText translationKey="home.technologies.proficiencyLevel" as="span" shimmerWidth="150px" className="text-sm font-medium text-gray-400 uppercase tracking-wider" />
                   <div className="flex items-center gap-2">
                     <span className="text-2xl font-bold text-lime-400">{level}%</span>
                     <div className="w-2 h-2 bg-lime-400 rounded-full animate-pulse" />

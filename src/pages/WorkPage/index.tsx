@@ -20,8 +20,12 @@ export function WorkPage() {
         <div className="min-h-screen flex items-center justify-center">
           <div className="text-center">
             <Briefcase className="h-16 w-16 text-gray-400 mx-auto mb-4" />
-            <h2 className="text-2xl font-bold text-white mb-4">Section Unavailable</h2>
-            <p className="text-gray-400">This section is currently unavailable.</p>
+            <h2 className="text-2xl font-bold text-white mb-4">
+              <TranslationText translationKey="pages.sectionUnavailable.title" as="span" shimmerWidth="200px" />
+            </h2>
+            <p className="text-gray-400">
+              <TranslationText translationKey="pages.sectionUnavailable.message" as="span" shimmerWidth="350px" />
+            </p>
           </div>
         </div>
       </PageLayout>

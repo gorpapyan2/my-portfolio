@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { Plus, Search, Filter, Download, AlertCircle } from 'lucide-react';
 import { useLanguage } from '../../context/LanguageContext';
+import { TranslationText } from '../../components/shared/TranslationText';
 import { useTranslationManager } from '../../lib/services/useTranslationManager';
 import { UnifiedTranslationModal } from '../../components/shared/UnifiedTranslationModal';
 import { supabase } from '../../lib/supabase';
@@ -46,7 +47,9 @@ export function TranslationManager() {
   return (
     <div>
       <div className="flex items-center justify-between mb-6">
-        <h2 className="text-2xl font-semibold text-white">Translation Management</h2>
+        <h2 className="text-2xl font-semibold text-white">
+          <TranslationText translationKey="admin.translations.title" as="span" shimmerWidth="250px" />
+        </h2>
       </div>
 
       {/* Language Selection */}

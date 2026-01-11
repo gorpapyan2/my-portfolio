@@ -93,7 +93,32 @@ Translation keys follow a hierarchical structure. See i18n Architecture above fo
 
 ### Seeding Translations
 
-Use `src/scripts/seedTranslations.ts` to upsert static files into the DB initially. You can also add new keys ad-hoc via the Settings page.
+**Quick Start**:
+```bash
+npm run seed:translations
+```
+
+We provide two seeding methods:
+
+1. **SQL Script** (Recommended for initial setup):
+   - File: `supabase/migrations/seed_translations.sql`
+   - Fast, direct database seeding
+   - 387 translations (129 keys × 3 languages)
+   - Idempotent (safe to run multiple times)
+   - See: [Seeding Guide](supabase/migrations/README_SEED_TRANSLATIONS.md)
+
+2. **TypeScript Script** (Recommended for development):
+   - File: `src/scripts/seedTranslations.ts`
+   - Programmatic seeding with validation
+   - Integrates with existing codebase
+
+**Documentation**:
+- 📖 [Full Seeding Guide](supabase/migrations/README_SEED_TRANSLATIONS.md) - Comprehensive usage instructions
+- 📊 [Seeding Summary](TRANSLATION_SEEDING_SUMMARY.md) - Overview and best practices
+- 🎯 [Quick Reference](TRANSLATION_QUICK_REFERENCE.md) - Command cheat sheet
+- ✅ [Migration Checklist](TRANSLATION_MIGRATION_CHECKLIST.md) - Step-by-step setup guide
+
+You can also add new keys ad-hoc via the Settings page.
 
 ## 🚀 Getting Started
 
@@ -863,7 +888,32 @@ Translation keys follow a hierarchical structure. See i18n Architecture above fo
 
 ### Seeding Translations
 
-Use `src/scripts/seedTranslations.ts` to upsert static files into the DB initially. You can also add new keys ad-hoc via the Settings page.
+**Quick Start**:
+```bash
+npm run seed:translations
+```
+
+We provide two seeding methods:
+
+1. **SQL Script** (Recommended for initial setup):
+   - File: `supabase/migrations/seed_translations.sql`
+   - Fast, direct database seeding
+   - 387 translations (129 keys × 3 languages)
+   - Idempotent (safe to run multiple times)
+   - See: [Seeding Guide](supabase/migrations/README_SEED_TRANSLATIONS.md)
+
+2. **TypeScript Script** (Recommended for development):
+   - File: `src/scripts/seedTranslations.ts`
+   - Programmatic seeding with validation
+   - Integrates with existing codebase
+
+**Documentation**:
+- 📖 [Full Seeding Guide](supabase/migrations/README_SEED_TRANSLATIONS.md) - Comprehensive usage instructions
+- 📊 [Seeding Summary](TRANSLATION_SEEDING_SUMMARY.md) - Overview and best practices
+- 🎯 [Quick Reference](TRANSLATION_QUICK_REFERENCE.md) - Command cheat sheet
+- ✅ [Migration Checklist](TRANSLATION_MIGRATION_CHECKLIST.md) - Step-by-step setup guide
+
+You can also add new keys ad-hoc via the Settings page.
 
 ## 🛠️ Development
 

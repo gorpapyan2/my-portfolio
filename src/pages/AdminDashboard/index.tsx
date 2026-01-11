@@ -12,6 +12,8 @@ import {
 } from 'lucide-react';
 import { Card } from '../../components/shared/Card';
 import { useAuth } from '../../context/AuthContext';
+import { useLanguage } from '../../context/LanguageContext';
+import { TranslationText } from '../../components/shared/TranslationText';
 import { BlogAdmin } from './BlogAdmin';
 import { ProjectAdmin } from './ProjectAdmin';
 import { TranslationManager } from './TranslationManager';
@@ -25,18 +27,19 @@ import ParticleBackground from '../../components/ParticleBackground';
 type AdminSection = 'blog' | 'projects' | 'translations' | 'experiences' | 'education' | 'skills' | 'feature-flags';
 
 const sections = [
-  { id: 'blog' as AdminSection, label: 'Blog Posts', icon: FileText },
-  { id: 'projects' as AdminSection, label: 'Projects', icon: FolderOpen },
-  { id: 'translations' as AdminSection, label: 'Translations', icon: Languages },
-  { id: 'experiences' as AdminSection, label: 'Experience', icon: Briefcase },
-  { id: 'education' as AdminSection, label: 'Education', icon: GraduationCap },
-  { id: 'skills' as AdminSection, label: 'Skills', icon: Code2 },
-  { id: 'feature-flags' as AdminSection, label: 'Feature Flags', icon: Flag },
+  { id: 'blog' as AdminSection, labelKey: 'admin.dashboard.section.blog', icon: FileText },
+  { id: 'projects' as AdminSection, labelKey: 'admin.dashboard.section.projects', icon: FolderOpen },
+  { id: 'translations' as AdminSection, labelKey: 'admin.dashboard.section.translations', icon: Languages },
+  { id: 'experiences' as AdminSection, labelKey: 'admin.dashboard.section.experiences', icon: Briefcase },
+  { id: 'education' as AdminSection, labelKey: 'admin.dashboard.section.education', icon: GraduationCap },
+  { id: 'skills' as AdminSection, labelKey: 'admin.dashboard.section.skills', icon: Code2 },
+  { id: 'feature-flags' as AdminSection, labelKey: 'admin.dashboard.section.featureFlags', icon: Flag },
 ];
 
 export function AdminDashboard() {
   const [activeSection, setActiveSection] = useState<AdminSection>('blog');
   const { user, signOut } = useAuth();
+  const { t } = useLanguage();
 
   const handleLogout = async () => {
     try {
@@ -78,8 +81,12 @@ export function AdminDashboard() {
               <Settings className="h-6 w-6" />
             </div>
             <div>
-              <h1 className="text-2xl font-bold text-white">Admin Dashboard</h1>
-              <p className="text-gray-400">Welcome back, {user?.email}</p>
+              <h1 className="text-2xl font-bold text-white">
+                <TranslationText translationKey="admin.dashboard.title" as="span" shimmerWidth="200px" />
+              </h1>
+              <p className="text-gray-400">
+                <TranslationText translationKey="admin.dashboard.welcomeBack" as="span" shimmerWidth="120px" />, {user?.email}
+              </p>
             </div>
           </div>
           
@@ -96,7 +103,9 @@ export function AdminDashboard() {
           {/* Sidebar Navigation */}
           <Card className="lg:col-span-1">
             <div className="p-4">
-              <h2 className="text-lg font-semibold text-white mb-4">Content Management</h2>
+              <h2 className="text-lg font-semibold text-white mb-4">
+                <TranslationText translationKey="admin.dashboard.contentManagement" as="span" shimmerWidth="200px" />
+              </h2>
               <nav className="space-y-2">
                 {sections.map((section) => {
                   const Icon = section.icon;
@@ -111,7 +120,7 @@ export function AdminDashboard() {
                       }`}
                     >
                       <Icon className="h-4 w-4" />
-                      {section.label}
+                      <TranslationText translationKey={section.labelKey} as="span" shimmerWidth="120px" />
                     </button>
                   );
                 })}

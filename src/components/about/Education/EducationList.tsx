@@ -1,5 +1,6 @@
 import { EducationCard } from './EducationCard';
 import { useEducationService } from '../../../lib/services/useEducationService';
+import { TranslationText } from '../../../components/shared/TranslationText';
 
 export function EducationList() {
   const { education, isLoading, error } = useEducationService();
@@ -19,7 +20,9 @@ export function EducationList() {
   if (error) {
     return (
       <div className="text-center py-8">
-        <p className="text-red-400">Failed to load education: {error}</p>
+        <p className="text-red-400">
+          <TranslationText translationKey="error.loadFailed.education" as="span" shimmerWidth="180px" />: {error}
+        </p>
       </div>
     );
   }

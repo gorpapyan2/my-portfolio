@@ -4,6 +4,7 @@ import { ImageUpload } from '../../components/admin/ImageUpload';
 import { useProjectService } from '../../lib/services/useProjectService';
 import { Project, ProjectInsert } from '../../types/database.types';
 import { projectSchema } from '../../lib/schemas/projectSchema';
+import { TranslationText } from '../../components/shared/TranslationText';
 
 interface ProjectAdminProps {
   onClose: () => void;
@@ -117,7 +118,9 @@ export function ProjectAdmin({ onClose }: ProjectAdminProps) {
   return (
     <div>
       <div className="flex items-center justify-between mb-6">
-        <h2 className="text-2xl font-semibold text-white">Project Management</h2>
+        <h2 className="text-2xl font-semibold text-white">
+          <TranslationText translationKey="admin.projects.title" as="span" shimmerWidth="200px" />
+        </h2>
         <button
           onClick={onClose}
           className="p-2 text-gray-400 hover:text-white transition-colors"

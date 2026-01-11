@@ -1,6 +1,7 @@
 import { TechnologyCarousel } from "./TechnologiesCarousel";
 import { TechnologiesBackground } from "./TechnologiesBackground";
 import { motion } from "framer-motion";
+import { TranslationText } from "../../shared/TranslationText";
 
 export interface Technology {
   icon: React.ElementType;
@@ -29,7 +30,7 @@ export function Technologies() {
         >
           <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-lime-400/10 border border-lime-400/20 mb-6">
             <div className="w-2 h-2 bg-lime-400 rounded-full animate-pulse" />
-            <span className="text-sm font-medium text-lime-400 uppercase tracking-wider">Technical Expertise</span>
+            <TranslationText translationKey="home.technologies.title" as="span" shimmerWidth="180px" className="text-sm font-medium text-lime-400 uppercase tracking-wider" />
           </div>
           
           <h2 className="text-6xl lg:text-7xl font-bold mb-6">

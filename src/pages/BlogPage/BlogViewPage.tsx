@@ -194,7 +194,7 @@ export function BlogViewPage() {
                 </div>
                 <div className="flex items-center gap-2">
                   <User className="h-4 w-4" />
-                  <span>Gor Papyan</span>
+                  <TranslationText translationKey="author.name" as="span" shimmerWidth="100px" />
                 </div>
                 <ShareButton 
                   title={blogPost.title}

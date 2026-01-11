@@ -12,6 +12,8 @@ import {
 import { useFeatureFlagService } from '../../lib/services/useFeatureFlagService';
 import { FeatureFlagInsert, FeatureFlagUpdate, FeatureFlag } from '../../types/database.types';
 import { LoadingSpinner } from '../../components/loading/LoadingSpinner';
+import { useLanguage } from '../../context/LanguageContext';
+import { TranslationText } from '../../components/shared/TranslationText';
 
 interface FeatureFlagFormData {
   flag_key: string;
@@ -22,6 +24,7 @@ interface FeatureFlagFormData {
 }
 
 export function FeatureFlagAdmin() {
+  const { t } = useLanguage();
   const { 
     featureFlags, 
     isLoading, 
@@ -150,7 +153,9 @@ export function FeatureFlagAdmin() {
   if (error) {
     return (
       <div className="text-center text-red-400">
-        <p>Error loading feature flags: {error}</p>
+        <p>
+          <TranslationText translationKey="error.loadFailed.featureFlags" as="span" shimmerWidth="200px" />: {error}
+        </p>
       </div>
     );
   }
@@ -164,8 +169,12 @@ export function FeatureFlagAdmin() {
             <Flag className="h-6 w-6" />
           </div>
           <div>
-            <h2 className="text-2xl font-bold text-white">Feature Flags</h2>
-            <p className="text-gray-400">Manage content visibility and availability</p>
+            <h2 className="text-2xl font-bold text-white">
+              <TranslationText translationKey="admin.featureFlags.title" as="span" shimmerWidth="150px" />
+            </h2>
+            <p className="text-gray-400">
+              <TranslationText translationKey="admin.featureFlags.subtitle" as="span" shimmerWidth="350px" />
+            </p>
           </div>
         </div>
         
@@ -198,10 +207,10 @@ export function FeatureFlagAdmin() {
             onChange={(e) => setFilterType(e.target.value)}
             className="pl-10 pr-8 py-2 bg-gray-800 border border-gray-700 rounded-lg text-white focus:outline-none focus:border-[#edfc3a]"
           >
-            <option value="all">All Types</option>
-            <option value="section">Sections</option>
-            <option value="blog_post">Blog Posts</option>
-            <option value="project">Projects</option>
+            <option value="all">{t('admin.featureFlags.filter.all')}</option>
+            <option value="section">{t('admin.featureFlags.filter.sections')}</option>
+            <option value="blog_post">{t('admin.featureFlags.filter.blogPosts')}</option>
+            <option value="project">{t('admin.featureFlags.filter.projects')}</option>
           </select>
         </div>
       </div>
@@ -213,19 +222,19 @@ export function FeatureFlagAdmin() {
             <thead className="bg-gray-700">
               <tr>
                 <th className="px-6 py-3 text-left text-xs font-medium text-gray-300 uppercase tracking-wider">
-                  Flag Key
+                  {t('admin.featureFlags.table.flagKey')}
                 </th>
                 <th className="px-6 py-3 text-left text-xs font-medium text-gray-300 uppercase tracking-wider">
-                  Type
+                  {t('admin.featureFlags.table.type')}
                 </th>
                 <th className="px-6 py-3 text-left text-xs font-medium text-gray-300 uppercase tracking-wider">
-                  Description
+                  {t('admin.featureFlags.table.description')}
                 </th>
                 <th className="px-6 py-3 text-left text-xs font-medium text-gray-300 uppercase tracking-wider">
-                  Status
+                  {t('admin.featureFlags.table.status')}
                 </th>
                 <th className="px-6 py-3 text-left text-xs font-medium text-gray-300 uppercase tracking-wider">
-                  Actions
+                  {t('admin.featureFlags.table.actions')}
                 </th>
               </tr>
             </thead>
@@ -293,7 +302,7 @@ export function FeatureFlagAdmin() {
       {isCreateModalOpen && (
         <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
           <div className="bg-gray-800 rounded-lg p-6 w-full max-w-md">
-            <h3 className="text-lg font-semibold text-white mb-4">Create Feature Flag</h3>
+            <h3 className="text-lg font-semibold text-white mb-4">{t('admin.featureFlags.create')}</h3>
             
             <div className="space-y-4">
               <div>
@@ -389,7 +398,7 @@ export function FeatureFlagAdmin() {
       {isEditModalOpen && (
         <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
           <div className="bg-gray-800 rounded-lg p-6 w-full max-w-md">
-            <h3 className="text-lg font-semibold text-white mb-4">Edit Feature Flag</h3>
+            <h3 className="text-lg font-semibold text-white mb-4">{t('admin.featureFlags.edit')}</h3>
             
             <div className="space-y-4">
               <div>
@@ -483,7 +492,7 @@ export function FeatureFlagAdmin() {
       {isDeleteModalOpen && (
         <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
           <div className="bg-gray-800 rounded-lg p-6 w-full max-w-md">
-            <h3 className="text-lg font-semibold text-white mb-4">Delete Feature Flag</h3>
+            <h3 className="text-lg font-semibold text-white mb-4">{t('admin.featureFlags.delete')}</h3>
             <p className="text-gray-300 mb-6">
               Are you sure you want to delete the feature flag "{selectedFlag?.flag_key}"? 
               This action cannot be undone.

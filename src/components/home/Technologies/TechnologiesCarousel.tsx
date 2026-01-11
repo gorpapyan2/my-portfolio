@@ -4,6 +4,7 @@ import { Code2, Bug, Database } from 'lucide-react';
 import { TechnologyCard } from './TechnologyCard';
 import { PaginationDots } from '../../ui/PaginationDots';
 import { Technology } from './index';
+import { useLanguage } from '../../../context/LanguageContext';
 
 const technologys: Technology[] = [
     {
@@ -65,6 +66,7 @@ const technologys: Technology[] = [
   ];
 
 export function TechnologyCarousel() {
+    const { t } = useLanguage();
     const [currentIndex, setCurrentIndex] = useState(0);
     
     const currentTechnology = useMemo(
@@ -91,7 +93,7 @@ export function TechnologyCarousel() {
                 <button
                     onClick={() => navigate(-1)}
                     className="absolute left-4 top-1/2 -translate-y-1/2 group flex items-center justify-center w-12 h-12 rounded-full bg-white/10 hover:bg-white/20 border border-white/20 hover:border-lime-400/50 backdrop-blur-sm transition-all duration-300 z-10"
-                    aria-label="Previous technology"
+                    aria-label={t('aria.previousTechnology')}
                 >
                     <ChevronLeft className="w-6 h-6 text-white group-hover:text-lime-400 transition-colors" />
                 </button>
@@ -99,7 +101,7 @@ export function TechnologyCarousel() {
                 <button
                     onClick={() => navigate(1)}
                     className="absolute right-4 top-1/2 -translate-y-1/2 group flex items-center justify-center w-12 h-12 rounded-full bg-white/10 hover:bg-white/20 border border-white/20 hover:border-lime-400/50 backdrop-blur-sm transition-all duration-300 z-10"
-                    aria-label="Next technology"
+                    aria-label={t('aria.nextTechnology')}
                 >
                     <ChevronRight className="w-6 h-6 text-white group-hover:text-lime-400 transition-colors" />
                 </button>

@@ -3,6 +3,7 @@ import { Plus, Edit, Trash2 } from 'lucide-react';
 import { useExperienceService } from '../../lib/services/useExperienceService';
 import { Experience, ExperienceInsert } from '../../types/database.types';
 import { experienceSchema } from '../../lib/schemas/experienceSchema';
+import { TranslationText } from '../../components/shared/TranslationText';
 
 interface ExperienceAdminProps {
   onClose: () => void;
@@ -110,7 +111,9 @@ export function ExperienceAdmin({ onClose }: ExperienceAdminProps) {
   return (
     <div>
       <div className="flex items-center justify-between mb-6">
-        <h2 className="text-2xl font-semibold text-white">Experience Management</h2>
+        <h2 className="text-2xl font-semibold text-white">
+          <TranslationText translationKey="admin.experience.title" as="span" shimmerWidth="230px" />
+        </h2>
         <button
           onClick={onClose}
           className="p-2 text-gray-400 hover:text-white transition-colors"

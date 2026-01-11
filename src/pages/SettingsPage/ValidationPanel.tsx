@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { X, AlertTriangle, CheckCircle } from 'lucide-react';
 import { Card } from '../../components/shared/Card';
 import { useLanguage } from '../../context/LanguageContext';
+import { TranslationText } from '../../components/shared/TranslationText';
 
 interface ValidationPanelProps {
   translations: Record<string, Record<string, string>>;
@@ -78,7 +79,9 @@ export function ValidationPanel({ translations, onClose }: ValidationPanelProps)
             {validationResults.missingTranslations.length === 0 ? (
               <div className="flex items-center gap-2 text-green-400">
                 <CheckCircle className="h-4 w-4" />
-                <span className="text-sm">All translations are present</span>
+                <span className="text-sm">
+                  <TranslationText translationKey="settings.validation.allPresent" as="span" shimmerWidth="220px" />
+                </span>
               </div>
             ) : (
               <div className="space-y-2 max-h-40 overflow-y-auto">
@@ -106,7 +109,9 @@ export function ValidationPanel({ translations, onClose }: ValidationPanelProps)
             {validationResults.emptyValues.length === 0 ? (
               <div className="flex items-center gap-2 text-green-400">
                 <CheckCircle className="h-4 w-4" />
-                <span className="text-sm">No empty values found</span>
+                <span className="text-sm">
+                  <TranslationText translationKey="settings.validation.noEmpty" as="span" shimmerWidth="180px" />
+                </span>
               </div>
             ) : (
               <div className="space-y-2 max-h-40 overflow-y-auto">
@@ -123,13 +128,13 @@ export function ValidationPanel({ translations, onClose }: ValidationPanelProps)
           <div className="pt-4 border-t border-white/10">
             <div className="flex items-center justify-between">
               <div className="text-sm text-gray-400">
-                Total issues: {validationResults.missingTranslations.length + validationResults.emptyValues.length}
+                {t('settings.validation.totalIssues')}: {validationResults.missingTranslations.length + validationResults.emptyValues.length}
               </div>
               <button
                 onClick={validateTranslations}
                 className="px-4 py-2 bg-white/10 text-white rounded-lg font-medium hover:bg-white/20 transition-colors"
               >
-                Re-validate
+                {t('settings.validation.revalidate')}
               </button>
             </div>
           </div>

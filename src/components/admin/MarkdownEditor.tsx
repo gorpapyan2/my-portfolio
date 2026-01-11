@@ -20,6 +20,8 @@ import {
   RotateCcw
 } from 'lucide-react';
 import { MarkdownRenderer } from './MarkdownRenderer';
+import { useLanguage } from '../../context/LanguageContext';
+import { TranslationText } from '../shared/TranslationText';
 
 interface MarkdownEditorProps {
   value: string;
@@ -42,6 +44,7 @@ export function MarkdownEditor({
   rows = 12,
   onImageUpload
 }: MarkdownEditorProps) {
+  const { t } = useLanguage();
   const [showPreview, setShowPreview] = useState(false);
   const [isFullscreen, setIsFullscreen] = useState(false);
   const [copiedShortcuts, setCopiedShortcuts] = useState(false);
@@ -315,7 +318,7 @@ export function MarkdownEditor({
               ? 'text-[#edfc3a] bg-[#edfc3a]/10' 
               : 'text-gray-400 hover:text-white hover:bg-white/10'
           }`}
-          title="Toggle Preview"
+          title={t('admin.markdown.togglePreview')}
         >
           {showPreview ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
         </button>
@@ -325,7 +328,7 @@ export function MarkdownEditor({
             type="button"
             onClick={() => setIsFullscreen(!isFullscreen)}
             className="p-2 text-gray-400 hover:text-white hover:bg-white/10 rounded transition-colors"
-            title="Toggle Fullscreen"
+            title={t('admin.markdown.toggleFullscreen')}
           >
             {isFullscreen ? <Minimize2 className="h-4 w-4" /> : <Maximize2 className="h-4 w-4" />}
           </button>
@@ -336,7 +339,7 @@ export function MarkdownEditor({
             type="button"
             onClick={copyShortcuts}
             className="p-2 text-gray-400 hover:text-white hover:bg-white/10 rounded transition-colors text-xs"
-            title="Copy keyboard shortcuts"
+            title={t('admin.markdown.copyShortcuts')}
           >
             {copiedShortcuts ? (
               <Check className="h-4 w-4 text-green-400" />
@@ -363,11 +366,11 @@ export function MarkdownEditor({
 
       {/* Help Text */}
       <div className="text-xs text-gray-500 space-y-1">
-        <p><strong>Keyboard shortcuts:</strong> Ctrl+B (bold), Ctrl+I (italic), Ctrl+H (heading), Ctrl+K (link)</p>
-        <p><strong>Text size:</strong> Ctrl+= (increase), Ctrl+- (decrease), Ctrl+0 (reset)</p>
-        <p><strong>Markdown syntax:</strong> **bold**, *italic*, # heading, - list, &gt; quote, `code`, [link](url), ![alt](url)</p>
+        <p><strong>{t('admin.markdown.help.keyboardShortcuts')}</strong></p>
+        <p><strong>{t('admin.markdown.help.textSize')}</strong></p>
+        <p><strong>{t('admin.markdown.help.markdownSyntax')}</strong></p>
         {onImageUpload && (
-          <p><strong>Image upload:</strong> Use the Image button in toolbar or drag-drop into image upload component</p>
+          <p><strong>{t('admin.markdown.help.imageUpload')}</strong></p>
         )}
       </div>
 

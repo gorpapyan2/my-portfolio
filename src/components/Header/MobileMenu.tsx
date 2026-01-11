@@ -73,7 +73,7 @@ export function MobileMenu() {
       <button
         onClick={() => setIsOpen(true)}
         className="p-2 text-gray-300 hover:text-[#edfc3a] transition-all duration-300 hover:scale-110 active:scale-95 hover:rotate-90 group"
-        aria-label="Open menu"
+        aria-label={t('aria.openMenu')}
         aria-expanded={isOpen}
         aria-controls="mobile-dropdown"
       >
@@ -104,7 +104,7 @@ export function MobileMenu() {
               <button
                 onClick={() => setIsOpen(false)}
                 className="p-1 rounded text-gray-300 hover:text-[#edfc3a] transition-all duration-300 hover:rotate-90 hover:scale-110 group"
-                aria-label="Close menu"
+                aria-label={t('aria.closeMenu')}
               >
                 <X className="h-5 w-5 transition-transform duration-300 group-hover:scale-110" />
               </button>

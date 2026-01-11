@@ -83,7 +83,9 @@ export function Skills() {
                         subtitle={<TranslationText translationKey="about.skills.subtitle" as="span" shimmerWidth="300px" />}
                     />
                     <div className="text-center py-8">
-                        <p className="text-red-400">Failed to load skills: {error}</p>
+                        <p className="text-red-400">
+                          <TranslationText translationKey="error.loadFailed.skills" as="span" shimmerWidth="150px" />: {error}
+                        </p>
                     </div>
                 </div>
             </section>

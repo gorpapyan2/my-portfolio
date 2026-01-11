@@ -1,6 +1,8 @@
 import { useEffect, useState, useRef } from 'react';
 import { ChevronDown } from 'lucide-react';
 import { TocEntry } from '../../lib/markdown/toc';
+import { TranslationText } from '../shared/TranslationText';
+import { useLanguage } from '../../context/LanguageContext';
 
 interface TocProps {
   headings: TocEntry[];
@@ -14,6 +16,7 @@ interface TocProps {
  * Auto-scrolls TOC container to keep active item visible
  */
 export function Toc({ headings, className = '' }: TocProps) {
+  const { t } = useLanguage();
   const [activeId, setActiveId] = useState<string>('');
   const [isExpanded, setIsExpanded] = useState(false);
   const tocLinksRef = useRef<Map<string, HTMLAnchorElement>>(new Map());
@@ -202,7 +205,7 @@ export function Toc({ headings, className = '' }: TocProps) {
   return (
     <nav 
       className={`bg-white/5 rounded-lg border border-white/10 ${className}`}
-      aria-label="Table of contents"
+      aria-label={t('aria.tableOfContents')}
     >
       {/* Mobile toggle button */}
       <button
@@ -211,7 +214,7 @@ export function Toc({ headings, className = '' }: TocProps) {
         aria-expanded={isExpanded}
         aria-controls="toc-content"
       >
-        <span>On this page</span>
+        <TranslationText translationKey="blog.toc.title" as="span" shimmerWidth="120px" />
         <ChevronDown 
           className={`h-4 w-4 transition-transform duration-200 ${isExpanded ? 'rotate-180' : ''}`}
           aria-hidden="true"
@@ -220,7 +223,9 @@ export function Toc({ headings, className = '' }: TocProps) {
 
       {/* Desktop heading */}
       <div className="hidden lg:block p-4 pb-2">
-        <h3 className="text-white font-semibold text-sm">On this page</h3>
+        <h3 className="text-white font-semibold text-sm">
+          <TranslationText translationKey="blog.toc.title" as="span" shimmerWidth="120px" />
+        </h3>
       </div>
 
       {/* TOC Content - collapsible on mobile, always visible on desktop */}

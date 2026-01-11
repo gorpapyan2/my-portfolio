@@ -3,6 +3,8 @@ import { useNavigate } from 'react-router-dom';
 import { LogIn, Eye, EyeOff } from 'lucide-react';
 import { Card } from '../components/shared/Card';
 import { useAuth } from '../context/AuthContext';
+import { useLanguage } from '../context/LanguageContext';
+import { TranslationText } from '../components/shared/TranslationText';
 import AnimatedGridBackground from '../components/AnimatedGridBackground';
 import ParticleBackground from '../components/ParticleBackground';
 
@@ -14,6 +16,7 @@ export function AdminLoginPage() {
   const [error, setError] = useState<string | null>(null);
   
   const { signIn } = useAuth();
+  const { t } = useLanguage();
   const navigate = useNavigate();
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -40,8 +43,12 @@ export function AdminLoginPage() {
           <div className="inline-flex p-3 rounded-lg bg-[#edfc3a]/10 text-[#edfc3a] mb-4">
             <LogIn className="h-8 w-8" />
           </div>
-          <h1 className="text-2xl font-bold text-white mb-2">Admin Login</h1>
-          <p className="text-gray-400">Sign in to access the admin dashboard</p>
+          <h1 className="text-2xl font-bold text-white mb-2">
+            <TranslationText translationKey="admin.login.title" as="span" shimmerWidth="150px" />
+          </h1>
+          <p className="text-gray-400">
+            <TranslationText translationKey="admin.login.subtitle" as="span" shimmerWidth="300px" />
+          </p>
         </div>
 
         <form onSubmit={handleSubmit} className="space-y-6">
@@ -53,7 +60,7 @@ export function AdminLoginPage() {
 
           <div>
             <label htmlFor="email" className="block text-sm font-medium text-gray-300 mb-2">
-              Email Address
+              <TranslationText translationKey="admin.login.emailLabel" as="span" shimmerWidth="120px" />
             </label>
             <input
               id="email"
@@ -61,7 +68,7 @@ export function AdminLoginPage() {
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               className="w-full px-3 py-2 rounded-lg bg-white/5 border border-white/10 text-white focus:ring-2 focus:ring-[#edfc3a] focus:border-transparent"
-              placeholder="admin@example.com"
+              placeholder={t('admin.login.emailPlaceholder')}
               required
               disabled={isLoading}
             />
@@ -69,7 +76,7 @@ export function AdminLoginPage() {
 
           <div>
             <label htmlFor="password" className="block text-sm font-medium text-gray-300 mb-2">
-              Password
+              <TranslationText translationKey="admin.login.passwordLabel" as="span" shimmerWidth="80px" />
             </label>
             <div className="relative">
               <input
@@ -78,7 +85,7 @@ export function AdminLoginPage() {
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 className="w-full px-3 py-2 pr-10 rounded-lg bg-white/5 border border-white/10 text-white focus:ring-2 focus:ring-[#edfc3a] focus:border-transparent"
-                placeholder="Enter your password"
+                placeholder={t('admin.login.passwordPlaceholder')}
                 required
                 disabled={isLoading}
               />
@@ -101,12 +108,12 @@ export function AdminLoginPage() {
             {isLoading ? (
               <>
                 <div className="animate-spin rounded-full h-4 w-4 border-2 border-black border-t-transparent" />
-                Signing In...
+                <TranslationText translationKey="admin.login.signingIn" as="span" shimmerWidth="120px" />
               </>
             ) : (
               <>
                 <LogIn className="h-4 w-4" />
-                Sign In
+                <TranslationText translationKey="admin.login.signIn" as="span" shimmerWidth="80px" />
               </>
             )}
           </button>
@@ -118,7 +125,7 @@ export function AdminLoginPage() {
             className="text-gray-400 hover:text-white transition-colors text-sm"
             disabled={isLoading}
           >
-            ← Back to Portfolio
+            <TranslationText translationKey="admin.login.backToPortfolio" as="span" shimmerWidth="180px" />
           </button>
         </div>
       </Card>

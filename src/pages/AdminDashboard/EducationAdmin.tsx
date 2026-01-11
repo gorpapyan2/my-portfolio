@@ -3,6 +3,7 @@ import { Plus, Edit, Trash2 } from 'lucide-react';
 import { useEducationService } from '../../lib/services/useEducationService';
 import { Education, EducationInsert } from '../../types/database.types';
 import { educationSchema } from '../../lib/schemas/educationSchema';
+import { TranslationText } from '../../components/shared/TranslationText';
 
 interface EducationAdminProps {
   onClose: () => void;
@@ -88,7 +89,9 @@ export function EducationAdmin({ onClose }: EducationAdminProps) {
   return (
     <div>
       <div className="flex items-center justify-between mb-6">
-        <h2 className="text-2xl font-semibold text-white">Education Management</h2>
+        <h2 className="text-2xl font-semibold text-white">
+          <TranslationText translationKey="admin.education.title" as="span" shimmerWidth="220px" />
+        </h2>
         <button
           onClick={onClose}
           className="p-2 text-gray-400 hover:text-white transition-colors"

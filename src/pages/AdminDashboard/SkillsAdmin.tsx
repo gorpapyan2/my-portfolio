@@ -4,6 +4,7 @@ import { useSkillService } from '../../lib/services/useSkillService';
 import { Skill, SkillInsert } from '../../types/database.types';
 import { skillSchema } from '../../lib/schemas/skillSchema';
 import { getIcon } from '../../utils/iconMap';
+import { TranslationText } from '../../components/shared/TranslationText';
 
 interface SkillsAdminProps {
   onClose: () => void;
@@ -94,7 +95,9 @@ export function SkillsAdmin({ onClose }: SkillsAdminProps) {
   return (
     <div>
       <div className="flex items-center justify-between mb-6">
-        <h2 className="text-2xl font-semibold text-white">Skills Management</h2>
+        <h2 className="text-2xl font-semibold text-white">
+          <TranslationText translationKey="admin.skills.title" as="span" shimmerWidth="180px" />
+        </h2>
         <button
           onClick={onClose}
           className="p-2 text-gray-400 hover:text-white transition-colors"

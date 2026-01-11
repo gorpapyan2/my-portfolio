@@ -1,6 +1,8 @@
 import { useState, useRef } from 'react';
 import { Upload, X, Loader } from 'lucide-react';
 import { supabase } from '../../lib/supabase';
+import { useLanguage } from '../../context/LanguageContext';
+import { TranslationText } from '../shared/TranslationText';
 
 interface ImageUploadProps {
   onUpload: (url: string, filename: string) => void;
@@ -17,6 +19,7 @@ const ALLOWED_TYPES = ['image/jpeg', 'image/png', 'image/gif', 'image/webp'];
  * Uploads to Supabase Storage and returns public URL
  */
 export function ImageUpload({ onUpload, disabled = false }: ImageUploadProps) {
+  const { t } = useLanguage();
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [preview, setPreview] = useState<string | null>(null);
@@ -142,7 +145,7 @@ export function ImageUpload({ onUpload, disabled = false }: ImageUploadProps) {
             onClick={handleClear}
             disabled={isLoading}
             className="absolute top-2 right-2 p-1.5 bg-red-500 hover:bg-red-600 text-white rounded-lg transition-colors disabled:opacity-50"
-            title="Remove preview"
+            title={t('admin.imageUpload.removePreview')}
           >
             <X className="h-4 w-4" />
           </button>
@@ -174,13 +177,19 @@ export function ImageUpload({ onUpload, disabled = false }: ImageUploadProps) {
           {isLoading ? (
             <>
               <Loader className="h-8 w-8 text-[#edfc3a] animate-spin" />
-              <p className="text-sm text-gray-400">Uploading...</p>
+              <p className="text-sm text-gray-400">
+                <TranslationText translationKey="admin.imageUpload.uploading" as="span" shimmerWidth="100px" />
+              </p>
             </>
           ) : (
             <>
               <Upload className="h-8 w-8 text-gray-400" />
-              <p className="text-sm text-white font-medium">Drag and drop or click to upload</p>
-              <p className="text-xs text-gray-500">JPEG, PNG, GIF, or WebP up to 5MB</p>
+              <p className="text-sm text-white font-medium">
+                <TranslationText translationKey="admin.imageUpload.dragDrop" as="span" shimmerWidth="250px" />
+              </p>
+              <p className="text-xs text-gray-500">
+                <TranslationText translationKey="admin.imageUpload.fileTypes" as="span" shimmerWidth="250px" />
+              </p>
             </>
           )}
         </div>

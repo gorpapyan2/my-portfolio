@@ -42,7 +42,7 @@ export function NotFoundPage() {
             animate={{ opacity: 1 }}
             transition={{ duration: 0.5, delay: 0.6 }}
           >
-            Page Not Found
+            <TranslationText translationKey="pages.notFound.title" as="span" shimmerWidth="200px" />
           </motion.h2>
 
           <motion.p
@@ -51,7 +51,7 @@ export function NotFoundPage() {
             animate={{ opacity: 1 }}
             transition={{ duration: 0.5, delay: 0.8 }}
           >
-            Oops! The page you're looking for doesn't exist. It might have been moved or deleted.
+            <TranslationText translationKey="pages.notFound.message" as="span" shimmerWidth="500px" />
           </motion.p>
 
           {/* Action Buttons */}
@@ -66,7 +66,7 @@ export function NotFoundPage() {
               className="inline-flex items-center gap-2 px-8 py-3 bg-[#edfc3a] hover:bg-[#f2ff4d] text-black font-medium rounded-full transition-colors"
             >
               <Home className="w-5 h-5" />
-              Go Home
+              <TranslationText translationKey="pages.notFound.goHome" as="span" shimmerWidth="80px" />
             </Link>
 
             <button
@@ -74,7 +74,7 @@ export function NotFoundPage() {
               className="inline-flex items-center gap-2 px-8 py-3 border border-[#edfc3a] text-[#edfc3a] hover:bg-[#edfc3a]/10 font-medium rounded-full transition-colors"
             >
               <ArrowLeft className="w-5 h-5" />
-              Go Back
+              <TranslationText translationKey="pages.notFound.goBack" as="span" shimmerWidth="80px" />
             </button>
           </motion.div>
 
@@ -85,7 +85,9 @@ export function NotFoundPage() {
             animate={{ opacity: 1 }}
             transition={{ duration: 0.5, delay: 1.2 }}
           >
-            <p className="text-sm text-gray-500 mb-4">Popular Pages</p>
+            <p className="text-sm text-gray-500 mb-4">
+              <TranslationText translationKey="pages.notFound.popularPages" as="span" shimmerWidth="120px" />
+            </p>
             <div className="flex flex-wrap gap-3 justify-center">
               <Link
                 to="/about"

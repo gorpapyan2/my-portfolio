@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import { List, ChevronDown, ChevronRight } from 'lucide-react';
+import { TranslationText } from './shared/TranslationText';
 
 interface TableOfContentsProps {
   className?: string;
@@ -68,7 +69,7 @@ export function TableOfContents({ className = "" }: TableOfContentsProps) {
         className="flex items-center gap-2 w-full text-left text-white hover:text-[#edfc3a] transition-colors"
       >
         <List className="h-4 w-4" />
-        <span className="font-medium">Table of Contents</span>
+        <TranslationText translationKey="blog.tableOfContents" as="span" shimmerWidth="150px" className="font-medium" />
         {isExpanded ? (
           <ChevronDown className="h-4 w-4 ml-auto" />
         ) : (

@@ -14,6 +14,10 @@ export function ErrorScreen({
   onRetry,
   retryText = "Try Again"
 }: ErrorScreenProps) {
+  // Use provided props - no translations to avoid circular dependency
+  // when ErrorScreen is used in LanguageContext
+  const displayTitle = title;
+  const displayRetryText = retryText;
   return (
     <motion.div 
       initial={{ opacity: 0 }}
@@ -69,7 +73,7 @@ export function ErrorScreen({
             transition={{ delay: 0.4 }}
             className="text-2xl font-bold text-white"
           >
-            {title}
+            {displayTitle}
           </motion.h2>
           
           <motion.div
@@ -102,7 +106,7 @@ export function ErrorScreen({
               onClick={onRetry}
               className="px-6 py-3 bg-gradient-to-r from-purple-500 to-pink-500 hover:from-purple-600 hover:to-pink-600 text-white font-medium rounded-lg shadow-lg shadow-purple-500/30 transition-all duration-200"
             >
-              {retryText}
+              {displayRetryText}
             </motion.button>
             
             <motion.button
