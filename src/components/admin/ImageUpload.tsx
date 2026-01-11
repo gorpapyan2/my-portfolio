@@ -196,7 +196,7 @@ export function ImageUpload({ onUpload, disabled = false }: ImageUploadProps) {
       </div>
 
       <p className="text-xs text-gray-500">
-        Image will be uploaded to your blog and inserted as markdown: ![filename](url)
+        <TranslationText translationKey="admin.imageUpload.uploadInfo" as="span" shimmerWidth="400px" />
       </p>
     </div>
   );

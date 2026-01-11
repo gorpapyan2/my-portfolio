@@ -5,12 +5,14 @@ import { useProjectService } from '../../lib/services/useProjectService';
 import { Project, ProjectInsert } from '../../types/database.types';
 import { projectSchema } from '../../lib/schemas/projectSchema';
 import { TranslationText } from '../../components/shared/TranslationText';
+import { useLanguage } from '../../context/LanguageContext';
 
 interface ProjectAdminProps {
   onClose: () => void;
 }
 
 export function ProjectAdmin({ onClose }: ProjectAdminProps) {
+  const { t } = useLanguage();
   const { projects, isLoading, createProject, updateProject, deleteProject } = useProjectService();
   const [showEditor, setShowEditor] = useState(false);
   const [editingProject, setEditingProject] = useState<Project | null>(null);
@@ -110,7 +112,9 @@ export function ProjectAdmin({ onClose }: ProjectAdminProps) {
   if (isLoading) {
     return (
       <div className="flex items-center justify-center py-8">
-        <div className="text-white">Loading...</div>
+        <div className="text-white">
+          <TranslationText translationKey="admin.common.loading" as="span" shimmerWidth="100px" />
+        </div>
       </div>
     );
   }
@@ -124,6 +128,7 @@ export function ProjectAdmin({ onClose }: ProjectAdminProps) {
         <button
           onClick={onClose}
           className="p-2 text-gray-400 hover:text-white transition-colors"
+          aria-label={t('admin.common.close')}
         >
           ×
         </button>
@@ -134,7 +139,7 @@ export function ProjectAdmin({ onClose }: ProjectAdminProps) {
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div>
               <label className="block text-sm font-medium text-gray-300 mb-1">
-                Title
+                {t('admin.common.title')}
               </label>
               <input
                 type="text"
@@ -152,7 +157,7 @@ export function ProjectAdmin({ onClose }: ProjectAdminProps) {
 
             <div>
               <label className="block text-sm font-medium text-gray-300 mb-1">
-                Order Index
+                {t('admin.common.orderIndex')}
               </label>
               <input
                 type="number"

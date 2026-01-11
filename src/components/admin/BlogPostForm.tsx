@@ -6,6 +6,7 @@ import { ImageUpload } from './ImageUpload';
 import { MarkdownEditor } from './MarkdownEditor';
 import { useMarkdownService } from '../../lib/services/useMarkdownService';
 import { useBlogAdminService } from '../../lib/services/useBlogAdminService';
+import { useLanguage } from '../../context/LanguageContext';
 
 interface BlogPostFormProps {
   isEditing: boolean;
@@ -33,6 +34,7 @@ export function BlogPostForm({
   onCancel,
   isSubmitting = false
 }: BlogPostFormProps) {
+  const { t } = useLanguage();
   const { generateSlug, calculateReadingTime, validateSlugUniqueness } = useMarkdownService();
   const { autosaveDraft, clearDraft, getLastSavedTime } = useBlogAdminService();
   
@@ -202,10 +204,10 @@ export function BlogPostForm({
           </div>
           <div>
             <h2 className="text-xl font-semibold text-white">
-              {isEditing ? 'Edit Blog Post' : 'Create New Blog Post'}
+              {isEditing ? t('admin.blog.editPostTitle') : t('admin.blog.createPostTitle')}
             </h2>
             <p className="text-sm text-gray-400">
-              {isEditing ? 'Update your blog post content and settings' : 'Write and publish a new blog post'}
+              {isEditing ? t('admin.blog.editPostSubtitle') : t('admin.blog.createPostSubtitle')}
             </p>
           </div>
         </div>
@@ -215,14 +217,14 @@ export function BlogPostForm({
           {autoSaveStatus === 'saving' && (
             <div className="flex items-center gap-1 text-xs text-yellow-400">
               <Zap className="h-3 w-3 animate-pulse" />
-              Saving...
+              {t('admin.blog.saving')}
             </div>
           )}
           {autoSaveStatus === 'saved' && (
             <div className="flex items-center gap-1 text-xs text-green-400">
               <CheckCircle className="h-3 w-3" />
-              Saved
-              {lastSavedTime && ` at ${lastSavedTime}`}
+              {t('admin.blog.saved')}
+              {lastSavedTime && `${t('admin.blog.savedAt')}${lastSavedTime}`}
             </div>
           )}
         </div>
@@ -232,14 +234,14 @@ export function BlogPostForm({
       <div className="bg-white/5 rounded-lg p-6 border border-white/10">
         <h3 className="text-lg font-medium text-white mb-4 flex items-center gap-2">
           <FileText className="h-5 w-5 text-[#edfc3a]" />
-          Basic Information
+          {t('admin.blog.basicInformation')}
         </h3>
         
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
           {/* Title Field */}
           <div className="space-y-2">
             <label className="block text-sm font-medium text-gray-300">
-              Title *
+              {t('admin.blog.titleLabel')}
             </label>
             <input
               type="text"
@@ -248,7 +250,7 @@ export function BlogPostForm({
               className={`w-full px-4 py-3 rounded-lg bg-white/5 border text-white placeholder-gray-500 focus:ring-2 focus:ring-[#edfc3a] focus:border-transparent transition-all ${
                 errors.title ? 'border-red-500' : 'border-white/10'
               }`}
-              placeholder="Enter blog post title..."
+              placeholder={t('admin.blog.titlePlaceholder')}
               required
               disabled={isSubmitting}
             />
@@ -263,7 +265,7 @@ export function BlogPostForm({
           {/* Slug Field with Validation */}
           <div className="space-y-2">
             <label className="block text-sm font-medium text-gray-300">
-              URL Slug *
+              {t('admin.blog.slugLabel')}
             </label>
             <div className="relative">
               <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
@@ -279,7 +281,7 @@ export function BlogPostForm({
                   slugValidation.isValid === false && slugValidation.isChecking === false ? 'border-red-500' :
                   'border-white/10'
                 }`}
-                placeholder="url-friendly-slug"
+                placeholder={t('admin.blog.slugPlaceholder')}
                 required
                 disabled={isSubmitting}
               />
@@ -468,7 +470,7 @@ export function BlogPostForm({
         <div className="flex items-center gap-2 text-sm text-gray-400">
           <Calendar className="h-4 w-4" />
           <span>
-            {isEditing ? 'Last updated' : 'Created'} on {new Date().toLocaleDateString()}
+            {isEditing ? t('admin.blog.lastUpdated') : t('admin.blog.created')}{t('admin.blog.createdOn')}{new Date().toLocaleDateString()}
           </span>
         </div>
         
@@ -488,7 +490,7 @@ export function BlogPostForm({
             className="px-6 py-3 text-gray-400 hover:text-white transition-colors rounded-lg hover:bg-white/5 flex items-center gap-2 disabled:opacity-50"
             disabled={isSubmitting}
           >
-            Cancel
+            {t('admin.common.cancel')}
           </button>
           <button
             type="submit"
@@ -503,7 +505,7 @@ export function BlogPostForm({
             }
             className="px-6 py-3 bg-[#edfc3a] text-black rounded-lg font-medium hover:bg-[#f2ff4d] transition-colors flex items-center gap-2 shadow-lg hover:shadow-xl disabled:opacity-50 disabled:cursor-not-allowed"
           >
-            {isSubmitting ? 'Saving...' : isEditing ? 'Update Post' : 'Create Post'}
+            {isSubmitting ? t('admin.blog.saving') : isEditing ? t('admin.blog.updatePost') : t('admin.blog.createPost')}
           </button>
         </div>
       </div>
