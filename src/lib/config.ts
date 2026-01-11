@@ -19,7 +19,7 @@ const getEnvVar = (key: string, fallback: string): string => {
  */
 export const supabaseConfig = {
   url: getEnvVar('VITE_SUPABASE_URL', 'https://ocsoqppieozakfmjrrsh.supabase.co'),
-  anonKey: getEnvVar('VITE_SUPABASE_ANON_KEY', ''),
+  anonKey: getEnvVar('VITE_SUPABASE_ANON_KEY', '') || getEnvVar('VITE_SUPABASE_PUBLISHABLE_DEFAULT_KEY', 'sb_publishable_1pFhXLkA6yWF4A9zy47onw_jhztMNEt'),
 } as const;
 
 /**
