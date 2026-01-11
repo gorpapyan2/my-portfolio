@@ -17,12 +17,13 @@ const getEnvVar = (key: string, fallback: string): string => {
 /**
  * Supabase configuration
  */
+import { loadEnv } from 'vite';
+
+const env = loadEnv(process.env.NODE_ENV || 'development', process.cwd());
+
 export const supabaseConfig = {
-  url: getEnvVar('VITE_SUPABASE_URL', 'https://lfbemjnghstybysdemys.supabase.co'),
-  anonKey: getEnvVar(
-    'VITE_SUPABASE_ANON_KEY',
-    'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImxmYmVtam5naHN0eWJ5c2RlbXlzIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjA0Mzc4MTYsImV4cCI6MjA3NjAxMzgxNn0.1TVZjtk0-XI2HhMFUXB27PGMQg41AkILCxDxH8Z2cvg'
-  ),
+  url: getEnvVar('VITE_SUPABASE_URL', 'https://https://ocsoqppieozakfmjrrsh.supabase.co'),
+  anonKey: env.VITE_SUPABASE_ANON_KEY || 'your-default-anon-key',
 } as const;
 
 /**
@@ -32,11 +33,11 @@ export const supabaseConfig = {
 export const assetUrls = {
   cv: getEnvVar(
     'VITE_CV_URL',
-    'https://lfbemjnghstybysdemys.supabase.co/storage/v1/object/public/documents/Gor_Papyan_CV.pdf'
+    'https://ocsoqppieozakfmjrrsh.supabase.co/storage/v1/object/public/documents/Gor_Papyan_CV.pdf'
   ),
   portrait: getEnvVar(
     'VITE_PORTRAIT_URL',
-    'https://lfbemjnghstybysdemys.supabase.co/storage/v1/object/public/images/portrait/portrait.png'
+    'https://ocsoqppieozakfmjrrsh.supabase.co/storage/v1/object/public/images/portrait/portrait.png'
   ),
 } as const;
 
