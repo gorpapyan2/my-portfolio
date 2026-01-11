@@ -11,10 +11,13 @@ export default defineConfig({
       '@': path.resolve(__dirname, './src'),
     },
   },
-  optimizeDeps: {
-    exclude: ['lucide-react', 'reading-time'],
-  },
-  ssr: {
-    noExternal: ['remark', 'remark-parse', 'remark-gfm', 'remark-smartypants', 'remark-rehype', 'rehype-slug', 'rehype-autolink-headings', 'rehype-external-links', 'rehype-pretty-code', 'rehype-sanitize', 'rehype-stringify'],
+  optimizeDeps: {},
+  build: {
+    commonjsOptions: {
+      include: [/node_modules/],
+    },
+    rollupOptions: {
+      external: (id) => id === 'fsevents',
+    },
   },
 });

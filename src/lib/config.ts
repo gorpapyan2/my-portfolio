@@ -17,13 +17,9 @@ const getEnvVar = (key: string, fallback: string): string => {
 /**
  * Supabase configuration
  */
-import { loadEnv } from 'vite';
-
-const env = loadEnv(process.env.NODE_ENV || 'development', process.cwd());
-
 export const supabaseConfig = {
-  url: getEnvVar('VITE_SUPABASE_URL', 'https://https://ocsoqppieozakfmjrrsh.supabase.co'),
-  anonKey: env.VITE_SUPABASE_ANON_KEY || 'your-default-anon-key',
+  url: getEnvVar('VITE_SUPABASE_URL', 'https://ocsoqppieozakfmjrrsh.supabase.co'),
+  anonKey: getEnvVar('VITE_SUPABASE_ANON_KEY', ''),
 } as const;
 
 /**
