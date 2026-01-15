@@ -5,12 +5,14 @@ import { Skill, SkillInsert } from '../../types/database.types';
 import { skillSchema } from '../../lib/schemas/skillSchema';
 import { getIcon } from '../../utils/iconMap';
 import { TranslationText } from '../../components/shared/TranslationText';
+import { useLanguage } from '../../context/LanguageContext';
 
 interface SkillsAdminProps {
   onClose: () => void;
 }
 
 export function SkillsAdmin({ onClose }: SkillsAdminProps) {
+  const { t } = useLanguage();
   const { skills, isLoading, createSkill, updateSkill, deleteSkill } = useSkillService();
   const [showEditor, setShowEditor] = useState(false);
   const [editingSkill, setEditingSkill] = useState<Skill | null>(null);
@@ -74,12 +76,12 @@ export function SkillsAdmin({ onClose }: SkillsAdminProps) {
   };
 
   const handleDelete = async (id: string) => {
-    if (confirm('Are you sure you want to delete this skill?')) {
+    if (confirm(t('admin.skills.confirm.delete'))) {
       try {
         await deleteSkill(id);
       } catch (error) {
         console.error('Error deleting skill:', error);
-        alert('Failed to delete skill');
+        alert(t('admin.skills.error.deleteFailed'));
       }
     }
   };
@@ -87,7 +89,7 @@ export function SkillsAdmin({ onClose }: SkillsAdminProps) {
   if (isLoading) {
     return (
       <div className="flex items-center justify-center py-8">
-        <div className="text-white">Loading...</div>
+        <div className="text-white">{t('admin.common.loading')}</div>
       </div>
     );
   }
@@ -111,7 +113,7 @@ export function SkillsAdmin({ onClose }: SkillsAdminProps) {
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div>
               <label className="block text-sm font-medium text-gray-300 mb-1">
-                Title
+                {t('admin.skills.form.title')}
               </label>
               <input
                 type="text"
@@ -129,7 +131,7 @@ export function SkillsAdmin({ onClose }: SkillsAdminProps) {
 
             <div>
               <label className="block text-sm font-medium text-gray-300 mb-1">
-                Icon
+                {t('admin.skills.form.icon')}
               </label>
               <select
                 value={formData.icon}
@@ -147,7 +149,7 @@ export function SkillsAdmin({ onClose }: SkillsAdminProps) {
 
           <div>
             <label className="block text-sm font-medium text-gray-300 mb-1">
-              Description
+              {t('admin.common.description')}
             </label>
             <textarea
               value={formData.description}
@@ -166,7 +168,7 @@ export function SkillsAdmin({ onClose }: SkillsAdminProps) {
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div>
               <label className="block text-sm font-medium text-gray-300 mb-1">
-                Level (0-100%)
+                {t('admin.skills.form.level')}
               </label>
               <input
                 type="number"
@@ -186,7 +188,7 @@ export function SkillsAdmin({ onClose }: SkillsAdminProps) {
 
             <div>
               <label className="block text-sm font-medium text-gray-300 mb-1">
-                Order Index
+                {t('admin.common.orderIndex')}
               </label>
               <input
                 type="number"
@@ -214,27 +216,27 @@ export function SkillsAdmin({ onClose }: SkillsAdminProps) {
               }}
               className="px-4 py-2 text-gray-400 hover:text-white transition-colors"
             >
-              Cancel
+              {t('admin.common.cancel')}
             </button>
             <button
               type="submit"
               className="inline-flex items-center gap-2 px-4 py-2 bg-[#edfc3a] text-black rounded-lg font-medium hover:bg-[#f2ff4d] transition-colors"
             >
               <Plus className="h-4 w-4" />
-              {editingSkill ? 'Update Skill' : 'Create Skill'}
+              {editingSkill ? t('admin.skills.button.update') : t('admin.skills.button.create')}
             </button>
           </div>
         </form>
       ) : (
         <>
           <div className="flex items-center justify-between mb-6">
-            <h3 className="text-lg font-medium text-white">Skills ({skills.length})</h3>
+            <h3 className="text-lg font-medium text-white">{t('admin.skills.section.title')} ({skills.length})</h3>
             <button
               onClick={() => setShowEditor(true)}
               className="inline-flex items-center gap-2 px-4 py-2 bg-[#edfc3a] text-black rounded-lg font-medium hover:bg-[#f2ff4d] transition-colors"
             >
               <Plus className="h-4 w-4" />
-              Add Skill
+              {t('admin.skills.button.add')}
             </button>
           </div>
 
@@ -270,7 +272,7 @@ export function SkillsAdmin({ onClose }: SkillsAdminProps) {
                   
                   <div className="space-y-2">
                     <div className="flex justify-between items-center text-sm">
-                      <span className="text-gray-400">Proficiency</span>
+                      <span className="text-gray-400">{t('admin.skills.card.proficiency')}</span>
                       <span className="text-[#edfc3a] font-semibold">{skill.level}%</span>
                     </div>
                     
