@@ -33,7 +33,7 @@ export function TranslationTable({ translations, onEdit, onDelete }: Translation
                 {t('settings.category')}
               </th>
               <th className="text-right py-3 px-4 text-sm font-medium text-gray-300">
-                Actions
+                {t('admin.translations.table.actions')}
               </th>
             </tr>
           </thead>
@@ -41,7 +41,7 @@ export function TranslationTable({ translations, onEdit, onDelete }: Translation
             {translations.length === 0 ? (
               <tr>
                 <td colSpan={4} className="text-center py-8 text-gray-400">
-                  No translations found
+                  {t('admin.translations.empty.notFound')}
                 </td>
               </tr>
             ) : (
@@ -51,7 +51,7 @@ export function TranslationTable({ translations, onEdit, onDelete }: Translation
                     {translation.key}
                   </td>
                   <td className="py-3 px-4 text-sm text-gray-300">
-                    {translation.value || <span className="text-gray-500 italic">Empty</span>}
+                    {translation.value || <span className="text-gray-500 italic">{t('admin.translations.value.empty')}</span>}
                   </td>
                   <td className="py-3 px-4 text-sm text-gray-400">
                     <span className="px-2 py-1 bg-white/10 rounded text-xs">

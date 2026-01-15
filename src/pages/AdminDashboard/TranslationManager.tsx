@@ -55,7 +55,7 @@ export function TranslationManager() {
       {/* Language Selection */}
       <div className="mb-6">
         <div className="flex items-center gap-2 mb-4">
-          <span className="text-gray-300">Language:</span>
+          <span className="text-gray-300">{t('admin.translations.languageLabel')}</span>
           <div className="flex gap-2">
             {(['en', 'ru', 'am'] as const).map((lang) => (
               <button
