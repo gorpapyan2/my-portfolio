@@ -1,0 +1,445 @@
+{
+  "audit_date": "2026-01-15",
+  "project": "Gor Papyan Portfolio",
+  "summary": {
+    "total_missing": 300,
+    "by_priority": {
+      "critical": 50,
+      "high": 120,
+      "medium": 80,
+      "low": 50
+    },
+    "by_category": {
+      "admin": 185,
+      "ui_components": 50,
+      "loading": 10,
+      "technologies": 40,
+      "misc": 15
+    },
+    "phases": {
+      "phase1_existing_keys_ru_am": 35,
+      "phase2_errorscreen": 5,
+      "phase3_admin_dashboard": 185,
+      "phase4_ui_components": 75
+    }
+  },
+  "phase1_missing_ru_am": [
+    {
+      "key": "admin.login.title",
+      "category": "admin",
+      "priority": "high",
+      "en_value": "Admin Login",
+      "ru_value": "Вход для администратора",
+      "am_value": "Ադմինի մուտք",
+      "file": "src/pages/AdminLoginPage.tsx",
+      "line": 47,
+      "status": "en_only"
+    },
+    {
+      "key": "admin.login.subtitle",
+      "category": "admin",
+      "priority": "high",
+      "en_value": "Sign in to access the admin dashboard",
+      "ru_value": "Войдите, чтобы получить доступ к панели администратора",
+      "am_value": "Մուտք գործեք՝ ադմինի վահանակ մտնելու համար",
+      "file": "src/pages/AdminLoginPage.tsx",
+      "line": 50,
+      "status": "en_only"
+    },
+    {
+      "key": "admin.login.emailLabel",
+      "category": "admin",
+      "priority": "high",
+      "en_value": "Email Address",
+      "ru_value": "Адрес электронной почты",
+      "am_value": "Էլ. փոստի հասցե",
+      "file": "src/pages/AdminLoginPage.tsx",
+      "line": 63,
+      "status": "en_only"
+    },
+    {
+      "key": "admin.login.emailPlaceholder",
+      "category": "admin",
+      "priority": "high",
+      "en_value": "admin@example.com",
+      "ru_value": "admin@example.com",
+      "am_value": "admin@example.com",
+      "file": "src/pages/AdminLoginPage.tsx",
+      "line": 71,
+      "status": "en_only"
+    },
+    {
+      "key": "admin.login.passwordLabel",
+      "category": "admin",
+      "priority": "high",
+      "en_value": "Password",
+      "ru_value": "Пароль",
+      "am_value": "Գաղտնաբառ",
+      "file": "src/pages/AdminLoginPage.tsx",
+      "line": 79,
+      "status": "en_only"
+    },
+    {
+      "key": "admin.login.passwordPlaceholder",
+      "category": "admin",
+      "priority": "high",
+      "en_value": "Enter your password",
+      "ru_value": "Введите ваш пароль",
+      "am_value": "Մուտքագրեք ձեր գաղտնաբառը",
+      "file": "src/pages/AdminLoginPage.tsx",
+      "line": 88,
+      "status": "en_only"
+    },
+    {
+      "key": "admin.login.signingIn",
+      "category": "admin",
+      "priority": "high",
+      "en_value": "Signing In...",
+      "ru_value": "Вход...",
+      "am_value": "Մուտք...",
+      "file": "src/pages/AdminLoginPage.tsx",
+      "line": 111,
+      "status": "en_only"
+    },
+    {
+      "key": "admin.login.signIn",
+      "category": "admin",
+      "priority": "high",
+      "en_value": "Sign In",
+      "ru_value": "Войти",
+      "am_value": "Մուտք գործել",
+      "file": "src/pages/AdminLoginPage.tsx",
+      "line": 116,
+      "status": "en_only"
+    },
+    {
+      "key": "admin.login.backToPortfolio",
+      "category": "admin",
+      "priority": "high",
+      "en_value": "← Back to Portfolio",
+      "ru_value": "← Назад к портфолио",
+      "am_value": "← Վերադառնալ պորտֆոլիո",
+      "file": "src/pages/AdminLoginPage.tsx",
+      "line": 128,
+      "status": "en_only"
+    },
+    {
+      "key": "auth.checkingAuthentication",
+      "category": "auth",
+      "priority": "high",
+      "en_value": "Checking authentication...",
+      "ru_value": "Проверка аутентификации...",
+      "am_value": "Նույնականացման ստուգում...",
+      "file": "src/components/auth/ProtectedRoute.tsx",
+      "line": 21,
+      "status": "en_only"
+    },
+    {
+      "key": "error.unexpected.title",
+      "category": "error",
+      "priority": "critical",
+      "en_value": "Oops! Something unexpected happened",
+      "ru_value": "Упс! Произошла непредвиденная ошибка",
+      "am_value": "Վայ! Անսպասելի սխալ է տեղի ունեցել",
+      "file": "src/components/loading/ErrorScreen.tsx",
+      "line": 12,
+      "status": "en_only"
+    },
+    {
+      "key": "error.unexpected.subtitle",
+      "category": "error",
+      "priority": "critical",
+      "en_value": "Don't worry, this happens sometimes. Please check your connection and try again.",
+      "ru_value": "Не волнуйтесь, такое иногда случается. Проверьте подключение и попробуйте снова.",
+      "am_value": "Մի անհանգստացեք, սա երբեմն պատահում է: Ստուգեք կապը և փորձեք կրկին:",
+      "file": "src/components/loading/ErrorScreen.tsx",
+      "line": 90,
+      "status": "en_only"
+    },
+    {
+      "key": "error.retry",
+      "category": "error",
+      "priority": "critical",
+      "en_value": "Try Again",
+      "ru_value": "Попробовать снова",
+      "am_value": "Փորձել կրկին",
+      "file": "src/components/loading/ErrorScreen.tsx",
+      "line": 15,
+      "status": "en_only"
+    },
+    {
+      "key": "error.goHome",
+      "category": "error",
+      "priority": "critical",
+      "en_value": "Go Home",
+      "ru_value": "На главную",
+      "am_value": "Գլխավոր էջ",
+      "file": "src/components/loading/ErrorScreen.tsx",
+      "line": 118,
+      "status": "en_only"
+    },
+    {
+      "key": "error.technicalDetails",
+      "category": "error",
+      "priority": "critical",
+      "en_value": "Technical Details",
+      "ru_value": "Технические детали",
+      "am_value": "Տեխնիկական մանրամասներ",
+      "file": "src/components/loading/ErrorScreen.tsx",
+      "line": 131,
+      "status": "en_only"
+    }
+  ],
+  "phase3_admin_dashboard_new_keys": [
+    {
+      "key": "admin.common.logout",
+      "category": "admin",
+      "priority": "medium",
+      "en_value": "Logout",
+      "ru_value": "Выйти",
+      "am_value": "Դուրս գալ",
+      "usage": "Logout button",
+      "files": ["src/pages/AdminDashboard/index.tsx"]
+    },
+    {
+      "key": "admin.common.cancel",
+      "category": "admin",
+      "priority": "high",
+      "en_value": "Cancel",
+      "ru_value": "Отмена",
+      "am_value": "Չեղարկել",
+      "usage": "Cancel button (forms, modals)",
+      "files": ["Multiple admin forms"]
+    },
+    {
+      "key": "admin.common.add",
+      "category": "admin",
+      "priority": "high",
+      "en_value": "Add",
+      "ru_value": "Добавить",
+      "am_value": "Ավելացնել",
+      "usage": "Add button",
+      "files": ["Multiple admin forms"]
+    },
+    {
+      "key": "admin.common.create",
+      "category": "admin",
+      "priority": "high",
+      "en_value": "Create",
+      "ru_value": "Создать",
+      "am_value": "Ստեղծել",
+      "usage": "Create button",
+      "files": ["Multiple admin forms"]
+    },
+    {
+      "key": "admin.common.update",
+      "category": "admin",
+      "priority": "high",
+      "en_value": "Update",
+      "ru_value": "Обновить",
+      "am_value": "Թարմացնել",
+      "usage": "Update button",
+      "files": ["Multiple admin forms"]
+    },
+    {
+      "key": "admin.common.delete",
+      "category": "admin",
+      "priority": "high",
+      "en_value": "Delete",
+      "ru_value": "Удалить",
+      "am_value": "Ջնջել",
+      "usage": "Delete button",
+      "files": ["Multiple admin forms"]
+    },
+    {
+      "key": "admin.common.loading",
+      "category": "admin",
+      "priority": "high",
+      "en_value": "Loading...",
+      "ru_value": "Загрузка...",
+      "am_value": "Բեռնում...",
+      "usage": "Loading state",
+      "files": ["Multiple admin pages"]
+    },
+    {
+      "key": "admin.common.saving",
+      "category": "admin",
+      "priority": "high",
+      "en_value": "Saving...",
+      "ru_value": "Сохранение...",
+      "am_value": "Պահպանում...",
+      "usage": "Saving state",
+      "files": ["admin/BlogPostForm.tsx"]
+    },
+    {
+      "key": "admin.common.saved",
+      "category": "admin",
+      "priority": "high",
+      "en_value": "Saved",
+      "ru_value": "Сохранено",
+      "am_value": "Պահպանված է",
+      "usage": "Saved state",
+      "files": ["admin/BlogPostForm.tsx"]
+    },
+    {
+      "key": "admin.common.orderIndex",
+      "category": "admin",
+      "priority": "medium",
+      "en_value": "Order Index",
+      "ru_value": "Порядковый номер",
+      "am_value": "Հերթական համար",
+      "usage": "Form label for ordering",
+      "files": ["Multiple admin forms"]
+    },
+    {
+      "key": "admin.blog.confirmDelete",
+      "category": "admin",
+      "priority": "high",
+      "en_value": "Are you sure you want to delete this blog post?",
+      "ru_value": "Вы уверены, что хотите удалить этот пост?",
+      "am_value": "Համոզվա՞ծ եք, որ ուզում եք ջնջել այս գրառումը:",
+      "usage": "Delete confirmation dialog",
+      "files": ["AdminDashboard/BlogAdmin.tsx"]
+    },
+    {
+      "key": "admin.blog.errorDelete",
+      "category": "admin",
+      "priority": "high",
+      "en_value": "Failed to delete blog post",
+      "ru_value": "Не удалось удалить пост",
+      "am_value": "Չհաջողվեց ջնջել գրառումը",
+      "usage": "Error message",
+      "files": ["AdminDashboard/BlogAdmin.tsx"]
+    },
+    {
+      "key": "admin.blog.status.published",
+      "category": "admin",
+      "priority": "medium",
+      "en_value": "Published",
+      "ru_value": "Опубликовано",
+      "am_value": "Հրապարակված",
+      "usage": "Status badge",
+      "files": ["AdminDashboard/BlogAdmin.tsx"]
+    },
+    {
+      "key": "admin.blog.status.draft",
+      "category": "admin",
+      "priority": "medium",
+      "en_value": "Draft",
+      "ru_value": "Черновик",
+      "am_value": "Սևագիր",
+      "usage": "Status badge",
+      "files": ["AdminDashboard/BlogAdmin.tsx"]
+    }
+  ],
+  "phase4_ui_components_new_keys": [
+    {
+      "key": "loading.message.moment",
+      "category": "loading",
+      "priority": "low",
+      "en_value": "Just a moment, please...",
+      "ru_value": "Один момент, пожалуйста...",
+      "am_value": "Մեկ վայրկյան, խնդրում եմ...",
+      "usage": "Loading screen message",
+      "files": ["components/loading/LoadingScreen.tsx"]
+    },
+    {
+      "key": "loading.message.almostReady",
+      "category": "loading",
+      "priority": "low",
+      "en_value": "Almost ready!",
+      "ru_value": "Почти готово!",
+      "am_value": "Գրեթե պատրաստ է!",
+      "usage": "Loading screen message",
+      "files": ["components/loading/LoadingScreen.tsx"]
+    },
+    {
+      "key": "loading.message.gettingReady",
+      "category": "loading",
+      "priority": "low",
+      "en_value": "Getting things ready for you...",
+      "ru_value": "Подготавливаем все для вас...",
+      "am_value": "Ամեն ինչ պատրաստում ենք ձեզ համար...",
+      "usage": "Loading screen message",
+      "files": ["components/loading/LoadingScreen.tsx"]
+    },
+    {
+      "key": "loading.translation.welcome",
+      "category": "loading",
+      "priority": "medium",
+      "en_value": "Welcome! Getting everything ready for you...",
+      "ru_value": "Добро пожаловать! Готовим все для вас...",
+      "am_value": "Բարի գալուստ! Ամեն ինչ պատրաստում ենք ձեզ համար...",
+      "usage": "Translation loading screen",
+      "files": ["components/loading/TranslationLoadingScreen.tsx"]
+    },
+    {
+      "key": "loading.translation.settingUp",
+      "category": "loading",
+      "priority": "medium",
+      "en_value": "Just a moment, we're setting things up...",
+      "ru_value": "Один момент, настраиваем все...",
+      "am_value": "Մեկ վայրկյան, կարգավորում ենք...",
+      "usage": "Translation loading screen",
+      "files": ["components/loading/TranslationLoadingScreen.tsx"]
+    },
+    {
+      "key": "technologies.title",
+      "category": "technologies",
+      "priority": "medium",
+      "en_value": "Technologies",
+      "ru_value": "Технологии",
+      "am_value": "Տեխնոլոգիաներ",
+      "usage": "Section heading",
+      "files": ["components/home/Technologies/index.tsx"]
+    },
+    {
+      "key": "technologies.titleSuffix",
+      "category": "technologies",
+      "priority": "medium",
+      "en_value": "& Tools",
+      "ru_value": "и Инструменты",
+      "am_value": "և Գործիքներ",
+      "usage": "Section heading suffix",
+      "files": ["components/home/Technologies/index.tsx"]
+    },
+    {
+      "key": "technologies.subtitle",
+      "category": "technologies",
+      "priority": "medium",
+      "en_value": "Comprehensive testing frameworks and automation tools that drive quality engineering excellence",
+      "ru_value": "Комплексные фреймворки тестирования и инструменты автоматизации для достижения качества",
+      "am_value": "Համապարփակ թեստավորման շրջանակներ և ավտոմատացման գործիքներ որակի ապահովման համար",
+      "usage": "Section subtitle",
+      "files": ["components/home/Technologies/index.tsx"]
+    },
+    {
+      "key": "caseStudies.title",
+      "category": "caseStudies",
+      "priority": "medium",
+      "en_value": "Real-World Results",
+      "ru_value": "Реальные Результаты",
+      "am_value": "Իրական Արդյունքներ",
+      "usage": "Section heading",
+      "files": ["components/home/CaseStudies/index.tsx"]
+    },
+    {
+      "key": "caseStudies.subtitle",
+      "category": "caseStudies",
+      "priority": "medium",
+      "en_value": "Case studies showcasing how I've improved test automation, reduced flakiness, and integrated quality into CI/CD pipelines.",
+      "ru_value": "Кейсы, демонстрирующие как я улучшил автоматизацию тестирования, сократил нестабильность и интегрировал качество в CI/CD.",
+      "am_value": "Դեպքերի ուսումնասիրություններ՝ ցույց տալով ինչպես բարելավեցի թեստերի ավտոմատացումը, նվազեցրի անկայունությունը և ինտեգրեցի որակը CI/CD-ում:",
+      "usage": "Section subtitle",
+      "files": ["components/home/CaseStudies/index.tsx"]
+    }
+  ],
+  "duplicate_groups": [],
+  "notes": {
+    "translation_accuracy": "Russian and Armenian translations were generated by AI and should be reviewed by native speakers",
+    "interpolation_needed": "Some strings contain dynamic values (e.g., file sizes, counts) and will need interpolation support",
+    "aria_labels": "Accessibility labels should be localized for screen readers in user's language",
+    "technology_content": "TechnologiesCarousel.tsx contains extensive hardcoded content (40+ strings) - consider database restructure",
+    "validation_messages": "Many validation messages with dynamic data need interpolation support"
+  }
+}
