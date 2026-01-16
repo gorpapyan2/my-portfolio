@@ -58,39 +58,40 @@ export function StatCard({
       viewport={{ once: true }}
       className="group"
     >
-      <Card className="h-full flex flex-col group-hover:bg-white/10 transition-all duration-500">
+      <Card className="h-full flex flex-col group-hover:bg-[var(--surface-strong)] transition-colors duration-500">
         {/* Icon Container */}
-        <div className="mb-6">
-          <div className="inline-flex p-4 rounded-lg bg-[#edfc3a]/10 text-[#edfc3a] 
-          group-hover:bg-[#edfc3a]/20 group-hover:scale-110 transition-all duration-300">
+        <div className="mb-[var(--space-24)]">
+          <div className="inline-flex p-[var(--space-16)] rounded-[var(--radius-md)] bg-accent/10 text-accent 
+          group-hover:bg-accent/20 group-hover:scale-110 transition-transform duration-300">
             <Icon className="h-7 w-7" />
           </div>
         </div>
 
         {/* Value with animation */}
-        <div className="mb-4">
-          <h3 className="text-4xl md:text-5xl font-bold text-[#edfc3a] group-hover:text-white transition-colors duration-300">
+        <div className="mb-[var(--space-16)]">
+          <h3 className="text-[length:var(--font-800)] md:text-[length:var(--font-900)] font-bold text-accent group-hover:text-white transition-colors duration-300">
             {displayValue}
-            <span className="text-2xl md:text-3xl ml-1">{suffix}</span>
+            <span className="text-[length:var(--font-500)] md:text-[length:var(--font-600)] ml-[var(--space-4)]">{suffix}</span>
           </h3>
         </div>
 
         {/* Label */}
-        <h4 className="text-lg font-semibold text-white group-hover:text-[#edfc3a] transition-colors duration-300 mb-3">
+        <h4 className="text-[length:var(--font-400)] font-semibold text-[var(--text)] group-hover:text-accent transition-colors duration-300 mb-[var(--space-12)]">
           {label}
         </h4>
 
         {/* Description - optional */}
         {description && (
-          <p className="text-sm text-gray-400 group-hover:text-gray-300 transition-colors duration-300 flex-1">
+          <p className="text-[length:var(--font-200)] text-[var(--text-muted)] group-hover:text-gray-300 transition-colors duration-300 flex-1">
             {description}
           </p>
         )}
 
         {/* Hover Effect Overlay */}
-        <div className="absolute inset-0 rounded-xl bg-gradient-to-br from-[#edfc3a]/5 to-transparent 
+        <div className="absolute inset-0 rounded-[var(--radius-lg)] bg-gradient-to-br from-accent/5 to-transparent 
         opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none" />
       </Card>
     </motion.div>
   );
 }
+

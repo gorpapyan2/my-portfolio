@@ -63,7 +63,7 @@ export function Skills() {
                         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                             {[1, 2, 3, 4, 5, 6].map((i) => (
                                 <div key={i} className="animate-pulse">
-                                    <div className="h-[320px] bg-white/5 rounded-xl"></div>
+                                    <div className="h-[320px] bg-[var(--surface)] border border-[var(--border)] rounded-xl"></div>
                                 </div>
                             ))}
                         </div>
@@ -112,21 +112,21 @@ export function Skills() {
                             <div key={category}>
                                 {/* Category header with navigation */}
                                 <div className="mb-4 flex items-center justify-between">
-                                    <h3 className="text-xl font-bold text-white">
+                                    <h3 className="text-xl font-bold text-[var(--text)]">
                                         {category}
                                     </h3>
                                     {pages > 1 && (
                                         <div className="flex items-center gap-2">
                                             <button
                                                 onClick={() => navigate(category, -1, pages)}
-                                                className="p-2 rounded-full bg-black/40 border border-white/10 text-white hover:bg-black/60 transition-colors"
+                                                className="p-2 rounded-full bg-[var(--surface)] border border-[var(--border)] text-[var(--text)] hover:bg-[var(--surface-strong)] transition-colors"
                                                 aria-label={`Previous ${category} page`}
                                             >
                                                 <ChevronLeft className="w-5 h-5" />
                                             </button>
                                             <button
                                                 onClick={() => navigate(category, 1, pages)}
-                                                className="p-2 rounded-full bg-black/40 border border-white/10 text-white hover:bg-black/60 transition-colors"
+                                                className="p-2 rounded-full bg-[var(--surface)] border border-[var(--border)] text-[var(--text)] hover:bg-[var(--surface-strong)] transition-colors"
                                                 aria-label={`Next ${category} page`}
                                             >
                                                 <ChevronRight className="w-5 h-5" />
@@ -150,37 +150,37 @@ export function Skills() {
                                                 viewport={{ once: true }}
                                                 className="group"
                                             >
-                                                <div className="relative bg-white/5 backdrop-blur-sm rounded-xl p-4 border border-white/10 
+                                                <div className="relative bg-[var(--surface)] backdrop-blur-sm rounded-xl p-4 border border-[var(--border)] 
                                                 transition-all duration-500 hover:transform hover:-translate-y-2 
-                                                hover:bg-white/10 hover:border-[#edfc3a]/30 h-[320px] flex flex-col">
+                                                hover:bg-[var(--surface-strong)] hover:border-accent/30 h-[320px] flex flex-col">
 
                                                     {/* Icon */}
                                                     <div className="mb-3">
-                                                        <div className="inline-flex p-3 rounded-lg bg-[#edfc3a]/10 text-[#edfc3a] 
-                                                        group-hover:bg-[#edfc3a]/20 group-hover:scale-110 transition-all duration-300">
+                                                        <div className="inline-flex p-3 rounded-lg bg-accent/10 text-accent 
+                                                        group-hover:bg-accent/20 group-hover:scale-110 transition-all duration-300">
                                                             <IconComponent className="h-6 w-6" />
                                                         </div>
                                                     </div>
 
                                                     {/* Title with Level Badge */}
                                                     <div className="mb-2 flex items-center gap-2">
-                                                        <h4 className="text-lg font-semibold text-white group-hover:text-[#edfc3a] transition-colors duration-300">
+                                                        <h4 className="text-lg font-semibold text-[var(--text)] group-hover:text-accent transition-colors duration-300">
                                                             {skill.title}
                                                         </h4>
                                                         <span className={`text-xs font-bold px-2.5 py-0.5 rounded-full whitespace-nowrap ${
                                                             proficiencyLevel === 'Advanced' 
-                                                                ? 'bg-[#edfc3a]/20 text-[#edfc3a]'
+                                                                ? 'bg-accent/20 text-accent'
                                                                 : proficiencyLevel === 'Intermediate'
-                                                                ? 'bg-blue-400/20 text-blue-300'
-                                                                : 'bg-gray-400/20 text-gray-300'
+                                                                ? 'bg-[var(--surface-strong)] text-[var(--text)]'
+                                                                : 'bg-[var(--surface)] text-[var(--text-muted)]'
                                                         }`}>
                                                             {proficiencyLevel}
                                                         </span>
                                                     </div>
 
                                                     {/* Description */}
-                                                    <div className="flex-1 overflow-y-auto mb-3 scrollbar-thin scrollbar-thumb-[#edfc3a]/30 scrollbar-track-transparent hover:scrollbar-thumb-[#edfc3a]/50">
-                                                        <p className="text-gray-400 leading-relaxed group-hover:text-gray-300 transition-colors duration-300 text-sm">
+                                                    <div className="flex-1 overflow-y-auto mb-3 scrollbar-thin scrollbar-thumb-accent/30 scrollbar-track-transparent hover:scrollbar-thumb-accent/50">
+                                                        <p className="text-[var(--text-muted)] leading-relaxed group-hover:text-[var(--text)] transition-colors duration-300 text-sm">
                                                             {skill.description}
                                                         </p>
                                                     </div>
@@ -188,25 +188,25 @@ export function Skills() {
                                                     {/* Proficiency Bar */}
                                                     <div className="space-y-2">
                                                         <div className="flex justify-between items-center text-xs md:text-sm">
-                                                            <span className="text-gray-400">
+                                                            <span className="text-[var(--text-muted)]">
                                                                 <TranslationText translationKey="proficiency" shimmerWidth="100px" />
                                                             </span>
-                                                            <span className="text-[#edfc3a] font-semibold">{skill.level}%</span>
+                                                            <span className="text-accent font-semibold">{skill.level}%</span>
                                                         </div>
                                                         
-                                                        <div className="relative h-2 bg-white/10 rounded-full overflow-hidden">
+                                                        <div className="relative h-2 bg-[var(--surface-strong)] rounded-full overflow-hidden">
                                                             <motion.div
                                                                 initial={{ width: 0 }}
                                                                 whileInView={{ width: `${skill.level}%` }}
                                                                 transition={{ duration: 1.0, delay: 0.4 + index * 0.05, ease: [0.16, 1, 0.3, 1] }}
-                                                                className="absolute top-0 left-0 h-full bg-gradient-to-r from-[#edfc3a] to-[#edfc3a]/80 rounded-full
-                                                                group-hover:shadow-lg group-hover:shadow-[#edfc3a]/20"
+                                                                className="absolute top-0 left-0 h-full bg-gradient-to-r from-accent to-accent/80 rounded-full
+                                                                group-hover:shadow-lg group-hover:shadow-accent/20"
                                                             />
                                                         </div>
                                                     </div>
 
                                                     {/* Hover Effect Overlay */}
-                                                    <div className="absolute inset-0 rounded-xl bg-gradient-to-br from-[#edfc3a]/5 to-transparent 
+                                                    <div className="absolute inset-0 rounded-xl bg-gradient-to-br from-accent/5 to-transparent 
                                                     opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none" />
                                                 </div>
                                             </motion.div>

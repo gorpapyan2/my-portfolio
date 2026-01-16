@@ -112,7 +112,9 @@ export function ProjectAdmin({ onClose }: ProjectAdminProps) {
   if (isLoading) {
     return (
       <div className="flex items-center justify-center py-8">
-        <div className="text-white">{t('admin.common.loading')}</div>
+        <div className="text-[var(--text)]">
+          <TranslationText translationKey="admin.common.loading" as="span" shimmerWidth="100px" />
+        </div>
       </div>
     );
   }
@@ -120,12 +122,13 @@ export function ProjectAdmin({ onClose }: ProjectAdminProps) {
   return (
     <div>
       <div className="flex items-center justify-between mb-6">
-        <h2 className="text-2xl font-semibold text-white">
+        <h2 className="text-[length:var(--font-600)] font-semibold text-[var(--text)]">
           <TranslationText translationKey="admin.projects.title" as="span" shimmerWidth="200px" />
         </h2>
         <button
           onClick={onClose}
-          className="p-2 text-gray-400 hover:text-white transition-colors"
+          className="p-2 text-[var(--text-muted)] hover:text-[var(--text)] transition-colors"
+          aria-label={t('admin.common.close')}
         >
           ×
         </button>
@@ -135,52 +138,52 @@ export function ProjectAdmin({ onClose }: ProjectAdminProps) {
         <form onSubmit={handleSubmit} className="space-y-4">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div>
-              <label className="block text-sm font-medium text-gray-300 mb-1">
+              <label className="form-label">
                 {t('admin.common.title')}
               </label>
               <input
                 type="text"
                 value={formData.title}
                 onChange={(e) => setFormData({ ...formData, title: e.target.value })}
-                className={`w-full px-3 py-2 rounded-lg bg-white/5 border text-white focus:ring-2 focus:ring-[#edfc3a] focus:border-transparent ${
-                  errors.title ? 'border-red-500' : 'border-white/10'
+                className={`field ${
+                  errors.title ? 'border-red-500' : 'border-[var(--border)]'
                 }`}
                 required
               />
               {errors.title && (
-                <p className="text-red-400 text-sm mt-1">{errors.title}</p>
+                <p className="text-red-400 text-[length:var(--font-100)] mt-1">{errors.title}</p>
               )}
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-gray-300 mb-1">
+              <label className="form-label">
                 {t('admin.common.orderIndex')}
               </label>
               <input
                 type="number"
                 value={formData.order_index}
                 onChange={(e) => setFormData({ ...formData, order_index: parseInt(e.target.value) || 0 })}
-                className="w-full px-3 py-2 rounded-lg bg-white/5 border border-white/10 text-white focus:ring-2 focus:ring-[#edfc3a] focus:border-transparent"
+                className="field"
                 min="0"
               />
             </div>
           </div>
 
           <div>
-            <label className="block text-sm font-medium text-gray-300 mb-1">
+            <label className="form-label">
               {t('admin.common.description')}
             </label>
             <textarea
               value={formData.description}
               onChange={(e) => setFormData({ ...formData, description: e.target.value })}
               rows={4}
-              className={`w-full px-3 py-2 rounded-lg bg-white/5 border text-white focus:ring-2 focus:ring-[#edfc3a] focus:border-transparent ${
-                errors.description ? 'border-red-500' : 'border-white/10'
+              className={`field ${
+                errors.description ? 'border-red-500' : 'border-[var(--border)]'
               }`}
               required
             />
             {errors.description && (
-              <p className="text-red-400 text-sm mt-1">{errors.description}</p>
+              <p className="text-red-400 text-[length:var(--font-100)] mt-1">{errors.description}</p>
             )}
           </div>
 
@@ -194,32 +197,32 @@ export function ProjectAdmin({ onClose }: ProjectAdminProps) {
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-gray-300 mb-1">
+              <label className="form-label">
                 {t('admin.projects.form.liveUrl')}
               </label>
               <input
                 type="url"
                 value={formData.live_url || ''}
                 onChange={(e) => setFormData({ ...formData, live_url: e.target.value })}
-                className="w-full px-3 py-2 rounded-lg bg-white/5 border border-white/10 text-white focus:ring-2 focus:ring-[#edfc3a] focus:border-transparent"
+                className="field"
               />
             </div>
           </div>
 
           <div>
-            <label className="block text-sm font-medium text-gray-300 mb-1">
+            <label className="form-label">
               {t('admin.projects.form.githubUrl')}
             </label>
             <input
               type="url"
               value={formData.github_url || ''}
               onChange={(e) => setFormData({ ...formData, github_url: e.target.value })}
-              className="w-full px-3 py-2 rounded-lg bg-white/5 border border-white/10 text-white focus:ring-2 focus:ring-[#edfc3a] focus:border-transparent"
+              className="field"
             />
           </div>
 
           <div>
-            <label className="block text-sm font-medium text-gray-300 mb-1">
+            <label className="form-label">
               {t('admin.projects.form.tags')}
             </label>
             <div className="flex gap-2 mb-2">
@@ -228,13 +231,13 @@ export function ProjectAdmin({ onClose }: ProjectAdminProps) {
                 value={tagInput}
                 onChange={(e) => setTagInput(e.target.value)}
                 onKeyPress={(e) => e.key === 'Enter' && (e.preventDefault(), addTag())}
-                className="flex-1 px-3 py-2 rounded-lg bg-white/5 border border-white/10 text-white focus:ring-2 focus:ring-[#edfc3a] focus:border-transparent"
+                className="flex-1 field"
                 placeholder={t('admin.projects.form.tagPlaceholder')}
               />
               <button
                 type="button"
                 onClick={addTag}
-                className="px-4 py-2 bg-[#edfc3a] text-black rounded-lg font-medium hover:bg-[#f2ff4d] transition-colors"
+                className="btn btn-primary"
               >
                 {t('admin.common.add')}
               </button>
@@ -243,13 +246,13 @@ export function ProjectAdmin({ onClose }: ProjectAdminProps) {
               {formData.tags?.map((tag, index) => (
                 <span
                   key={index}
-                  className="inline-flex items-center gap-1 px-3 py-1 bg-white/10 text-white rounded-full text-sm"
+                  className="inline-flex items-center gap-1 px-3 py-1 bg-[var(--surface-strong)] text-[var(--text)] rounded-full text-[length:var(--font-100)]"
                 >
                   {tag}
                   <button
                     type="button"
                     onClick={() => removeTag(tag)}
-                    className="text-gray-400 hover:text-white"
+                    className="text-[var(--text-muted)] hover:text-[var(--text)]"
                   >
                     ×
                   </button>
@@ -257,7 +260,7 @@ export function ProjectAdmin({ onClose }: ProjectAdminProps) {
               ))}
             </div>
             {errors.tags && (
-              <p className="text-red-400 text-sm mt-1">{errors.tags}</p>
+              <p className="text-red-400 text-[length:var(--font-100)] mt-1">{errors.tags}</p>
             )}
           </div>
 
@@ -269,7 +272,7 @@ export function ProjectAdmin({ onClose }: ProjectAdminProps) {
               onChange={(e) => setFormData({ ...formData, featured: e.target.checked })}
               className="rounded"
             />
-            <label htmlFor="featured" className="text-gray-300">
+            <label htmlFor="featured" className="text-[var(--text-muted)]">
               {t('admin.projects.form.featured')}
             </label>
           </div>
@@ -292,13 +295,13 @@ export function ProjectAdmin({ onClose }: ProjectAdminProps) {
                 });
                 setTagInput('');
               }}
-              className="px-4 py-2 text-gray-400 hover:text-white transition-colors"
+              className="btn btn-secondary"
             >
               {t('admin.common.cancel')}
             </button>
             <button
               type="submit"
-              className="inline-flex items-center gap-2 px-4 py-2 bg-[#edfc3a] text-black rounded-lg font-medium hover:bg-[#f2ff4d] transition-colors"
+              className="inline-flex items-center gap-2 btn btn-primary"
             >
               <Plus className="h-4 w-4" />
               {editingProject ? t('admin.projects.button.update') : t('admin.projects.button.create')}
@@ -308,10 +311,10 @@ export function ProjectAdmin({ onClose }: ProjectAdminProps) {
       ) : (
         <>
           <div className="flex items-center justify-between mb-6">
-            <h3 className="text-lg font-medium text-white">{t('admin.projects.section.title')} ({projects.length})</h3>
+            <h3 className="text-[length:var(--font-400)] font-medium text-[var(--text)]">{t('admin.projects.section.title')} ({projects.length})</h3>
             <button
               onClick={() => setShowEditor(true)}
-              className="inline-flex items-center gap-2 px-4 py-2 bg-[#edfc3a] text-black rounded-lg font-medium hover:bg-[#f2ff4d] transition-colors"
+              className="inline-flex items-center gap-2 btn btn-primary"
             >
               <Plus className="h-4 w-4" />
               {t('admin.projects.button.add')}
@@ -320,19 +323,19 @@ export function ProjectAdmin({ onClose }: ProjectAdminProps) {
 
           <div className="space-y-4">
             {projects.map((project) => (
-              <div key={project.id} className="p-4 bg-white/5 rounded-lg border border-white/10">
+              <div key={project.id} className="p-4 bg-[var(--surface)] rounded-[var(--radius-md)] border border-[var(--border)]">
                 <div className="flex items-start justify-between">
                   <div className="flex-1">
                     <div className="flex items-center gap-2 mb-2">
-                      <h4 className="text-lg font-medium text-white">{project.title}</h4>
+                      <h4 className="text-[length:var(--font-400)] font-medium text-[var(--text)]">{project.title}</h4>
                       {project.featured ? (
                         <Star className="h-4 w-4 text-yellow-400" />
                       ) : (
-                        <StarOff className="h-4 w-4 text-gray-400" />
+                        <StarOff className="h-4 w-4 text-[var(--text-muted)]" />
                       )}
                     </div>
-                    <p className="text-gray-400 text-sm mb-2">{project.description}</p>
-                    <div className="flex items-center gap-4 text-xs text-gray-500 mb-2">
+                    <p className="text-[var(--text-muted)] text-[length:var(--font-100)] mb-2">{project.description}</p>
+                    <div className="flex items-center gap-4 text-[length:var(--font-100)] text-[var(--text-muted)] mb-2">
                       <span>{t('admin.projects.card.order')} {project.order_index}</span>
                       <span>{t('admin.projects.card.created')} {new Date(project.created_at).toLocaleDateString()}</span>
                     </div>
@@ -340,7 +343,7 @@ export function ProjectAdmin({ onClose }: ProjectAdminProps) {
                       {project.tags.map((tag, index) => (
                         <span
                           key={index}
-                          className="px-2 py-1 bg-white/10 text-white rounded text-xs"
+                          className="px-2 py-1 bg-[var(--surface-strong)] text-[var(--text)] rounded text-[length:var(--font-100)]"
                         >
                           {tag}
                         </span>
@@ -350,13 +353,13 @@ export function ProjectAdmin({ onClose }: ProjectAdminProps) {
                   <div className="flex items-center gap-2">
                     <button
                       onClick={() => handleEdit(project)}
-                      className="p-2 text-gray-400 hover:text-white transition-colors"
+                      className="p-2 text-[var(--text-muted)] hover:text-[var(--text)] transition-colors"
                     >
                       <Edit className="h-4 w-4" />
                     </button>
                     <button
                       onClick={() => handleDelete(project.id)}
-                      className="p-2 text-gray-400 hover:text-red-400 transition-colors"
+                      className="p-2 text-[var(--text-muted)] hover:text-red-400 transition-colors"
                     >
                       <Trash2 className="h-4 w-4" />
                     </button>
@@ -370,3 +373,7 @@ export function ProjectAdmin({ onClose }: ProjectAdminProps) {
     </div>
   );
 }
+
+
+
+

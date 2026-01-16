@@ -9,7 +9,7 @@ export function SocialLinks() {
   ];
 
   return (
-    <div className="flex gap-4">
+    <div className="flex gap-[var(--space-16)]">
       {socialLinks.map((link, index) => {
         const Icon = link.icon;
         return (
@@ -18,10 +18,10 @@ export function SocialLinks() {
             href={link.href}
             target="_blank"
             rel="noopener noreferrer"
-            className="relative group p-2 bg-white/5 rounded-full hover:bg-[#edfc3a]/20 transition-colors"
+            className="relative group p-[var(--space-8)] bg-[var(--surface)] rounded-full hover:bg-[var(--surface-strong)] transition-colors"
             aria-label={link.label}
           >
-            <Icon className="h-5 w-5 text-gray-300 group-hover:text-[#edfc3a] transition-colors" />
+            <Icon className="h-[var(--space-20)] w-[var(--space-20)] text-[var(--text-muted)] group-hover:text-[var(--text)] transition-colors" />
             <Shimmer className="absolute inset-0" />
           </a>
         );

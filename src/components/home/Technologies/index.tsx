@@ -16,34 +16,34 @@ export interface Technology {
 
 export function Technologies() {
   return (
-    <section className="py-32 bg-[#0A0A0B] relative overflow-hidden">
+    <section className="py-[var(--space-48)] md:py-[var(--space-64)] bg-[var(--bg-elevated)] relative overflow-hidden">
       <TechnologiesBackground />
 
       <div className="max-w-7xl mx-auto px-4 relative z-10">
         {/* Enhanced Header with Better Typography */}
         <motion.div 
-          className="text-center mb-20"
+          className="text-center mb-[var(--space-32)] md:mb-[var(--space-40)]"
           initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, ease: "easeOut" }}
           viewport={{ once: true }}
         >
-          <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-lime-400/10 border border-lime-400/20 mb-6">
-            <div className="w-2 h-2 bg-lime-400 rounded-full animate-pulse" />
-            <TranslationText translationKey="home.technologies.title" as="span" shimmerWidth="180px" className="text-sm font-medium text-lime-400 uppercase tracking-wider" />
+          <div className="inline-flex items-center gap-[var(--space-8)] px-[var(--space-16)] py-[var(--space-8)] rounded-full bg-accent/10 border border-accent/20 mb-[var(--space-24)]">
+            <div className="w-[var(--space-8)] h-[var(--space-8)] bg-accent rounded-full animate-pulse" />
+            <TranslationText translationKey="home.technologies.title" as="span" shimmerWidth="180px" className="text-[length:var(--font-100)] font-medium text-accent uppercase tracking-[var(--tracking-wide)]" />
           </div>
           
-          <h2 className="text-6xl lg:text-7xl font-bold mb-6">
-            <span className="bg-gradient-to-r from-white via-gray-200 to-gray-400 bg-clip-text text-transparent">
+          <h2 className="text-[length:var(--font-900)] font-semibold font-display mb-[var(--space-24)] text-[var(--text)]">
+            <span>
               Technologies
             </span>
             <br />
-            <span className="bg-gradient-to-r from-lime-400 via-emerald-400 to-teal-400 bg-clip-text text-transparent">
+            <span className="text-accent">
               & Tools
             </span>
           </h2>
           
-          <p className="text-xl text-gray-300 max-w-3xl mx-auto leading-relaxed">
+          <p className="text-[length:var(--font-300)] text-[var(--text-muted)] max-w-3xl mx-auto leading-[var(--leading-body)]">
             Comprehensive testing frameworks and automation tools that drive quality engineering excellence
           </p>
         </motion.div>
@@ -51,7 +51,7 @@ export function Technologies() {
         <TechnologyCarousel />
       </div>
       
-      <div className="absolute bottom-0 left-0 right-0 h-64 bg-gradient-to-t from-[#0A0A0B] to-transparent" />
+      <div className="absolute bottom-0 left-0 right-0 h-64 bg-gradient-to-t from-[var(--bg-elevated)] to-transparent" />
     </section>
   );
 }

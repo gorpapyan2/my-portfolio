@@ -15,8 +15,8 @@ interface ProjectCardProps {
 export function ProjectCard({ title, description, image, tags, liveUrl, githubUrl }: ProjectCardProps) {
   const { t } = useLanguage();
   return (
-    <Card>
-      <div className="relative aspect-video overflow-hidden rounded-lg mb-4">
+    <Card className="group">
+      <div className="relative aspect-video overflow-hidden rounded-[var(--radius-md)] mb-[var(--space-16)]">
         <img
           src={image}
           alt={title}
@@ -25,27 +25,27 @@ export function ProjectCard({ title, description, image, tags, liveUrl, githubUr
         <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
       </div>
       
-      <h3 className="text-xl font-semibold text-white mb-2">{title}</h3>
-      <p className="text-gray-300 mb-4">{description}</p>
+      <h3 className="text-[length:var(--font-500)] font-semibold text-[var(--text)] mb-[var(--space-8)]">{title}</h3>
+      <p className="text-[var(--text-muted)] text-[length:var(--font-200)] mb-[var(--space-16)]">{description}</p>
       
-      <div className="flex flex-wrap gap-2 mb-4">
+      <div className="flex flex-wrap gap-[var(--space-8)] mb-[var(--space-16)]">
         {tags.map((tag) => (
           <span
             key={tag}
-            className="px-3 py-1 text-sm bg-white/5 text-[#edfc3a] rounded-full border border-white/10"
+            className="px-[var(--space-12)] py-[var(--space-4)] text-[length:var(--font-100)] bg-[var(--surface)] text-accent rounded-full border border-[var(--border)]"
           >
             {tag}
           </span>
         ))}
       </div>
       
-      <div className="flex gap-4">
+      <div className="flex gap-[var(--space-16)]">
         {liveUrl && (
           <a
             href={liveUrl}
             target="_blank"
             rel="noopener noreferrer"
-            className="inline-flex items-center gap-2 text-white hover:text-[#edfc3a] transition-colors"
+            className="inline-flex items-center gap-[var(--space-8)] text-[var(--text)] hover:text-accent transition-colors text-[length:var(--font-200)]"
           >
             <ExternalLink className="h-5 w-5" />
             <TranslationText translationKey="projects.liveDemo" shimmerWidth="100px" />
@@ -56,7 +56,7 @@ export function ProjectCard({ title, description, image, tags, liveUrl, githubUr
             href={githubUrl}
             target="_blank"
             rel="noopener noreferrer"
-            className="inline-flex items-center gap-2 text-white hover:text-[#edfc3a] transition-colors"
+            className="inline-flex items-center gap-[var(--space-8)] text-[var(--text)] hover:text-accent transition-colors text-[length:var(--font-200)]"
           >
             <Github className="h-5 w-5" />
             <TranslationText translationKey="projects.sourceCode" shimmerWidth="120px" />

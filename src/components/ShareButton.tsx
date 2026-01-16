@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { Share2, Twitter, Linkedin, Link, Copy, Check } from 'lucide-react';
+import { useLanguage } from '../context/LanguageContext';
 
 interface ShareButtonProps {
   title: string;
@@ -8,6 +9,7 @@ interface ShareButtonProps {
 }
 
 export function ShareButton({ title, url, className = "" }: ShareButtonProps) {
+  const { t } = useLanguage();
   const [showMenu, setShowMenu] = useState(false);
   const [copied, setCopied] = useState(false);
 
@@ -16,7 +18,7 @@ export function ShareButton({ title, url, className = "" }: ShareButtonProps) {
       try {
         await navigator.share({
           title,
-          text: `Check out this article: ${title}`,
+          text: t('share.checkOutArticle').replace('{title}', title),
           url
         });
         setShowMenu(false);
@@ -53,11 +55,11 @@ export function ShareButton({ title, url, className = "" }: ShareButtonProps) {
     <div className={`relative ${className}`}>
       <button
         onClick={() => setShowMenu(!showMenu)}
-        className="flex items-center gap-2 text-gray-400 hover:text-[#edfc3a] transition-colors"
-        title="Share this article"
+        className="inline-flex items-center gap-[var(--space-8)] text-[var(--text-muted)] hover:text-accent transition-colors text-[length:var(--font-100)]"
+        title={t('share.title')}
       >
-        <Share2 className="h-4 w-4" />
-        <span>Share</span>
+        <Share2 className="h-[var(--space-16)] w-[var(--space-16)]" />
+        <span>{t('share.share')}</span>
       </button>
 
       {showMenu && (
@@ -69,44 +71,44 @@ export function ShareButton({ title, url, className = "" }: ShareButtonProps) {
           />
           
           {/* Menu */}
-          <div className="absolute top-full left-0 mt-2 bg-white/10 backdrop-blur-sm rounded-lg border border-white/20 p-2 z-20 min-w-[200px]">
-            <div className="space-y-1">
+          <div className="absolute top-full left-0 mt-[var(--space-8)] bg-[var(--surface)] backdrop-blur-sm rounded-[var(--radius-md)] border border-[var(--border)] p-[var(--space-8)] z-20 min-w-[12rem]">
+            <div className="stack [--stack-space:var(--space-4)]">
               {navigator.share && (
                 <button
                   onClick={handleNativeShare}
-                  className="w-full flex items-center gap-3 px-3 py-2 text-gray-300 hover:text-white hover:bg-white/10 rounded transition-colors"
+                  className="w-full flex items-center gap-[var(--space-12)] px-[var(--space-12)] py-[var(--space-8)] text-[var(--text-muted)] hover:text-[var(--text)] hover:bg-[var(--surface-strong)] rounded-[var(--radius-sm)] transition-colors"
                 >
-                  <Share2 className="h-4 w-4" />
-                  <span>Share</span>
+                  <Share2 className="h-[var(--space-16)] w-[var(--space-16)]" />
+                  <span>{t('share.share')}</span>
                 </button>
               )}
               
               <button
                 onClick={handleTwitterShare}
-                className="w-full flex items-center gap-3 px-3 py-2 text-gray-300 hover:text-white hover:bg-white/10 rounded transition-colors"
+                className="w-full flex items-center gap-[var(--space-12)] px-[var(--space-12)] py-[var(--space-8)] text-[var(--text-muted)] hover:text-[var(--text)] hover:bg-[var(--surface-strong)] rounded-[var(--radius-sm)] transition-colors"
               >
-                <Twitter className="h-4 w-4" />
-                <span>Twitter</span>
+                <Twitter className="h-[var(--space-16)] w-[var(--space-16)]" />
+                <span>{t('share.twitter')}</span>
               </button>
               
               <button
                 onClick={handleLinkedInShare}
-                className="w-full flex items-center gap-3 px-3 py-2 text-gray-300 hover:text-white hover:bg-white/10 rounded transition-colors"
+                className="w-full flex items-center gap-[var(--space-12)] px-[var(--space-12)] py-[var(--space-8)] text-[var(--text-muted)] hover:text-[var(--text)] hover:bg-[var(--surface-strong)] rounded-[var(--radius-sm)] transition-colors"
               >
-                <Linkedin className="h-4 w-4" />
-                <span>LinkedIn</span>
+                <Linkedin className="h-[var(--space-16)] w-[var(--space-16)]" />
+                <span>{t('share.linkedin')}</span>
               </button>
               
               <button
                 onClick={handleCopyLink}
-                className="w-full flex items-center gap-3 px-3 py-2 text-gray-300 hover:text-white hover:bg-white/10 rounded transition-colors"
+                className="w-full flex items-center gap-[var(--space-12)] px-[var(--space-12)] py-[var(--space-8)] text-[var(--text-muted)] hover:text-[var(--text)] hover:bg-[var(--surface-strong)] rounded-[var(--radius-sm)] transition-colors"
               >
                 {copied ? (
-                  <Check className="h-4 w-4 text-green-400" />
+                  <Check className="h-[var(--space-16)] w-[var(--space-16)] text-green-400" />
                 ) : (
-                  <Copy className="h-4 w-4" />
+                  <Copy className="h-[var(--space-16)] w-[var(--space-16)]" />
                 )}
-                <span>{copied ? 'Copied!' : 'Copy Link'}</span>
+                <span>{copied ? t('share.copied') : t('share.copyLink')}</span>
               </button>
             </div>
           </div>
@@ -115,3 +117,4 @@ export function ShareButton({ title, url, className = "" }: ShareButtonProps) {
     </div>
   );
 }
+

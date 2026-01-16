@@ -76,7 +76,7 @@ export function BlogAdmin({ onClose }: BlogAdminProps) {
   if (isLoading && blogPosts.length === 0) {
     return (
       <div className="flex items-center justify-center py-8">
-        <div className="text-white">{t('admin.common.loading')}</div>
+        <TranslationText translationKey="admin.common.loading" as="div" shimmerWidth="100px" className="text-[var(--text)]" />
       </div>
     );
   }
@@ -84,12 +84,12 @@ export function BlogAdmin({ onClose }: BlogAdminProps) {
   return (
     <div>
       <div className="flex items-center justify-between mb-6">
-        <h2 className="text-2xl font-semibold text-white">
+        <h2 className="text-[length:var(--font-600)] font-semibold text-[var(--text)]">
           <TranslationText translationKey="admin.blog.title" as="span" shimmerWidth="180px" />
         </h2>
         <button
           onClick={onClose}
-          className="p-2 text-gray-400 hover:text-white transition-colors"
+          className="p-2 text-[var(--text-muted)] hover:text-[var(--text)] transition-colors"
         >
           ×
         </button>
@@ -112,18 +112,18 @@ export function BlogAdmin({ onClose }: BlogAdminProps) {
         <>
           <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 mb-6">
             <div>
-              <h3 className="text-xl font-semibold text-white">
+              <h3 className="text-[length:var(--font-500)] font-semibold text-[var(--text)]">
                 <TranslationText translationKey="admin.blog.postsTitle" as="span" shimmerWidth="120px" />
               </h3>
-              <p className="text-sm text-gray-400 mt-1">
+              <p className="text-[length:var(--font-100)] text-[var(--text-muted)] mt-1">
                 <TranslationText translationKey="admin.blog.subtitle" as="span" shimmerWidth="300px" />
               </p>
             </div>
             <button
               onClick={() => setShowEditor(true)}
-              className="inline-flex items-center gap-2 px-4 py-2 bg-[#edfc3a] text-black rounded-lg font-medium hover:bg-[#f2ff4d] transition-colors shadow-lg hover:shadow-xl"
+              className="btn btn-primary inline-flex items-center gap-[var(--space-8)] shadow-[var(--shadow-sm)]"
             >
-              <Plus className="h-4 w-4" />
+              <Plus className="h-[var(--space-16)] w-[var(--space-16)]" />
               <TranslationText translationKey="admin.blog.addNew" as="span" shimmerWidth="120px" />
             </button>
           </div>
@@ -131,44 +131,44 @@ export function BlogAdmin({ onClose }: BlogAdminProps) {
           <div className="space-y-4">
             {blogPosts.length === 0 ? (
               <div className="text-center py-12">
-                <FileText className="h-12 w-12 text-gray-400 mx-auto mb-4" />
-                <h3 className="text-lg font-medium text-white mb-2">
+                <FileText className="h-12 w-12 text-[var(--text-muted)] mx-auto mb-4" />
+                <h3 className="text-[length:var(--font-400)] font-medium text-[var(--text)] mb-2">
                   <TranslationText translationKey="admin.blog.noPosts" as="span" shimmerWidth="180px" />
                 </h3>
-                <p className="text-gray-400 mb-4">
+                <p className="text-[var(--text-muted)] mb-4">
                   <TranslationText translationKey="admin.blog.getStarted" as="span" shimmerWidth="350px" />
                 </p>
                 <button
                   onClick={() => setShowEditor(true)}
-                  className="inline-flex items-center gap-2 px-4 py-2 bg-[#edfc3a] text-black rounded-lg font-medium hover:bg-[#f2ff4d] transition-colors"
+                  className="btn btn-primary inline-flex items-center gap-[var(--space-8)]"
                 >
-                  <Plus className="h-4 w-4" />
+                  <Plus className="h-[var(--space-16)] w-[var(--space-16)]" />
                   <TranslationText translationKey="admin.blog.createFirst" as="span" shimmerWidth="140px" />
                 </button>
               </div>
             ) : (
               blogPosts.map((post) => (
-                <div key={post.id} className="p-6 bg-white/5 rounded-lg border border-white/10 hover:bg-white/10 transition-colors">
+                <div key={post.id} className="p-6 bg-[var(--surface)] rounded-[var(--radius-md)] border border-[var(--border)] hover:bg-[var(--surface-strong)] transition-colors">
                   <div className="flex items-start justify-between">
                     <div className="flex-1 min-w-0">
                       <div className="flex items-center gap-3 mb-3">
-                        <h4 className="text-lg font-medium text-white truncate">{post.title}</h4>
+                        <h4 className="text-[length:var(--font-400)] font-medium text-[var(--text)] truncate">{post.title}</h4>
                         <div className="flex items-center gap-2">
                           {post.published ? (
-                            <span className="inline-flex items-center gap-1 px-2 py-1 text-xs font-medium bg-green-100 text-green-800 rounded-full">
-                              <Eye className="h-3 w-3" />
+                            <span className="inline-flex items-center gap-[var(--space-4)] px-[var(--space-8)] py-[var(--space-4)] text-[length:var(--font-100)] font-medium rounded-full bg-emerald-500/10 text-emerald-300">
+                              <Eye className="h-[var(--space-12)] w-[var(--space-12)]" />
                               {t('admin.blog.status.published')}
                             </span>
                           ) : (
-                            <span className="inline-flex items-center gap-1 px-2 py-1 text-xs font-medium bg-gray-100 text-gray-800 rounded-full">
-                              <EyeOff className="h-3 w-3" />
+                            <span className="inline-flex items-center gap-[var(--space-4)] px-[var(--space-8)] py-[var(--space-4)] text-[length:var(--font-100)] font-medium rounded-full bg-[var(--surface-strong)] text-[var(--text-muted)]">
+                              <EyeOff className="h-[var(--space-12)] w-[var(--space-12)]" />
                               {t('admin.blog.status.draft')}
                             </span>
                           )}
                         </div>
                       </div>
-                      <p className="text-gray-400 text-sm mb-3 line-clamp-2">{post.excerpt}</p>
-                      <div className="flex flex-wrap items-center gap-4 text-xs text-gray-500">
+                      <p className="text-[var(--text-muted)] text-[length:var(--font-100)] mb-3 line-clamp-2">{post.excerpt}</p>
+                      <div className="flex flex-wrap items-center gap-4 text-[length:var(--font-100)] text-[var(--text-muted)]">
                         <span className="flex items-center gap-1">
                           <Calendar className="h-3 w-3" />
                           {new Date(post.created_at).toLocaleDateString()}
@@ -186,14 +186,14 @@ export function BlogAdmin({ onClose }: BlogAdminProps) {
                     <div className="flex items-center gap-2 ml-4">
                       <button
                         onClick={() => handleEdit(post)}
-                        className="p-2 text-gray-400 hover:text-white hover:bg-white/10 transition-colors rounded-lg"
+                        className="p-2 text-[var(--text-muted)] hover:text-[var(--text)] hover:bg-[var(--surface-strong)] transition-colors rounded-[var(--radius-md)]"
                         title={t('admin.blog.editPost')}
                       >
                         <Edit className="h-4 w-4" />
                       </button>
                       <button
                         onClick={() => handleDelete(post.id)}
-                        className="p-2 text-gray-400 hover:text-red-400 hover:bg-red-500/10 transition-colors rounded-lg"
+                        className="p-2 text-[var(--text-muted)] hover:text-red-400 hover:bg-red-500/10 transition-colors rounded-[var(--radius-md)]"
                         title={t('admin.blog.deletePost')}
                       >
                         <Trash2 className="h-4 w-4" />
@@ -209,3 +209,7 @@ export function BlogAdmin({ onClose }: BlogAdminProps) {
     </div>
   );
 }
+
+
+
+

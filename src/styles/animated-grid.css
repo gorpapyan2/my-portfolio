@@ -3,10 +3,10 @@
 
 .bg-grid {
   position: relative;
-  background-color: #0b0d10;
+  background-color: var(--bg);
   background-image:
-    linear-gradient(to right, rgba(255,255,255,.06) 1px, transparent 1px),
-    linear-gradient(to bottom, rgba(255,255,255,.06) 1px, transparent 1px);
+    linear-gradient(to right, rgba(255,255,255,.035) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(255,255,255,.035) 1px, transparent 1px);
   background-size: var(--grid-size) var(--grid-size);
   overflow: hidden;
   isolation: isolate;
@@ -16,7 +16,7 @@
   /* vignette */
   content: "";
   position: absolute; inset: -20%;
-  background: radial-gradient(600px 600px at 25% 55%, rgba(255,255,255,.08), transparent 60%);
+  background: radial-gradient(600px 600px at 25% 55%, rgba(255,255,255,.05), transparent 60%);
   pointer-events: none; z-index: 0;
 }
 
@@ -24,10 +24,10 @@
   /* scanline shimmer */
   content: "";
   position: absolute; inset: 0;
-  background: linear-gradient(180deg, transparent 0%, rgba(255,255,255,.07) 50%, transparent 100%);
+  background: linear-gradient(180deg, transparent 0%, rgba(255,255,255,.05) 50%, transparent 100%);
   transform: translateY(-100%);
   animation: gridShimmer 12s linear infinite;
-  mix-blend-mode: overlay; opacity: .07; pointer-events: none; z-index: 0;
+  mix-blend-mode: overlay; opacity: .04; pointer-events: none; z-index: 0;
 }
 
 @keyframes gridShimmer {

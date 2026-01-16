@@ -11,7 +11,8 @@ export default {
         'grid-pattern': 'linear-gradient(to right, #1a1a1a 1px, transparent 1px), linear-gradient(to bottom, #1a1a1a 1px, transparent 1px)',
       },
       fontFamily: {
-        sans: ['Inter', 'sans-serif'],
+        sans: ['Manrope', 'sans-serif'],
+        display: ['Space Grotesk', 'sans-serif'],
       },
       colors: {
         primary: '#4F46E5',
@@ -20,6 +21,9 @@ export default {
         btnFallback: '#007BFF',
         softBlue: '#ADD8E6',
         lightGreen: '#90EE90',
+        accent: 'rgb(var(--accent) / <alpha-value>)',
+        'accent-strong': 'rgb(var(--accent-strong) / <alpha-value>)',
+        'accent-ink': 'rgb(var(--accent-ink) / <alpha-value>)',
       },
       animation: {
         'pulse-grid': 'pulseGrid 3s ease-in-out infinite',
@@ -52,7 +56,7 @@ export default {
             },
             code: {
               backgroundColor: 'rgb(255 255 255 / 0.1)',
-              color: '#edfc3a',
+              color: 'rgb(var(--accent))',
               padding: '0.125rem 0.25rem',
               borderRadius: '0.375rem',
               fontWeight: '600',
@@ -102,11 +106,11 @@ export default {
               padding: '0.75rem 1rem',
             },
             blockquote: {
-              borderLeftColor: '#edfc3a',
+              borderLeftColor: 'rgb(var(--accent))',
               opacity: '0.8',
             },
             a: {
-              color: '#edfc3a',
+              color: 'rgb(var(--accent))',
               textDecoration: 'underline',
               textDecorationThickness: '1px',
               textUnderlineOffset: '0.25rem',
@@ -119,7 +123,7 @@ export default {
               marginBottom: '0.25rem',
             },
             'li::marker': {
-              color: '#edfc3a',
+              color: 'rgb(var(--accent))',
             },
           },
         },
@@ -128,6 +132,7 @@ export default {
   },
   plugins: [
     require('@tailwindcss/forms'),
+    require('@tailwindcss/line-clamp'),
     require('@tailwindcss/typography'),
   ],
 }

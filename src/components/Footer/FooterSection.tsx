@@ -10,7 +10,7 @@ export function FooterSection({ title, children }: FooterSectionProps) {
   return (
     <div className="relative group">
       <div>
-        <h3 className="text-lg font-semibold text-white mb-4">{title}</h3>
+        <h3 className="text-[length:var(--font-400)] font-semibold text-[var(--text)] mb-[var(--space-16)]">{title}</h3>
         {children}
       </div>
       <Shimmer className="absolute inset-0" />

@@ -22,17 +22,17 @@ export function TranslationTable({ translations, onEdit, onDelete }: Translation
       <div className="overflow-x-auto">
         <table className="w-full">
           <thead>
-            <tr className="border-b border-white/10">
-              <th className="text-left py-3 px-4 text-sm font-medium text-gray-300">
+            <tr className="border-b border-[var(--border)]">
+              <th className="text-left py-[var(--space-12)] px-[var(--space-16)] text-[length:var(--font-100)] font-medium text-[var(--text-muted)]">
                 {t('settings.key')}
               </th>
-              <th className="text-left py-3 px-4 text-sm font-medium text-gray-300">
+              <th className="text-left py-[var(--space-12)] px-[var(--space-16)] text-[length:var(--font-100)] font-medium text-[var(--text-muted)]">
                 {t('settings.value')}
               </th>
-              <th className="text-left py-3 px-4 text-sm font-medium text-gray-300">
+              <th className="text-left py-[var(--space-12)] px-[var(--space-16)] text-[length:var(--font-100)] font-medium text-[var(--text-muted)]">
                 {t('settings.category')}
               </th>
-              <th className="text-right py-3 px-4 text-sm font-medium text-gray-300">
+              <th className="text-right py-[var(--space-12)] px-[var(--space-16)] text-[length:var(--font-100)] font-medium text-[var(--text-muted)]">
                 {t('admin.translations.table.actions')}
               </th>
             </tr>
@@ -40,39 +40,39 @@ export function TranslationTable({ translations, onEdit, onDelete }: Translation
           <tbody>
             {translations.length === 0 ? (
               <tr>
-                <td colSpan={4} className="text-center py-8 text-gray-400">
+                <td colSpan={4} className="text-center py-[var(--space-32)] text-[var(--text-muted)] text-[length:var(--font-100)]">
                   {t('admin.translations.empty.notFound')}
                 </td>
               </tr>
             ) : (
               translations.map((translation) => (
-                <tr key={translation.key} className="border-b border-white/5 hover:bg-white/5">
-                  <td className="py-3 px-4 text-sm text-white font-mono">
+                <tr key={translation.key} className="border-b border-[var(--border)]/40 hover:bg-[var(--surface-strong)]">
+                  <td className="py-[var(--space-12)] px-[var(--space-16)] text-[length:var(--font-100)] text-[var(--text)] font-mono">
                     {translation.key}
                   </td>
-                  <td className="py-3 px-4 text-sm text-gray-300">
-                    {translation.value || <span className="text-gray-500 italic">{t('admin.translations.value.empty')}</span>}
+                  <td className="py-[var(--space-12)] px-[var(--space-16)] text-[length:var(--font-100)] text-[var(--text-muted)]">
+                    {translation.value || <span className="text-[var(--text-muted)] italic">{t('admin.translations.value.empty')}</span>}
                   </td>
-                  <td className="py-3 px-4 text-sm text-gray-400">
-                    <span className="px-2 py-1 bg-white/10 rounded text-xs">
+                  <td className="py-[var(--space-12)] px-[var(--space-16)] text-[length:var(--font-100)] text-[var(--text-muted)]">
+                    <span className="px-[var(--space-8)] py-[var(--space-4)] bg-[var(--surface-strong)] rounded-[var(--radius-sm)] text-[length:var(--font-100)]">
                       {translation.category}
                     </span>
                   </td>
-                  <td className="py-3 px-4 text-right">
-                    <div className="flex items-center justify-end gap-2">
+                  <td className="py-[var(--space-12)] px-[var(--space-16)] text-right">
+                    <div className="flex items-center justify-end gap-[var(--space-8)]">
                       <button
                         onClick={() => onEdit(translation)}
-                        className="p-1 text-gray-400 hover:text-[#edfc3a] transition-colors"
+                        className="p-[var(--space-4)] text-[var(--text-muted)] hover:text-accent transition-colors"
                         title={t('settings.editTranslation')}
                       >
-                        <Edit className="h-4 w-4" />
+                        <Edit className="h-[var(--space-16)] w-[var(--space-16)]" />
                       </button>
                       <button
                         onClick={() => onDelete(translation.key)}
-                        className="p-1 text-gray-400 hover:text-red-400 transition-colors"
+                        className="p-[var(--space-4)] text-[var(--text-muted)] hover:text-red-400 transition-colors"
                         title={t('settings.deleteTranslation')}
                       >
-                        <Trash2 className="h-4 w-4" />
+                        <Trash2 className="h-[var(--space-16)] w-[var(--space-16)]" />
                       </button>
                     </div>
                   </td>
@@ -85,3 +85,4 @@ export function TranslationTable({ translations, onEdit, onDelete }: Translation
     </Card>
   );
 }
+

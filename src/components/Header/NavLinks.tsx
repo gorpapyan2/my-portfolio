@@ -17,10 +17,10 @@ function NavLink({ to, children, className = '' }: NavLinkProps) {
     <RouterNavLink
       to={to}
       className={({ isActive }) => `
-        relative px-3 py-2 md:px-4 text-sm md:text-base transition-colors duration-300 group rounded-md
+        relative px-[var(--space-12)] py-[var(--space-8)] md:px-[var(--space-16)] text-[length:var(--font-100)] md:text-[length:var(--font-200)] transition-colors duration-300 group rounded-[var(--radius-md)]
         ${isActive 
-          ? 'text-[#edfc3a] bg-[#edfc3a]/10' 
-          : 'text-gray-300 hover:text-[#edfc3a] hover:bg-white/5'
+          ? 'text-accent bg-[var(--surface-strong)]' 
+          : 'text-[var(--text-muted)] hover:text-[var(--text)] hover:bg-[var(--surface)]'
         }
         ${className}
       `}
@@ -30,7 +30,7 @@ function NavLink({ to, children, className = '' }: NavLinkProps) {
           {children}
           {/* Simple active indicator line */}
           <span
-            className={`absolute -bottom-1 left-0 w-full h-0.5 bg-[#edfc3a] transition-transform duration-300 origin-left ${
+            className={`absolute -bottom-[var(--space-4)] left-0 w-full h-[var(--space-2)] bg-accent transition-transform duration-300 origin-left ${
               isActive ? 'scale-x-100' : 'scale-x-0 group-hover:scale-x-100'
             }`}
           />
@@ -49,7 +49,7 @@ export function NavLinks() {
   const showBlogSection = isFeatureEnabled('blog_section');
 
   return (
-    <nav className="hidden md:flex items-center gap-4 lg:gap-6">
+    <nav className="hidden md:flex items-center gap-[var(--space-16)] lg:gap-[var(--space-24)]">
       <NavLink to="/about">
         <TranslationText translationKey="nav.about" shimmerWidth="60px" />
       </NavLink>
@@ -68,7 +68,7 @@ export function NavLinks() {
       </NavLink>
       {/* Admin dashboard link - only visible when authenticated */}
       {isAdmin && (
-        <NavLink to="/admin/dashboard" className="inline-flex items-center gap-1 bg-[#edfc3a]/10 text-[#edfc3a] hover:bg-[#edfc3a]/20">
+        <NavLink to="/admin/dashboard" className="inline-flex items-center gap-[var(--space-4)] bg-[var(--surface-strong)] text-accent hover:bg-[var(--surface)]">
           <Settings className="h-4 w-4" />
           <TranslationText translationKey="nav.admin" shimmerWidth="60px" />
         </NavLink>
@@ -76,3 +76,4 @@ export function NavLinks() {
     </nav>
   );
 }
+

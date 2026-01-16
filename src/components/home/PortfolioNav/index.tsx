@@ -32,26 +32,26 @@ function DisabledCard({ icon: Icon, title, index }: DisabledCardProps) {
     >
       <Card className="h-full flex flex-col bg-gray-900/50 border-gray-700 opacity-60 cursor-not-allowed">
         {/* Icon Container */}
-        <div className="mb-6">
-          <div className="inline-flex p-4 rounded-lg bg-gray-700/20 text-gray-500">
+        <div className="mb-[var(--space-24)]">
+          <div className="inline-flex p-[var(--space-16)] rounded-[var(--radius-md)] bg-gray-700/20 text-gray-500">
             <Icon className="h-7 w-7" />
           </div>
         </div>
 
         {/* Title */}
-        <h3 className="text-xl font-semibold text-gray-400 mb-3">
+        <h3 className="text-[length:var(--font-500)] font-semibold text-gray-400 mb-[var(--space-12)]">
           {title}
         </h3>
 
         {/* TBD Status */}
-        <p className="text-sm md:text-base text-gray-500 flex-1 leading-relaxed mb-6">
+        <p className="text-[length:var(--font-200)] text-gray-500 flex-1 leading-[var(--leading-body)] mb-[var(--space-24)]">
           TBD - Coming soon
         </p>
 
         {/* Lock Icon */}
-        <div className="inline-flex items-center gap-2 text-gray-500">
+        <div className="inline-flex items-center gap-[var(--space-8)] text-gray-500 text-[length:var(--font-200)]">
           <Lock className="h-4 w-4" />
-          <span className="text-sm">Disabled</span>
+          <span>Disabled</span>
         </div>
 
         {/* Hover Effect Overlay */}
@@ -100,15 +100,15 @@ export function PortfolioNav() {
   const showBlogSection = isFeatureEnabled('blog_section');
 
   return (
-    <section className="relative overflow-hidden bg-[#0A0A0B] py-16 md:py-24">
+    <section className="relative overflow-hidden bg-[var(--bg-elevated)] py-[var(--space-48)] md:py-[var(--space-64)]">
       {/* Background Grid Pattern - matching Technologies */}
-      <div className="absolute inset-0 bg-[linear-gradient(to_right,#1a1a1a_1px,transparent_1px),linear-gradient(to_bottom,#1a1a1a_1px,transparent_1px)] bg-[size:3rem_3rem]" />
+      <div className="absolute inset-0 bg-[linear-gradient(to_right,rgba(255,255,255,0.04)_1px,transparent_1px),linear-gradient(to_bottom,rgba(255,255,255,0.04)_1px,transparent_1px)] bg-[size:3rem_3rem]" />
 
       {/* Gradient Overlay - using lime accent like Technologies */}
-      <div className="absolute inset-0 bg-gradient-to-b from-transparent via-lime-400/5 to-transparent pointer-events-none" />
+      <div className="absolute inset-0 bg-gradient-to-b from-transparent via-accent/5 to-transparent pointer-events-none" />
 
       {/* Fade-out Bottom Overlay */}
-      <div className="absolute bottom-0 left-0 right-0 h-64 bg-gradient-to-t from-[#0A0A0B] to-transparent pointer-events-none" />
+      <div className="absolute bottom-0 left-0 right-0 h-64 bg-gradient-to-t from-[var(--bg-elevated)] to-transparent pointer-events-none" />
 
       <div className="relative z-10 mx-auto max-w-7xl px-4">
         {/* Section Header */}
@@ -117,18 +117,18 @@ export function PortfolioNav() {
           whileInView={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6 }}
           viewport={{ once: true }}
-          className="mb-12 md:mb-16 text-center"
+          className="mb-[var(--space-48)] md:mb-[var(--space-64)] text-center"
         >
-          <h2 className="mb-3 md:mb-4 text-3xl md:text-4xl font-bold text-white">
+          <h2 className="mb-[var(--space-12)] md:mb-[var(--space-16)] text-[length:var(--font-700)] md:text-[length:var(--font-800)] font-semibold text-[var(--text)] font-display">
             <TranslationText translationKey="portfolioNav.title" as="span" shimmerWidth="250px" />
           </h2>
-          <p className="mx-auto max-w-2xl text-base md:text-lg text-gray-400">
+          <p className="mx-auto max-w-2xl text-[length:var(--font-300)] text-[var(--text-muted)]">
             <TranslationText translationKey="portfolioNav.subtitle" as="span" shimmerWidth="400px" />
           </p>
         </motion.div>
 
         {/* Cards Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 md:gap-6 lg:gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-[var(--space-24)]">
           {allCards.map((card, index) => {
             // Show disabled TBD card for Work if section is disabled
             if (card.href === '/work' && !showWorkSection) {

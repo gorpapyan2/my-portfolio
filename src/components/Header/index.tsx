@@ -82,7 +82,7 @@ export function Header() {
 
   return (
     <header 
-      className={`fixed top-0 left-0 right-0 z-50 px-3 py-3 md:px-4 md:py-4 transition-all duration-700 ease-out ${
+      className={`fixed top-0 left-0 right-0 z-50 px-[var(--space-12)] py-[var(--space-12)] md:px-[var(--space-16)] md:py-[var(--space-16)] transition-all duration-700 ease-out ${
         isVisible 
           ? 'translate-y-0 opacity-100' 
           : 'translate-y-[-100%] opacity-0'
@@ -91,9 +91,9 @@ export function Header() {
       <nav
         className={`max-w-6xl mx-auto transition-all duration-500 ease-out ${
           isScrolled
-            ? 'bg-black/80 backdrop-blur-md shadow-lg shadow-black/20'
-            : 'bg-black/60 backdrop-blur-sm'
-        } rounded-full px-4 py-3 md:px-6 md:py-4 border border-white/5 ${
+            ? 'bg-[var(--surface-strong)] backdrop-blur-md shadow-[0_10px_30px_rgba(0,0,0,0.35)]'
+            : 'bg-[var(--surface)] backdrop-blur-sm'
+        } rounded-[var(--radius-xl)] px-[var(--space-16)] py-[var(--space-12)] md:px-[var(--space-24)] md:py-[var(--space-16)] border border-[var(--border)] ${
           isVisible ? 'scale-100' : 'scale-95'
         }`}
       >
@@ -107,15 +107,15 @@ export function Header() {
             style={{ transitionDelay: isInitialLoad ? '200ms' : '0ms' }}
           >
             <Bug
-              className="h-6 w-6 md:h-7 md:w-7 text-[#edfc3a] drop-shadow-[0_0_10px_#edfc3a] transition-all duration-300 hover:scale-125 hover:rotate-12 hover:drop-shadow-[0_0_20px_#edfc3a]"
+              className="h-[var(--space-24)] w-[var(--space-24)] md:h-[var(--space-32)] md:w-[var(--space-32)] text-accent transition-transform duration-300 group-hover:rotate-6"
               aria-hidden="true"
             />
             <div className="flex flex-col">
-              <span className="text-lg md:text-2xl font-bold text-white group-hover:text-[#edfc3a] transition-all duration-300 group-hover:scale-105">
+              <span className="text-[length:var(--font-500)] md:text-[length:var(--font-600)] font-semibold text-[var(--text)] font-display group-hover:text-accent transition-colors duration-300">
                 Gor Papyan
               </span>
               {/* Current page indicator - hidden on mobile, shown on desktop */}
-              <span className="hidden md:block text-xs text-gray-400 group-hover:text-[#edfc3a]/70 transition-all duration-300 group-hover:translate-x-1">
+              <span className="hidden md:block text-[length:var(--font-100)] text-[var(--text-muted)] transition-colors duration-300">
                 {getCurrentPageName()}
               </span>
             </div>
@@ -133,7 +133,7 @@ export function Header() {
 
           {/* Right-side Controls - Mobile-first */}
           <div 
-            className={`flex items-center gap-2 md:gap-4 transition-all duration-500 ease-out ${
+            className={`flex items-center gap-[var(--space-8)] md:gap-[var(--space-16)] transition-all duration-500 ease-out ${
               isVisible ? 'translate-x-0 opacity-100' : 'translate-x-[50px] opacity-0'
             }`}
             style={{ transitionDelay: isInitialLoad ? '300ms' : '0ms' }}
@@ -143,43 +143,43 @@ export function Header() {
               <div className="hidden md:block relative language-dropdown">
                 <button
                   onClick={() => setIsLanguageOpen(!isLanguageOpen)}
-                  className="flex items-center gap-2 px-3 py-2 rounded-lg bg-white/5 hover:bg-white/10 border border-white/10 hover:border-[#edfc3a]/30 transition-all duration-300 group"
+                  className="flex items-center gap-[var(--space-8)] px-[var(--space-12)] py-[var(--space-8)] rounded-[var(--radius-md)] bg-[var(--surface)] hover:bg-[var(--surface-strong)] border border-[var(--border)] transition-colors duration-300 group"
                 >
-                  <Globe className="h-4 w-4 text-gray-300 group-hover:text-[#edfc3a] transition-colors duration-300" />
-                  <span className="text-sm text-white group-hover:text-[#edfc3a] transition-colors duration-300">
+                  <Globe className="h-4 w-4 text-[var(--text-muted)] group-hover:text-[var(--text)] transition-colors duration-300" />
+                  <span className="text-[length:var(--font-100)] text-[var(--text)] transition-colors duration-300">
                     <TranslationText translationKey={getCurrentLanguage().labelKey} shimmerWidth="80px" />
                   </span>
                   <ChevronDown 
-                    className={`h-3 w-3 text-gray-400 transition-all duration-300 ${
-                      isLanguageOpen ? 'rotate-180 text-[#edfc3a]' : 'group-hover:text-[#edfc3a]'
+                    className={`h-[var(--space-12)] w-[var(--space-12)] text-[var(--text-muted)] transition-all duration-300 ${
+                      isLanguageOpen ? 'rotate-180 text-accent' : 'group-hover:text-[var(--text)]'
                     }`} 
                   />
                 </button>
 
                 {/* Language Dropdown */}
                 {isLanguageOpen && (
-                  <div className="absolute top-full right-0 mt-2 w-48 bg-black/95 backdrop-blur-md rounded-lg shadow-2xl border border-white/10 overflow-hidden animate-in slide-in-from-top-2 fade-in duration-200">
+                  <div className="absolute top-full right-0 mt-[var(--space-8)] w-48 bg-[var(--bg-elevated)] backdrop-blur-md rounded-[var(--radius-md)] shadow-2xl border border-[var(--border)] overflow-hidden animate-in slide-in-from-top-2 fade-in duration-200">
                     <div className="py-2">
                       {languages.map((lang, index) => (
                         <button
                           key={lang.code}
                           onClick={() => handleLanguageChange(lang.code)}
-                          className={`w-full px-4 py-3 text-left text-sm transition-all duration-200 hover:bg-white/5 group ${
+                          className={`w-full px-[var(--space-16)] py-[var(--space-12)] text-left text-[length:var(--font-100)] transition-all duration-200 hover:bg-[var(--surface-strong)] group ${
                             language === lang.code 
-                              ? 'text-[#edfc3a] bg-[#edfc3a]/10' 
-                              : 'text-gray-300 hover:text-white'
+                              ? 'text-accent bg-[var(--surface-strong)]' 
+                              : 'text-[var(--text-muted)] hover:text-[var(--text)]'
                           }`}
                           style={{ animationDelay: `${index * 50}ms` }}
                         >
                           <div className="flex items-center gap-3">
                             <div className={`w-2 h-2 rounded-full transition-all duration-200 ${
-                              language === lang.code ? 'bg-[#edfc3a]' : 'bg-gray-500 group-hover:bg-[#edfc3a]'
+                              language === lang.code ? 'bg-accent' : 'bg-[var(--text-muted)] group-hover:bg-accent'
                             }`} />
                             <span className="transition-transform duration-200 group-hover:translate-x-1">
                               <TranslationText translationKey={lang.labelKey} shimmerWidth="80px" />
                             </span>
                             {language === lang.code && (
-                              <div className="ml-auto w-1 h-1 bg-[#edfc3a] rounded-full animate-pulse" />
+                              <div className="ml-auto w-1 h-1 bg-accent rounded-full animate-pulse" />
                             )}
                           </div>
                         </button>
@@ -195,14 +195,14 @@ export function Header() {
               <button
                 onClick={() => setIsTranslationEditMode(!isTranslationEditMode)}
                 title={isTranslationEditMode ? 'Disable translation edit mode' : 'Enable translation edit mode'}
-                className={`hidden md:inline-flex items-center gap-2 px-3 py-2 rounded-lg transition-all duration-300 group ${
+                className={`hidden md:inline-flex items-center gap-[var(--space-8)] px-[var(--space-12)] py-[var(--space-8)] rounded-[var(--radius-md)] transition-colors duration-300 group ${
                   isTranslationEditMode
-                    ? 'bg-[#edfc3a]/20 border border-[#edfc3a] text-[#edfc3a]'
-                    : 'bg-white/5 border border-white/10 text-gray-300 hover:text-[#edfc3a] hover:border-[#edfc3a]/50'
+                    ? 'bg-[var(--surface-strong)] border border-accent text-accent'
+                    : 'bg-[var(--surface)] border border-[var(--border)] text-[var(--text-muted)] hover:text-[var(--text)]'
                 }`}
               >
                 <Edit3 className="h-4 w-4" />
-                <span className="text-xs font-medium">
+                <span className="text-[length:var(--font-100)] font-medium">
                   {isTranslationEditMode ? (
                     <TranslationText translationKey="nav.editOn" shimmerWidth="60px" />
                   ) : (
@@ -215,9 +215,9 @@ export function Header() {
             {/* Download CV Button - Desktop only */}
             <button
               onClick={handleDownloadCV}
-              className="hidden md:inline-flex items-center gap-2 px-4 py-2 md:px-6 md:py-2 rounded-full bg-[#edfc3a] text-black font-medium hover:bg-[#c4cf2b] transition-all duration-300 text-sm md:text-base hover:scale-105 hover:shadow-lg hover:shadow-[#edfc3a]/30 active:scale-95 group"
+              className="hidden md:inline-flex items-center gap-[var(--space-8)] px-[var(--space-16)] py-[var(--space-8)] md:px-[var(--space-24)] md:py-[var(--space-8)] rounded-full bg-accent text-accent-ink font-medium hover:bg-accent-strong transition-colors duration-300 text-[length:var(--font-100)] md:text-[length:var(--font-200)] group"
             >
-              <FileDown className="h-4 w-4 md:h-5 md:w-5 transition-transform duration-300 group-hover:translate-y-[-2px]" />
+              <FileDown className="h-[var(--space-16)] w-[var(--space-16)] md:h-[var(--space-20)] md:w-[var(--space-20)] transition-transform duration-300 group-hover:translate-y-[-2px]" />
               <span className="transition-transform duration-300 group-hover:translate-y-[-1px]">
                 <TranslationText translationKey="hero.downloadCV" shimmerWidth="100px" />
               </span>
@@ -231,3 +231,4 @@ export function Header() {
     </header>
   );
 }
+

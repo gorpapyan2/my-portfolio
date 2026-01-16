@@ -19,11 +19,11 @@ export function WorkPage() {
       <PageLayout>
         <div className="min-h-screen flex items-center justify-center">
           <div className="text-center">
-            <Briefcase className="h-16 w-16 text-gray-400 mx-auto mb-4" />
-            <h2 className="text-2xl font-bold text-white mb-4">
+            <Briefcase className="h-[var(--space-64)] w-[var(--space-64)] text-[var(--text-muted)] mx-auto mb-[var(--space-16)]" />
+            <h2 className="text-[length:var(--font-600)] font-semibold text-[var(--text)] mb-[var(--space-16)]">
               <TranslationText translationKey="pages.sectionUnavailable.title" as="span" shimmerWidth="200px" />
             </h2>
-            <p className="text-gray-400">
+            <p className="text-[var(--text-muted)] text-[length:var(--font-200)]">
               <TranslationText translationKey="pages.sectionUnavailable.message" as="span" shimmerWidth="350px" />
             </p>
           </div>
@@ -37,8 +37,8 @@ export function WorkPage() {
       <PageLayout>
         <div className="min-h-screen flex items-center justify-center">
           <div className="text-center">
-            <h2 className="text-2xl font-bold text-white mb-4">{t('error')}</h2>
-            <p className="text-gray-400">{error}</p>
+            <h2 className="text-[length:var(--font-600)] font-semibold text-[var(--text)] mb-[var(--space-16)]">{t('error')}</h2>
+            <p className="text-[var(--text-muted)] text-[length:var(--font-200)]">{error}</p>
           </div>
         </div>
       </PageLayout>

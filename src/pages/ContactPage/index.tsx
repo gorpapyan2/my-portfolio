@@ -18,7 +18,7 @@ export function ContactPage() {
         subtitle={<TranslationText translationKey="pages.contact.subtitle" as="span" shimmerWidth="300px" />}
       />
 
-      <div className="grid md:grid-cols-2 gap-8">
+      <div className="grid md:grid-cols-2 gap-[var(--space-32)]">
         <ContactInfo />
         <ContactForm />
       </div>

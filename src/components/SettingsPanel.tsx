@@ -55,7 +55,7 @@ export default function SettingsPanel({ onSoundToggle, onMotionToggle }: Setting
                 <button
                   onClick={toggleSound}
                   className={`w-10 h-6 rounded-full transition-colors duration-300 ${
-                    soundEnabled ? 'bg-[#edfc3a]' : 'bg-white/20'
+                    soundEnabled ? 'bg-accent' : 'bg-white/20'
                   }`}
                 >
                   <motion.div
@@ -71,7 +71,7 @@ export default function SettingsPanel({ onSoundToggle, onMotionToggle }: Setting
                 <button
                   onClick={toggleMotion}
                   className={`w-10 h-6 rounded-full transition-colors duration-300 ${
-                    motionEnabled ? 'bg-[#edfc3a]' : 'bg-white/20'
+                    motionEnabled ? 'bg-accent' : 'bg-white/20'
                   }`}
                 >
                   <motion.div
@@ -88,3 +88,4 @@ export default function SettingsPanel({ onSoundToggle, onMotionToggle }: Setting
     </>
   );
 }
+

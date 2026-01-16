@@ -68,6 +68,7 @@ const technologys: Technology[] = [
 export function TechnologyCarousel() {
     const { t } = useLanguage();
     const [currentIndex, setCurrentIndex] = useState(0);
+    const panelId = "technology-carousel-panel";
     
     const currentTechnology = useMemo(
         () => technologys[currentIndex],
@@ -86,35 +87,45 @@ export function TechnologyCarousel() {
     return (
         <div className="relative">
             {/* Carousel Content */}
-            <div className="relative overflow-hidden rounded-3xl">
-                <TechnologyCard technology={currentTechnology} />
-                
-                {/* Navigation Controls - Positioned at corners */}
+        <div className="relative overflow-hidden rounded-[var(--radius-xl)]">
+            <TechnologyCard technology={currentTechnology} panelId={panelId} />
+            
+        </div>
+
+        {/* Pagination + Controls */}
+        <div className="mt-[var(--space-24)] grid grid-cols-[minmax(0,1fr)_auto_minmax(0,1fr)] items-center gap-[var(--space-16)]">
+            <div className="flex items-center justify-start">
                 <button
                     onClick={() => navigate(-1)}
-                    className="absolute left-4 top-1/2 -translate-y-1/2 group flex items-center justify-center w-12 h-12 rounded-full bg-white/10 hover:bg-white/20 border border-white/20 hover:border-lime-400/50 backdrop-blur-sm transition-all duration-300 z-10"
+                    type="button"
+                    aria-controls={panelId}
+                    data-testid="technology-carousel-prev"
+                    className="group flex items-center justify-center w-[var(--size-tap)] h-[var(--size-tap)] rounded-full bg-[var(--surface)] hover:bg-[var(--surface-strong)] border border-[var(--border)] hover:border-accent/40 backdrop-blur-sm transition-all duration-300"
                     aria-label={t('aria.previousTechnology')}
                 >
-                    <ChevronLeft className="w-6 h-6 text-white group-hover:text-lime-400 transition-colors" />
+                    <ChevronLeft className="w-[var(--space-24)] h-[var(--space-24)] text-[var(--text)] group-hover:text-accent transition-colors" />
                 </button>
+            </div>
 
+            <PaginationDots
+                total={technologys.length}
+                current={currentIndex}
+                    onChange={setCurrentIndex}
+            />
+
+            <div className="flex items-center justify-end">
                 <button
                     onClick={() => navigate(1)}
-                    className="absolute right-4 top-1/2 -translate-y-1/2 group flex items-center justify-center w-12 h-12 rounded-full bg-white/10 hover:bg-white/20 border border-white/20 hover:border-lime-400/50 backdrop-blur-sm transition-all duration-300 z-10"
+                    type="button"
+                    aria-controls={panelId}
+                    data-testid="technology-carousel-next"
+                    className="group flex items-center justify-center w-[var(--size-tap)] h-[var(--size-tap)] rounded-full bg-[var(--surface)] hover:bg-[var(--surface-strong)] border border-[var(--border)] hover:border-accent/40 backdrop-blur-sm transition-all duration-300"
                     aria-label={t('aria.nextTechnology')}
                 >
-                    <ChevronRight className="w-6 h-6 text-white group-hover:text-lime-400 transition-colors" />
+                    <ChevronRight className="w-[var(--space-24)] h-[var(--space-24)] text-[var(--text)] group-hover:text-accent transition-colors" />
                 </button>
             </div>
-
-            {/* Pagination */}
-            <div className="flex items-center justify-center mt-12 gap-4">
-                <PaginationDots
-                    total={technologys.length}
-                    current={currentIndex}
-                    onChange={setCurrentIndex}
-                />
-            </div>
+        </div>
         </div>
     );
 }

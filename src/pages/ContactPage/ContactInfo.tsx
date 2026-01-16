@@ -34,27 +34,27 @@ export function ContactInfo() {
   ];
 
   return (
-    <Card>
-      <h2 className="text-xl font-semibold text-white mb-6">
+    <Card className="stack [--stack-space:var(--space-24)]">
+      <h2 className="text-[length:var(--font-500)] font-semibold text-[var(--text)]">
         <TranslationText translationKey="contact.getInTouch" as="span" shimmerWidth="150px" />
       </h2>
-      <div className="space-y-6">
+      <div className="stack [--stack-space:var(--space-24)]">
         {contactDetails.map(({ icon: Icon, label, value, href }) => (
-          <div key={label} className="flex items-start gap-4">
-            <div className="p-2 rounded-full bg-white/5">
-              <Icon className="h-5 w-5 text-[#edfc3a]" />
+          <div key={label} className="flex items-start gap-[var(--space-16)]">
+            <div className="icon-circle">
+              <Icon className="h-[var(--space-16)] w-[var(--space-16)] text-accent" />
             </div>
             <div>
-              <div className="text-sm text-gray-400">{label}</div>
+              <div className="text-[length:var(--font-100)] text-[var(--text-muted)]">{label}</div>
               {href ? (
                 <a
                   href={href}
-                  className="text-white hover:text-[#edfc3a] transition-colors"
+                  className="text-[var(--text)] hover:text-accent transition-colors"
                 >
                   {value}
                 </a>
               ) : (
-                <div className="text-white">{value}</div>
+                <div className="text-[var(--text)]">{value}</div>
               )}
             </div>
           </div>

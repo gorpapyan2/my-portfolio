@@ -65,7 +65,7 @@ export default function ThemeToggle() {
             }}
             className={`w-full flex items-center gap-2 px-3 py-2 rounded-lg text-sm transition-colors duration-200 ${
               theme === value 
-                ? 'bg-[#edfc3a]/20 text-[#edfc3a]' 
+                ? 'bg-accent/20 text-accent' 
                 : 'text-white/80 hover:text-white hover:bg-white/10'
             }`}
           >
@@ -77,3 +77,4 @@ export default function ThemeToggle() {
     </div>
   );
 }
+

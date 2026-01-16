@@ -80,7 +80,7 @@ export function BlogAdmin({ onClose }: BlogAdminProps) {
   if (isLoading && blogPosts.length === 0) {
     return (
       <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
-        <div className="text-white">Loading...</div>
+        <div className="text-[var(--text)]">Loading...</div>
       </div>
     );
   }
@@ -89,10 +89,10 @@ export function BlogAdmin({ onClose }: BlogAdminProps) {
     <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
       <Card className="w-full max-w-6xl max-h-[90vh] overflow-y-auto">
         <div className="flex items-center justify-between mb-6">
-          <h2 className="text-2xl font-semibold text-white">Blog Admin</h2>
+          <h2 className="text-[length:var(--font-600)] font-semibold text-[var(--text)]">Blog Admin</h2>
           <button
             onClick={handleModalClose}
-            className="p-2 text-gray-400 hover:text-white transition-colors"
+            className="p-2 text-[var(--text-muted)] hover:text-[var(--text)] transition-colors"
           >
             ×
           </button>
@@ -113,10 +113,10 @@ export function BlogAdmin({ onClose }: BlogAdminProps) {
         ) : (
           <>
             <div className="flex items-center justify-between mb-6">
-              <h3 className="text-lg font-medium text-white">Blog Posts ({blogPosts.length})</h3>
+              <h3 className="text-[length:var(--font-400)] font-medium text-[var(--text)]">Blog Posts ({blogPosts.length})</h3>
               <button
                 onClick={() => setShowEditor(true)}
-                className="inline-flex items-center gap-2 px-4 py-2 bg-[#edfc3a] text-black rounded-lg font-medium hover:bg-[#f2ff4d] transition-colors"
+                className="inline-flex items-center gap-2 btn btn-primary"
               >
                 <Plus className="h-4 w-4" />
                 Add Post
@@ -125,19 +125,19 @@ export function BlogAdmin({ onClose }: BlogAdminProps) {
 
             <div className="space-y-4">
               {blogPosts.map((post) => (
-                <div key={post.id} className="p-4 bg-white/5 rounded-lg border border-white/10">
+                <div key={post.id} className="p-4 bg-[var(--surface)] rounded-[var(--radius-md)] border border-[var(--border)]">
                   <div className="flex items-start justify-between">
                     <div className="flex-1">
                       <div className="flex items-center gap-2 mb-2">
-                        <h4 className="text-lg font-medium text-white">{post.title}</h4>
+                        <h4 className="text-[length:var(--font-400)] font-medium text-[var(--text)]">{post.title}</h4>
                         {post.published ? (
                           <Eye className="h-4 w-4 text-green-400" />
                         ) : (
-                          <EyeOff className="h-4 w-4 text-gray-400" />
+                          <EyeOff className="h-4 w-4 text-[var(--text-muted)]" />
                         )}
                       </div>
-                      <p className="text-gray-400 text-sm mb-2">{post.excerpt}</p>
-                      <div className="flex items-center gap-4 text-xs text-gray-500">
+                      <p className="text-[var(--text-muted)] text-[length:var(--font-100)] mb-2">{post.excerpt}</p>
+                      <div className="flex items-center gap-4 text-[length:var(--font-100)] text-[var(--text-muted)]">
                         <span>Slug: {post.slug}</span>
                         <span>Read time: {post.read_time}</span>
                         <span>Created: {new Date(post.created_at).toLocaleDateString()}</span>
@@ -146,13 +146,13 @@ export function BlogAdmin({ onClose }: BlogAdminProps) {
                     <div className="flex items-center gap-2">
                       <button
                         onClick={() => handleEdit(post)}
-                        className="p-2 text-gray-400 hover:text-white transition-colors"
+                        className="p-2 text-[var(--text-muted)] hover:text-[var(--text)] transition-colors"
                       >
                         <Edit className="h-4 w-4" />
                       </button>
                       <button
                         onClick={() => handleDelete(post.id)}
-                        className="p-2 text-gray-400 hover:text-red-400 transition-colors"
+                        className="p-2 text-[var(--text-muted)] hover:text-red-400 transition-colors"
                       >
                         <Trash2 className="h-4 w-4" />
                       </button>
@@ -167,3 +167,5 @@ export function BlogAdmin({ onClose }: BlogAdminProps) {
     </div>
   );
 }
+
+

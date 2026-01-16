@@ -40,7 +40,7 @@ export function AdminLoginPage() {
       <div className="flex items-center justify-center p-4">
         <Card className="w-full max-w-md relative z-10">
         <div className="text-center mb-8">
-          <div className="inline-flex p-3 rounded-lg bg-[#edfc3a]/10 text-[#edfc3a] mb-4">
+          <div className="inline-flex p-3 rounded-lg bg-[var(--surface)] text-accent mb-4">
             <LogIn className="h-8 w-8" />
           </div>
           <h1 className="text-2xl font-bold text-white mb-2">
@@ -59,7 +59,7 @@ export function AdminLoginPage() {
           )}
 
           <div>
-            <label htmlFor="email" className="block text-sm font-medium text-gray-300 mb-2">
+            <label htmlFor="email" className="form-label">
               <TranslationText translationKey="admin.login.emailLabel" as="span" shimmerWidth="120px" />
             </label>
             <input
@@ -67,7 +67,7 @@ export function AdminLoginPage() {
               type="email"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
-              className="w-full px-3 py-2 rounded-lg bg-white/5 border border-white/10 text-white focus:ring-2 focus:ring-[#edfc3a] focus:border-transparent"
+              className="field"
               placeholder={t('admin.login.emailPlaceholder')}
               required
               disabled={isLoading}
@@ -75,7 +75,7 @@ export function AdminLoginPage() {
           </div>
 
           <div>
-            <label htmlFor="password" className="block text-sm font-medium text-gray-300 mb-2">
+            <label htmlFor="password" className="form-label">
               <TranslationText translationKey="admin.login.passwordLabel" as="span" shimmerWidth="80px" />
             </label>
             <div className="relative">
@@ -84,7 +84,7 @@ export function AdminLoginPage() {
                 type={showPassword ? 'text' : 'password'}
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
-                className="w-full px-3 py-2 pr-10 rounded-lg bg-white/5 border border-white/10 text-white focus:ring-2 focus:ring-[#edfc3a] focus:border-transparent"
+                className="field pr-10"
                 placeholder={t('admin.login.passwordPlaceholder')}
                 required
                 disabled={isLoading}
@@ -103,7 +103,7 @@ export function AdminLoginPage() {
           <button
             type="submit"
             disabled={isLoading}
-            className="w-full inline-flex items-center justify-center gap-2 px-4 py-2 bg-[#edfc3a] text-black rounded-lg font-medium hover:bg-[#f2ff4d] transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+            className="w-full inline-flex items-center justify-center gap-[var(--space-8)] px-[var(--space-16)] py-[var(--space-12)] min-h-[var(--size-tap)] bg-accent text-accent-ink rounded-[var(--radius-md)] text-[length:var(--font-200)] font-medium hover:bg-accent-strong transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
           >
             {isLoading ? (
               <>
@@ -133,3 +133,4 @@ export function AdminLoginPage() {
     </AnimatedGridBackground>
   );
 }
+

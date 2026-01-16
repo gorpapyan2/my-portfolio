@@ -16,16 +16,22 @@ export default function ParticleBackground() {
 
   useEffect(() => {
     const createParticles = () => {
+      const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+      if (prefersReducedMotion) {
+        setParticles([]);
+        return;
+      }
+
       const newParticles: Particle[] = [];
-      for (let i = 0; i < 20; i++) {
+      for (let i = 0; i < 12; i++) {
         newParticles.push({
           id: i,
           x: Math.random() * window.innerWidth,
           y: Math.random() * window.innerHeight,
-          size: Math.random() * 2 + 1,
-          opacity: Math.random() * 0.3 + 0.1,
-          speedX: (Math.random() - 0.5) * 0.5,
-          speedY: (Math.random() - 0.5) * 0.5,
+          size: Math.random() * 2 + 0.5,
+          opacity: Math.random() * 0.2 + 0.08,
+          speedX: (Math.random() - 0.5) * 0.3,
+          speedY: (Math.random() - 0.5) * 0.3,
         });
       }
       setParticles(newParticles);
@@ -49,7 +55,7 @@ export default function ParticleBackground() {
       }));
     };
 
-    const interval = setInterval(animateParticles, 50);
+    const interval = setInterval(animateParticles, 70);
     return () => clearInterval(interval);
   }, []);
 

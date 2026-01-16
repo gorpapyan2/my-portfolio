@@ -4,36 +4,48 @@
 
 /* Base Styles */
 @layer base {
+  :root {
+    --bg: #0c0f14;
+    --bg-elevated: #121621;
+    --surface: rgba(255, 255, 255, 0.04);
+    --surface-strong: rgba(255, 255, 255, 0.08);
+    --border: rgba(255, 255, 255, 0.08);
+    --text: #e7e9ee;
+    --text-muted: #a3adbd;
+    --accent: 237 252 58;
+    --accent-strong: 242 255 77;
+    --accent-ink: 11 13 16;
+  }
+
   body {
-    @apply font-sans m-0 p-0 bg-[#0a0a0f] text-white;
-    font-family: 'Inter', sans-serif;
+    @apply font-sans m-0 p-0 text-white;
+    font-family: 'Manrope', sans-serif;
     margin: 0;
     padding: 0;
-    background:rgb(0, 0, 0); /* Dark background for the entire site */
-    color: #ffffff; /* Default text color */
+    background:
+      radial-gradient(1200px 700px at 10% -10%, rgba(var(--accent), 0.12), transparent 55%),
+      radial-gradient(900px 600px at 90% 0%, rgba(120, 180, 255, 0.08), transparent 55%),
+      var(--bg);
+    color: var(--text);
+    letter-spacing: -0.01em;
   }
 
   button {
     @apply transition-all duration-300;
   }
+
+  h1, h2, h3, h4, h5, h6,
+  .font-display {
+    font-family: 'Space Grotesk', sans-serif;
+    letter-spacing: -0.02em;
+  }
+
+  ::selection {
+    background: rgba(var(--accent), 0.25);
+  }
 }
-
-
-
-
-
-/* Button Hover Effects */
-button {
-  transition: all 0.3s ease-in-out;
-}
-
-
-/* Custom Components */
 
 /* Ensure sections scroll properly with fixed header */
 section[id] {
-  scroll-margin-top: 100px;
+  scroll-margin-top: var(--space-64);
 }
-
-
-

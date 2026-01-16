@@ -9,10 +9,10 @@ export function Layout() {
   return (
     <ThemeProvider>
       <LoadingProvider>
-        <div className="min-h-screen bg-gray-50 dark:bg-gray-900 transition-colors duration-200">
+        <div className="min-h-screen bg-[var(--bg)] text-[var(--text)] transition-colors duration-200">
           <Header />
           <RouteLoadingHandler>
-            <main>
+            <main className="min-h-screen">
               <Outlet />
             </main>
           </RouteLoadingHandler>

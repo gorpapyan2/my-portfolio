@@ -89,7 +89,7 @@ export function SkillsAdmin({ onClose }: SkillsAdminProps) {
   if (isLoading) {
     return (
       <div className="flex items-center justify-center py-8">
-        <div className="text-white">{t('admin.common.loading')}</div>
+        <TranslationText translationKey="admin.common.loading" as="div" shimmerWidth="100px" className="text-[var(--text)]" />
       </div>
     );
   }
@@ -97,12 +97,12 @@ export function SkillsAdmin({ onClose }: SkillsAdminProps) {
   return (
     <div>
       <div className="flex items-center justify-between mb-6">
-        <h2 className="text-2xl font-semibold text-white">
+        <h2 className="text-[length:var(--font-600)] font-semibold text-[var(--text)]">
           <TranslationText translationKey="admin.skills.title" as="span" shimmerWidth="180px" />
         </h2>
         <button
           onClick={onClose}
-          className="p-2 text-gray-400 hover:text-white transition-colors"
+          className="p-2 text-[var(--text-muted)] hover:text-[var(--text)] transition-colors"
         >
           ×
         </button>
@@ -112,25 +112,25 @@ export function SkillsAdmin({ onClose }: SkillsAdminProps) {
         <form onSubmit={handleSubmit} className="space-y-4">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div>
-              <label className="block text-sm font-medium text-gray-300 mb-1">
+              <label className="form-label">
                 {t('admin.skills.form.title')}
               </label>
               <input
                 type="text"
                 value={formData.title}
                 onChange={(e) => setFormData({ ...formData, title: e.target.value })}
-                className={`w-full px-3 py-2 rounded-lg bg-white/5 border text-white focus:ring-2 focus:ring-[#edfc3a] focus:border-transparent ${
-                  errors.title ? 'border-red-500' : 'border-white/10'
+                className={`field ${
+                  errors.title ? 'border-red-500' : 'border-[var(--border)]'
                 }`}
                 required
               />
               {errors.title && (
-                <p className="text-red-400 text-sm mt-1">{errors.title}</p>
+                <p className="text-red-400 text-[length:var(--font-100)] mt-1">{errors.title}</p>
               )}
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-gray-300 mb-1">
+              <label className="form-label">
                 {t('admin.skills.form.icon')}
               </label>
               <select
@@ -148,53 +148,53 @@ export function SkillsAdmin({ onClose }: SkillsAdminProps) {
           </div>
 
           <div>
-            <label className="block text-sm font-medium text-gray-300 mb-1">
+            <label className="form-label">
               {t('admin.common.description')}
             </label>
             <textarea
               value={formData.description}
               onChange={(e) => setFormData({ ...formData, description: e.target.value })}
               rows={3}
-              className={`w-full px-3 py-2 rounded-lg bg-white/5 border text-white focus:ring-2 focus:ring-[#edfc3a] focus:border-transparent ${
-                errors.description ? 'border-red-500' : 'border-white/10'
+              className={`field ${
+                errors.description ? 'border-red-500' : 'border-[var(--border)]'
               }`}
               required
             />
             {errors.description && (
-              <p className="text-red-400 text-sm mt-1">{errors.description}</p>
+              <p className="text-red-400 text-[length:var(--font-100)] mt-1">{errors.description}</p>
             )}
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div>
-              <label className="block text-sm font-medium text-gray-300 mb-1">
+              <label className="form-label">
                 {t('admin.skills.form.level')}
               </label>
               <input
                 type="number"
                 value={formData.level}
                 onChange={(e) => setFormData({ ...formData, level: parseInt(e.target.value) || 0 })}
-                className={`w-full px-3 py-2 rounded-lg bg-white/5 border text-white focus:ring-2 focus:ring-[#edfc3a] focus:border-transparent ${
-                  errors.level ? 'border-red-500' : 'border-white/10'
+                className={`field ${
+                  errors.level ? 'border-red-500' : 'border-[var(--border)]'
                 }`}
                 min="0"
                 max="100"
                 required
               />
               {errors.level && (
-                <p className="text-red-400 text-sm mt-1">{errors.level}</p>
+                <p className="text-red-400 text-[length:var(--font-100)] mt-1">{errors.level}</p>
               )}
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-gray-300 mb-1">
+              <label className="form-label">
                 {t('admin.common.orderIndex')}
               </label>
               <input
                 type="number"
                 value={formData.order_index}
                 onChange={(e) => setFormData({ ...formData, order_index: parseInt(e.target.value) || 0 })}
-                className="w-full px-3 py-2 rounded-lg bg-white/5 border border-white/10 text-white focus:ring-2 focus:ring-[#edfc3a] focus:border-transparent"
+                className="field"
                 min="0"
               />
             </div>
@@ -214,13 +214,13 @@ export function SkillsAdmin({ onClose }: SkillsAdminProps) {
                   order_index: 0
                 });
               }}
-              className="px-4 py-2 text-gray-400 hover:text-white transition-colors"
+              className="btn btn-secondary"
             >
               {t('admin.common.cancel')}
             </button>
             <button
               type="submit"
-              className="inline-flex items-center gap-2 px-4 py-2 bg-[#edfc3a] text-black rounded-lg font-medium hover:bg-[#f2ff4d] transition-colors"
+              className="inline-flex items-center gap-2 btn btn-primary"
             >
               <Plus className="h-4 w-4" />
               {editingSkill ? t('admin.skills.button.update') : t('admin.skills.button.create')}
@@ -230,10 +230,10 @@ export function SkillsAdmin({ onClose }: SkillsAdminProps) {
       ) : (
         <>
           <div className="flex items-center justify-between mb-6">
-            <h3 className="text-lg font-medium text-white">{t('admin.skills.section.title')} ({skills.length})</h3>
+            <h3 className="text-[length:var(--font-400)] font-medium text-[var(--text)]">{t('admin.skills.section.title')} ({skills.length})</h3>
             <button
               onClick={() => setShowEditor(true)}
-              className="inline-flex items-center gap-2 px-4 py-2 bg-[#edfc3a] text-black rounded-lg font-medium hover:bg-[#f2ff4d] transition-colors"
+              className="inline-flex items-center gap-2 btn btn-primary"
             >
               <Plus className="h-4 w-4" />
               {t('admin.skills.button.add')}
@@ -244,48 +244,48 @@ export function SkillsAdmin({ onClose }: SkillsAdminProps) {
             {skills.map((skill) => {
               const IconComponent = getIcon(skill.icon);
               return (
-                <div key={skill.id} className="p-4 bg-white/5 rounded-lg border border-white/10">
+                <div key={skill.id} className="p-4 bg-[var(--surface)] rounded-[var(--radius-md)] border border-[var(--border)]">
                   <div className="flex items-start justify-between mb-3">
                     <div className="flex items-center gap-2">
-                      <div className="p-2 rounded-lg bg-[#edfc3a]/10 text-[#edfc3a]">
+                      <div className="p-2 rounded-[var(--radius-md)] bg-accent/10 text-accent">
                         <IconComponent className="h-4 w-4" />
                       </div>
-                      <h4 className="text-lg font-medium text-white">{skill.title}</h4>
+                      <h4 className="text-[length:var(--font-400)] font-medium text-[var(--text)]">{skill.title}</h4>
                     </div>
                     <div className="flex items-center gap-1">
                       <button
                         onClick={() => handleEdit(skill)}
-                        className="p-1 text-gray-400 hover:text-white transition-colors"
+                        className="p-1 text-[var(--text-muted)] hover:text-[var(--text)] transition-colors"
                       >
                         <Edit className="h-3 w-3" />
                       </button>
                       <button
                         onClick={() => handleDelete(skill.id)}
-                        className="p-1 text-gray-400 hover:text-red-400 transition-colors"
+                        className="p-1 text-[var(--text-muted)] hover:text-red-400 transition-colors"
                       >
                         <Trash2 className="h-3 w-3" />
                       </button>
                     </div>
                   </div>
                   
-                  <p className="text-gray-400 text-sm mb-3">{skill.description}</p>
-                  
+                  <p className="text-[var(--text-muted)] text-[length:var(--font-100)] mb-3">{skill.description}</p>
+
                   <div className="space-y-2">
-                    <div className="flex justify-between items-center text-sm">
-                      <span className="text-gray-400">{t('admin.skills.card.proficiency')}</span>
-                      <span className="text-[#edfc3a] font-semibold">{skill.level}%</span>
+                    <div className="flex justify-between items-center text-[length:var(--font-100)]">
+                      <span className="text-[var(--text-muted)]">{t('admin.skills.card.proficiency')}</span>
+                      <span className="text-accent font-semibold">{skill.level}%</span>
                     </div>
                     
-                    <div className="relative h-2 bg-white/10 rounded-full overflow-hidden">
+                    <div className="relative h-2 bg-[var(--surface-strong)] rounded-full overflow-hidden">
                       <div
-                        className="absolute top-0 left-0 h-full bg-gradient-to-r from-[#edfc3a] to-[#edfc3a]/80 rounded-full"
+                        className="absolute top-0 left-0 h-full bg-gradient-to-r from-accent to-accent/80 rounded-full"
                         style={{ width: `${skill.level}%` }}
                       />
                     </div>
                   </div>
                   
-                  <div className="text-xs text-gray-500 mt-2">
-                    Order: {skill.order_index} | Created: {new Date(skill.created_at).toLocaleDateString()}
+                  <div className="text-[length:var(--font-100)] text-[var(--text-muted)] mt-2">
+                    {t('admin.experience.orderLabel')} {skill.order_index} | {t('admin.experience.createdLabel')} {new Date(skill.created_at).toLocaleDateString()}
                   </div>
                 </div>
               );
@@ -296,3 +296,7 @@ export function SkillsAdmin({ onClose }: SkillsAdminProps) {
     </div>
   );
 }
+
+
+
+

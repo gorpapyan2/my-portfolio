@@ -127,9 +127,9 @@ export function ImageUpload({ onUpload, disabled = false }: ImageUploadProps) {
   };
 
   return (
-    <div className="space-y-3">
+    <div className="stack [--stack-space:var(--space-12)]">
       {error && (
-        <div className="p-3 bg-red-500/10 border border-red-500/20 rounded-lg text-red-400 text-sm">
+        <div className="p-[var(--space-12)] bg-red-500/10 border border-red-500/20 rounded-[var(--radius-md)] text-red-400 text-[length:var(--font-100)]">
           {error}
         </div>
       )}
@@ -139,15 +139,15 @@ export function ImageUpload({ onUpload, disabled = false }: ImageUploadProps) {
           <img
             src={preview}
             alt="Preview"
-            className="max-w-xs h-auto rounded-lg border border-white/10"
+            className="max-w-xs h-auto rounded-[var(--radius-md)] border border-[var(--border)]"
           />
           <button
             onClick={handleClear}
             disabled={isLoading}
-            className="absolute top-2 right-2 p-1.5 bg-red-500 hover:bg-red-600 text-white rounded-lg transition-colors disabled:opacity-50"
+            className="absolute top-[var(--space-8)] right-[var(--space-8)] p-[var(--space-8)] bg-red-500 hover:bg-red-600 text-white rounded-[var(--radius-sm)] transition-colors disabled:opacity-50"
             title={t('admin.imageUpload.removePreview')}
           >
-            <X className="h-4 w-4" />
+            <X className="h-[var(--space-16)] w-[var(--space-16)]" />
           </button>
         </div>
       )}
@@ -157,10 +157,10 @@ export function ImageUpload({ onUpload, disabled = false }: ImageUploadProps) {
         onDrop={handleDrop}
         onClick={() => !isLoading && fileInputRef.current?.click()}
         className={`
-          border-2 border-dashed rounded-lg p-6 text-center transition-colors cursor-pointer
+          border-2 border-dashed rounded-[var(--radius-md)] p-[var(--space-24)] text-center transition-colors cursor-pointer
           ${isLoading || disabled
-            ? 'border-gray-500 bg-gray-500/5 cursor-not-allowed opacity-50'
-            : 'border-white/20 bg-white/5 hover:bg-white/10 hover:border-white/30'
+            ? 'border-[var(--text-muted)]/50 bg-[var(--surface-strong)] cursor-not-allowed opacity-50'
+            : 'border-[var(--border)] bg-[var(--surface)] hover:bg-[var(--surface-strong)] hover:border-[var(--border)]/70'
           }
         `}
       >
@@ -173,21 +173,21 @@ export function ImageUpload({ onUpload, disabled = false }: ImageUploadProps) {
           className="hidden"
         />
 
-        <div className="flex flex-col items-center gap-2">
+        <div className="flex flex-col items-center gap-[var(--space-8)]">
           {isLoading ? (
             <>
-              <Loader className="h-8 w-8 text-[#edfc3a] animate-spin" />
-              <p className="text-sm text-gray-400">
+              <Loader className="h-[var(--space-32)] w-[var(--space-32)] text-accent animate-spin" />
+              <p className="text-[length:var(--font-100)] text-[var(--text-muted)]">
                 <TranslationText translationKey="admin.imageUpload.uploading" as="span" shimmerWidth="100px" />
               </p>
             </>
           ) : (
             <>
-              <Upload className="h-8 w-8 text-gray-400" />
-              <p className="text-sm text-white font-medium">
+              <Upload className="h-[var(--space-32)] w-[var(--space-32)] text-[var(--text-muted)]" />
+              <p className="text-[length:var(--font-100)] text-[var(--text)] font-medium">
                 <TranslationText translationKey="admin.imageUpload.dragDrop" as="span" shimmerWidth="250px" />
               </p>
-              <p className="text-xs text-gray-500">
+              <p className="text-[length:var(--font-100)] text-[var(--text-muted)]">
                 <TranslationText translationKey="admin.imageUpload.fileTypes" as="span" shimmerWidth="250px" />
               </p>
             </>
@@ -195,9 +195,10 @@ export function ImageUpload({ onUpload, disabled = false }: ImageUploadProps) {
         </div>
       </div>
 
-      <p className="text-xs text-gray-500">
-        Image will be uploaded to your blog and inserted as markdown: ![filename](url)
+      <p className="text-[length:var(--font-100)] text-[var(--text-muted)]">
+        <TranslationText translationKey="admin.imageUpload.uploadInfo" as="span" shimmerWidth="400px" />
       </p>
     </div>
   );
 }
+

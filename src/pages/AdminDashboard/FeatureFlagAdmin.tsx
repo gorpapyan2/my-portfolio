@@ -161,18 +161,18 @@ export function FeatureFlagAdmin() {
   }
 
   return (
-    <div className="space-y-6">
+    <div className="stack [--stack-space:var(--space-24)]">
       {/* Header */}
       <div className="flex items-center justify-between">
-        <div className="flex items-center gap-3">
-          <div className="inline-flex p-2 rounded-lg bg-[#edfc3a]/10 text-[#edfc3a]">
-            <Flag className="h-6 w-6" />
+        <div className="flex items-center gap-[var(--space-12)]">
+          <div className="inline-flex p-[var(--space-8)] rounded-[var(--radius-md)] bg-accent/10 text-accent">
+            <Flag className="h-[var(--space-24)] w-[var(--space-24)]" />
           </div>
           <div>
-            <h2 className="text-2xl font-bold text-white">
+            <h2 className="text-[length:var(--font-600)] font-bold text-[var(--text)]">
               <TranslationText translationKey="admin.featureFlags.title" as="span" shimmerWidth="150px" />
             </h2>
-            <p className="text-gray-400">
+            <p className="text-[var(--text-muted)] text-[length:var(--font-100)]">
               <TranslationText translationKey="admin.featureFlags.subtitle" as="span" shimmerWidth="350px" />
             </p>
           </div>
@@ -180,32 +180,32 @@ export function FeatureFlagAdmin() {
         
         <button
           onClick={() => setIsCreateModalOpen(true)}
-          className="inline-flex items-center gap-2 px-4 py-2 bg-[#edfc3a] text-black rounded-lg hover:bg-[#edfc3a]/90 transition-colors"
+          className="btn btn-primary inline-flex items-center gap-[var(--space-8)]"
         >
-          <Plus className="h-4 w-4" />
+          <Plus className="h-[var(--space-16)] w-[var(--space-16)]" />
           {t('admin.featureFlags.button.addFlag')}
         </button>
       </div>
 
       {/* Filters */}
-      <div className="flex items-center gap-4">
+      <div className="flex items-center gap-[var(--space-16)]">
         <div className="relative flex-1 max-w-md">
-          <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 h-4 w-4" />
+          <Search className="absolute left-[var(--space-12)] top-1/2 transform -translate-y-1/2 text-[var(--text-muted)] h-[var(--space-16)] w-[var(--space-16)]" />
           <input
             type="text"
             placeholder={t('admin.featureFlags.search.placeholder')}
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
-            className="w-full pl-10 pr-4 py-2 bg-gray-800 border border-gray-700 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:border-[#edfc3a]"
+            className="field pl-[var(--space-32)] pr-[var(--space-16)]"
           />
         </div>
         
         <div className="relative">
-          <Filter className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 h-4 w-4" />
+          <Filter className="absolute left-[var(--space-12)] top-1/2 transform -translate-y-1/2 text-[var(--text-muted)] h-[var(--space-16)] w-[var(--space-16)]" />
           <select
             value={filterType}
             onChange={(e) => setFilterType(e.target.value)}
-            className="pl-10 pr-8 py-2 bg-gray-800 border border-gray-700 rounded-lg text-white focus:outline-none focus:border-[#edfc3a]"
+            className="pl-[var(--space-32)] pr-[var(--space-24)] admin-select appearance-none"
           >
             <option value="all">{t('admin.featureFlags.filter.all')}</option>
             <option value="section">{t('admin.featureFlags.filter.sections')}</option>
@@ -216,72 +216,72 @@ export function FeatureFlagAdmin() {
       </div>
 
       {/* Flags Table */}
-      <div className="bg-gray-800 rounded-lg overflow-hidden">
+      <div className="bg-[var(--surface)] rounded-[var(--radius-md)] border border-[var(--border)] overflow-hidden">
         <div className="overflow-x-auto">
           <table className="w-full">
-            <thead className="bg-gray-700">
+            <thead className="bg-[var(--surface-strong)]">
               <tr>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-300 uppercase tracking-wider">
+                <th className="px-[var(--space-24)] py-[var(--space-12)] text-left text-[length:var(--font-100)] font-medium text-[var(--text-muted)] uppercase tracking-[var(--tracking-wide)]">
                   {t('admin.featureFlags.table.flagKey')}
                 </th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-300 uppercase tracking-wider">
+                <th className="px-[var(--space-24)] py-[var(--space-12)] text-left text-[length:var(--font-100)] font-medium text-[var(--text-muted)] uppercase tracking-[var(--tracking-wide)]">
                   {t('admin.featureFlags.table.type')}
                 </th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-300 uppercase tracking-wider">
+                <th className="px-[var(--space-24)] py-[var(--space-12)] text-left text-[length:var(--font-100)] font-medium text-[var(--text-muted)] uppercase tracking-[var(--tracking-wide)]">
                   {t('admin.featureFlags.table.description')}
                 </th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-300 uppercase tracking-wider">
+                <th className="px-[var(--space-24)] py-[var(--space-12)] text-left text-[length:var(--font-100)] font-medium text-[var(--text-muted)] uppercase tracking-[var(--tracking-wide)]">
                   {t('admin.featureFlags.table.status')}
                 </th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-300 uppercase tracking-wider">
+                <th className="px-[var(--space-24)] py-[var(--space-12)] text-left text-[length:var(--font-100)] font-medium text-[var(--text-muted)] uppercase tracking-[var(--tracking-wide)]">
                   {t('admin.featureFlags.table.actions')}
                 </th>
               </tr>
             </thead>
-            <tbody className="divide-y divide-gray-700">
+            <tbody className="divide-y divide-[var(--border)]">
               {filteredFlags.map((flag) => (
-                <tr key={flag.id} className="hover:bg-gray-700/50">
-                  <td className="px-6 py-4 whitespace-nowrap">
-                    <div className="text-sm font-medium text-white">{flag.flag_key}</div>
+                <tr key={flag.id} className="hover:bg-[var(--surface-strong)]/50">
+                  <td className="px-[var(--space-24)] py-[var(--space-16)] whitespace-nowrap">
+                    <div className="text-[length:var(--font-100)] font-medium text-[var(--text)]">{flag.flag_key}</div>
                   </td>
-                  <td className="px-6 py-4 whitespace-nowrap">
-                    <span className="inline-flex px-2 py-1 text-xs font-semibold rounded-full bg-blue-100 text-blue-800">
+                  <td className="px-[var(--space-24)] py-[var(--space-16)] whitespace-nowrap">
+                    <span className="inline-flex px-2 py-1 text-[length:var(--font-100)] font-semibold rounded-full bg-blue-100 text-blue-800">
                       {flag.content_type}
                     </span>
                   </td>
-                  <td className="px-6 py-4">
-                    <div className="text-sm text-gray-300 max-w-xs truncate">
+                  <td className="px-[var(--space-24)] py-[var(--space-16)]">
+                    <div className="text-[length:var(--font-100)] text-[var(--text-muted)] max-w-xs truncate">
                       {flag.description}
                     </div>
                   </td>
-                  <td className="px-6 py-4 whitespace-nowrap">
+                  <td className="px-[var(--space-24)] py-[var(--space-16)] whitespace-nowrap">
                     <button
                       onClick={() => handleToggle(flag)}
-                      className="flex items-center gap-2"
+                      className="flex items-center gap-[var(--space-8)]"
                     >
                       {flag.enabled ? (
-                        <ToggleRight className="h-6 w-6 text-green-400" />
+                        <ToggleRight className="h-[var(--space-24)] w-[var(--space-24)] text-green-400" />
                       ) : (
-                        <ToggleLeft className="h-6 w-6 text-gray-400" />
+                        <ToggleLeft className="h-[var(--space-24)] w-[var(--space-24)] text-[var(--text-muted)]" />
                       )}
-                      <span className={`text-sm ${flag.enabled ? 'text-green-400' : 'text-gray-400'}`}>
+                      <span className={`text-[length:var(--font-100)] ${flag.enabled ? 'text-green-400' : 'text-[var(--text-muted)]'}`}>
                         {flag.enabled ? t('admin.featureFlags.status.enabled') : t('admin.featureFlags.status.disabled')}
                       </span>
                     </button>
                   </td>
-                  <td className="px-6 py-4 whitespace-nowrap text-sm font-medium">
-                    <div className="flex items-center gap-2">
+                  <td className="px-[var(--space-24)] py-[var(--space-16)] whitespace-nowrap text-[length:var(--font-100)] font-medium">
+                    <div className="flex items-center gap-[var(--space-8)]">
                       <button
                         onClick={() => openEditModal(flag)}
                         className="text-blue-400 hover:text-blue-300"
                       >
-                        <Edit2 className="h-4 w-4" />
+                        <Edit2 className="h-[var(--space-16)] w-[var(--space-16)]" />
                       </button>
                       <button
                         onClick={() => openDeleteModal(flag)}
                         className="text-red-400 hover:text-red-300"
                       >
-                        <Trash2 className="h-4 w-4" />
+                        <Trash2 className="h-[var(--space-16)] w-[var(--space-16)]" />
                       </button>
                     </div>
                   </td>
@@ -290,9 +290,9 @@ export function FeatureFlagAdmin() {
             </tbody>
           </table>
         </div>
-        
+
         {filteredFlags.length === 0 && (
-          <div className="text-center py-8 text-gray-400">
+          <div className="text-center py-8 text-[var(--text-muted)]">
             {t('admin.featureFlags.empty.noFlags')}
           </div>
         )}
@@ -301,31 +301,31 @@ export function FeatureFlagAdmin() {
       {/* Create Modal */}
       {isCreateModalOpen && (
         <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
-          <div className="bg-gray-800 rounded-lg p-6 w-full max-w-md">
-            <h3 className="text-lg font-semibold text-white mb-4">{t('admin.featureFlags.create')}</h3>
+          <div className="bg-[var(--surface)] rounded-[var(--radius-md)] p-[var(--space-24)] w-full max-w-md">
+            <h3 className="text-[length:var(--font-400)] font-semibold text-[var(--text)] mb-4">{t('admin.featureFlags.create')}</h3>
 
-            <div className="space-y-4">
+            <div className="stack [--stack-space:var(--space-16)]">
               <div>
-                <label className="block text-sm font-medium text-gray-300 mb-1">
+                <label className="form-label">
                   {t('admin.featureFlags.form.flagKey')}
                 </label>
                 <input
                   type="text"
                   value={formData.flag_key}
                   onChange={(e) => setFormData({ ...formData, flag_key: e.target.value })}
-                  className="w-full px-3 py-2 bg-gray-700 border border-gray-600 rounded-lg text-white focus:outline-none focus:border-[#edfc3a]"
-                  placeholder="e.g., blog_section"
+                  className="field"
+                  placeholder={t('admin.featureFlags.flagKeyPlaceholder')}
                 />
               </div>
 
               <div>
-                <label className="block text-sm font-medium text-gray-300 mb-1">
+                <label className="form-label">
                   {t('admin.featureFlags.form.contentType')}
                 </label>
                 <select
                   value={formData.content_type}
                   onChange={(e) => setFormData({ ...formData, content_type: e.target.value as 'section' | 'blog_post' | 'project' })}
-                  className="w-full px-3 py-2 bg-gray-700 border border-gray-600 rounded-lg text-white focus:outline-none focus:border-[#edfc3a]"
+                  className="admin-select w-full"
                 >
                   <option value="section">{t('admin.featureFlags.contentType.section')}</option>
                   <option value="blog_post">{t('admin.featureFlags.contentType.blogPost')}</option>
@@ -334,26 +334,26 @@ export function FeatureFlagAdmin() {
               </div>
 
               <div>
-                <label className="block text-sm font-medium text-gray-300 mb-1">
+                <label className="form-label">
                   {t('admin.featureFlags.form.contentId')}
                 </label>
                 <input
                   type="text"
                   value={formData.content_id}
                   onChange={(e) => setFormData({ ...formData, content_id: e.target.value })}
-                  className="w-full px-3 py-2 bg-gray-700 border border-gray-600 rounded-lg text-white focus:outline-none focus:border-[#edfc3a]"
+                  className="field"
                   placeholder={t('admin.featureFlags.form.contentIdPlaceholder')}
                 />
               </div>
 
               <div>
-                <label className="block text-sm font-medium text-gray-300 mb-1">
+                <label className="form-label">
                   {t('admin.common.description')}
                 </label>
                 <textarea
                   value={formData.description}
                   onChange={(e) => setFormData({ ...formData, description: e.target.value })}
-                  className="w-full px-3 py-2 bg-gray-700 border border-gray-600 rounded-lg text-white focus:outline-none focus:border-[#edfc3a]"
+                  className="field"
                   rows={3}
                   placeholder={t('admin.featureFlags.form.descriptionPlaceholder')}
                 />
@@ -367,25 +367,25 @@ export function FeatureFlagAdmin() {
                   onChange={(e) => setFormData({ ...formData, enabled: e.target.checked })}
                   className="rounded"
                 />
-                <label htmlFor="enabled" className="text-sm text-gray-300">
+                <label htmlFor="enabled" className="text-[length:var(--font-100)] text-[var(--text-muted)]">
                   {t('admin.featureFlags.form.enabledByDefault')}
                 </label>
               </div>
             </div>
 
-            <div className="flex justify-end gap-3 mt-6">
+            <div className="flex justify-end gap-[var(--space-12)] mt-[var(--space-24)]">
               <button
                 onClick={() => {
                   setIsCreateModalOpen(false);
                   resetForm();
                 }}
-                className="px-4 py-2 text-gray-400 hover:text-white transition-colors"
+                className="btn btn-secondary"
               >
                 {t('admin.common.cancel')}
               </button>
               <button
                 onClick={handleCreate}
-                className="px-4 py-2 bg-[#edfc3a] text-black rounded-lg hover:bg-[#edfc3a]/90 transition-colors"
+                className="btn btn-primary"
               >
                 {t('admin.common.create')}
               </button>
@@ -397,30 +397,30 @@ export function FeatureFlagAdmin() {
       {/* Edit Modal */}
       {isEditModalOpen && (
         <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
-          <div className="bg-gray-800 rounded-lg p-6 w-full max-w-md">
-            <h3 className="text-lg font-semibold text-white mb-4">{t('admin.featureFlags.edit')}</h3>
+          <div className="bg-[var(--surface)] rounded-[var(--radius-md)] p-[var(--space-24)] w-full max-w-md">
+            <h3 className="text-[length:var(--font-400)] font-semibold text-[var(--text)] mb-4">{t('admin.featureFlags.edit')}</h3>
 
-            <div className="space-y-4">
+            <div className="stack [--stack-space:var(--space-16)]">
               <div>
-                <label className="block text-sm font-medium text-gray-300 mb-1">
+                <label className="form-label">
                   {t('admin.featureFlags.form.flagKey')}
                 </label>
                 <input
                   type="text"
                   value={formData.flag_key}
                   onChange={(e) => setFormData({ ...formData, flag_key: e.target.value })}
-                  className="w-full px-3 py-2 bg-gray-700 border border-gray-600 rounded-lg text-white focus:outline-none focus:border-[#edfc3a]"
+                  className="field"
                 />
               </div>
 
               <div>
-                <label className="block text-sm font-medium text-gray-300 mb-1">
+                <label className="form-label">
                   {t('admin.featureFlags.form.contentType')}
                 </label>
                 <select
                   value={formData.content_type}
                   onChange={(e) => setFormData({ ...formData, content_type: e.target.value as 'section' | 'blog_post' | 'project' })}
-                  className="w-full px-3 py-2 bg-gray-700 border border-gray-600 rounded-lg text-white focus:outline-none focus:border-[#edfc3a]"
+                  className="admin-select w-full"
                 >
                   <option value="section">{t('admin.featureFlags.contentType.section')}</option>
                   <option value="blog_post">{t('admin.featureFlags.contentType.blogPost')}</option>
@@ -429,25 +429,25 @@ export function FeatureFlagAdmin() {
               </div>
 
               <div>
-                <label className="block text-sm font-medium text-gray-300 mb-1">
+                <label className="form-label">
                   {t('admin.featureFlags.form.contentId')}
                 </label>
                 <input
                   type="text"
                   value={formData.content_id}
                   onChange={(e) => setFormData({ ...formData, content_id: e.target.value })}
-                  className="w-full px-3 py-2 bg-gray-700 border border-gray-600 rounded-lg text-white focus:outline-none focus:border-[#edfc3a]"
+                  className="field"
                 />
               </div>
 
               <div>
-                <label className="block text-sm font-medium text-gray-300 mb-1">
+                <label className="form-label">
                   {t('admin.common.description')}
                 </label>
                 <textarea
                   value={formData.description}
                   onChange={(e) => setFormData({ ...formData, description: e.target.value })}
-                  className="w-full px-3 py-2 bg-gray-700 border border-gray-600 rounded-lg text-white focus:outline-none focus:border-[#edfc3a]"
+                  className="field"
                   rows={3}
                 />
               </div>
@@ -460,26 +460,26 @@ export function FeatureFlagAdmin() {
                   onChange={(e) => setFormData({ ...formData, enabled: e.target.checked })}
                   className="rounded"
                 />
-                <label htmlFor="edit-enabled" className="text-sm text-gray-300">
+                <label htmlFor="edit-enabled" className="text-[length:var(--font-100)] text-[var(--text-muted)]">
                   {t('admin.featureFlags.form.enabled')}
                 </label>
               </div>
             </div>
 
-            <div className="flex justify-end gap-3 mt-6">
+            <div className="flex justify-end gap-[var(--space-12)] mt-[var(--space-24)]">
               <button
                 onClick={() => {
                   setIsEditModalOpen(false);
                   setSelectedFlag(null);
                   resetForm();
                 }}
-                className="px-4 py-2 text-gray-400 hover:text-white transition-colors"
+                className="btn btn-secondary"
               >
                 {t('admin.common.cancel')}
               </button>
               <button
                 onClick={handleUpdate}
-                className="px-4 py-2 bg-[#edfc3a] text-black rounded-lg hover:bg-[#edfc3a]/90 transition-colors"
+                className="btn btn-primary"
               >
                 {t('admin.common.update')}
               </button>
@@ -491,25 +491,25 @@ export function FeatureFlagAdmin() {
       {/* Delete Modal */}
       {isDeleteModalOpen && (
         <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
-          <div className="bg-gray-800 rounded-lg p-6 w-full max-w-md">
-            <h3 className="text-lg font-semibold text-white mb-4">{t('admin.featureFlags.delete')}</h3>
-            <p className="text-gray-300 mb-6">
+          <div className="bg-[var(--surface)] rounded-[var(--radius-md)] p-[var(--space-24)] w-full max-w-md">
+            <h3 className="text-[length:var(--font-400)] font-semibold text-[var(--text)] mb-4">{t('admin.featureFlags.delete')}</h3>
+            <p className="text-[var(--text-muted)] mb-6">
               {t('admin.featureFlags.confirm.deleteMessage').replace('{flagKey}', selectedFlag?.flag_key || '')}
             </p>
 
-            <div className="flex justify-end gap-3">
+            <div className="flex justify-end gap-[var(--space-12)]">
               <button
                 onClick={() => {
                   setIsDeleteModalOpen(false);
                   setSelectedFlag(null);
                 }}
-                className="px-4 py-2 text-gray-400 hover:text-white transition-colors"
+                className="btn btn-secondary"
               >
                 {t('admin.common.cancel')}
               </button>
               <button
                 onClick={handleDelete}
-                className="px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 transition-colors"
+                className="btn inline-flex items-center justify-center bg-red-600 text-white hover:bg-red-700"
               >
                 {t('admin.common.delete')}
               </button>
@@ -520,3 +520,6 @@ export function FeatureFlagAdmin() {
     </div>
   );
 }
+
+
+

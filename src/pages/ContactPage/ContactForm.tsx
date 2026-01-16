@@ -103,10 +103,10 @@ export function ContactForm() {
   return (
     <>
       <Card>
-        <form ref={formRef} className="space-y-4" onSubmit={sendEmail}>
+        <form ref={formRef} className="stack" style={{ ['--stack-space' as string]: 'var(--space-16)' }} onSubmit={sendEmail}>
           {formFields.map(({ id, label, type, isTextArea }) => (
             <div key={id}>
-              <label htmlFor={id} className="block text-sm font-medium text-gray-300 mb-1">
+              <label htmlFor={id} className="form-label">
                 {label}
               </label>
               {isTextArea ? (
@@ -116,8 +116,8 @@ export function ContactForm() {
                   rows={4}
                   required
                   disabled={isSubmitting}
-                  className={`w-full px-4 py-2 rounded-lg bg-white/5 border text-white focus:ring-2 focus:ring-[#edfc3a] focus:border-transparent transition-all duration-300 disabled:opacity-50 ${
-                    errors[id] ? 'border-red-500' : 'border-white/10'
+                  className={`field ${
+                    errors[id] ? 'border-red-500' : 'border-[var(--border)]'
                   }`}
                 />
               ) : (
@@ -127,13 +127,13 @@ export function ContactForm() {
                   name={id}
                   required
                   disabled={isSubmitting}
-                  className={`w-full px-4 py-2 rounded-lg bg-white/5 border text-white focus:ring-2 focus:ring-[#edfc3a] focus:border-transparent transition-all duration-300 disabled:opacity-50 ${
-                    errors[id] ? 'border-red-500' : 'border-white/10'
+                  className={`field ${
+                    errors[id] ? 'border-red-500' : 'border-[var(--border)]'
                   }`}
                 />
               )}
               {errors[id] && (
-                <p className="text-red-400 text-sm mt-1">{errors[id]}</p>
+                <p className="text-red-400 text-[length:var(--font-200)] mt-[var(--space-4)]">{errors[id]}</p>
               )}
             </div>
           ))}
@@ -141,9 +141,9 @@ export function ContactForm() {
           <button
             type="submit"
             disabled={isSubmitting}
-            className="w-full inline-flex items-center justify-center gap-2 bg-[#edfc3a] 
-                     text-black px-6 py-3 rounded-lg font-medium hover:bg-[#f2ff4d] 
-                     transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed"
+            className="w-full inline-flex items-center justify-center gap-[var(--space-8)] bg-accent 
+                     text-black px-[var(--space-24)] py-[var(--space-12)] min-h-[var(--size-tap)] rounded-[var(--radius-md)] text-[length:var(--font-200)] font-medium hover:bg-accent-strong 
+                     transition-colors duration-300 disabled:opacity-50 disabled:cursor-not-allowed"
           >
             <Send className="h-5 w-5" />
             {isSubmitting ? t('contact.sending') : t('contact.sendMessage')}
@@ -159,3 +159,4 @@ export function ContactForm() {
     </>
   );
 }
+

@@ -44,7 +44,7 @@ export function BlogCard({
         day: 'numeric'
       });
     } catch {
-      return 'Unknown date';
+      return t('blog.unknownDate');
     }
   };
 
@@ -72,7 +72,7 @@ export function BlogCard({
   return (
     <Card className="group h-full flex flex-col">
       {/* Image Container */}
-      <div className="relative aspect-video overflow-hidden rounded-lg mb-4">
+      <div className="relative aspect-video overflow-hidden rounded-[var(--radius-md)] mb-[var(--space-16)]">
         <img
           src={displayImage}
           alt={title}
@@ -83,36 +83,36 @@ export function BlogCard({
       </div>
       
       {/* Metadata */}
-      <div className="flex justify-between items-center text-sm text-gray-400 mb-3">
+      <div className="flex justify-between items-center text-[length:var(--font-100)] text-[var(--text-muted)] mb-[var(--space-12)]">
         <span>{formattedDate}</span>
         <span>{read_time}</span>
       </div>
       
       {/* Title */}
-      <h2 className="text-lg font-semibold text-white mb-2 group-hover:text-[#edfc3a] transition-colors line-clamp-2">
+      <h2 className="text-[length:var(--font-500)] font-semibold text-[var(--text)] mb-[var(--space-8)] group-hover:text-accent transition-colors line-clamp-2">
         {title}
       </h2>
       
       {/* Preview Content */}
-      <div className="text-gray-300 mb-4 flex-grow">
+      <div className="text-[var(--text-muted)] mb-[var(--space-16)] flex-grow">
         {content ? (
           <MarkdownRenderer 
             content={preview}
-            className="text-sm line-clamp-3"
+            className="text-[length:var(--font-200)] line-clamp-3"
           />
         ) : (
-          <p className="text-sm line-clamp-3">{excerpt}</p>
+          <p className="text-[length:var(--font-200)] line-clamp-3">{excerpt}</p>
         )}
       </div>
       
       {/* Read More Link */}
       <Link 
         to={`/blog/${slug}`}
-        className="inline-flex items-center text-[#edfc3a] hover:text-white transition-colors font-medium mt-auto"
+        className="inline-flex items-center text-accent hover:text-white transition-colors font-medium text-[length:var(--font-200)] mt-auto"
       >
         <TranslationText translationKey="blog.readMore" shimmerWidth="100px" />
         <svg 
-          className="w-4 h-4 ml-2 transform group-hover:translate-x-1 transition-transform" 
+          className="w-4 h-4 ml-[var(--space-8)] transform group-hover:translate-x-1 transition-transform" 
           fill="none" 
           viewBox="0 0 24 24" 
           stroke="currentColor"

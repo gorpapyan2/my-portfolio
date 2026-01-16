@@ -73,12 +73,12 @@
 /* Highlighted lines */
 .prose pre code [data-highlighted-line] {
   background: rgba(255, 255, 255, 0.08);
-  border-left-color: #edfc3a;
+  border-left-color: rgb(var(--accent));
 }
 
 .light .prose pre code [data-highlighted-line] {
   background: rgba(0, 0, 0, 0.05);
-  border-left-color: #edfc3a;
+  border-left-color: rgb(var(--accent));
 }
 
 /* Highlighted characters/words */
@@ -104,7 +104,7 @@
 
 /* Inline code styling */
 .prose code:not(pre code) {
-  @apply px-1.5 py-0.5 text-sm font-mono bg-gray-800/60 text-[#edfc3a] rounded border border-gray-700;
+  @apply px-1.5 py-0.5 text-sm font-mono bg-gray-800/60 text-accent rounded border border-gray-700;
 }
 
 .light .prose code:not(pre code) {
@@ -142,7 +142,7 @@
 
 /* Focus styles for accessibility */
 .prose pre:focus-within {
-  @apply ring-2 ring-[#edfc3a] ring-opacity-50;
+  @apply ring-2 ring-accent ring-opacity-50;
 }
 
 /* Copy button container */

@@ -83,7 +83,7 @@ export function EducationAdmin({ onClose }: EducationAdminProps) {
   if (isLoading) {
     return (
       <div className="flex items-center justify-center py-8">
-        <div className="text-white">{t('admin.common.loading')}</div>
+        <TranslationText translationKey="admin.common.loading" as="div" shimmerWidth="100px" className="text-[var(--text)]" />
       </div>
     );
   }
@@ -91,12 +91,12 @@ export function EducationAdmin({ onClose }: EducationAdminProps) {
   return (
     <div>
       <div className="flex items-center justify-between mb-6">
-        <h2 className="text-2xl font-semibold text-white">
+        <h2 className="text-[length:var(--font-600)] font-semibold text-[var(--text)]">
           <TranslationText translationKey="admin.education.title" as="span" shimmerWidth="220px" />
         </h2>
         <button
           onClick={onClose}
-          className="p-2 text-gray-400 hover:text-white transition-colors"
+          className="p-2 text-[var(--text-muted)] hover:text-[var(--text)] transition-colors"
         >
           ×
         </button>
@@ -105,90 +105,90 @@ export function EducationAdmin({ onClose }: EducationAdminProps) {
       {showEditor ? (
         <form onSubmit={handleSubmit} className="space-y-4">
           <div>
-            <label className="block text-sm font-medium text-gray-300 mb-1">
+            <label className="form-label">
               {t('admin.education.form.degree')}
             </label>
             <input
               type="text"
               value={formData.degree}
               onChange={(e) => setFormData({ ...formData, degree: e.target.value })}
-              className={`w-full px-3 py-2 rounded-lg bg-white/5 border text-white focus:ring-2 focus:ring-[#edfc3a] focus:border-transparent ${
-                errors.degree ? 'border-red-500' : 'border-white/10'
+              className={`field ${
+                errors.degree ? 'border-red-500' : 'border-[var(--border)]'
               }`}
-              placeholder="e.g., B.Sc. in Information Technology"
+              placeholder={t('admin.education.degreePlaceholder')}
               required
             />
             {errors.degree && (
-              <p className="text-red-400 text-sm mt-1">{errors.degree}</p>
+              <p className="text-red-400 text-[length:var(--font-100)] mt-1">{errors.degree}</p>
             )}
           </div>
 
           <div>
-            <label className="block text-sm font-medium text-gray-300 mb-1">
+            <label className="form-label">
               {t('admin.education.form.school')}
             </label>
             <input
               type="text"
               value={formData.school}
               onChange={(e) => setFormData({ ...formData, school: e.target.value })}
-              className={`w-full px-3 py-2 rounded-lg bg-white/5 border text-white focus:ring-2 focus:ring-[#edfc3a] focus:border-transparent ${
-                errors.school ? 'border-red-500' : 'border-white/10'
+              className={`field ${
+                errors.school ? 'border-red-500' : 'border-[var(--border)]'
               }`}
-              placeholder="e.g., National Polytechnic University of Armenia"
+              placeholder={t('admin.education.schoolPlaceholder')}
               required
             />
             {errors.school && (
-              <p className="text-red-400 text-sm mt-1">{errors.school}</p>
+              <p className="text-red-400 text-[length:var(--font-100)] mt-1">{errors.school}</p>
             )}
           </div>
 
           <div>
-            <label className="block text-sm font-medium text-gray-300 mb-1">
+            <label className="form-label">
               {t('admin.education.form.year')}
             </label>
             <input
               type="text"
               value={formData.year}
               onChange={(e) => setFormData({ ...formData, year: e.target.value })}
-              className={`w-full px-3 py-2 rounded-lg bg-white/5 border text-white focus:ring-2 focus:ring-[#edfc3a] focus:border-transparent ${
-                errors.year ? 'border-red-500' : 'border-white/10'
+              className={`field ${
+                errors.year ? 'border-red-500' : 'border-[var(--border)]'
               }`}
-              placeholder="e.g., Graduated May 2024"
+              placeholder={t('admin.education.yearPlaceholder')}
               required
             />
             {errors.year && (
-              <p className="text-red-400 text-sm mt-1">{errors.year}</p>
+              <p className="text-red-400 text-[length:var(--font-100)] mt-1">{errors.year}</p>
             )}
           </div>
 
           <div>
-            <label className="block text-sm font-medium text-gray-300 mb-1">
+            <label className="form-label">
               {t('admin.common.description')}
             </label>
             <textarea
               value={formData.description}
               onChange={(e) => setFormData({ ...formData, description: e.target.value })}
               rows={3}
-              className={`w-full px-3 py-2 rounded-lg bg-white/5 border text-white focus:ring-2 focus:ring-[#edfc3a] focus:border-transparent ${
-                errors.description ? 'border-red-500' : 'border-white/10'
+              className={`field ${
+                errors.description ? 'border-red-500' : 'border-[var(--border)]'
               }`}
-              placeholder="Additional details about the education"
+              placeholder={t('admin.education.additionalDetails')}
               required
             />
             {errors.description && (
-              <p className="text-red-400 text-sm mt-1">{errors.description}</p>
+              <p className="text-red-400 text-[length:var(--font-100)] mt-1">{errors.description}</p>
             )}
           </div>
 
           <div>
-            <label className="block text-sm font-medium text-gray-300 mb-1">
+            <label className="form-label">
               {t('admin.common.orderIndex')}
             </label>
             <input
               type="number"
               value={formData.order_index}
               onChange={(e) => setFormData({ ...formData, order_index: parseInt(e.target.value) || 0 })}
-              className="w-full px-3 py-2 rounded-lg bg-white/5 border border-white/10 text-white focus:ring-2 focus:ring-[#edfc3a] focus:border-transparent"
+              className="field"
               min="0"
             />
           </div>
@@ -207,13 +207,13 @@ export function EducationAdmin({ onClose }: EducationAdminProps) {
                   order_index: 0
                 });
               }}
-              className="px-4 py-2 text-gray-400 hover:text-white transition-colors"
+              className="btn btn-secondary"
             >
               {t('admin.common.cancel')}
             </button>
             <button
               type="submit"
-              className="inline-flex items-center gap-2 px-4 py-2 bg-[#edfc3a] text-black rounded-lg font-medium hover:bg-[#f2ff4d] transition-colors"
+              className="inline-flex items-center gap-2 btn btn-primary"
             >
               <Plus className="h-4 w-4" />
               {editingEducation ? t('admin.education.button.update') : t('admin.education.button.create')}
@@ -223,10 +223,10 @@ export function EducationAdmin({ onClose }: EducationAdminProps) {
       ) : (
         <>
           <div className="flex items-center justify-between mb-6">
-            <h3 className="text-lg font-medium text-white">{t('admin.education.section.title')} ({education.length})</h3>
+            <h3 className="text-[length:var(--font-400)] font-medium text-[var(--text)]">{t('admin.education.section.title')} ({education.length})</h3>
             <button
               onClick={() => setShowEditor(true)}
-              className="inline-flex items-center gap-2 px-4 py-2 bg-[#edfc3a] text-black rounded-lg font-medium hover:bg-[#f2ff4d] transition-colors"
+              className="inline-flex items-center gap-2 btn btn-primary"
             >
               <Plus className="h-4 w-4" />
               {t('admin.education.button.add')}
@@ -235,27 +235,27 @@ export function EducationAdmin({ onClose }: EducationAdminProps) {
 
           <div className="space-y-4">
             {education.map((edu) => (
-              <div key={edu.id} className="p-4 bg-white/5 rounded-lg border border-white/10">
+              <div key={edu.id} className="p-4 bg-[var(--surface)] rounded-[var(--radius-md)] border border-[var(--border)]">
                 <div className="flex items-start justify-between">
                   <div className="flex-1">
-                    <h4 className="text-lg font-medium text-white mb-2">{edu.degree}</h4>
-                    <p className="text-gray-400 text-sm mb-2">{edu.school}</p>
-                    <p className="text-gray-400 text-sm mb-2">{edu.year}</p>
-                    <p className="text-gray-300 mb-2">{edu.description}</p>
-                    <div className="text-xs text-gray-500">
+                    <h4 className="text-[length:var(--font-400)] font-medium text-[var(--text)] mb-2">{edu.degree}</h4>
+                    <p className="text-[var(--text-muted)] text-[length:var(--font-100)] mb-2">{edu.school}</p>
+                    <p className="text-[var(--text-muted)] text-[length:var(--font-100)] mb-2">{edu.year}</p>
+                    <p className="text-[var(--text-muted)] mb-2">{edu.description}</p>
+                    <div className="text-[length:var(--font-100)] text-[var(--text-muted)]">
                       {t('admin.education.card.order')} {edu.order_index} | {t('admin.education.card.created')} {new Date(edu.created_at).toLocaleDateString()}
                     </div>
                   </div>
                   <div className="flex items-center gap-2">
                     <button
                       onClick={() => handleEdit(edu)}
-                      className="p-2 text-gray-400 hover:text-white transition-colors"
+                      className="p-2 text-[var(--text-muted)] hover:text-[var(--text)] transition-colors"
                     >
                       <Edit className="h-4 w-4" />
                     </button>
                     <button
                       onClick={() => handleDelete(edu.id)}
-                      className="p-2 text-gray-400 hover:text-red-400 transition-colors"
+                      className="p-2 text-[var(--text-muted)] hover:text-red-400 transition-colors"
                     >
                       <Trash2 className="h-4 w-4" />
                     </button>
@@ -269,3 +269,7 @@ export function EducationAdmin({ onClose }: EducationAdminProps) {
     </div>
   );
 }
+
+
+
+

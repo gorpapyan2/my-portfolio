@@ -15,19 +15,19 @@ export function Popup({ isOpen, onClose, message }: PopupProps) {
           initial={{ opacity: 0, y: -50 }}
           animate={{ opacity: 1, y: 0 }}
           exit={{ opacity: 0, y: -50 }}
-          className="fixed top-24 right-4 z-50"
+          className="fixed top-[var(--space-64)] right-[var(--space-16)] z-50"
         >
-          <div className="bg-[#1a1a1f] border border-[#edfc3a]/20 rounded-lg shadow-lg p-4 flex items-start gap-3 max-w-md">
-            <CheckCircle className="h-5 w-5 text-[#edfc3a] flex-shrink-0 mt-0.5" />
+          <div className="bg-[var(--bg-elevated)] border border-accent/20 rounded-[var(--radius-md)] shadow-[var(--shadow-sm)] p-[var(--space-16)] flex items-start gap-[var(--space-12)] max-w-md">
+            <CheckCircle className="h-[var(--space-20)] w-[var(--space-20)] text-accent flex-shrink-0 mt-[var(--space-4)]" />
             <div className="flex-1">
-              <p className="text-white">{message}</p>
+              <p className="text-[var(--text)] text-[length:var(--font-100)]">{message}</p>
             </div>
             <button
               onClick={onClose}
-              className="text-gray-400 hover:text-white transition-colors"
+              className="text-[var(--text-muted)] hover:text-[var(--text)] transition-colors"
               aria-label="Close notification"
             >
-              <X className="h-5 w-5" />
+              <X className="h-[var(--space-20)] w-[var(--space-20)]" />
             </button>
           </div>
         </motion.div>

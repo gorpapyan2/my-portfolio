@@ -16,7 +16,7 @@ import { TranslationText } from '../../components/shared/TranslationText';
 /**
  * Formats a date string to readable format with error handling
  */
-function formatDate(dateString: string): string {
+function formatDate(dateString: string, t: (key: string) => string): string {
   try {
     return new Date(dateString).toLocaleDateString('en-US', {
       year: 'numeric',
@@ -24,7 +24,7 @@ function formatDate(dateString: string): string {
       day: 'numeric'
     });
   } catch {
-    return 'Date unavailable';
+    return t('blog.dateUnavailable');
   }
 }
 
@@ -70,19 +70,19 @@ export function BlogViewPage() {
       <PageLayout>
         <div className="min-h-screen flex items-center justify-center">
           <div className="text-center max-w-md">
-            <BookOpen className="h-16 w-16 text-gray-400 mx-auto mb-4" />
-            <h2 className="text-2xl font-bold text-white mb-4">
+            <BookOpen className="h-[var(--space-64)] w-[var(--space-64)] text-[var(--text-muted)] mx-auto mb-[var(--space-16)]" />
+            <h2 className="text-[length:var(--font-600)] font-semibold text-[var(--text)] mb-[var(--space-16)]">
               <TranslationText translationKey="blog.notFound.title" as="span" shimmerWidth="200px" />
             </h2>
-            <p className="text-gray-400 mb-6">
+            <p className="text-[var(--text-muted)] mb-[var(--space-24)] text-[length:var(--font-200)]">
               <TranslationText translationKey="blog.notFound.description" as="span" shimmerWidth="300px" />
             </p>
             <Link 
               to=".." 
               relative="path"
-              className="inline-flex items-center gap-2 px-6 py-3 bg-[#edfc3a] text-black rounded-lg font-medium hover:bg-[#f2ff4d] transition-colors"
+              className="btn btn-primary inline-flex items-center gap-[var(--space-8)]"
             >
-              <ArrowLeft className="h-4 w-4" />
+              <ArrowLeft className="h-[var(--space-16)] w-[var(--space-16)]" />
               <TranslationText translationKey="blog.back" shimmerWidth="100px" />
             </Link>
           </div>
@@ -106,23 +106,23 @@ export function BlogViewPage() {
       <PageLayout>
         <div className="min-h-screen flex items-center justify-center">
           <div className="text-center max-w-md">
-            <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-red-500/10 text-red-400 mb-4">
-              <BookOpen className="h-8 w-8" />
+            <div className="inline-flex items-center justify-center w-[var(--space-64)] h-[var(--space-64)] rounded-full bg-red-500/10 text-red-400 mb-[var(--space-16)]">
+              <BookOpen className="h-[var(--space-32)] w-[var(--space-32)]" />
             </div>
-            <h2 className="text-2xl font-bold text-white mb-2">
+            <h2 className="text-[length:var(--font-600)] font-semibold text-[var(--text)] mb-[var(--space-8)]">
               <TranslationText translationKey="blog.error.title" as="span" shimmerWidth="150px" />
             </h2>
-            <p className="text-gray-400 mb-2 text-sm">{error}</p>
-            <p className="text-gray-500 mb-6 text-sm">
+            <p className="text-[var(--text-muted)] mb-[var(--space-8)] text-[length:var(--font-100)]">{error}</p>
+            <p className="text-[var(--text-muted)] mb-[var(--space-24)] text-[length:var(--font-100)]">
               <TranslationText translationKey="blog.error.description" as="span" shimmerWidth="300px" />
             </p>
-            <div className="flex flex-col sm:flex-row gap-3 justify-center">
+            <div className="flex flex-col sm:flex-row gap-[var(--space-12)] justify-center">
               <button
                 onClick={handleRetry}
                 disabled={isRetrying}
-                className="inline-flex items-center gap-2 px-6 py-3 bg-[#edfc3a] text-black rounded-lg font-medium hover:bg-[#f2ff4d] transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+                className="btn btn-primary inline-flex items-center gap-[var(--space-8)] disabled:opacity-50 disabled:cursor-not-allowed"
               >
-                <RotateCw className={`h-4 w-4 ${isRetrying ? 'animate-spin' : ''}`} />
+                <RotateCw className={`h-[var(--space-16)] w-[var(--space-16)] ${isRetrying ? 'animate-spin' : ''}`} />
                 {isRetrying ? (
                   <TranslationText translationKey="blog.error.retrying" shimmerWidth="100px" />
                 ) : (
@@ -132,9 +132,9 @@ export function BlogViewPage() {
               <Link 
                 to=".." 
                 relative="path"
-                className="inline-flex items-center gap-2 px-6 py-3 text-gray-400 hover:text-white transition-colors rounded-lg hover:bg-white/5"
+                className="btn btn-secondary inline-flex items-center gap-[var(--space-8)] text-[var(--text-muted)] hover:text-[var(--text)]"
               >
-                <ArrowLeft className="h-4 w-4" />
+                <ArrowLeft className="h-[var(--space-16)] w-[var(--space-16)]" />
                 <TranslationText translationKey="blog.back" shimmerWidth="100px" />
               </Link>
             </div>
@@ -151,7 +151,7 @@ export function BlogViewPage() {
 
   const currentUrl = typeof window !== 'undefined' ? window.location.href : '';
   const relatedPosts = getRelatedPosts(blogPost.id, blogPosts);
-  const formattedDate = formatDate(blogPost.created_at);
+  const formattedDate = formatDate(blogPost.created_at, t);
   const hasImage = Boolean(blogPost.image);
   // Use localized content from database
   const hasContent = Boolean(blogPost.content);
@@ -162,38 +162,38 @@ export function BlogViewPage() {
       <div className="absolute inset-0 bg-gradient-to-b from-transparent via-blue-400/5 to-transparent" />
       
       {/* Navigation */}
-      <div className="mb-8">
+      <div className="mb-[var(--space-32)]">
         <Link 
           to=".." 
           relative="path"
-          className="inline-flex items-center gap-2 text-gray-400 hover:text-white transition-colors group"
+          className="inline-flex items-center gap-[var(--space-8)] text-[var(--text-muted)] hover:text-[var(--text)] transition-colors group"
         >
-          <ArrowLeft className="h-4 w-4 group-hover:-translate-x-1 transition-transform" />
+          <ArrowLeft className="h-[var(--space-16)] w-[var(--space-16)] group-hover:-translate-x-1 transition-transform" />
           <TranslationText translationKey="blog.back" shimmerWidth="100px" />
         </Link>
       </div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-4 gap-8">
+      <div className="grid grid-cols-1 lg:grid-cols-4 gap-[var(--space-32)]">
           {/* Main Content */}
           <div className="lg:col-span-3">
             {/* Article Header */}
-            <div className="text-center mb-12">
-              <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-6 leading-tight tracking-tight">
+            <div className="text-center mb-[var(--space-48)]">
+              <h1 className="text-[length:var(--font-800)] md:text-[length:var(--font-900)] font-semibold text-[var(--text)] mb-[var(--space-24)] leading-[var(--leading-tight)] tracking-[var(--tracking-tight)]">
                 {blogPost.title}
               </h1>
               
               {/* Metadata */}
-              <div className="flex flex-wrap items-center justify-center gap-6 text-gray-400 mb-8">
-                <div className="flex items-center gap-2">
-                  <Calendar className="h-4 w-4" />
+              <div className="flex flex-wrap items-center justify-center gap-[var(--space-24)] text-[var(--text-muted)] mb-[var(--space-32)]">
+                <div className="flex items-center gap-[var(--space-8)]">
+                  <Calendar className="h-[var(--space-16)] w-[var(--space-16)]" />
                   <span>{formattedDate}</span>
                 </div>
-                <div className="flex items-center gap-2">
-                  <Clock className="h-4 w-4" />
+                <div className="flex items-center gap-[var(--space-8)]">
+                  <Clock className="h-[var(--space-16)] w-[var(--space-16)]" />
                   <span>{blogPost.read_time}</span>
                 </div>
-                <div className="flex items-center gap-2">
-                  <User className="h-4 w-4" />
+                <div className="flex items-center gap-[var(--space-8)]">
+                  <User className="h-[var(--space-16)] w-[var(--space-16)]" />
                   <TranslationText translationKey="author.name" as="span" shimmerWidth="100px" />
                 </div>
                 <ShareButton 
@@ -204,7 +204,7 @@ export function BlogViewPage() {
 
               {/* Featured Image */}
               {hasImage && (
-                <div className="relative aspect-video overflow-hidden rounded-xl mb-8 shadow-2xl">
+                <div className="relative aspect-video overflow-hidden rounded-[var(--radius-xl)] mb-[var(--space-32)] shadow-[var(--shadow-md)]">
                   <img
                     src={blogPost.image || ''}
                     alt={blogPost.title}
@@ -217,22 +217,22 @@ export function BlogViewPage() {
               )}
 
               {/* Excerpt */}
-                <div className="text-xl text-gray-300 max-w-4xl mx-auto leading-[1.65]">
+                <div className="text-[length:var(--font-400)] text-[var(--text-muted)] max-w-4xl mx-auto leading-[var(--leading-loose)]">
                 <p>{blogPost.excerpt}</p>
               </div>
             </div>
 
             {/* Article Content */}
-            <article className="prose prose-invert max-w-none mb-8">
+            <article className="prose prose-invert max-w-none mb-[var(--space-32)]">
               {hasContent ? (
                 <MarkdownRenderer 
                   content={blogPost.content || ''}
-                  className="prose-headings:text-white prose-headings:font-bold prose-headings:tracking-tight prose-p:text-gray-300 prose-li:text-gray-300 prose-strong:text-white prose-code:text-[#edfc3a] prose-pre:bg-white/5 prose-blockquote:border-[#edfc3a] leading-[1.7]"
+                  className="prose-headings:text-[var(--text)] prose-headings:font-semibold prose-headings:tracking-[var(--tracking-tight)] prose-p:text-[var(--text-muted)] prose-li:text-[var(--text-muted)] prose-strong:text-[var(--text)] prose-code:text-accent prose-pre:bg-white/5 prose-blockquote:border-accent leading-[var(--leading-loose)]"
                 />
               ) : (
-                <div className="text-center py-16">
-                  <BookOpen className="h-16 w-16 text-gray-400 mx-auto mb-4" />
-                  <p className="text-gray-400 text-lg">
+                <div className="text-center py-[var(--space-64)]">
+                  <BookOpen className="h-[var(--space-64)] w-[var(--space-64)] text-[var(--text-muted)] mx-auto mb-[var(--space-16)]" />
+                  <p className="text-[var(--text-muted)] text-[length:var(--font-300)]">
                     <TranslationText translationKey="blog.noContent" as="span" shimmerWidth="200px" />
                   </p>
                 </div>
@@ -240,17 +240,17 @@ export function BlogViewPage() {
             </article>
 
             {/* Footer Navigation */}
-            <div className="flex flex-col sm:flex-row items-center justify-between gap-4 pt-12 mt-16 border-t border-white/10">
+            <div className="flex flex-col sm:flex-row items-center justify-between gap-[var(--space-16)] pt-[var(--space-48)] mt-[var(--space-64)] border-t border-white/10">
               <Link 
                 to=".." 
                 relative="path"
-                className="inline-flex items-center gap-2 text-[#edfc3a] hover:text-white transition-colors group"
+                className="inline-flex items-center gap-[var(--space-8)] text-accent hover:text-[var(--text)] transition-colors group"
               >
-                <ArrowLeft className="h-4 w-4 group-hover:-translate-x-1 transition-transform" />
+                <ArrowLeft className="h-[var(--space-16)] w-[var(--space-16)] group-hover:-translate-x-1 transition-transform" />
                 <TranslationText translationKey="blog.back" shimmerWidth="100px" />
               </Link>
               
-              <div className="text-sm text-gray-400">
+              <div className="text-[length:var(--font-100)] text-[var(--text-muted)]">
                 <TranslationText translationKey="blog.publishedOn" shimmerWidth="120px" /> {formattedDate}
               </div>
             </div>
@@ -258,7 +258,7 @@ export function BlogViewPage() {
 
           {/* Sidebar */}
           <aside className="lg:col-span-1" aria-label="Table of contents sidebar">
-            <div className="sticky top-24 self-start space-y-6">
+            <div className="sticky top-24 self-start stack [--stack-space:var(--space-24)]">
               {/* Table of Contents */}
               {headings.length > 0 && (
                 <Toc headings={headings} />
@@ -269,17 +269,17 @@ export function BlogViewPage() {
 
       {/* Related Posts Section */}
       {relatedPosts.length > 0 && (
-        <div className="mt-16">
-          <div className="text-center mb-12">
-            <h2 className="text-3xl font-bold text-white mb-4">
+        <div className="mt-[var(--space-64)]">
+          <div className="text-center mb-[var(--space-48)]">
+            <h2 className="text-[length:var(--font-700)] font-semibold text-[var(--text)] mb-[var(--space-16)]">
               <TranslationText translationKey="blog.related.title" as="span" shimmerWidth="200px" />
             </h2>
-            <p className="text-gray-400 text-lg">
+            <p className="text-[var(--text-muted)] text-[length:var(--font-300)]">
               <TranslationText translationKey="blog.related.subtitle" as="span" shimmerWidth="250px" />
             </p>
           </div>
           
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-[var(--space-32)]">
             {relatedPosts.map((post) => (
               <BlogCard 
                 key={post.id}
@@ -299,3 +299,4 @@ export function BlogViewPage() {
     </PageLayout>
   );
 }
+

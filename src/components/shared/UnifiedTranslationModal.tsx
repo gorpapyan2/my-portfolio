@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import { X } from 'lucide-react';
+import { useLanguage } from '../../context/LanguageContext';
 
 interface Translation {
   key: string;
@@ -24,6 +25,7 @@ export function UnifiedTranslationModal({
   onClose,
   onSave,
 }: UnifiedTranslationModalProps) {
+  const { t } = useLanguage();
   const [key, setKey] = useState('');
   const [value, setValue] = useState('');
   const [category, setCategory] = useState('');
@@ -45,7 +47,7 @@ export function UnifiedTranslationModal({
 
   const handleSave = async () => {
     if (!key.trim() || !value.trim() || !category.trim()) {
-      setError('All fields are required');
+      setError(t('admin.translations.allFieldsRequired'));
       return;
     }
 
@@ -54,7 +56,7 @@ export function UnifiedTranslationModal({
       setError('');
       await onSave({ key, value, category });
     } catch (err) {
-      setError(err instanceof Error ? err.message : 'Failed to save translation');
+      setError(err instanceof Error ? err.message : t('admin.translations.saveFailed'));
     } finally {
       setIsSaving(false);
     }
@@ -63,105 +65,106 @@ export function UnifiedTranslationModal({
   if (!isOpen) return null;
 
   return (
-    <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
-      <div className="bg-[#1a1a1a] rounded-lg border border-white/10 p-6 max-w-md w-full mx-4">
+    <div className="modal">
+      <div className="modal-panel">
         {/* Header */}
-        <div className="flex items-center justify-between mb-4">
-          <h2 className="text-xl font-semibold text-white">
-            {translation ? 'Edit Translation' : 'Add Translation'}
+        <div className="flex items-center justify-between mb-[var(--space-16)]">
+          <h2 className="text-[length:var(--font-500)] font-semibold text-[var(--text)]">
+            {translation ? t('admin.translations.editTranslation') : t('admin.translations.addTranslation')}
           </h2>
           <button
             onClick={onClose}
             disabled={isSaving}
-            className="p-1 hover:bg-white/10 rounded-lg transition-colors disabled:opacity-50"
+            className="p-[var(--space-4)] hover:bg-white/10 rounded-[var(--radius-sm)] transition-colors disabled:opacity-50"
           >
             <X className="h-5 w-5 text-gray-400" />
           </button>
         </div>
 
         {/* Form */}
-        <div className="space-y-4">
+        <div className="stack" style={{ ['--stack-space' as string]: 'var(--space-16)' }}>
           {/* Language Display */}
           <div>
-            <label className="block text-sm font-medium text-gray-300 mb-2">
-              Language
+            <label className="form-label">
+              {t('admin.translations.language')}
             </label>
-            <div className="px-4 py-2 rounded-lg bg-white/5 border border-white/10 text-white">
+            <div className="field-static">
               {language.toUpperCase()}
             </div>
           </div>
 
           {/* Key */}
           <div>
-            <label className="block text-sm font-medium text-gray-300 mb-2">
-              Key *
+            <label className="form-label">
+              {t('admin.translations.key')}
             </label>
             <input
               type="text"
               value={key}
               onChange={(e) => setKey(e.target.value)}
               disabled={isSaving || !!translation}
-              placeholder="e.g., hero.title"
-              className="w-full px-4 py-2 rounded-lg bg-white/5 border border-white/10 text-white placeholder-gray-400 focus:ring-2 focus:ring-[#edfc3a] focus:border-transparent disabled:opacity-50"
+              placeholder={t('admin.translations.keyPlaceholder')}
+              className="field"
             />
           </div>
 
           {/* Category */}
           <div>
-            <label className="block text-sm font-medium text-gray-300 mb-2">
-              Category *
+            <label className="form-label">
+              {t('admin.translations.category')}
             </label>
             <input
               type="text"
               value={category}
               onChange={(e) => setCategory(e.target.value)}
               disabled={isSaving}
-              placeholder="e.g., hero"
-              className="w-full px-4 py-2 rounded-lg bg-white/5 border border-white/10 text-white placeholder-gray-400 focus:ring-2 focus:ring-[#edfc3a] focus:border-transparent disabled:opacity-50"
+              placeholder={t('admin.translations.categoryPlaceholder')}
+              className="field"
             />
           </div>
 
           {/* Value */}
           <div>
-            <label className="block text-sm font-medium text-gray-300 mb-2">
-              Value *
+            <label className="form-label">
+              {t('admin.translations.value')}
             </label>
             <textarea
               value={value}
               onChange={(e) => setValue(e.target.value)}
               disabled={isSaving}
-              placeholder="Enter translation text"
+              placeholder={t('admin.translations.valuePlaceholder')}
               rows={5}
-              className="w-full px-4 py-2 rounded-lg bg-white/5 border border-white/10 text-white placeholder-gray-400 focus:ring-2 focus:ring-[#edfc3a] focus:border-transparent resize-none disabled:opacity-50"
+              className="field resize-none"
             />
           </div>
 
           {/* Error Message */}
           {error && (
-            <div className="p-3 rounded-lg bg-red-500/10 border border-red-500/30 text-red-400 text-sm">
+            <div className="p-[var(--space-12)] rounded-[var(--radius-md)] bg-red-500/10 border border-red-500/30 text-red-400 text-[length:var(--font-200)]">
               {error}
             </div>
           )}
         </div>
 
         {/* Actions */}
-        <div className="flex gap-3 mt-6">
+        <div className="modal-actions">
           <button
             onClick={onClose}
             disabled={isSaving}
-            className="flex-1 px-4 py-2 rounded-lg bg-white/10 text-white font-medium hover:bg-white/20 transition-colors disabled:opacity-50"
+            className="flex-1 px-[var(--space-16)] py-[var(--space-12)] min-h-[var(--size-tap)] rounded-[var(--radius-md)] bg-white/10 text-[var(--text)] text-[length:var(--font-200)] font-medium hover:bg-white/20 transition-colors disabled:opacity-50"
           >
-            Cancel
+            {t('admin.common.cancel')}
           </button>
           <button
             onClick={handleSave}
             disabled={isSaving}
-            className="flex-1 px-4 py-2 rounded-lg bg-[#edfc3a] text-black font-medium hover:bg-[#f2ff4d] transition-colors disabled:opacity-50 flex items-center justify-center gap-2"
+            className="flex-1 px-[var(--space-16)] py-[var(--space-12)] min-h-[var(--size-tap)] rounded-[var(--radius-md)] bg-accent text-black text-[length:var(--font-200)] font-medium hover:bg-accent-strong transition-colors disabled:opacity-50 flex items-center justify-center gap-[var(--space-8)]"
           >
-            {isSaving ? 'Saving...' : 'Save'}
+            {isSaving ? t('admin.translations.saving') : t('admin.translations.save')}
           </button>
         </div>
       </div>
     </div>
   );
 }
+

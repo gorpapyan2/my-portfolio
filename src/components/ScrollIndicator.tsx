@@ -20,16 +20,17 @@ export default function ScrollIndicator() {
     <div className="fixed right-4 top-1/2 -translate-y-1/2 z-40">
       <div className="w-1 h-32 bg-white/10 rounded-full overflow-hidden">
         <motion.div
-          className="w-full bg-gradient-to-b from-[#edfc3a] to-white/60 rounded-full"
+          className="w-full bg-gradient-to-b from-accent to-white/60 rounded-full"
           style={{ height: `${scrollProgress}%` }}
           transition={{ duration: 0.1 }}
         />
       </div>
       <motion.div
-        className="absolute -right-2 top-0 w-2 h-2 bg-[#edfc3a] rounded-full"
+        className="absolute -right-2 top-0 w-2 h-2 bg-accent rounded-full"
         style={{ top: `${scrollProgress}%` }}
         transition={{ duration: 0.1 }}
       />
     </div>
   );
 }
+
