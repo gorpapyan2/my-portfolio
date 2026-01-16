@@ -55,5 +55,22 @@
     --shadow-md: 0 18px 40px rgba(0, 0, 0, 0.35);
 
     --size-tap: 2.75rem;
+
+    /* Semantic color tokens */
+    --color-bg-card: var(--bg-elevated);
+    --color-surface: var(--surface);
+    --color-text: var(--text);
+    --color-muted: var(--text-muted);
+    --color-accent: #e5ff3d;
+  }
+
+  @media (prefers-color-scheme: light) {
+    :root {
+      --color-bg-card: #f5f7fb;
+      --color-surface: #ffffff;
+      --color-text: #0f172a;
+      --color-muted: #475569;
+      --color-accent: #9aba00;
+    }
   }
 }

@@ -16,13 +16,13 @@ export interface Technology {
 
 export function Technologies() {
   return (
-    <section className="py-[var(--space-64)] bg-[var(--bg-elevated)] relative overflow-hidden">
+    <section className="py-[var(--space-48)] md:py-[var(--space-64)] bg-[var(--bg-elevated)] relative overflow-hidden">
       <TechnologiesBackground />
 
       <div className="max-w-7xl mx-auto px-4 relative z-10">
         {/* Enhanced Header with Better Typography */}
         <motion.div 
-          className="text-center mb-[var(--space-64)]"
+          className="text-center mb-[var(--space-32)] md:mb-[var(--space-40)]"
           initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, ease: "easeOut" }}
