@@ -183,7 +183,7 @@ export function FeatureFlagAdmin() {
           className="inline-flex items-center gap-2 px-4 py-2 bg-[#edfc3a] text-black rounded-lg hover:bg-[#edfc3a]/90 transition-colors"
         >
           <Plus className="h-4 w-4" />
-          Add Flag
+          {t('admin.featureFlags.button.addFlag')}
         </button>
       </div>
 
@@ -193,7 +193,7 @@ export function FeatureFlagAdmin() {
           <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 h-4 w-4" />
           <input
             type="text"
-            placeholder="Search flags..."
+            placeholder={t('admin.featureFlags.search.placeholder')}
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
             className="w-full pl-10 pr-4 py-2 bg-gray-800 border border-gray-700 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:border-[#edfc3a]"
@@ -265,7 +265,7 @@ export function FeatureFlagAdmin() {
                         <ToggleLeft className="h-6 w-6 text-gray-400" />
                       )}
                       <span className={`text-sm ${flag.enabled ? 'text-green-400' : 'text-gray-400'}`}>
-                        {flag.enabled ? 'Enabled' : 'Disabled'}
+                        {flag.enabled ? t('admin.featureFlags.status.enabled') : t('admin.featureFlags.status.disabled')}
                       </span>
                     </button>
                   </td>
@@ -293,7 +293,7 @@ export function FeatureFlagAdmin() {
         
         {filteredFlags.length === 0 && (
           <div className="text-center py-8 text-gray-400">
-            No feature flags found
+            {t('admin.featureFlags.empty.noFlags')}
           </div>
         )}
       </div>
@@ -303,11 +303,11 @@ export function FeatureFlagAdmin() {
         <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
           <div className="bg-gray-800 rounded-lg p-6 w-full max-w-md">
             <h3 className="text-lg font-semibold text-white mb-4">{t('admin.featureFlags.create')}</h3>
-            
+
             <div className="space-y-4">
               <div>
                 <label className="block text-sm font-medium text-gray-300 mb-1">
-                  Flag Key
+                  {t('admin.featureFlags.form.flagKey')}
                 </label>
                 <input
                   type="text"
@@ -317,48 +317,48 @@ export function FeatureFlagAdmin() {
                   placeholder="e.g., blog_section"
                 />
               </div>
-              
+
               <div>
                 <label className="block text-sm font-medium text-gray-300 mb-1">
-                  Content Type
+                  {t('admin.featureFlags.form.contentType')}
                 </label>
                 <select
                   value={formData.content_type}
                   onChange={(e) => setFormData({ ...formData, content_type: e.target.value as 'section' | 'blog_post' | 'project' })}
                   className="w-full px-3 py-2 bg-gray-700 border border-gray-600 rounded-lg text-white focus:outline-none focus:border-[#edfc3a]"
                 >
-                  <option value="section">Section</option>
-                  <option value="blog_post">Blog Post</option>
-                  <option value="project">Project</option>
+                  <option value="section">{t('admin.featureFlags.contentType.section')}</option>
+                  <option value="blog_post">{t('admin.featureFlags.contentType.blogPost')}</option>
+                  <option value="project">{t('admin.featureFlags.contentType.project')}</option>
                 </select>
               </div>
-              
+
               <div>
                 <label className="block text-sm font-medium text-gray-300 mb-1">
-                  Content ID (Optional)
+                  {t('admin.featureFlags.form.contentId')}
                 </label>
                 <input
                   type="text"
                   value={formData.content_id}
                   onChange={(e) => setFormData({ ...formData, content_id: e.target.value })}
                   className="w-full px-3 py-2 bg-gray-700 border border-gray-600 rounded-lg text-white focus:outline-none focus:border-[#edfc3a]"
-                  placeholder="UUID for specific content item"
+                  placeholder={t('admin.featureFlags.form.contentIdPlaceholder')}
                 />
               </div>
-              
+
               <div>
                 <label className="block text-sm font-medium text-gray-300 mb-1">
-                  Description
+                  {t('admin.common.description')}
                 </label>
                 <textarea
                   value={formData.description}
                   onChange={(e) => setFormData({ ...formData, description: e.target.value })}
                   className="w-full px-3 py-2 bg-gray-700 border border-gray-600 rounded-lg text-white focus:outline-none focus:border-[#edfc3a]"
                   rows={3}
-                  placeholder="Describe what this flag controls"
+                  placeholder={t('admin.featureFlags.form.descriptionPlaceholder')}
                 />
               </div>
-              
+
               <div className="flex items-center gap-2">
                 <input
                   type="checkbox"
@@ -368,11 +368,11 @@ export function FeatureFlagAdmin() {
                   className="rounded"
                 />
                 <label htmlFor="enabled" className="text-sm text-gray-300">
-                  Enabled by default
+                  {t('admin.featureFlags.form.enabledByDefault')}
                 </label>
               </div>
             </div>
-            
+
             <div className="flex justify-end gap-3 mt-6">
               <button
                 onClick={() => {
@@ -381,13 +381,13 @@ export function FeatureFlagAdmin() {
                 }}
                 className="px-4 py-2 text-gray-400 hover:text-white transition-colors"
               >
-                Cancel
+                {t('admin.common.cancel')}
               </button>
               <button
                 onClick={handleCreate}
                 className="px-4 py-2 bg-[#edfc3a] text-black rounded-lg hover:bg-[#edfc3a]/90 transition-colors"
               >
-                Create
+                {t('admin.common.create')}
               </button>
             </div>
           </div>
@@ -399,11 +399,11 @@ export function FeatureFlagAdmin() {
         <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
           <div className="bg-gray-800 rounded-lg p-6 w-full max-w-md">
             <h3 className="text-lg font-semibold text-white mb-4">{t('admin.featureFlags.edit')}</h3>
-            
+
             <div className="space-y-4">
               <div>
                 <label className="block text-sm font-medium text-gray-300 mb-1">
-                  Flag Key
+                  {t('admin.featureFlags.form.flagKey')}
                 </label>
                 <input
                   type="text"
@@ -412,25 +412,25 @@ export function FeatureFlagAdmin() {
                   className="w-full px-3 py-2 bg-gray-700 border border-gray-600 rounded-lg text-white focus:outline-none focus:border-[#edfc3a]"
                 />
               </div>
-              
+
               <div>
                 <label className="block text-sm font-medium text-gray-300 mb-1">
-                  Content Type
+                  {t('admin.featureFlags.form.contentType')}
                 </label>
                 <select
                   value={formData.content_type}
                   onChange={(e) => setFormData({ ...formData, content_type: e.target.value as 'section' | 'blog_post' | 'project' })}
                   className="w-full px-3 py-2 bg-gray-700 border border-gray-600 rounded-lg text-white focus:outline-none focus:border-[#edfc3a]"
                 >
-                  <option value="section">Section</option>
-                  <option value="blog_post">Blog Post</option>
-                  <option value="project">Project</option>
+                  <option value="section">{t('admin.featureFlags.contentType.section')}</option>
+                  <option value="blog_post">{t('admin.featureFlags.contentType.blogPost')}</option>
+                  <option value="project">{t('admin.featureFlags.contentType.project')}</option>
                 </select>
               </div>
-              
+
               <div>
                 <label className="block text-sm font-medium text-gray-300 mb-1">
-                  Content ID (Optional)
+                  {t('admin.featureFlags.form.contentId')}
                 </label>
                 <input
                   type="text"
@@ -439,10 +439,10 @@ export function FeatureFlagAdmin() {
                   className="w-full px-3 py-2 bg-gray-700 border border-gray-600 rounded-lg text-white focus:outline-none focus:border-[#edfc3a]"
                 />
               </div>
-              
+
               <div>
                 <label className="block text-sm font-medium text-gray-300 mb-1">
-                  Description
+                  {t('admin.common.description')}
                 </label>
                 <textarea
                   value={formData.description}
@@ -451,7 +451,7 @@ export function FeatureFlagAdmin() {
                   rows={3}
                 />
               </div>
-              
+
               <div className="flex items-center gap-2">
                 <input
                   type="checkbox"
@@ -461,11 +461,11 @@ export function FeatureFlagAdmin() {
                   className="rounded"
                 />
                 <label htmlFor="edit-enabled" className="text-sm text-gray-300">
-                  Enabled
+                  {t('admin.featureFlags.form.enabled')}
                 </label>
               </div>
             </div>
-            
+
             <div className="flex justify-end gap-3 mt-6">
               <button
                 onClick={() => {
@@ -475,13 +475,13 @@ export function FeatureFlagAdmin() {
                 }}
                 className="px-4 py-2 text-gray-400 hover:text-white transition-colors"
               >
-                Cancel
+                {t('admin.common.cancel')}
               </button>
               <button
                 onClick={handleUpdate}
                 className="px-4 py-2 bg-[#edfc3a] text-black rounded-lg hover:bg-[#edfc3a]/90 transition-colors"
               >
-                Update
+                {t('admin.common.update')}
               </button>
             </div>
           </div>
@@ -494,10 +494,9 @@ export function FeatureFlagAdmin() {
           <div className="bg-gray-800 rounded-lg p-6 w-full max-w-md">
             <h3 className="text-lg font-semibold text-white mb-4">{t('admin.featureFlags.delete')}</h3>
             <p className="text-gray-300 mb-6">
-              Are you sure you want to delete the feature flag "{selectedFlag?.flag_key}"? 
-              This action cannot be undone.
+              {t('admin.featureFlags.confirm.deleteMessage').replace('{flagKey}', selectedFlag?.flag_key || '')}
             </p>
-            
+
             <div className="flex justify-end gap-3">
               <button
                 onClick={() => {
@@ -506,13 +505,13 @@ export function FeatureFlagAdmin() {
                 }}
                 className="px-4 py-2 text-gray-400 hover:text-white transition-colors"
               >
-                Cancel
+                {t('admin.common.cancel')}
               </button>
               <button
                 onClick={handleDelete}
                 className="px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 transition-colors"
               >
-                Delete
+                {t('admin.common.delete')}
               </button>
             </div>
           </div>
