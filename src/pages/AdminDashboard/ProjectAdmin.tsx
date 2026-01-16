@@ -82,12 +82,12 @@ export function ProjectAdmin({ onClose }: ProjectAdminProps) {
   };
 
   const handleDelete = async (id: string) => {
-    if (confirm(t('admin.confirm.deleteProject'))) {
+    if (confirm(t('admin.projects.confirm.delete'))) {
       try {
         await deleteProject(id);
       } catch (error) {
         console.error('Error deleting project:', error);
-        alert(t('admin.error.deleteFailed'));
+        alert(t('admin.projects.error.deleteFailed'));
       }
     }
   };
@@ -171,7 +171,7 @@ export function ProjectAdmin({ onClose }: ProjectAdminProps) {
 
           <div>
             <label className="form-label">
-              Description
+              {t('admin.common.description')}
             </label>
             <textarea
               value={formData.description}
@@ -198,7 +198,7 @@ export function ProjectAdmin({ onClose }: ProjectAdminProps) {
 
             <div>
               <label className="form-label">
-                {t('admin.projects.liveUrl')}
+                {t('admin.projects.form.liveUrl')}
               </label>
               <input
                 type="url"
@@ -211,7 +211,7 @@ export function ProjectAdmin({ onClose }: ProjectAdminProps) {
 
           <div>
             <label className="form-label">
-              {t('admin.projects.githubUrl')}
+              {t('admin.projects.form.githubUrl')}
             </label>
             <input
               type="url"
@@ -223,7 +223,7 @@ export function ProjectAdmin({ onClose }: ProjectAdminProps) {
 
           <div>
             <label className="form-label">
-              {t('admin.projects.tags')}
+              {t('admin.projects.form.tags')}
             </label>
             <div className="flex gap-2 mb-2">
               <input
@@ -232,7 +232,7 @@ export function ProjectAdmin({ onClose }: ProjectAdminProps) {
                 onChange={(e) => setTagInput(e.target.value)}
                 onKeyPress={(e) => e.key === 'Enter' && (e.preventDefault(), addTag())}
                 className="flex-1 field"
-                placeholder={t('admin.projects.addTagPlaceholder')}
+                placeholder={t('admin.projects.form.tagPlaceholder')}
               />
               <button
                 type="button"
@@ -273,7 +273,7 @@ export function ProjectAdmin({ onClose }: ProjectAdminProps) {
               className="rounded"
             />
             <label htmlFor="featured" className="text-[var(--text-muted)]">
-              {t('admin.projects.featuredProject')}
+              {t('admin.projects.form.featured')}
             </label>
           </div>
 
@@ -304,20 +304,20 @@ export function ProjectAdmin({ onClose }: ProjectAdminProps) {
               className="inline-flex items-center gap-2 btn btn-primary"
             >
               <Plus className="h-4 w-4" />
-              {editingProject ? t('admin.projects.updateProject') : t('admin.projects.createProject')}
+              {editingProject ? t('admin.projects.button.update') : t('admin.projects.button.create')}
             </button>
           </div>
         </form>
       ) : (
         <>
           <div className="flex items-center justify-between mb-6">
-            <h3 className="text-[length:var(--font-400)] font-medium text-[var(--text)]">{t('admin.projects.titleCount')} ({projects.length})</h3>
+            <h3 className="text-[length:var(--font-400)] font-medium text-[var(--text)]">{t('admin.projects.section.title')} ({projects.length})</h3>
             <button
               onClick={() => setShowEditor(true)}
               className="inline-flex items-center gap-2 btn btn-primary"
             >
               <Plus className="h-4 w-4" />
-              {t('admin.projects.addProject')}
+              {t('admin.projects.button.add')}
             </button>
           </div>
 
@@ -336,8 +336,8 @@ export function ProjectAdmin({ onClose }: ProjectAdminProps) {
                     </div>
                     <p className="text-[var(--text-muted)] text-[length:var(--font-100)] mb-2">{project.description}</p>
                     <div className="flex items-center gap-4 text-[length:var(--font-100)] text-[var(--text-muted)] mb-2">
-                      <span>{t('admin.experience.orderLabel')} {project.order_index}</span>
-                      <span>{t('admin.experience.createdLabel')} {new Date(project.created_at).toLocaleDateString()}</span>
+                      <span>{t('admin.projects.card.order')} {project.order_index}</span>
+                      <span>{t('admin.projects.card.created')} {new Date(project.created_at).toLocaleDateString()}</span>
                     </div>
                     <div className="flex flex-wrap gap-1">
                       {project.tags.map((tag, index) => (

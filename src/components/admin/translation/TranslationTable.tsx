@@ -33,7 +33,7 @@ export function TranslationTable({ translations, onEdit, onDelete }: Translation
                 {t('settings.category')}
               </th>
               <th className="text-right py-[var(--space-12)] px-[var(--space-16)] text-[length:var(--font-100)] font-medium text-[var(--text-muted)]">
-                {t('admin.translations.actions')}
+                {t('admin.translations.table.actions')}
               </th>
             </tr>
           </thead>
@@ -41,7 +41,7 @@ export function TranslationTable({ translations, onEdit, onDelete }: Translation
             {translations.length === 0 ? (
               <tr>
                 <td colSpan={4} className="text-center py-[var(--space-32)] text-[var(--text-muted)] text-[length:var(--font-100)]">
-                  {t('admin.translations.noTranslationsFound')}
+                  {t('admin.translations.empty.notFound')}
                 </td>
               </tr>
             ) : (
@@ -51,7 +51,7 @@ export function TranslationTable({ translations, onEdit, onDelete }: Translation
                     {translation.key}
                   </td>
                   <td className="py-[var(--space-12)] px-[var(--space-16)] text-[length:var(--font-100)] text-[var(--text-muted)]">
-                    {translation.value || <span className="text-[var(--text-muted)] italic">{t('admin.translations.empty')}</span>}
+                    {translation.value || <span className="text-[var(--text-muted)] italic">{t('admin.translations.value.empty')}</span>}
                   </td>
                   <td className="py-[var(--space-12)] px-[var(--space-16)] text-[length:var(--font-100)] text-[var(--text-muted)]">
                     <span className="px-[var(--space-8)] py-[var(--space-4)] bg-[var(--surface-strong)] rounded-[var(--radius-sm)] text-[length:var(--font-100)]">

@@ -105,7 +105,7 @@ export function AdminDashboard() {
               className="inline-flex items-center gap-[var(--space-8)] text-[var(--text-muted)] hover:text-[var(--text)] transition-colors text-[length:var(--font-100)]"
             >
               <LogOut className="h-[var(--space-16)] w-[var(--space-16)]" />
-              Logout
+              {t('admin.common.logout')}
             </button>
           </div>
         </div>

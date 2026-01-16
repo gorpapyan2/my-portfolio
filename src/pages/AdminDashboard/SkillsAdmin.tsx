@@ -76,12 +76,12 @@ export function SkillsAdmin({ onClose }: SkillsAdminProps) {
   };
 
   const handleDelete = async (id: string) => {
-    if (confirm(t('admin.confirm.deleteSkill'))) {
+    if (confirm(t('admin.skills.confirm.delete'))) {
       try {
         await deleteSkill(id);
       } catch (error) {
         console.error('Error deleting skill:', error);
-        alert(t('admin.error.deleteFailed'));
+        alert(t('admin.skills.error.deleteFailed'));
       }
     }
   };
@@ -113,7 +113,7 @@ export function SkillsAdmin({ onClose }: SkillsAdminProps) {
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div>
               <label className="form-label">
-                Title
+                {t('admin.skills.form.title')}
               </label>
               <input
                 type="text"
@@ -131,7 +131,7 @@ export function SkillsAdmin({ onClose }: SkillsAdminProps) {
 
             <div>
               <label className="form-label">
-                {t('admin.skills.icon')}
+                {t('admin.skills.form.icon')}
               </label>
               <select
                 value={formData.icon}
@@ -149,7 +149,7 @@ export function SkillsAdmin({ onClose }: SkillsAdminProps) {
 
           <div>
             <label className="form-label">
-              Description
+              {t('admin.common.description')}
             </label>
             <textarea
               value={formData.description}
@@ -168,7 +168,7 @@ export function SkillsAdmin({ onClose }: SkillsAdminProps) {
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div>
               <label className="form-label">
-                {t('admin.skills.level')}
+                {t('admin.skills.form.level')}
               </label>
               <input
                 type="number"
@@ -223,20 +223,20 @@ export function SkillsAdmin({ onClose }: SkillsAdminProps) {
               className="inline-flex items-center gap-2 btn btn-primary"
             >
               <Plus className="h-4 w-4" />
-              {editingSkill ? t('admin.skills.updateSkill') : t('admin.skills.createSkill')}
+              {editingSkill ? t('admin.skills.button.update') : t('admin.skills.button.create')}
             </button>
           </div>
         </form>
       ) : (
         <>
           <div className="flex items-center justify-between mb-6">
-            <h3 className="text-[length:var(--font-400)] font-medium text-[var(--text)]">{t('admin.skills.titleCount')} ({skills.length})</h3>
+            <h3 className="text-[length:var(--font-400)] font-medium text-[var(--text)]">{t('admin.skills.section.title')} ({skills.length})</h3>
             <button
               onClick={() => setShowEditor(true)}
               className="inline-flex items-center gap-2 btn btn-primary"
             >
               <Plus className="h-4 w-4" />
-              {t('admin.skills.addSkill')}
+              {t('admin.skills.button.add')}
             </button>
           </div>
 
@@ -269,10 +269,10 @@ export function SkillsAdmin({ onClose }: SkillsAdminProps) {
                   </div>
                   
                   <p className="text-[var(--text-muted)] text-[length:var(--font-100)] mb-3">{skill.description}</p>
-                  
+
                   <div className="space-y-2">
                     <div className="flex justify-between items-center text-[length:var(--font-100)]">
-                      <span className="text-[var(--text-muted)]">{t('admin.skills.proficiency')}</span>
+                      <span className="text-[var(--text-muted)]">{t('admin.skills.card.proficiency')}</span>
                       <span className="text-accent font-semibold">{skill.level}%</span>
                     </div>
                     

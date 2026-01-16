@@ -75,12 +75,12 @@ export function ExperienceAdmin({ onClose }: ExperienceAdminProps) {
   };
 
   const handleDelete = async (id: string) => {
-    if (confirm(t('admin.confirm.deleteExperience'))) {
+    if (confirm(t('admin.experience.confirm.delete'))) {
       try {
         await deleteExperience(id);
       } catch (error) {
         console.error('Error deleting experience:', error);
-        alert(t('admin.error.deleteFailed'));
+        alert(t('admin.experience.error.deleteFailed'));
       }
     }
   };
@@ -129,7 +129,7 @@ export function ExperienceAdmin({ onClose }: ExperienceAdminProps) {
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div>
               <label className="form-label">
-                Role
+                {t('admin.experience.form.role')}
               </label>
               <input
                 type="text"
@@ -147,7 +147,7 @@ export function ExperienceAdmin({ onClose }: ExperienceAdminProps) {
 
             <div>
               <label className="form-label">
-                Company
+                {t('admin.experience.form.company')}
               </label>
               <input
                 type="text"
@@ -166,7 +166,7 @@ export function ExperienceAdmin({ onClose }: ExperienceAdminProps) {
 
           <div>
             <label className="form-label">
-              Period
+              {t('admin.experience.form.period')}
             </label>
             <input
               type="text"
@@ -185,7 +185,7 @@ export function ExperienceAdmin({ onClose }: ExperienceAdminProps) {
 
           <div>
             <label className="form-label">
-              Description
+              {t('admin.common.description')}
             </label>
             <textarea
               value={formData.description}
@@ -203,7 +203,7 @@ export function ExperienceAdmin({ onClose }: ExperienceAdminProps) {
 
           <div>
             <label className="form-label">
-              Achievements
+              {t('admin.experience.form.achievements')}
             </label>
             <div className="flex gap-2 mb-2">
               <input
@@ -212,14 +212,14 @@ export function ExperienceAdmin({ onClose }: ExperienceAdminProps) {
                 onChange={(e) => setAchievementInput(e.target.value)}
                 onKeyPress={(e) => e.key === 'Enter' && (e.preventDefault(), addAchievement())}
                 className="flex-1 field"
-                placeholder={t('admin.experience.addAchievement')}
+                placeholder={t('admin.experience.form.achievementPlaceholder')}
               />
               <button
                 type="button"
                 onClick={addAchievement}
                 className="btn btn-primary"
               >
-                Add
+                {t('admin.common.add')}
               </button>
             </div>
             <div className="space-y-2">
@@ -243,7 +243,7 @@ export function ExperienceAdmin({ onClose }: ExperienceAdminProps) {
 
           <div>
             <label className="form-label">
-              Order Index
+              {t('admin.common.orderIndex')}
             </label>
             <input
               type="number"
@@ -272,27 +272,27 @@ export function ExperienceAdmin({ onClose }: ExperienceAdminProps) {
               }}
               className="btn btn-secondary"
             >
-              Cancel
+              {t('admin.common.cancel')}
             </button>
             <button
               type="submit"
               className="inline-flex items-center gap-2 btn btn-primary"
             >
               <Plus className="h-4 w-4" />
-              {editingExperience ? t('admin.experience.updateExperience') : t('admin.experience.createExperience')}
+              {editingExperience ? t('admin.experience.button.update') : t('admin.experience.button.create')}
             </button>
           </div>
         </form>
       ) : (
         <>
           <div className="flex items-center justify-between mb-6">
-            <h3 className="text-[length:var(--font-400)] font-medium text-[var(--text)]">{t('admin.experience.titleCount')} ({experiences.length})</h3>
+            <h3 className="text-[length:var(--font-400)] font-medium text-[var(--text)]">{t('admin.experience.section.title')} ({experiences.length})</h3>
             <button
               onClick={() => setShowEditor(true)}
               className="inline-flex items-center gap-2 btn btn-primary"
             >
               <Plus className="h-4 w-4" />
-              {t('admin.experience.addExperience')}
+              {t('admin.experience.button.add')}
             </button>
           </div>
 
@@ -302,7 +302,7 @@ export function ExperienceAdmin({ onClose }: ExperienceAdminProps) {
                 <div className="flex items-start justify-between">
                   <div className="flex-1">
                     <h4 className="text-[length:var(--font-400)] font-medium text-[var(--text)] mb-2">
-                      {experience.role} at {experience.company}
+                      {experience.role} {t('admin.experience.card.at')} {experience.company}
                     </h4>
                     <p className="text-[var(--text-muted)] text-[length:var(--font-100)] mb-2">{experience.period}</p>
                     <p className="text-[var(--text-muted)] mb-3">{experience.description}</p>
@@ -314,7 +314,7 @@ export function ExperienceAdmin({ onClose }: ExperienceAdminProps) {
                       ))}
                     </div>
                     <div className="text-[length:var(--font-100)] text-[var(--text-muted)] mt-2">
-                      {t('admin.experience.orderLabel')} {experience.order_index} | {t('admin.experience.createdLabel')} {new Date(experience.created_at).toLocaleDateString()}
+                      {t('admin.experience.card.order')} {experience.order_index} | {t('admin.experience.card.created')} {new Date(experience.created_at).toLocaleDateString()}
                     </div>
                   </div>
                   <div className="flex items-center gap-2">

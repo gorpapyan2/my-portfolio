@@ -63,12 +63,12 @@ export function BlogAdmin({ onClose }: BlogAdminProps) {
   };
 
   const handleDelete = async (id: string) => {
-    if (confirm(t('admin.confirm.deleteBlogPost'))) {
+    if (confirm(t('admin.blog.confirm.delete'))) {
       try {
         await deleteBlogPost(id);
       } catch (error) {
         console.error('Error deleting blog post:', error);
-        alert(t('admin.error.deleteFailed'));
+        alert(t('admin.blog.error.deleteFailed'));
       }
     }
   };
@@ -157,12 +157,12 @@ export function BlogAdmin({ onClose }: BlogAdminProps) {
                           {post.published ? (
                             <span className="inline-flex items-center gap-[var(--space-4)] px-[var(--space-8)] py-[var(--space-4)] text-[length:var(--font-100)] font-medium rounded-full bg-emerald-500/10 text-emerald-300">
                               <Eye className="h-[var(--space-12)] w-[var(--space-12)]" />
-                              {t('admin.blog.published')}
+                              {t('admin.blog.status.published')}
                             </span>
                           ) : (
                             <span className="inline-flex items-center gap-[var(--space-4)] px-[var(--space-8)] py-[var(--space-4)] text-[length:var(--font-100)] font-medium rounded-full bg-[var(--surface-strong)] text-[var(--text-muted)]">
                               <EyeOff className="h-[var(--space-12)] w-[var(--space-12)]" />
-                              {t('admin.blog.draft')}
+                              {t('admin.blog.status.draft')}
                             </span>
                           )}
                         </div>

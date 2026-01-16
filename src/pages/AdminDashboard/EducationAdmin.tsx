@@ -70,12 +70,12 @@ export function EducationAdmin({ onClose }: EducationAdminProps) {
   };
 
   const handleDelete = async (id: string) => {
-    if (confirm(t('admin.confirm.deleteEducation'))) {
+    if (confirm(t('admin.education.confirm.delete'))) {
       try {
         await deleteEducation(id);
       } catch (error) {
         console.error('Error deleting education:', error);
-        alert(t('admin.error.deleteFailed'));
+        alert(t('admin.education.error.deleteFailed'));
       }
     }
   };
@@ -106,7 +106,7 @@ export function EducationAdmin({ onClose }: EducationAdminProps) {
         <form onSubmit={handleSubmit} className="space-y-4">
           <div>
             <label className="form-label">
-              {t('admin.education.degree')}
+              {t('admin.education.form.degree')}
             </label>
             <input
               type="text"
@@ -125,7 +125,7 @@ export function EducationAdmin({ onClose }: EducationAdminProps) {
 
           <div>
             <label className="form-label">
-              {t('admin.education.school')}
+              {t('admin.education.form.school')}
             </label>
             <input
               type="text"
@@ -144,7 +144,7 @@ export function EducationAdmin({ onClose }: EducationAdminProps) {
 
           <div>
             <label className="form-label">
-              {t('admin.education.year')}
+              {t('admin.education.form.year')}
             </label>
             <input
               type="text"
@@ -216,20 +216,20 @@ export function EducationAdmin({ onClose }: EducationAdminProps) {
               className="inline-flex items-center gap-2 btn btn-primary"
             >
               <Plus className="h-4 w-4" />
-              {editingEducation ? t('admin.education.updateEducation') : t('admin.education.createEducation')}
+              {editingEducation ? t('admin.education.button.update') : t('admin.education.button.create')}
             </button>
           </div>
         </form>
       ) : (
         <>
           <div className="flex items-center justify-between mb-6">
-            <h3 className="text-[length:var(--font-400)] font-medium text-[var(--text)]">{t('admin.education.titleCount')} ({education.length})</h3>
+            <h3 className="text-[length:var(--font-400)] font-medium text-[var(--text)]">{t('admin.education.section.title')} ({education.length})</h3>
             <button
               onClick={() => setShowEditor(true)}
               className="inline-flex items-center gap-2 btn btn-primary"
             >
               <Plus className="h-4 w-4" />
-              {t('admin.education.addEducation')}
+              {t('admin.education.button.add')}
             </button>
           </div>
 
@@ -243,7 +243,7 @@ export function EducationAdmin({ onClose }: EducationAdminProps) {
                     <p className="text-[var(--text-muted)] text-[length:var(--font-100)] mb-2">{edu.year}</p>
                     <p className="text-[var(--text-muted)] mb-2">{edu.description}</p>
                     <div className="text-[length:var(--font-100)] text-[var(--text-muted)]">
-                      {t('admin.experience.orderLabel')} {edu.order_index} | {t('admin.experience.createdLabel')} {new Date(edu.created_at).toLocaleDateString()}
+                      {t('admin.education.card.order')} {edu.order_index} | {t('admin.education.card.created')} {new Date(edu.created_at).toLocaleDateString()}
                     </div>
                   </div>
                   <div className="flex items-center gap-2">
