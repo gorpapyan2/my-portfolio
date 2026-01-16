@@ -5,12 +5,14 @@ import { useProjectService } from '../../lib/services/useProjectService';
 import { Project, ProjectInsert } from '../../types/database.types';
 import { projectSchema } from '../../lib/schemas/projectSchema';
 import { TranslationText } from '../../components/shared/TranslationText';
+import { useLanguage } from '../../context/LanguageContext';
 
 interface ProjectAdminProps {
   onClose: () => void;
 }
 
 export function ProjectAdmin({ onClose }: ProjectAdminProps) {
+  const { t } = useLanguage();
   const { projects, isLoading, createProject, updateProject, deleteProject } = useProjectService();
   const [showEditor, setShowEditor] = useState(false);
   const [editingProject, setEditingProject] = useState<Project | null>(null);
@@ -80,12 +82,12 @@ export function ProjectAdmin({ onClose }: ProjectAdminProps) {
   };
 
   const handleDelete = async (id: string) => {
-    if (confirm('Are you sure you want to delete this project?')) {
+    if (confirm(t('admin.projects.confirm.delete'))) {
       try {
         await deleteProject(id);
       } catch (error) {
         console.error('Error deleting project:', error);
-        alert('Failed to delete project');
+        alert(t('admin.projects.error.deleteFailed'));
       }
     }
   };
@@ -110,7 +112,7 @@ export function ProjectAdmin({ onClose }: ProjectAdminProps) {
   if (isLoading) {
     return (
       <div className="flex items-center justify-center py-8">
-        <div className="text-white">Loading...</div>
+        <div className="text-white">{t('admin.common.loading')}</div>
       </div>
     );
   }
@@ -134,7 +136,7 @@ export function ProjectAdmin({ onClose }: ProjectAdminProps) {
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div>
               <label className="block text-sm font-medium text-gray-300 mb-1">
-                Title
+                {t('admin.common.title')}
               </label>
               <input
                 type="text"
@@ -152,7 +154,7 @@ export function ProjectAdmin({ onClose }: ProjectAdminProps) {
 
             <div>
               <label className="block text-sm font-medium text-gray-300 mb-1">
-                Order Index
+                {t('admin.common.orderIndex')}
               </label>
               <input
                 type="number"
@@ -166,7 +168,7 @@ export function ProjectAdmin({ onClose }: ProjectAdminProps) {
 
           <div>
             <label className="block text-sm font-medium text-gray-300 mb-1">
-              Description
+              {t('admin.common.description')}
             </label>
             <textarea
               value={formData.description}
@@ -193,7 +195,7 @@ export function ProjectAdmin({ onClose }: ProjectAdminProps) {
 
             <div>
               <label className="block text-sm font-medium text-gray-300 mb-1">
-                Live URL
+                {t('admin.projects.form.liveUrl')}
               </label>
               <input
                 type="url"
@@ -206,7 +208,7 @@ export function ProjectAdmin({ onClose }: ProjectAdminProps) {
 
           <div>
             <label className="block text-sm font-medium text-gray-300 mb-1">
-              GitHub URL
+              {t('admin.projects.form.githubUrl')}
             </label>
             <input
               type="url"
@@ -218,7 +220,7 @@ export function ProjectAdmin({ onClose }: ProjectAdminProps) {
 
           <div>
             <label className="block text-sm font-medium text-gray-300 mb-1">
-              Tags
+              {t('admin.projects.form.tags')}
             </label>
             <div className="flex gap-2 mb-2">
               <input
@@ -227,14 +229,14 @@ export function ProjectAdmin({ onClose }: ProjectAdminProps) {
                 onChange={(e) => setTagInput(e.target.value)}
                 onKeyPress={(e) => e.key === 'Enter' && (e.preventDefault(), addTag())}
                 className="flex-1 px-3 py-2 rounded-lg bg-white/5 border border-white/10 text-white focus:ring-2 focus:ring-[#edfc3a] focus:border-transparent"
-                placeholder="Add a tag"
+                placeholder={t('admin.projects.form.tagPlaceholder')}
               />
               <button
                 type="button"
                 onClick={addTag}
                 className="px-4 py-2 bg-[#edfc3a] text-black rounded-lg font-medium hover:bg-[#f2ff4d] transition-colors"
               >
-                Add
+                {t('admin.common.add')}
               </button>
             </div>
             <div className="flex flex-wrap gap-2">
@@ -268,7 +270,7 @@ export function ProjectAdmin({ onClose }: ProjectAdminProps) {
               className="rounded"
             />
             <label htmlFor="featured" className="text-gray-300">
-              Featured Project
+              {t('admin.projects.form.featured')}
             </label>
           </div>
 
@@ -292,27 +294,27 @@ export function ProjectAdmin({ onClose }: ProjectAdminProps) {
               }}
               className="px-4 py-2 text-gray-400 hover:text-white transition-colors"
             >
-              Cancel
+              {t('admin.common.cancel')}
             </button>
             <button
               type="submit"
               className="inline-flex items-center gap-2 px-4 py-2 bg-[#edfc3a] text-black rounded-lg font-medium hover:bg-[#f2ff4d] transition-colors"
             >
               <Plus className="h-4 w-4" />
-              {editingProject ? 'Update Project' : 'Create Project'}
+              {editingProject ? t('admin.projects.button.update') : t('admin.projects.button.create')}
             </button>
           </div>
         </form>
       ) : (
         <>
           <div className="flex items-center justify-between mb-6">
-            <h3 className="text-lg font-medium text-white">Projects ({projects.length})</h3>
+            <h3 className="text-lg font-medium text-white">{t('admin.projects.section.title')} ({projects.length})</h3>
             <button
               onClick={() => setShowEditor(true)}
               className="inline-flex items-center gap-2 px-4 py-2 bg-[#edfc3a] text-black rounded-lg font-medium hover:bg-[#f2ff4d] transition-colors"
             >
               <Plus className="h-4 w-4" />
-              Add Project
+              {t('admin.projects.button.add')}
             </button>
           </div>
 
@@ -331,8 +333,8 @@ export function ProjectAdmin({ onClose }: ProjectAdminProps) {
                     </div>
                     <p className="text-gray-400 text-sm mb-2">{project.description}</p>
                     <div className="flex items-center gap-4 text-xs text-gray-500 mb-2">
-                      <span>Order: {project.order_index}</span>
-                      <span>Created: {new Date(project.created_at).toLocaleDateString()}</span>
+                      <span>{t('admin.projects.card.order')} {project.order_index}</span>
+                      <span>{t('admin.projects.card.created')} {new Date(project.created_at).toLocaleDateString()}</span>
                     </div>
                     <div className="flex flex-wrap gap-1">
                       {project.tags.map((tag, index) => (
