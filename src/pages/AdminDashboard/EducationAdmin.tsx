@@ -4,12 +4,14 @@ import { useEducationService } from '../../lib/services/useEducationService';
 import { Education, EducationInsert } from '../../types/database.types';
 import { educationSchema } from '../../lib/schemas/educationSchema';
 import { TranslationText } from '../../components/shared/TranslationText';
+import { useLanguage } from '../../context/LanguageContext';
 
 interface EducationAdminProps {
   onClose: () => void;
 }
 
 export function EducationAdmin({ onClose }: EducationAdminProps) {
+  const { t } = useLanguage();
   const { education, isLoading, createEducation, updateEducation, deleteEducation } = useEducationService();
   const [showEditor, setShowEditor] = useState(false);
   const [editingEducation, setEditingEducation] = useState<Education | null>(null);
@@ -68,12 +70,12 @@ export function EducationAdmin({ onClose }: EducationAdminProps) {
   };
 
   const handleDelete = async (id: string) => {
-    if (confirm('Are you sure you want to delete this education entry?')) {
+    if (confirm(t('admin.education.confirm.delete'))) {
       try {
         await deleteEducation(id);
       } catch (error) {
         console.error('Error deleting education:', error);
-        alert('Failed to delete education entry');
+        alert(t('admin.education.error.deleteFailed'));
       }
     }
   };
@@ -81,7 +83,7 @@ export function EducationAdmin({ onClose }: EducationAdminProps) {
   if (isLoading) {
     return (
       <div className="flex items-center justify-center py-8">
-        <div className="text-white">Loading...</div>
+        <div className="text-white">{t('admin.common.loading')}</div>
       </div>
     );
   }
@@ -104,7 +106,7 @@ export function EducationAdmin({ onClose }: EducationAdminProps) {
         <form onSubmit={handleSubmit} className="space-y-4">
           <div>
             <label className="block text-sm font-medium text-gray-300 mb-1">
-              Degree
+              {t('admin.education.form.degree')}
             </label>
             <input
               type="text"
@@ -123,7 +125,7 @@ export function EducationAdmin({ onClose }: EducationAdminProps) {
 
           <div>
             <label className="block text-sm font-medium text-gray-300 mb-1">
-              School
+              {t('admin.education.form.school')}
             </label>
             <input
               type="text"
@@ -142,7 +144,7 @@ export function EducationAdmin({ onClose }: EducationAdminProps) {
 
           <div>
             <label className="block text-sm font-medium text-gray-300 mb-1">
-              Year
+              {t('admin.education.form.year')}
             </label>
             <input
               type="text"
@@ -161,7 +163,7 @@ export function EducationAdmin({ onClose }: EducationAdminProps) {
 
           <div>
             <label className="block text-sm font-medium text-gray-300 mb-1">
-              Description
+              {t('admin.common.description')}
             </label>
             <textarea
               value={formData.description}
@@ -180,7 +182,7 @@ export function EducationAdmin({ onClose }: EducationAdminProps) {
 
           <div>
             <label className="block text-sm font-medium text-gray-300 mb-1">
-              Order Index
+              {t('admin.common.orderIndex')}
             </label>
             <input
               type="number"
@@ -207,27 +209,27 @@ export function EducationAdmin({ onClose }: EducationAdminProps) {
               }}
               className="px-4 py-2 text-gray-400 hover:text-white transition-colors"
             >
-              Cancel
+              {t('admin.common.cancel')}
             </button>
             <button
               type="submit"
               className="inline-flex items-center gap-2 px-4 py-2 bg-[#edfc3a] text-black rounded-lg font-medium hover:bg-[#f2ff4d] transition-colors"
             >
               <Plus className="h-4 w-4" />
-              {editingEducation ? 'Update Education' : 'Create Education'}
+              {editingEducation ? t('admin.education.button.update') : t('admin.education.button.create')}
             </button>
           </div>
         </form>
       ) : (
         <>
           <div className="flex items-center justify-between mb-6">
-            <h3 className="text-lg font-medium text-white">Education ({education.length})</h3>
+            <h3 className="text-lg font-medium text-white">{t('admin.education.section.title')} ({education.length})</h3>
             <button
               onClick={() => setShowEditor(true)}
               className="inline-flex items-center gap-2 px-4 py-2 bg-[#edfc3a] text-black rounded-lg font-medium hover:bg-[#f2ff4d] transition-colors"
             >
               <Plus className="h-4 w-4" />
-              Add Education
+              {t('admin.education.button.add')}
             </button>
           </div>
 
@@ -241,7 +243,7 @@ export function EducationAdmin({ onClose }: EducationAdminProps) {
                     <p className="text-gray-400 text-sm mb-2">{edu.year}</p>
                     <p className="text-gray-300 mb-2">{edu.description}</p>
                     <div className="text-xs text-gray-500">
-                      Order: {edu.order_index} | Created: {new Date(edu.created_at).toLocaleDateString()}
+                      {t('admin.education.card.order')} {edu.order_index} | {t('admin.education.card.created')} {new Date(edu.created_at).toLocaleDateString()}
                     </div>
                   </div>
                   <div className="flex items-center gap-2">
