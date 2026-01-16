@@ -63,12 +63,12 @@ export function BlogAdmin({ onClose }: BlogAdminProps) {
   };
 
   const handleDelete = async (id: string) => {
-    if (confirm('Are you sure you want to delete this blog post?')) {
+    if (confirm(t('admin.blog.confirm.delete'))) {
       try {
         await deleteBlogPost(id);
       } catch (error) {
         console.error('Error deleting blog post:', error);
-        alert('Failed to delete blog post');
+        alert(t('admin.blog.error.deleteFailed'));
       }
     }
   };
@@ -76,7 +76,7 @@ export function BlogAdmin({ onClose }: BlogAdminProps) {
   if (isLoading && blogPosts.length === 0) {
     return (
       <div className="flex items-center justify-center py-8">
-        <div className="text-white">Loading...</div>
+        <div className="text-white">{t('admin.common.loading')}</div>
       </div>
     );
   }
@@ -157,12 +157,12 @@ export function BlogAdmin({ onClose }: BlogAdminProps) {
                           {post.published ? (
                             <span className="inline-flex items-center gap-1 px-2 py-1 text-xs font-medium bg-green-100 text-green-800 rounded-full">
                               <Eye className="h-3 w-3" />
-                              Published
+                              {t('admin.blog.status.published')}
                             </span>
                           ) : (
                             <span className="inline-flex items-center gap-1 px-2 py-1 text-xs font-medium bg-gray-100 text-gray-800 rounded-full">
                               <EyeOff className="h-3 w-3" />
-                              Draft
+                              {t('admin.blog.status.draft')}
                             </span>
                           )}
                         </div>
