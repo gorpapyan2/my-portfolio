@@ -8,7 +8,7 @@ export function NotFoundPage() {
   const { t } = useLanguage();
 
   return (
-    <div className="min-h-screen bg-[#0A0A0B] flex items-center justify-center px-4 py-20">
+    <div className="min-h-screen bg-[var(--bg)] flex items-center justify-center px-[var(--space-16)] py-[var(--space-64)]">
       <div className="max-w-2xl mx-auto text-center">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
@@ -17,7 +17,7 @@ export function NotFoundPage() {
         >
           {/* 404 Number */}
           <motion.h1
-            className="text-[150px] md:text-[200px] font-bold text-[#edfc3a] leading-none mb-4"
+            className="text-[length:clamp(6rem,12vw,12rem)] font-semibold text-accent leading-none mb-[var(--space-16)] tracking-[var(--tracking-tight)]"
             initial={{ scale: 0.5, opacity: 0 }}
             animate={{ scale: 1, opacity: 1 }}
             transition={{ duration: 0.5, delay: 0.2 }}
@@ -27,17 +27,17 @@ export function NotFoundPage() {
 
           {/* Icon */}
           <motion.div
-            className="flex justify-center mb-6"
+            className="flex justify-center mb-[var(--space-24)]"
             initial={{ scale: 0 }}
             animate={{ scale: 1 }}
             transition={{ duration: 0.5, delay: 0.4 }}
           >
-            <Search className="w-16 h-16 text-gray-500" />
+            <Search className="w-[var(--space-64)] h-[var(--space-64)] text-[var(--text-muted)]" />
           </motion.div>
 
           {/* Error Message */}
           <motion.h2
-            className="text-3xl md:text-4xl font-bold text-white mb-4"
+            className="text-[length:var(--font-700)] md:text-[length:var(--font-800)] font-semibold text-[var(--text)] mb-[var(--space-16)]"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ duration: 0.5, delay: 0.6 }}
@@ -46,7 +46,7 @@ export function NotFoundPage() {
           </motion.h2>
 
           <motion.p
-            className="text-lg text-gray-400 mb-10 max-w-md mx-auto"
+            className="text-[length:var(--font-300)] text-[var(--text-muted)] mb-[var(--space-48)] max-w-md mx-auto"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ duration: 0.5, delay: 0.8 }}
@@ -56,63 +56,63 @@ export function NotFoundPage() {
 
           {/* Action Buttons */}
           <motion.div
-            className="flex flex-col sm:flex-row gap-4 justify-center items-center"
+            className="flex flex-col sm:flex-row gap-[var(--space-16)] justify-center items-center"
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5, delay: 1 }}
           >
             <Link
               to="/"
-              className="inline-flex items-center gap-2 px-8 py-3 bg-[#edfc3a] hover:bg-[#f2ff4d] text-black font-medium rounded-full transition-colors"
+              className="btn btn-primary inline-flex items-center gap-[var(--space-8)]"
             >
-              <Home className="w-5 h-5" />
+              <Home className="w-[var(--space-16)] h-[var(--space-16)]" />
               <TranslationText translationKey="pages.notFound.goHome" as="span" shimmerWidth="80px" />
             </Link>
 
             <button
               onClick={() => window.history.back()}
-              className="inline-flex items-center gap-2 px-8 py-3 border border-[#edfc3a] text-[#edfc3a] hover:bg-[#edfc3a]/10 font-medium rounded-full transition-colors"
+              className="btn inline-flex items-center gap-[var(--space-8)] border border-accent text-accent hover:bg-accent/10"
             >
-              <ArrowLeft className="w-5 h-5" />
+              <ArrowLeft className="w-[var(--space-16)] h-[var(--space-16)]" />
               <TranslationText translationKey="pages.notFound.goBack" as="span" shimmerWidth="80px" />
             </button>
           </motion.div>
 
           {/* Popular Links */}
           <motion.div
-            className="mt-16 pt-8 border-t border-gray-800"
+            className="mt-[var(--space-64)] pt-[var(--space-32)] border-t border-[var(--border)]"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ duration: 0.5, delay: 1.2 }}
           >
-            <p className="text-sm text-gray-500 mb-4">
+            <p className="text-[length:var(--font-100)] text-[var(--text-muted)] mb-[var(--space-16)]">
               <TranslationText translationKey="pages.notFound.popularPages" as="span" shimmerWidth="120px" />
             </p>
-            <div className="flex flex-wrap gap-3 justify-center">
+            <div className="flex flex-wrap gap-[var(--space-12)] justify-center">
               <Link
                 to="/about"
-                className="text-sm text-gray-400 hover:text-[#edfc3a] transition-colors"
+                className="text-[length:var(--font-100)] text-[var(--text-muted)] hover:text-accent transition-colors"
               >
                 <TranslationText translationKey="nav.about" shimmerWidth="60px" />
               </Link>
-              <span className="text-gray-700">•</span>
+              <span className="text-[var(--text-muted)]" aria-hidden="true">/</span>
               <Link
                 to="/work"
-                className="text-sm text-gray-400 hover:text-[#edfc3a] transition-colors"
+                className="text-[length:var(--font-100)] text-[var(--text-muted)] hover:text-accent transition-colors"
               >
                 <TranslationText translationKey="nav.work" shimmerWidth="50px" />
               </Link>
-              <span className="text-gray-700">•</span>
+              <span className="text-[var(--text-muted)]" aria-hidden="true">/</span>
               <Link
                 to="/blog"
-                className="text-sm text-gray-400 hover:text-[#edfc3a] transition-colors"
+                className="text-[length:var(--font-100)] text-[var(--text-muted)] hover:text-accent transition-colors"
               >
                 <TranslationText translationKey="nav.blog" shimmerWidth="50px" />
               </Link>
-              <span className="text-gray-700">•</span>
+              <span className="text-[var(--text-muted)]" aria-hidden="true">/</span>
               <Link
                 to="/contact"
-                className="text-sm text-gray-400 hover:text-[#edfc3a] transition-colors"
+                className="text-[length:var(--font-100)] text-[var(--text-muted)] hover:text-accent transition-colors"
               >
                 <TranslationText translationKey="nav.contact" shimmerWidth="70px" />
               </Link>
@@ -123,4 +123,5 @@ export function NotFoundPage() {
     </div>
   );
 }
+
 

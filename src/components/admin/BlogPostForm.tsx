@@ -88,7 +88,7 @@ export function BlogPostForm({
   const validateSlug = useCallback(
     async (slug: string) => {
       if (!slug) {
-        setSlugValidation({ isValid: false, isChecking: false, message: 'Slug is required' });
+        setSlugValidation({ isValid: false, isChecking: false, message: t('admin.blog.slugRequired') });
         return;
       }
 
@@ -98,7 +98,7 @@ export function BlogPostForm({
         setSlugValidation({ 
           isValid: false, 
           isChecking: false, 
-          message: 'Slug must be lowercase alphanumeric with hyphens' 
+          message: t('admin.blog.slugFormatError')
         });
         return;
       }
@@ -110,13 +110,13 @@ export function BlogPostForm({
         setSlugValidation({
           isValid: isUnique,
           isChecking: false,
-          message: isUnique ? 'Slug is available' : 'Slug already exists'
+          message: isUnique ? t('admin.blog.slugAvailable') : t('admin.blog.slugExists')
         });
       } catch (err) {
         setSlugValidation({ 
           isValid: null, 
           isChecking: false, 
-          message: 'Could not validate slug' 
+          message: t('admin.blog.slugValidationError')
         });
       }
     },
@@ -195,18 +195,18 @@ export function BlogPostForm({
   };
 
   return (
-    <form onSubmit={handleFormSubmit} className="space-y-6">
+    <form onSubmit={handleFormSubmit} className="stack [--stack-space:var(--space-24)]">
       {/* Header */}
-      <div className="flex items-center justify-between pb-4 border-b border-white/10">
+      <div className="flex items-center justify-between pb-4 border-b border-[var(--border)]">
         <div className="flex items-center gap-3">
-          <div className="p-2 rounded-lg bg-[#edfc3a]/10 text-[#edfc3a]">
+          <div className="p-2 rounded-lg bg-accent/10 text-accent">
             <FileText className="h-5 w-5" />
           </div>
           <div>
-            <h2 className="text-xl font-semibold text-white">
+            <h2 className="text-[length:var(--font-500)] font-semibold text-[var(--text)]">
               {isEditing ? t('admin.blog.editPostTitle') : t('admin.blog.createPostTitle')}
             </h2>
-            <p className="text-sm text-gray-400">
+            <p className="text-[length:var(--font-100)] text-[var(--text-muted)]">
               {isEditing ? t('admin.blog.editPostSubtitle') : t('admin.blog.createPostSubtitle')}
             </p>
           </div>
@@ -215,13 +215,13 @@ export function BlogPostForm({
         {/* Autosave Status */}
         <div className="flex items-center gap-2">
           {autoSaveStatus === 'saving' && (
-            <div className="flex items-center gap-1 text-xs text-yellow-400">
+            <div className="flex items-center gap-1 text-[length:var(--font-100)] text-yellow-400">
               <Zap className="h-3 w-3 animate-pulse" />
               {t('admin.blog.saving')}
             </div>
           )}
           {autoSaveStatus === 'saved' && (
-            <div className="flex items-center gap-1 text-xs text-green-400">
+            <div className="flex items-center gap-1 text-[length:var(--font-100)] text-green-400">
               <CheckCircle className="h-3 w-3" />
               {t('admin.blog.saved')}
               {lastSavedTime && `${t('admin.blog.savedAt')}${lastSavedTime}`}
@@ -231,25 +231,23 @@ export function BlogPostForm({
       </div>
 
       {/* Basic Information Section */}
-      <div className="bg-white/5 rounded-lg p-6 border border-white/10">
-        <h3 className="text-lg font-medium text-white mb-4 flex items-center gap-2">
-          <FileText className="h-5 w-5 text-[#edfc3a]" />
+      <div className="bg-[var(--surface)] rounded-[var(--radius-md)] p-[var(--space-24)] border border-[var(--border)]">
+        <h3 className="text-[length:var(--font-400)] font-semibold text-[var(--text)] mb-[var(--space-16)] flex items-center gap-2">
+          <FileText className="h-5 w-5 text-accent" />
           {t('admin.blog.basicInformation')}
         </h3>
         
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
           {/* Title Field */}
           <div className="space-y-2">
-            <label className="block text-sm font-medium text-gray-300">
+            <label className="form-label">
               {t('admin.blog.titleLabel')}
             </label>
             <input
               type="text"
               value={formData.title || ''}
               onChange={(e) => handleTitleChange(e.target.value)}
-              className={`w-full px-4 py-3 rounded-lg bg-white/5 border text-white placeholder-gray-500 focus:ring-2 focus:ring-[#edfc3a] focus:border-transparent transition-all ${
-                errors.title ? 'border-red-500' : 'border-white/10'
-              }`}
+              className={`field ${errors.title ? 'border-red-500' : 'border-[var(--border)]'}`}
               placeholder={t('admin.blog.titlePlaceholder')}
               required
               disabled={isSubmitting}
@@ -264,52 +262,52 @@ export function BlogPostForm({
 
           {/* Slug Field with Validation */}
           <div className="space-y-2">
-            <label className="block text-sm font-medium text-gray-300">
+            <label className="form-label">
               {t('admin.blog.slugLabel')}
             </label>
             <div className="relative">
-              <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                <Globe className="h-4 w-4 text-gray-400" />
+              <div className="absolute inset-y-0 left-0 pl-[var(--space-12)] flex items-center pointer-events-none">
+                <Globe className="h-[var(--space-16)] w-[var(--space-16)] text-[var(--text-muted)]" />
               </div>
               <input
                 type="text"
                 value={formData.slug || ''}
                 onChange={(e) => handleInputChange('slug', e.target.value)}
-                className={`w-full pl-10 pr-10 py-3 rounded-lg bg-white/5 border text-white placeholder-gray-500 focus:ring-2 focus:ring-[#edfc3a] focus:border-transparent transition-all ${
+                className={`field pl-[var(--space-32)] pr-[var(--space-32)] ${
                   errors.slug ? 'border-red-500' : 
                   slugValidation.isValid === true ? 'border-green-500' :
                   slugValidation.isValid === false && slugValidation.isChecking === false ? 'border-red-500' :
-                  'border-white/10'
+                  'border-[var(--border)]'
                 }`}
                 placeholder={t('admin.blog.slugPlaceholder')}
                 required
                 disabled={isSubmitting}
               />
-              <div className="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none">
+              <div className="absolute inset-y-0 right-0 pr-[var(--space-12)] flex items-center pointer-events-none">
                 {slugValidation.isChecking && (
                   <div className="animate-spin">
-                    <Clock className="h-4 w-4 text-gray-400" />
+                    <Clock className="h-[var(--space-16)] w-[var(--space-16)] text-[var(--text-muted)]" />
                   </div>
                 )}
                 {slugValidation.isValid === true && (
-                  <CheckCircle className="h-4 w-4 text-green-400" />
+                  <CheckCircle className="h-[var(--space-16)] w-[var(--space-16)] text-green-400" />
                 )}
                 {slugValidation.isValid === false && (
-                  <AlertCircle className="h-4 w-4 text-red-400" />
+                  <AlertCircle className="h-[var(--space-16)] w-[var(--space-16)] text-red-400" />
                 )}
               </div>
             </div>
             {slugValidation.message && (
-              <p className={`text-sm flex items-center gap-1 ${
+              <p className={`text-[length:var(--font-100)] flex items-center gap-[var(--space-4)] ${
                 slugValidation.isValid === true ? 'text-green-400' : 'text-red-400'
               }`}>
-                <span className="w-1 h-1 bg-current rounded-full" />
+                <span className="w-[var(--space-4)] h-[var(--space-4)] bg-current rounded-full" />
                 {slugValidation.message}
               </p>
             )}
             {errors.slug && (
-              <p className="text-red-400 text-sm flex items-center gap-1">
-                <span className="w-1 h-1 bg-red-400 rounded-full" />
+              <p className="text-red-400 text-[length:var(--font-100)] flex items-center gap-[var(--space-4)]">
+                <span className="w-[var(--space-4)] h-[var(--space-4)] bg-red-400 rounded-full" />
                 {errors.slug}
               </p>
             )}
@@ -318,74 +316,72 @@ export function BlogPostForm({
 
         {/* Excerpt Field */}
         <div className="mt-6 space-y-2">
-          <label className="block text-sm font-medium text-gray-300">
-            Excerpt *
+          <label className="form-label">
+            {t('admin.blog.excerptLabel')}
           </label>
           <textarea
             value={formData.excerpt || ''}
             onChange={(e) => handleInputChange('excerpt', e.target.value)}
             rows={3}
-            className={`w-full px-4 py-3 rounded-lg bg-white/5 border text-white placeholder-gray-500 focus:ring-2 focus:ring-[#edfc3a] focus:border-transparent transition-all resize-none ${
-              errors.excerpt ? 'border-red-500' : 'border-white/10'
-            }`}
-            placeholder="Write a brief description of your blog post..."
+            className={`field resize-none ${errors.excerpt ? 'border-red-500' : 'border-[var(--border)]'}`}
+            placeholder={t('admin.blog.excerptPlaceholder')}
             required
             disabled={isSubmitting}
           />
           {errors.excerpt && (
-            <p className="text-red-400 text-sm flex items-center gap-1">
-              <span className="w-1 h-1 bg-red-400 rounded-full" />
-              {errors.excerpt}
-            </p>
-          )}
-        </div>
+          <p className="text-red-400 text-[length:var(--font-100)] flex items-center gap-[var(--space-4)]">
+            <span className="w-[var(--space-4)] h-[var(--space-4)] bg-red-400 rounded-full" />
+            {errors.excerpt}
+          </p>
+        )}
+      </div>
       </div>
 
       {/* Content Section */}
-      <div className="bg-white/5 rounded-lg p-6 border border-white/10">
-        <h3 className="text-lg font-medium text-white mb-4 flex items-center gap-2">
-          <FileText className="h-5 w-5 text-[#edfc3a]" />
-          Content
+      <div className="bg-[var(--surface)] rounded-[var(--radius-md)] p-[var(--space-24)] border border-[var(--border)]">
+        <h3 className="text-[length:var(--font-400)] font-semibold text-[var(--text)] mb-[var(--space-16)] flex items-center gap-2">
+          <FileText className="h-5 w-5 text-accent" />
+          {t('admin.blog.contentSectionTitle')}
         </h3>
         <MarkdownEditor
           value={formData.content || ''}
           onChange={(content) => handleInputChange('content', content)}
-          placeholder="Write your blog post content here... Use markdown formatting for better presentation."
+          placeholder={t('admin.blog.contentPlaceholder')}
           rows={10}
           onImageUpload={handleImageUpload}
         />
         
         {/* Word Count and Stats */}
-        <div className="mt-4 flex items-center justify-between text-xs text-gray-500 p-3 bg-white/5 rounded-lg border border-white/10">
-          <div className="flex gap-6">
-            <span>Words: <span className="text-white font-medium">{wordCount}</span></span>
-            <span>Characters: <span className="text-white font-medium">{charCount}</span></span>
+        <div className="mt-[var(--space-16)] flex items-center justify-between text-[length:var(--font-100)] text-[var(--text-muted)] p-[var(--space-12)] bg-[var(--surface)] rounded-[var(--radius-md)] border border-[var(--border)]">
+          <div className="flex gap-[var(--space-24)]">
+            <span>{t('admin.blog.words')} <span className="text-[var(--text)] font-medium">{wordCount}</span></span>
+            <span>{t('admin.blog.characters')} <span className="text-[var(--text)] font-medium">{charCount}</span></span>
           </div>
-          <div className="text-[#edfc3a] font-medium">
-            Reading time: {autoReadingTime}
+          <div className="text-accent font-medium">
+            {t('admin.blog.readingTime')} {autoReadingTime}
           </div>
         </div>
         
         {errors.content && (
-          <p className="text-red-400 text-sm flex items-center gap-1 mt-2">
-            <span className="w-1 h-1 bg-red-400 rounded-full" />
+          <p className="text-red-400 text-[length:var(--font-100)] flex items-center gap-[var(--space-4)] mt-[var(--space-8)]">
+            <span className="w-[var(--space-4)] h-[var(--space-4)] bg-red-400 rounded-full" />
             {errors.content}
           </p>
         )}
       </div>
 
       {/* Media & Settings Section */}
-      <div className="bg-white/5 rounded-lg p-6 border border-white/10">
-        <h3 className="text-lg font-medium text-white mb-4 flex items-center gap-2">
-          <FileText className="h-5 w-5 text-[#edfc3a]" />
-          Media & Settings
+      <div className="bg-[var(--surface)] rounded-[var(--radius-md)] p-[var(--space-24)] border border-[var(--border)]">
+        <h3 className="text-[length:var(--font-400)] font-semibold text-[var(--text)] mb-[var(--space-16)] flex items-center gap-2">
+          <FileText className="h-5 w-5 text-accent" />
+          {t('admin.blog.mediaSettingsSectionTitle')}
         </h3>
         
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
           {/* Image Upload */}
           <div className="space-y-2">
-            <label className="block text-sm font-medium text-gray-300">
-              Featured Image
+            <label className="form-label">
+              {t('admin.blog.featuredImage')}
             </label>
             <ImageUpload
               onUpload={handleFeaturedImageUpload}
@@ -398,20 +394,20 @@ export function BlogPostForm({
             {/* Read Time Field */}
             <div className="space-y-2">
               <div className="flex items-center justify-between">
-                <label className="block text-sm font-medium text-gray-300">
-                  Read Time *
+                <label className="form-label">
+                  {t('admin.blog.readTimeLabel')}
                 </label>
                 <button
                   type="button"
                   onClick={() => setReadingTimeOverride(!readingTimeOverride)}
-                  className="text-xs px-2 py-1 rounded bg-white/10 text-gray-300 hover:bg-white/20 transition-colors"
+                  className="text-[length:var(--font-100)] px-[var(--space-8)] py-[var(--space-4)] rounded-[var(--radius-sm)] bg-[var(--surface-strong)] text-[var(--text-muted)] hover:bg-[var(--surface)] transition-colors"
                 >
-                  {readingTimeOverride ? 'Using Custom' : 'Auto (Click to override)'}
+                  {readingTimeOverride ? t('admin.blog.readTimeUsingCustom') : t('admin.blog.readTimeAutoOverride')}
                 </button>
               </div>
               <div className="relative">
-                <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                  <Clock className="h-4 w-4 text-gray-400" />
+                <div className="absolute inset-y-0 left-0 pl-[var(--space-12)] flex items-center pointer-events-none">
+                  <Clock className="h-[var(--space-16)] w-[var(--space-16)] text-[var(--text-muted)]" />
                 </div>
                 <input
                   type="text"
@@ -420,17 +416,17 @@ export function BlogPostForm({
                     setReadingTimeOverride(true);
                     handleInputChange('read_time', e.target.value);
                   }}
-                  className={`w-full pl-10 pr-4 py-3 rounded-lg bg-white/5 border text-white placeholder-gray-500 focus:ring-2 focus:ring-[#edfc3a] focus:border-transparent transition-all ${
-                    errors.read_time ? 'border-red-500' : 'border-white/10'
+                  className={`field pl-[var(--space-32)] pr-[var(--space-16)] ${
+                    errors.read_time ? 'border-red-500' : 'border-[var(--border)]'
                   }`}
-                  placeholder="e.g., 5 min read"
+                  placeholder={t('admin.blog.readTimePlaceholder')}
                   required
                   disabled={isSubmitting}
                 />
               </div>
               {errors.read_time && (
-                <p className="text-red-400 text-sm flex items-center gap-1">
-                  <span className="w-1 h-1 bg-red-400 rounded-full" />
+                <p className="text-red-400 text-[length:var(--font-100)] flex items-center gap-[var(--space-4)]">
+                  <span className="w-[var(--space-4)] h-[var(--space-4)] bg-red-400 rounded-full" />
                   {errors.read_time}
                 </p>
               )}
@@ -438,25 +434,25 @@ export function BlogPostForm({
 
             {/* Publication Status */}
             <div className="space-y-3">
-              <label className="block text-sm font-medium text-gray-300">
-                Publication Status
+              <label className="form-label">
+                {t('admin.blog.publicationStatusLabel')}
               </label>
-              <div className="flex items-center gap-3 p-3 rounded-lg bg-white/5 border border-white/10">
+              <div className="flex items-center gap-[var(--space-12)] p-[var(--space-12)] rounded-[var(--radius-md)] bg-[var(--surface)] border border-[var(--border)]">
                 <input
                   type="checkbox"
                   id="published"
                   checked={formData.published || false}
                   onChange={(e) => handleInputChange('published', e.target.checked)}
-                  className="w-4 h-4 text-[#edfc3a] bg-white/5 border-white/20 rounded focus:ring-[#edfc3a] focus:ring-2"
+                  className="w-[var(--space-16)] h-[var(--space-16)] text-accent bg-[var(--surface)] border-[var(--border)] rounded focus:ring-accent focus:ring-2"
                   disabled={isSubmitting}
                 />
-                <div className="flex items-center gap-2">
-                  <label htmlFor="published" className="text-gray-300 cursor-pointer">
-                    Publish immediately
+                <div className="flex items-center gap-[var(--space-8)]">
+                  <label htmlFor="published" className="text-[var(--text-muted)] cursor-pointer">
+                    {t('admin.blog.publishImmediately')}
                   </label>
-                  <div className="flex items-center gap-1 text-xs text-gray-500">
-                    <Eye className="h-3 w-3" />
-                    <span>Public</span>
+                  <div className="flex items-center gap-[var(--space-4)] text-[length:var(--font-100)] text-[var(--text-muted)]">
+                    <Eye className="h-[var(--space-12)] w-[var(--space-12)]" />
+                    <span>{t('admin.blog.public')}</span>
                   </div>
                 </div>
               </div>
@@ -466,30 +462,16 @@ export function BlogPostForm({
       </div>
 
       {/* Action Buttons */}
-      <div className="flex flex-col sm:flex-row items-center justify-between gap-4 pt-6 border-t border-white/10">
-        <div className="flex items-center gap-2 text-sm text-gray-400">
-          <Calendar className="h-4 w-4" />
+      <div className="flex flex-col sm:flex-row items-center justify-between gap-[var(--space-16)] pt-[var(--space-24)] border-t border-[var(--border)]">
+        <div className="flex items-center gap-2 text-[length:var(--font-100)] text-[var(--text-muted)]">
+          <Calendar className="h-[var(--space-16)] w-[var(--space-16)]" />
           <span>
             {isEditing ? t('admin.blog.lastUpdated') : t('admin.blog.created')}{t('admin.blog.createdOn')}{new Date().toLocaleDateString()}
           </span>
         </div>
         
         <div className="flex items-center gap-3">
-          {/* Debug info - remove this after fixing */}
-          <div className="text-xs text-gray-500 space-y-1">
-            <div>Title: {formData.title ? '✓' : '✗'}</div>
-            <div>Slug: {formData.slug ? '✓' : '✗'} (valid: {slugValidation.isValid === null ? 'checking' : slugValidation.isValid ? 'yes' : 'no'})</div>
-            <div>Excerpt: {formData.excerpt ? '✓' : '✗'}</div>
-            <div>Read Time: {formData.read_time ? '✓' : '✗'}</div>
-            <div>Checking: {slugValidation.isChecking ? 'yes' : 'no'}</div>
-          </div>
-          
-          <button
-            type="button"
-            onClick={onCancel}
-            className="px-6 py-3 text-gray-400 hover:text-white transition-colors rounded-lg hover:bg-white/5 flex items-center gap-2 disabled:opacity-50"
-            disabled={isSubmitting}
-          >
+          <button type="button" onClick={onCancel} className="btn btn-secondary inline-flex items-center gap-[var(--space-8)] disabled:opacity-50" disabled={isSubmitting}>
             {t('admin.common.cancel')}
           </button>
           <button
@@ -503,7 +485,7 @@ export function BlogPostForm({
               !formData.excerpt?.trim() ||
               !formData.read_time?.trim()
             }
-            className="px-6 py-3 bg-[#edfc3a] text-black rounded-lg font-medium hover:bg-[#f2ff4d] transition-colors flex items-center gap-2 shadow-lg hover:shadow-xl disabled:opacity-50 disabled:cursor-not-allowed"
+            className="btn btn-primary inline-flex items-center gap-[var(--space-8)] shadow-[var(--shadow-sm)] disabled:opacity-50 disabled:cursor-not-allowed"
           >
             {isSubmitting ? t('admin.blog.saving') : isEditing ? t('admin.blog.updatePost') : t('admin.blog.createPost')}
           </button>

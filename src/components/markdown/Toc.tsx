@@ -204,26 +204,26 @@ export function Toc({ headings, className = '' }: TocProps) {
 
   return (
     <nav 
-      className={`bg-white/5 rounded-lg border border-white/10 ${className}`}
+      className={`bg-[var(--surface)] rounded-[var(--radius-md)] border border-[var(--border)] ${className}`}
       aria-label={t('aria.tableOfContents')}
     >
       {/* Mobile toggle button */}
       <button
         onClick={() => setIsExpanded(!isExpanded)}
-        className="lg:hidden w-full flex items-center justify-between p-4 text-white font-semibold text-sm hover:bg-white/5 transition-colors"
+        className="lg:hidden w-full flex items-center justify-between p-[var(--space-16)] text-[var(--text)] font-semibold text-[length:var(--font-100)] hover:bg-[var(--surface-strong)] transition-colors"
         aria-expanded={isExpanded}
         aria-controls="toc-content"
       >
         <TranslationText translationKey="blog.toc.title" as="span" shimmerWidth="120px" />
         <ChevronDown 
-          className={`h-4 w-4 transition-transform duration-200 ${isExpanded ? 'rotate-180' : ''}`}
+          className={`h-[var(--space-16)] w-[var(--space-16)] transition-transform duration-200 ${isExpanded ? 'rotate-180' : ''}`}
           aria-hidden="true"
         />
       </button>
 
       {/* Desktop heading */}
-      <div className="hidden lg:block p-4 pb-2">
-        <h3 className="text-white font-semibold text-sm">
+      <div className="hidden lg:block p-[var(--space-16)] pb-[var(--space-8)]">
+        <h3 className="text-[var(--text)] font-semibold text-[length:var(--font-100)]">
           <TranslationText translationKey="blog.toc.title" as="span" shimmerWidth="120px" />
         </h3>
       </div>
@@ -244,7 +244,7 @@ export function Toc({ headings, className = '' }: TocProps) {
           scrollbarColor: 'rgba(237, 252, 58, 0.3) transparent'
         }}
       >
-        <div className="space-y-1 p-4 pt-2">
+        <div className="stack p-[var(--space-16)] pt-[var(--space-8)] [--stack-space:var(--space-4)]">
           {headings.map((heading) => {
             // Find the actual element to get its real ID
             let actualId = heading.id;
@@ -279,12 +279,12 @@ export function Toc({ headings, className = '' }: TocProps) {
                 onClick={(e) => handleScroll(e, actualId)}
                 aria-current={isActive ? 'true' : undefined}
                 className={`
-                  block text-sm transition-all duration-200 px-3 py-1.5 rounded
-                  focus:outline-none focus:ring-2 focus:ring-[#edfc3a] focus:ring-offset-2 focus:ring-offset-black/50
-                  ${isH3 ? 'ml-4 pl-4 border-l-2 border-white/10' : ''}
+                  block text-[length:var(--font-100)] transition-all duration-200 px-[var(--space-12)] py-[var(--space-8)] rounded-[var(--radius-sm)]
+                  focus:outline-none focus:ring-2 focus:ring-accent focus:ring-offset-2 focus:ring-offset-[var(--bg)]
+                  ${isH3 ? 'ml-[var(--space-16)] pl-[var(--space-16)] border-l-2 border-[var(--border)]' : ''}
                   ${isActive
-                    ? 'text-[#edfc3a] font-medium bg-[#edfc3a]/10 border-l-[#edfc3a]'
-                    : 'text-gray-400 hover:text-white hover:bg-white/5'
+                    ? 'text-accent font-medium bg-accent/10 border-l-accent'
+                    : 'text-[var(--text-muted)] hover:text-[var(--text)] hover:bg-[var(--surface-strong)]'
                   }
                 `}
               >
@@ -297,3 +297,4 @@ export function Toc({ headings, className = '' }: TocProps) {
     </nav>
   );
 }
+

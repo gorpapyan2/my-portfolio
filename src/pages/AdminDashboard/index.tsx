@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { 
   Settings, 
   LogOut, 
+  ArrowLeft,
   FileText, 
   Briefcase, 
   GraduationCap, 
@@ -10,6 +11,7 @@ import {
   FolderOpen,
   Flag
 } from 'lucide-react';
+import { Link } from 'react-router-dom';
 import { Card } from '../../components/shared/Card';
 import { useAuth } from '../../context/AuthContext';
 import { useLanguage } from '../../context/LanguageContext';
@@ -73,53 +75,62 @@ export function AdminDashboard() {
   return (
     <AnimatedGridBackground>
       <ParticleBackground />
-      <div className="relative z-10 p-6">
+      <div className="relative z-10 p-[var(--space-24)]">
         {/* Header */}
-        <div className="flex items-center justify-between mb-8">
-          <div className="flex items-center gap-3">
-            <div className="inline-flex p-2 rounded-lg bg-[#edfc3a]/10 text-[#edfc3a]">
-              <Settings className="h-6 w-6" />
+        <div className="flex items-center justify-between mb-[var(--space-32)]">
+          <div className="flex items-center gap-[var(--space-12)]">
+            <div className="inline-flex p-[var(--space-8)] rounded-[var(--radius-md)] bg-[var(--surface)] text-accent">
+              <Settings className="h-[var(--space-24)] w-[var(--space-24)]" />
             </div>
             <div>
-              <h1 className="text-2xl font-bold text-white">
+              <h1 className="text-[length:var(--font-600)] font-semibold text-[var(--text)]">
                 <TranslationText translationKey="admin.dashboard.title" as="span" shimmerWidth="200px" />
               </h1>
-              <p className="text-gray-400">
+              <p className="text-[var(--text-muted)] text-[length:var(--font-100)]">
                 <TranslationText translationKey="admin.dashboard.welcomeBack" as="span" shimmerWidth="120px" />, {user?.email}
               </p>
             </div>
           </div>
           
-          <button
-            onClick={handleLogout}
-            className="inline-flex items-center gap-2 px-4 py-2 text-gray-400 hover:text-white transition-colors"
-          >
-            <LogOut className="h-4 w-4" />
-            Logout
-          </button>
+          <div className="flex items-center gap-[var(--space-12)]">
+            <Link
+              to="/"
+              className="inline-flex items-center gap-[var(--space-8)] text-[var(--text-muted)] hover:text-[var(--text)] transition-colors text-[length:var(--font-100)]"
+            >
+              <ArrowLeft className="h-[var(--space-16)] w-[var(--space-16)]" />
+              <TranslationText translationKey="admin.login.backToPortfolio" as="span" shimmerWidth="180px" />
+            </Link>
+            <button
+              onClick={handleLogout}
+              className="inline-flex items-center gap-[var(--space-8)] text-[var(--text-muted)] hover:text-[var(--text)] transition-colors text-[length:var(--font-100)]"
+            >
+              <LogOut className="h-[var(--space-16)] w-[var(--space-16)]" />
+              Logout
+            </button>
+          </div>
         </div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-4 gap-6">
+        <div className="grid grid-cols-1 lg:grid-cols-4 gap-[var(--space-24)]">
           {/* Sidebar Navigation */}
           <Card className="lg:col-span-1">
-            <div className="p-4">
-              <h2 className="text-lg font-semibold text-white mb-4">
+            <div className="p-[var(--space-16)]">
+              <h2 className="text-[length:var(--font-400)] font-semibold text-[var(--text)] mb-[var(--space-16)]">
                 <TranslationText translationKey="admin.dashboard.contentManagement" as="span" shimmerWidth="200px" />
               </h2>
-              <nav className="space-y-2">
+              <nav className="stack [--stack-space:var(--space-8)]">
                 {sections.map((section) => {
                   const Icon = section.icon;
                   return (
                     <button
                       key={section.id}
                       onClick={() => setActiveSection(section.id)}
-                      className={`w-full flex items-center gap-3 px-3 py-2 rounded-lg transition-colors ${
+                      className={`w-full flex items-center gap-[var(--space-12)] px-[var(--space-12)] py-[var(--space-8)] rounded-[var(--radius-md)] text-[length:var(--font-100)] transition-colors ${
                         activeSection === section.id
-                          ? 'bg-[#edfc3a]/10 text-[#edfc3a]'
-                          : 'text-gray-400 hover:text-white hover:bg-white/5'
+                          ? 'bg-[var(--surface-strong)] text-accent'
+                          : 'text-[var(--text-muted)] hover:text-[var(--text)] hover:bg-[var(--surface)]'
                       }`}
                     >
-                      <Icon className="h-4 w-4" />
+                      <Icon className="h-[var(--space-16)] w-[var(--space-16)]" />
                       <TranslationText translationKey={section.labelKey} as="span" shimmerWidth="120px" />
                     </button>
                   );
@@ -131,7 +142,7 @@ export function AdminDashboard() {
           {/* Main Content */}
           <div className="lg:col-span-3">
             <Card className="min-h-[600px]">
-              <div className="p-6">
+              <div className="p-[var(--space-24)]">
                 {renderSection()}
               </div>
             </Card>
@@ -141,3 +152,4 @@ export function AdminDashboard() {
     </AnimatedGridBackground>
   );
 }
+

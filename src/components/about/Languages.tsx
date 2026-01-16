@@ -21,13 +21,13 @@ export function Languages() {
 		if (l.includes('proficient') || l.includes('fluent')) return 'bg-sky-500/20 text-sky-300 border-sky-400/30';
 		if (l.includes('intermediate')) return 'bg-amber-500/20 text-amber-300 border-amber-400/30';
 		if (l.includes('basic') || l.includes('beginner')) return 'bg-zinc-500/20 text-zinc-300 border-zinc-400/30';
-		return 'bg-white/10 text-gray-200 border-white/10';
+		return 'bg-[var(--surface-strong)] text-[var(--text-muted)] border-[var(--border)]';
 	}
 
 	function LanguageBadge({ name, level }: { name: string; level?: string }) {
 		return (
-			<div className="inline-flex items-center gap-2 px-2.5 py-1.5 rounded-full bg-white/5 border border-white/10 hover:border-[#edfc3a]/40 transition-colors whitespace-nowrap">
-				<span className="text-white/90 whitespace-nowrap">{name}</span>
+			<div className="inline-flex items-center gap-2 px-2.5 py-1.5 rounded-full bg-[var(--surface)] border border-[var(--border)] hover:border-accent/40 transition-colors whitespace-nowrap">
+				<span className="text-[var(--text)] whitespace-nowrap">{name}</span>
 				{level && (
 					<span className={cn('text-xs px-2 py-0.5 rounded-full border whitespace-nowrap', levelClass(level))}>{level}</span>
 				)}
@@ -44,10 +44,10 @@ export function Languages() {
         />
 
 		{isLoading && (
-			<div className="bg-white/5 backdrop-blur-sm rounded-xl p-4 border border-white/10">
+			<div className="bg-[var(--surface)] backdrop-blur-sm rounded-xl p-4 border border-[var(--border)]">
 				<div className="grid grid-cols-1 gap-2" aria-label="language badges loading">
 					{Array.from({ length: 6 }).map((_, i) => (
-						<div key={i} className="h-9 rounded-full bg-white/10 border border-white/10 animate-pulse" />
+						<div key={i} className="h-9 rounded-full bg-[var(--surface-strong)] border border-[var(--border)] animate-pulse" />
 					))}
 				</div>
 			</div>
@@ -58,7 +58,7 @@ export function Languages() {
         )}
 
 		{!isLoading && !error && (
-			<div className="bg-white/5 backdrop-blur-sm rounded-xl p-4 border border-white/10 hover:border-[#edfc3a]/30 transition-colors">
+			<div className="bg-[var(--surface)] backdrop-blur-sm rounded-xl p-4 border border-[var(--border)] hover:border-accent/30 transition-colors">
 				<div className="grid grid-cols-1 gap-2" aria-label="language badges">
 					{languages.map((raw, idx) => {
 						const { name, level } = parseLanguage(raw);
@@ -81,5 +81,6 @@ export function Languages() {
     </section>
   );
 }
+
 
 

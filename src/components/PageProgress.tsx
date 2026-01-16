@@ -10,8 +10,9 @@ export default function PageProgress() {
 
   return (
     <motion.div
-      className="fixed top-0 left-0 right-0 h-1 bg-gradient-to-r from-[#edfc3a] via-white to-[#edfc3a] z-50 origin-left"
+      className="fixed top-0 left-0 right-0 h-1 bg-gradient-to-r from-accent via-white to-accent z-50 origin-left"
       style={{ scaleX }}
     />
   );
 }
+

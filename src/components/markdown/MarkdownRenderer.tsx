@@ -105,10 +105,10 @@ export function MarkdownRenderer({ content, className = '' }: MarkdownRendererPr
   if (isLoading) {
     return (
       <div className={`${className}`}>
-        <div className="animate-pulse space-y-4">
-          <div className="h-4 bg-white/10 rounded w-3/4" />
-          <div className="h-4 bg-white/10 rounded w-full" />
-          <div className="h-4 bg-white/10 rounded w-4/5" />
+        <div className="animate-pulse stack [--stack-space:var(--space-16)]">
+          <div className="h-[var(--space-16)] bg-[var(--surface-strong)] rounded-[var(--radius-sm)] w-3/4" />
+          <div className="h-[var(--space-16)] bg-[var(--surface-strong)] rounded-[var(--radius-sm)] w-full" />
+          <div className="h-[var(--space-16)] bg-[var(--surface-strong)] rounded-[var(--radius-sm)] w-4/5" />
         </div>
       </div>
     );
@@ -116,7 +116,7 @@ export function MarkdownRenderer({ content, className = '' }: MarkdownRendererPr
 
   if (error) {
     return (
-      <div className={`text-red-400 text-sm p-4 bg-red-400/10 rounded ${className}`}>
+      <div className={`text-red-400 text-[length:var(--font-100)] p-[var(--space-16)] bg-red-400/10 rounded-[var(--radius-md)] ${className}`}>
         Error rendering markdown: {error}
       </div>
     );
@@ -124,7 +124,7 @@ export function MarkdownRenderer({ content, className = '' }: MarkdownRendererPr
 
   if (!html) {
     return (
-      <div className={`text-gray-500 italic p-4 ${className}`}>
+      <div className={`text-[var(--text-muted)] italic text-[length:var(--font-100)] p-[var(--space-16)] ${className}`}>
         No content to display
       </div>
     );

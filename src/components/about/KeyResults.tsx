@@ -18,10 +18,10 @@ export function KeyResults() {
         />
 
         {isLoading && (
-          <div className="bg-white/5 backdrop-blur-sm rounded-xl p-4 border border-white/10">
+          <div className="bg-[var(--surface)] backdrop-blur-sm rounded-xl p-4 border border-[var(--border)]">
             <div className="space-y-2">
               {[0,1,2].map(i => (
-                <div key={i} className="h-5 bg-white/10 rounded animate-pulse" />
+                <div key={i} className="h-5 bg-[var(--surface-strong)] rounded animate-pulse" />
               ))}
             </div>
           </div>
@@ -32,7 +32,7 @@ export function KeyResults() {
         )}
 
         {!isLoading && !error && (
-          <div className="bg-white/5 backdrop-blur-sm rounded-xl p-4 border border-white/10 hover:border-[#edfc3a]/30 transition-colors">
+          <div className="bg-[var(--surface)] backdrop-blur-sm rounded-xl p-4 border border-[var(--border)] hover:border-accent/30 transition-colors">
             <ul className="space-y-2">
               {keyResults.map((item, idx) => (
                 <motion.li
@@ -43,8 +43,8 @@ export function KeyResults() {
                   transition={{ duration: 0.4, delay: idx * 0.03 }}
                   className="flex items-start gap-2"
                 >
-                  <span className="mt-0.5 text-[#edfc3a]"><CheckCircle2 className="w-5 h-5" /></span>
-                  <span className="text-gray-300">{item}</span>
+                  <span className="mt-0.5 text-accent"><CheckCircle2 className="w-5 h-5" /></span>
+                  <span className="text-[var(--text-muted)]">{item}</span>
                 </motion.li>
               ))}
             </ul>
@@ -54,5 +54,6 @@ export function KeyResults() {
     </section>
   );
 }
+
 
 

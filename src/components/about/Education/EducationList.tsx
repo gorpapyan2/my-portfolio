@@ -10,7 +10,7 @@ export function EducationList() {
       <div className="space-y-6">
         {[1].map((i) => (
           <div key={i} className="animate-pulse">
-            <div className="h-24 bg-white/5 rounded-lg"></div>
+            <div className="h-24 bg-[var(--surface)] border border-[var(--border)] rounded-[var(--radius-md)]"></div>
           </div>
         ))}
       </div>

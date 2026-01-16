@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useMemo, useState, useEffect } from 'react';
 import { Plus, Search, Filter, Download, AlertCircle } from 'lucide-react';
 import { useLanguage } from '../../context/LanguageContext';
 import { TranslationText } from '../../components/shared/TranslationText';
@@ -20,6 +20,8 @@ interface TranslationInsert {
 export function TranslationManager() {
   const { t } = useLanguage();
   const translationService = useTranslationService();
+  const [page, setPage] = useState(1);
+  const pageSize = 20;
   
   // Use centralized translation manager hook
   const {
@@ -44,10 +46,22 @@ export function TranslationManager() {
     categories,
   } = useTranslationManager();
 
+  useEffect(() => {
+    setPage(1);
+  }, [searchTerm, selectedCategory, selectedLanguage]);
+
+  const totalTranslations = filteredTranslations.length;
+  const totalPages = Math.max(1, Math.ceil(totalTranslations / pageSize));
+  const currentPage = Math.min(page, totalPages);
+  const paginatedTranslations = useMemo(() => {
+    const start = (currentPage - 1) * pageSize;
+    return filteredTranslations.slice(start, start + pageSize);
+  }, [filteredTranslations, currentPage, pageSize]);
+
   return (
     <div>
       <div className="flex items-center justify-between mb-6">
-        <h2 className="text-2xl font-semibold text-white">
+        <h2 className="text-[length:var(--font-600)] font-semibold text-[var(--text)]">
           <TranslationText translationKey="admin.translations.title" as="span" shimmerWidth="250px" />
         </h2>
       </div>
@@ -55,16 +69,16 @@ export function TranslationManager() {
       {/* Language Selection */}
       <div className="mb-6">
         <div className="flex items-center gap-2 mb-4">
-          <span className="text-gray-300">{t('admin.common.language')}</span>
-          <div className="flex gap-2">
+          <span className="text-[var(--text-muted)] text-[length:var(--font-100)]">{t('admin.common.language')}</span>
+          <div className="flex gap-[var(--space-8)]">
             {(['en', 'ru', 'am'] as const).map((lang) => (
               <button
                 key={lang}
                 onClick={() => setSelectedLanguage(lang)}
-                className={`px-3 py-1 rounded-lg text-sm font-medium transition-colors ${
+                className={`px-[var(--space-12)] py-[var(--space-4)] rounded-[var(--radius-md)] text-[length:var(--font-100)] font-medium transition-colors ${
                   selectedLanguage === lang
-                    ? 'bg-[#edfc3a] text-black'
-                    : 'bg-white/10 text-gray-300 hover:text-white'
+                    ? 'bg-accent text-black'
+                    : 'bg-[var(--surface-strong)] text-[var(--text-muted)] hover:text-[var(--text)]'
                 }`}
               >
                 {lang.toUpperCase()}
@@ -75,23 +89,23 @@ export function TranslationManager() {
       </div>
 
       {/* Search and Filter Controls */}
-      <div className="flex flex-col sm:flex-row gap-4 mb-6">
+      <div className="flex flex-col sm:flex-row gap-[var(--space-16)] mb-6">
         <div className="flex-1">
           <div className="relative">
-            <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-gray-400" />
+            <Search className="absolute left-[var(--space-12)] top-1/2 transform -translate-y-1/2 h-[var(--space-16)] w-[var(--space-16)] text-[var(--text-muted)]" />
             <input
               type="text"
               placeholder={t('settings.searchTranslations')}
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
-              className="w-full pl-10 pr-4 py-2 rounded-lg bg-white/5 border border-white/10 text-white focus:ring-2 focus:ring-[#edfc3a] focus:border-transparent"
+              className="field pl-[var(--space-32)] pr-[var(--space-16)]"
             />
           </div>
         </div>
         
-        <div className="flex gap-2">
+        <div className="flex gap-[var(--space-8)]">
           <div className="relative">
-            <Filter className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-gray-400" />
+            <Filter className="absolute left-[var(--space-12)] top-1/2 transform -translate-y-1/2 h-[var(--space-16)] w-[var(--space-16)] text-[var(--text-muted)]" />
             <select
               value={selectedCategory}
               onChange={(e) => setSelectedCategory(e.target.value)}
@@ -109,39 +123,67 @@ export function TranslationManager() {
       </div>
 
       {/* Action Buttons */}
-      <div className="flex flex-wrap gap-2 mb-6">
+      <div className="flex flex-wrap gap-[var(--space-8)] mb-6">
         <button
           onClick={handleAddTranslation}
-          className="inline-flex items-center gap-2 px-4 py-2 bg-[#edfc3a] text-black rounded-lg font-medium hover:bg-[#f2ff4d] transition-colors"
+          className="btn btn-primary inline-flex items-center gap-[var(--space-8)]"
         >
-          <Plus className="h-4 w-4" />
+          <Plus className="h-[var(--space-16)] w-[var(--space-16)]" />
           {t('settings.addTranslation')}
         </button>
         
         <button
           onClick={() => setShowImportExport(true)}
-          className="inline-flex items-center gap-2 px-4 py-2 bg-white/10 text-white rounded-lg font-medium hover:bg-white/20 transition-colors"
+          className="btn btn-secondary inline-flex items-center gap-[var(--space-8)]"
         >
-          <Download className="h-4 w-4" />
+          <Download className="h-[var(--space-16)] w-[var(--space-16)]" />
           {t('settings.importExport')}
         </button>
         
         <button
           onClick={() => setShowValidation(true)}
-          className="inline-flex items-center gap-2 px-4 py-2 bg-white/10 text-white rounded-lg font-medium hover:bg-white/20 transition-colors"
+          className="btn btn-secondary inline-flex items-center gap-[var(--space-8)]"
         >
-          <AlertCircle className="h-4 w-4" />
+          <AlertCircle className="h-[var(--space-16)] w-[var(--space-16)]" />
           {t('settings.validate')}
         </button>
       </div>
 
       {/* Translation Table */}
-      <div className="bg-white/5 rounded-lg border border-white/10 overflow-hidden">
+      <div className="bg-[var(--surface)] rounded-[var(--radius-md)] border border-[var(--border)] overflow-hidden">
         <TranslationTable
-          translations={filteredTranslations}
+          translations={paginatedTranslations}
           onEdit={handleEditTranslation}
           onDelete={handleDeleteTranslation}
         />
+      </div>
+
+      <div className="flex flex-col sm:flex-row items-center justify-between gap-[var(--space-12)] mt-[var(--space-16)]">
+        <p className="text-[length:var(--font-100)] text-[var(--text-muted)]">
+          Showing {totalTranslations === 0 ? 0 : (currentPage - 1) * pageSize + 1}-
+          {Math.min(currentPage * pageSize, totalTranslations)} of {totalTranslations}
+        </p>
+        <div className="flex items-center gap-[var(--space-8)]">
+          <button
+            type="button"
+            className="btn btn-secondary"
+            onClick={() => setPage((prev) => Math.max(1, prev - 1))}
+            disabled={currentPage === 1}
+          >
+            Prev
+          </button>
+          <span className="text-[length:var(--font-100)] text-[var(--text-muted)]">
+            {currentPage} / {totalPages}
+          </span>
+          <button
+            type="button"
+            className="btn btn-secondary"
+            onClick={() => setPage((prev) => Math.min(totalPages, prev + 1))}
+            disabled={currentPage === totalPages}
+          >
+            Next
+          </button>
+        </div>
       </div>
 
       {/* Modals */}
@@ -182,7 +224,7 @@ export function TranslationManager() {
               setShowEditor(false);
             } catch (error) {
               console.error('Error saving translation:', error);
-              alert('Failed to save translation');
+              alert(t('admin.error.saveFailed'));
             }
           }}
         />
@@ -209,7 +251,7 @@ export function TranslationManager() {
               setShowImportExport(false);
             } catch (error) {
               console.error('Error importing translations:', error);
-              alert('Failed to import translations');
+              alert(t('admin.error.importFailed'));
             }
           }}
           onExport={() => {
@@ -226,3 +268,6 @@ export function TranslationManager() {
     </div>
   );
 }
+
+
+

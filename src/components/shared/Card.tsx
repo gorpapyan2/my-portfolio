@@ -8,9 +8,8 @@ export function Card({ className, children, ...props }: CardProps) {
   return (
     <div
       className={cn(
-        `bg-white/5 backdrop-blur-sm rounded-xl p-6 border border-white/10 
-                    transition-all duration-300 hover:transform hover:-translate-y-1 
-                    hover:bg-white/10 ${className}`,
+        `bg-[var(--surface)] backdrop-blur-sm rounded-[var(--radius-lg)] p-[var(--space-24)] border border-[var(--border)]
+                    transition-colors duration-300 hover:bg-[var(--surface-strong)] ${className}`,
         className
       )}
       {...props}
@@ -27,7 +26,7 @@ interface CardHeaderProps extends React.HTMLAttributes<HTMLDivElement> {
 export function CardHeader({ className, children, ...props }: CardHeaderProps) {
   return (
     <div
-      className={cn("flex flex-col space-y-1.5 p-6", className)}
+      className={cn("flex flex-col space-y-1.5 p-[var(--space-24)]", className)}
       {...props}
     >
       {children}
@@ -43,7 +42,7 @@ export function CardTitle({ className, children, ...props }: CardTitleProps) {
   return (
     <h3
       className={cn(
-        "text-2xl font-semibold leading-none tracking-tight",
+        "text-[length:var(--font-600)] font-semibold leading-[var(--leading-tight)] tracking-[var(--tracking-tight)]",
         className
       )}
       {...props}
@@ -60,7 +59,7 @@ interface CardDescriptionProps extends React.HTMLAttributes<HTMLParagraphElement
 export function CardDescription({ className, children, ...props }: CardDescriptionProps) {
   return (
     <p
-      className={cn("text-sm text-gray-400", className)}
+      className={cn("text-[length:var(--font-200)] text-[var(--text-muted)]", className)}
       {...props}
     >
       {children}
@@ -74,7 +73,7 @@ interface CardContentProps extends React.HTMLAttributes<HTMLDivElement> {
 
 export function CardContent({ className, children, ...props }: CardContentProps) {
   return (
-    <div className={cn("p-6 pt-0", className)} {...props}>
+    <div className={cn("p-[var(--space-24)] pt-0", className)} {...props}>
       {children}
     </div>
   );
@@ -87,7 +86,7 @@ interface CardFooterProps extends React.HTMLAttributes<HTMLDivElement> {
 export function CardFooter({ className, children, ...props }: CardFooterProps) {
   return (
     <div
-      className={cn("flex items-center p-6 pt-0", className)}
+      className={cn("flex items-center p-[var(--space-24)] pt-0", className)}
       {...props}
     >
       {children}

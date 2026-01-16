@@ -10,10 +10,10 @@ interface HeroButtonProps {
 const MotionLink = motion(Link);
 
 export function HeroButton({ variant, href, children }: HeroButtonProps) {
-  const baseStyles = "px-8 py-3 rounded-full font-medium transition-colors inline-flex items-center gap-2";
+  const baseStyles = "px-[var(--space-24)] py-[var(--space-12)] min-h-[var(--size-tap)] rounded-full font-medium text-[length:var(--font-200)] transition-colors inline-flex items-center gap-[var(--space-8)]";
   const variants = {
-    primary: "bg-[#edfc3a] hover:bg-[#f2ff4d] text-black",
-    secondary: "border border-[#edfc3a] text-[#edfc3a] hover:bg-[#edfc3a]/10"
+    primary: "bg-accent hover:bg-accent-strong text-black",
+    secondary: "border border-accent text-accent hover:bg-accent/10"
   };
   
   return (

@@ -56,7 +56,7 @@
 
 /* Blockquote styling */
 .prose blockquote {
-  border-left-color: #edfc3a;
+  border-left-color: rgb(var(--accent));
   border-left-width: 4px;
   padding-left: 1.5rem;
   font-style: italic;
@@ -73,7 +73,7 @@
 /* List styling */
 .prose ul > li::marker,
 .prose ol > li::marker {
-  color: #edfc3a;
+  color: rgb(var(--accent));
   font-weight: 600;
 }
 
@@ -91,18 +91,18 @@
 }
 
 .prose .heading-anchor:hover {
-  color: #edfc3a;
+  color: rgb(var(--accent));
 }
 
 /* Task list checkboxes */
 .prose input[type="checkbox"] {
   margin-right: 0.5rem;
-  accent-color: #edfc3a;
+  accent-color: rgb(var(--accent));
 }
 
 /* Link styling with proper focus states */
 .prose a {
-  color: #edfc3a;
+  color: rgb(var(--accent));
   text-decoration: underline;
   text-decoration-thickness: 1px;
   text-underline-offset: 0.25rem;
@@ -115,7 +115,7 @@
 }
 
 .prose a:focus {
-  outline: 2px solid #edfc3a;
+  outline: 2px solid rgb(var(--accent));
   outline-offset: 0.25rem;
   border-radius: 0.25rem;
 }
@@ -237,3 +237,4 @@
     font-size: 1.1em;
   }
 }
+

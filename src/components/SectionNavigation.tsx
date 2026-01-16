@@ -84,7 +84,7 @@ export function SectionNavigation() {
                 onClick={() => scrollToSection(section.id)}
                 className={`relative px-4 py-2 rounded-full transition-all duration-300 ${
                   isActive 
-                    ? 'text-white bg-[#edfc3a]/20' 
+                    ? 'text-white bg-accent/20' 
                     : 'text-gray-400 hover:text-white hover:bg-white/10'
                 }`}
                 whileHover={{ scale: 1.05 }}
@@ -99,7 +99,7 @@ export function SectionNavigation() {
                 {isActive && (
                   <motion.div
                     layoutId="activeSection"
-                    className="absolute inset-0 bg-[#edfc3a]/20 rounded-full"
+                    className="absolute inset-0 bg-accent/20 rounded-full"
                     initial={false}
                     transition={{ type: "spring", stiffness: 500, damping: 30 }}
                   />
@@ -156,7 +156,7 @@ export function SectionNavigation() {
                     onClick={() => scrollToSection(section.id)}
                     className={`w-full flex items-center space-x-3 px-3 py-2 rounded-lg transition-all duration-300 ${
                       isActive 
-                        ? 'text-white bg-[#edfc3a]/20' 
+                        ? 'text-white bg-accent/20' 
                         : 'text-gray-400 hover:text-white hover:bg-white/10'
                     }`}
                     whileHover={{ scale: 1.02 }}
@@ -176,3 +176,4 @@ export function SectionNavigation() {
     </motion.nav>
   );
 }
+

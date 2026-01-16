@@ -11,7 +11,7 @@ export function ExperienceList() {
       <div className="space-y-8">
         {[1, 2].map((i) => (
           <div key={i} className="animate-pulse">
-            <div className="h-32 bg-white/5 rounded-lg"></div>
+            <div className="h-32 bg-[var(--surface)] border border-[var(--border)] rounded-[var(--radius-md)]"></div>
           </div>
         ))}
       </div>

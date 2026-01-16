@@ -225,7 +225,7 @@ export function MarkdownEditor({
   };
 
   const splitPaneView = (
-    <div className={`flex gap-4 h-full ${isFullscreen ? 'fixed inset-0 z-50 p-4 bg-gray-900' : ''}`}>
+    <div className={`flex gap-[var(--space-16)] h-full ${isFullscreen ? 'fixed inset-0 z-50 p-[var(--space-16)] bg-[var(--bg)]' : ''}`}>
       {/* Editor Pane */}
       <div className={`flex flex-col flex-1 ${isFullscreen ? 'h-full' : ''}`}>
         <textarea
@@ -236,12 +236,12 @@ export function MarkdownEditor({
           placeholder={placeholder}
           rows={rows}
           style={{ fontSize: `${textSize}px` }}
-          className="w-full flex-1 px-3 py-2 rounded-lg bg-white/5 border border-white/10 text-white focus:ring-2 focus:ring-[#edfc3a] focus:border-transparent resize-none font-mono"
+          className="w-full flex-1 field resize-none font-mono"
         />
       </div>
 
       {/* Preview Pane */}
-      <div className="flex-1 overflow-auto rounded-lg bg-white/5 border border-white/10 p-4">
+      <div className="flex-1 overflow-auto rounded-[var(--radius-md)] bg-[var(--surface)] border border-[var(--border)] p-[var(--space-16)]">
         <div className="prose prose-invert max-w-none" style={{ fontSize: `${textSize}px` }}>
           <MarkdownRenderer content={value} />
         </div>
@@ -250,10 +250,10 @@ export function MarkdownEditor({
   );
 
   return (
-    <div className={`space-y-3 ${className}`}>
+    <div className={`stack [--stack-space:var(--space-12)] ${className}`}>
       {/* Toolbar */}
-      <div className="flex flex-wrap items-center gap-2 p-3 bg-white/5 rounded-lg border border-white/10">
-        <div className="flex items-center gap-1">
+      <div className="flex flex-wrap items-center gap-[var(--space-8)] p-[var(--space-12)] bg-[var(--surface)] rounded-[var(--radius-md)] border border-[var(--border)]">
+        <div className="flex items-center gap-[var(--space-4)]">
           {formatButtons.map((button, index) => {
             const Icon = button.icon;
             return (
@@ -261,90 +261,90 @@ export function MarkdownEditor({
                 key={index}
                 type="button"
                 onClick={button.action}
-                className="p-2 text-gray-400 hover:text-white hover:bg-white/10 rounded transition-colors"
+                className="p-[var(--space-8)] text-[var(--text-muted)] hover:text-[var(--text)] hover:bg-[var(--surface-strong)] rounded-[var(--radius-sm)] transition-colors"
                 title={`${button.label} (${button.shortcut})`}
               >
-                <Icon className="h-4 w-4" />
+                <Icon className="h-[var(--space-16)] w-[var(--space-16)]" />
               </button>
             );
           })}
         </div>
         
-        <div className="h-4 w-px bg-white/20 mx-2" />
+        <div className="h-[var(--space-16)] w-px bg-[var(--border)] mx-[var(--space-8)]" />
         
         {/* Text Size Controls */}
-        <div className="flex items-center gap-1">
+        <div className="flex items-center gap-[var(--space-4)]">
           <button
             type="button"
             onClick={decreaseTextSize}
-            className="p-2 text-gray-400 hover:text-white hover:bg-white/10 rounded transition-colors"
-            title="Decrease Text Size (Ctrl+-)"
+            className="p-[var(--space-8)] text-[var(--text-muted)] hover:text-[var(--text)] hover:bg-[var(--surface-strong)] rounded-[var(--radius-sm)] transition-colors"
+            title={t('admin.markdown.decreaseTextSize')}
             disabled={textSize <= 10}
           >
-            <ZoomOut className="h-4 w-4" />
+            <ZoomOut className="h-[var(--space-16)] w-[var(--space-16)]" />
           </button>
           
-          <span className="text-xs text-gray-400 px-2 py-1 bg-white/5 rounded min-w-[3rem] text-center">
+          <span className="text-[length:var(--font-100)] text-[var(--text-muted)] px-[var(--space-8)] py-[var(--space-4)] bg-[var(--surface-strong)] rounded-[var(--radius-sm)] min-w-[3rem] text-center">
             {textSize}px
           </span>
           
           <button
             type="button"
             onClick={increaseTextSize}
-            className="p-2 text-gray-400 hover:text-white hover:bg-white/10 rounded transition-colors"
-            title="Increase Text Size (Ctrl+=)"
+            className="p-[var(--space-8)] text-[var(--text-muted)] hover:text-[var(--text)] hover:bg-[var(--surface-strong)] rounded-[var(--radius-sm)] transition-colors"
+            title={t('admin.markdown.increaseTextSize')}
             disabled={textSize >= 24}
           >
-            <ZoomIn className="h-4 w-4" />
+            <ZoomIn className="h-[var(--space-16)] w-[var(--space-16)]" />
           </button>
           
           <button
             type="button"
             onClick={resetTextSize}
-            className="p-2 text-gray-400 hover:text-white hover:bg-white/10 rounded transition-colors"
+            className="p-[var(--space-8)] text-[var(--text-muted)] hover:text-[var(--text)] hover:bg-[var(--surface-strong)] rounded-[var(--radius-sm)] transition-colors"
             title="Reset Text Size (Ctrl+0)"
           >
-            <RotateCcw className="h-4 w-4" />
+            <RotateCcw className="h-[var(--space-16)] w-[var(--space-16)]" />
           </button>
         </div>
         
-        <div className="h-4 w-px bg-white/20 mx-2" />
+        <div className="h-[var(--space-16)] w-px bg-[var(--border)] mx-[var(--space-8)]" />
         
         <button
           type="button"
           onClick={() => setShowPreview(!showPreview)}
           className={`p-2 rounded transition-colors ${
             showPreview 
-              ? 'text-[#edfc3a] bg-[#edfc3a]/10' 
-              : 'text-gray-400 hover:text-white hover:bg-white/10'
+              ? 'text-accent bg-accent/10' 
+              : 'text-[var(--text-muted)] hover:text-[var(--text)] hover:bg-[var(--surface-strong)]'
           }`}
           title={t('admin.markdown.togglePreview')}
         >
-          {showPreview ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
+          {showPreview ? <EyeOff className="h-[var(--space-16)] w-[var(--space-16)]" /> : <Eye className="h-[var(--space-16)] w-[var(--space-16)]" />}
         </button>
 
         {showPreview && (
           <button
             type="button"
             onClick={() => setIsFullscreen(!isFullscreen)}
-            className="p-2 text-gray-400 hover:text-white hover:bg-white/10 rounded transition-colors"
+            className="p-[var(--space-8)] text-[var(--text-muted)] hover:text-[var(--text)] hover:bg-[var(--surface-strong)] rounded-[var(--radius-sm)] transition-colors"
             title={t('admin.markdown.toggleFullscreen')}
           >
-            {isFullscreen ? <Minimize2 className="h-4 w-4" /> : <Maximize2 className="h-4 w-4" />}
+            {isFullscreen ? <Minimize2 className="h-[var(--space-16)] w-[var(--space-16)]" /> : <Maximize2 className="h-[var(--space-16)] w-[var(--space-16)]" />}
           </button>
         )}
 
-        <div className="ml-auto flex items-center gap-1">
+        <div className="ml-auto flex items-center gap-[var(--space-4)]">
           <button
             type="button"
             onClick={copyShortcuts}
-            className="p-2 text-gray-400 hover:text-white hover:bg-white/10 rounded transition-colors text-xs"
+            className="p-[var(--space-8)] text-[var(--text-muted)] hover:text-[var(--text)] hover:bg-[var(--surface-strong)] rounded-[var(--radius-sm)] transition-colors text-[length:var(--font-100)]"
             title={t('admin.markdown.copyShortcuts')}
           >
             {copiedShortcuts ? (
-              <Check className="h-4 w-4 text-green-400" />
+              <Check className="h-[var(--space-16)] w-[var(--space-16)] text-green-400" />
             ) : (
-              <Copy className="h-4 w-4" />
+              <Copy className="h-[var(--space-16)] w-[var(--space-16)]" />
             )}
           </button>
         </div>
@@ -360,12 +360,12 @@ export function MarkdownEditor({
           placeholder={placeholder}
           rows={rows}
           style={{ fontSize: `${textSize}px` }}
-          className="w-full px-3 py-2 rounded-lg bg-white/5 border border-white/10 text-white focus:ring-2 focus:ring-[#edfc3a] focus:border-transparent resize-vertical font-mono"
+          className="w-full field resize-vertical font-mono"
         />
       )}
 
       {/* Help Text */}
-      <div className="text-xs text-gray-500 space-y-1">
+      <div className="text-[length:var(--font-100)] text-[var(--text-muted)] stack [--stack-space:var(--space-4)]">
         <p><strong>{t('admin.markdown.help.keyboardShortcuts')}</strong></p>
         <p><strong>{t('admin.markdown.help.textSize')}</strong></p>
         <p><strong>{t('admin.markdown.help.markdownSyntax')}</strong></p>
@@ -378,7 +378,7 @@ export function MarkdownEditor({
         <button
           type="button"
           onClick={() => setIsFullscreen(false)}
-          className="fixed bottom-4 right-4 px-4 py-2 bg-[#edfc3a] text-black rounded-lg font-medium hover:bg-[#f2ff4d] transition-colors z-50"
+          className="fixed bottom-[var(--space-16)] right-[var(--space-16)] btn btn-primary z-50"
         >
           Exit Fullscreen
         </button>
@@ -386,3 +386,4 @@ export function MarkdownEditor({
     </div>
   );
 }
+

@@ -11,11 +11,11 @@ export function TechnologyIcon({ icon: Icon, delay = 0 }: TechnologyIconProps) {
     <AnimationWrapper animation="scaleIn" delay={delay}>
       <div className="relative">
         {/* Outer Glow */}
-        <div className="absolute inset-0 bg-[#dbe938] blur-lg rounded-circle opacity-50" />
+        <div className="absolute inset-0 bg-[color:rgb(var(--accent))] blur-xl rounded-full opacity-40" />
         
         {/* Icon Container */}
-        <div className="relative p-5 bg-black rounded-xl shadow-lg">
-          <Icon className="h-12 w-12 text-[#dbe938]" />
+        <div className="relative p-[var(--space-24)] bg-[var(--surface)] rounded-[var(--radius-lg)] shadow-[var(--shadow-sm)]">
+          <Icon className="h-[var(--space-48)] w-[var(--space-48)] text-accent" />
         </div>
       </div>
     </AnimationWrapper>

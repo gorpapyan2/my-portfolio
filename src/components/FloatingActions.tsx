@@ -8,17 +8,17 @@ export default function FloatingActions() {
   };
 
   return (
-    <div className="fixed bottom-6 right-6 z-40 flex flex-col gap-3">
+    <div className="fixed bottom-[var(--space-24)] right-[var(--space-24)] z-40 flex flex-col gap-[var(--space-12)]">
       <motion.button
         onClick={scrollToTop}
-        className="w-12 h-12 bg-white/10 backdrop-blur-md border border-white/20 rounded-full flex items-center justify-center text-white hover:bg-white/20 transition-colors duration-300"
+        className="w-[var(--size-tap)] h-[var(--size-tap)] bg-[var(--surface)] backdrop-blur-md border border-[var(--border)] rounded-full flex items-center justify-center text-[var(--text)] hover:bg-[var(--surface-strong)] transition-colors duration-300"
         whileHover={{ scale: 1.1 }}
         whileTap={{ scale: 0.95 }}
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 1 }}
       >
-        <ArrowUp className="w-5 h-5" />
+        <ArrowUp className="w-[var(--space-20)] h-[var(--space-20)]" />
       </motion.button>
       
       <motion.div
@@ -30,9 +30,9 @@ export default function FloatingActions() {
       >
         <Link
           to="/"
-          className="w-12 h-12 bg-white/10 backdrop-blur-md border border-white/20 rounded-full flex items-center justify-center text-white hover:bg-white/20 transition-colors duration-300"
+          className="w-[var(--size-tap)] h-[var(--size-tap)] bg-[var(--surface)] backdrop-blur-md border border-[var(--border)] rounded-full flex items-center justify-center text-[var(--text)] hover:bg-[var(--surface-strong)] transition-colors duration-300"
         >
-          <Home className="w-5 h-5" />
+          <Home className="w-[var(--space-20)] h-[var(--space-20)]" />
         </Link>
       </motion.div>
     </div>

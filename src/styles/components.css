@@ -2,44 +2,43 @@
 @layer components {
   /* Grid Pattern Background */
   .bg-grid-pattern {
-    @apply bg-black;
-    background-image: linear-gradient(rgba(255, 255, 255, 0.05) 1px, transparent 1px),
-      linear-gradient(90deg, rgba(255, 255, 255, 0.05) 1px, transparent 1px);
-    background-size: 40px 40px;
+    @apply bg-[var(--bg)];
+    background-image:
+      linear-gradient(rgba(255, 255, 255, 0.03) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
+    background-size: 48px 48px;
   }
 
   /* Card Styles */
   .card {
-    @apply relative bg-white/5 backdrop-blur-sm rounded-xl p-6 
-           transition-all duration-300 hover:transform hover:-translate-y-1
-           border border-white/10;
+    @apply relative bg-[var(--surface)] backdrop-blur-sm rounded-2xl p-6 
+           transition-colors duration-300 border border-[var(--border)];
     animation: cardFadeIn 0.8s ease-out forwards;
   }
 
   /* Icon Styles */
   .icon-circle {
-    @apply relative p-3 rounded-full border border-white/20
-           transition-all duration-300 hover:border-white/40
-           hover:scale-110 hover:shadow-glow;
+    @apply relative p-3 rounded-full border border-[var(--border)]
+           transition-colors duration-300 hover:border-white/30;
   }
 
   /* Button Styles */
   .btn {
     @apply px-6 py-3 rounded-full font-medium
-           transition-all duration-300
-           hover:scale-105 active:scale-95;
+           transition-colors duration-300;
+    min-height: var(--size-tap);
+    font-size: var(--font-200);
+    line-height: var(--leading-body);
   }
 
   .btn-primary {
-    @apply bg-indigo-600 text-white
-           hover:bg-indigo-500
-           shadow-md hover:shadow-lg;
+    @apply bg-accent text-accent-ink hover:bg-accent-strong;
   }
 
   .btn-secondary {
-    @apply bg-white/10 text-white
-           hover:bg-white/20
-           backdrop-blur-sm;
+    @apply bg-[var(--surface)] text-[var(--text)]
+           hover:bg-[var(--surface-strong)]
+           border border-[var(--border)];
   }
 
   /* Technology Card */
@@ -48,25 +47,25 @@
     animation-delay: calc(var(--card-index) * 0.2s);
     opacity: 0; /* Initial state */
     transform: scale(0.9); /* Initial state */
-    border: 1px solid #ffffff; /* White border for the card */
-    border-radius: 16px; /* Smooth corners */
-    background: #1a1a24; /* Subtle dark background */
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    background: var(--surface);
     padding: 24px;
     transition: all 0.3s ease; /* Smooth hover effects */
   }
 
   .tool-card:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 4px 15px rgba(255, 255, 255, 0.3); /* White shadow */
+    transform: translateY(-3px);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.25);
     transition: all 0.3s ease;
   }
 
   /* Icon Styles */
   .tool-card-icon {
     animation: iconPop 0.6s cubic-bezier(0.25, 1.5, 0.5, 1) forwards;
-    color: #d7e534; /* Icon color */
-    background: rgba(255, 255, 255, 0.1); /* Subtle white glow background */
-    border: 2px solid #ffffff; /* White border for the icon */
+    color: rgb(var(--accent));
+    background: rgba(255, 255, 255, 0.06);
+    border: 1px solid var(--border);
     border-radius: 50%;
     padding: 12px;
     display: inline-flex;
@@ -76,9 +75,9 @@
   }
 
   .tool-card-icon:hover {
-    color: white; /* Icon hover effect */
-    border-color: #d7e534; /* Glow effect on hover */
-    box-shadow: 0 0 10px rgba(215, 229, 52, 0.5);
+    color: rgb(var(--accent-strong));
+    border-color: rgba(255, 255, 255, 0.25);
+    box-shadow: none;
   }
 
   /* Text and List Styles */
@@ -87,7 +86,7 @@
     animation-delay: calc(var(--card-index) * 0.4s + 0.3s);
     opacity: 0; /* Initial state */
     transform: translateY(20px); /* Initial state */
-    color: #d7e534; /* Text color */
+    color: var(--text);
     font-size: 1.25rem;
     font-weight: bold;
     margin-top: 12px;
@@ -95,18 +94,79 @@
   }
 
   .tool-card ul li {
-    color: #d7e534; /* List text color */
+    color: var(--text-muted);
     margin-top: 8px;
     transition: color 0.3s ease;
   }
 
   .tool-card ul li:hover {
-    color: white; /* Hover effect */
+    color: var(--text);
   }
 
   /* Admin Dropdown Styles */
   .admin-select {
-    @apply bg-white/5 border border-white/10 text-white rounded-lg px-3 py-2 focus:ring-2 focus:ring-[#edfc3a] focus:border-transparent;
+    @apply bg-[var(--surface)] border border-[var(--border)] text-[var(--text)] rounded-lg px-3 py-2 focus:ring-2 focus:ring-accent focus:border-transparent;
+  }
+
+  .form-label {
+    font-size: var(--font-100);
+    color: var(--text-muted);
+    margin-bottom: var(--space-8);
+    display: block;
+  }
+
+  .field {
+    width: 100%;
+    padding: var(--space-12) var(--space-16);
+    border-radius: var(--radius-md);
+    border: var(--border-1) solid var(--border);
+    background: var(--surface);
+    color: var(--text);
+    font-size: var(--font-200);
+    line-height: var(--leading-body);
+    min-height: var(--size-tap);
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+  }
+
+  .field:focus {
+    outline: none;
+    box-shadow: 0 0 0 2px rgb(var(--accent) / 0.25);
+    border-color: rgb(var(--accent) / 0.6);
+  }
+
+  .field[disabled] {
+    opacity: 0.6;
+    cursor: not-allowed;
+  }
+
+  .field-static {
+    width: 100%;
+    padding: var(--space-12) var(--space-16);
+    border-radius: var(--radius-md);
+    border: var(--border-1) solid var(--border);
+    background: var(--surface);
+    color: var(--text);
+  }
+
+  .modal {
+    @apply fixed inset-0 flex items-center justify-center z-50;
+    background: rgb(0 0 0 / 0.5);
+    padding: var(--space-16);
+  }
+
+  .modal-panel {
+    background: var(--bg-elevated);
+    border: var(--border-1) solid var(--border);
+    border-radius: var(--radius-lg);
+    padding: var(--space-24);
+    box-shadow: var(--shadow-md);
+    width: min(100%, 32rem);
+  }
+
+  .modal-actions {
+    display: flex;
+    gap: var(--space-12);
+    margin-top: var(--space-24);
   }
 
   .admin-select option {
@@ -166,18 +226,14 @@
 }
 
 .btn {
-  @apply text-white rounded-md px-4 py-2 transition-transform duration-300 ease-in-out;
-  background-color: theme('colors.btnFallback'); /* Fallback for older browsers */
-  background-image: theme('backgroundImage.btn-gradient'); /* Gradient background */
-  background-size: 100% 100%;
-  background-repeat: no-repeat;
+  @apply text-accent-ink rounded-md px-4 py-2 transition-colors duration-300 ease-in-out;
+  background-color: rgb(var(--accent));
 }
 
 .btn:hover {
-  @apply transform scale-105; /* Slight zoom effect */
-  background-image: linear-gradient(to right, #28A745, #007BFF); /* Hover gradient swap */
+  background-color: rgb(var(--accent-strong));
 }
 
 .btn:focus {
-  @apply outline-none ring-2 ring-offset-2 ring-blue-700;
+  @apply outline-none ring-2 ring-offset-2 ring-white/20;
 }

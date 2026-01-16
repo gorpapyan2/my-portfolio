@@ -118,19 +118,19 @@ for num in fibonacci(10):
 **Try editing this content** to see the live preview with different themes!`);
 
   return (
-    <div className="max-w-6xl mx-auto p-6 space-y-6">
-      <Card className="p-6">
-        <div className="flex items-center justify-between mb-4">
-          <h1 className="text-3xl font-bold text-white">Enhanced Markdown Editor</h1>
+    <div className="max-w-6xl mx-auto p-[var(--space-24)] stack [--stack-space:var(--space-24)]">
+      <Card className="stack [--stack-space:var(--space-16)]">
+        <div className="flex items-center justify-between">
+          <h1 className="text-[length:var(--font-700)] font-semibold text-[var(--text)]">Enhanced Markdown Editor</h1>
           <button
             onClick={toggleTheme}
-            className="p-2 rounded-lg bg-white/5 hover:bg-white/10 text-gray-400 hover:text-white transition-colors"
+            className="p-[var(--space-8)] rounded-[var(--radius-md)] bg-white/5 hover:bg-white/10 text-[var(--text-muted)] hover:text-[var(--text)] transition-colors"
             title={`Switch to ${theme === 'dark' ? 'light' : 'dark'} mode`}
           >
             {theme === 'dark' ? <Sun className="h-5 w-5" /> : <Moon className="h-5 w-5" />}
           </button>
         </div>
-        <p className="text-gray-300 mb-6">
+        <p className="text-[var(--text-muted)] text-[length:var(--font-200)]">
           This demo shows the enhanced markdown formatting capabilities. Code themes automatically sync with the app theme. 
           Use the toolbar buttons and keyboard shortcuts to format your text.
         </p>
@@ -143,8 +143,8 @@ for num in fibonacci(10):
         />
       </Card>
 
-      <Card className="p-6">
-        <h2 className="text-2xl font-bold text-white mb-4">Rendered Output</h2>
+      <Card className="stack [--stack-space:var(--space-16)]">
+        <h2 className="text-[length:var(--font-600)] font-semibold text-[var(--text)]">Rendered Output</h2>
         <MarkdownRenderer content={content} />
       </Card>
     </div>

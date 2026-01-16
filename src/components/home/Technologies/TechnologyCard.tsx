@@ -13,56 +13,56 @@ export const TechnologyCard = ({ technology }: { technology: Technology }) => {
       className="group relative"
     >
       {/* Enhanced Glassmorphism container */}
-      <div className="relative overflow-hidden rounded-3xl bg-gradient-to-br from-white/[0.08] to-white/[0.02] backdrop-blur-xl border border-white/10 shadow-2xl hover:shadow-lime-500/10 transition-all duration-700 hover:border-lime-400/20 hover:scale-[1.02]">
+      <div className="relative overflow-hidden rounded-[var(--radius-xl)] bg-[var(--surface)] backdrop-blur-xl border border-[var(--border)] shadow-[var(--shadow-md)] transition-all duration-700 hover:border-accent/30 hover:shadow-[var(--shadow-md)] hover:scale-[1.02]">
         {/* Animated gradient overlay */}
-        <div className="absolute inset-0 bg-gradient-to-br from-lime-400/5 via-transparent to-emerald-400/5 opacity-0 group-hover:opacity-100 transition-opacity duration-700" />
+        <div className="absolute inset-0 bg-gradient-to-br from-accent/10 via-transparent to-accent/5 opacity-0 group-hover:opacity-100 transition-opacity duration-700" />
         
         {/* Category Badge */}
-        <div className="absolute top-6 right-6 z-10">
+        <div className="absolute top-[var(--space-24)] right-[var(--space-24)] z-10">
           <motion.div
             initial={{ opacity: 0, scale: 0.8 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ delay: 0.2 }}
-            className="px-3 py-1 rounded-full bg-lime-400/10 border border-lime-400/20 backdrop-blur-sm"
+            className="px-[var(--space-12)] py-[var(--space-4)] rounded-full bg-accent/10 border border-accent/20 backdrop-blur-sm"
           >
-            <span className="text-xs font-medium text-lime-400 uppercase tracking-wider">{category}</span>
+            <span className="text-[length:var(--font-100)] font-medium text-accent uppercase tracking-[var(--tracking-wide)]">{category}</span>
           </motion.div>
         </div>
         
         {/* Content */}
-        <div className="relative p-8 lg:p-12">
-          <div className="grid lg:grid-cols-2 gap-8 lg:gap-16">
+        <div className="relative p-[var(--space-32)] lg:p-[var(--space-48)]">
+          <div className="grid lg:grid-cols-2 gap-[var(--space-32)] lg:gap-[var(--space-64)]">
             {/* Left Column */}
-            <div className="space-y-8">
+            <div className="stack [--stack-space:var(--space-32)]">
               {/* Enhanced Icon with modern glow effect */}
               <motion.div 
                 className="relative inline-block"
                 whileHover={{ scale: 1.1 }}
                 transition={{ duration: 0.3 }}
               >
-                <div className="absolute inset-0 bg-gradient-to-r from-lime-400/30 to-emerald-400/30 blur-2xl rounded-3xl scale-110 opacity-0 group-hover:opacity-100 transition-all duration-700" />
-                <div className="relative p-6 rounded-3xl bg-gradient-to-br from-lime-400/10 to-emerald-400/5 border border-lime-400/20 backdrop-blur-sm">
-                  <Icon className="w-12 h-12 text-lime-400 drop-shadow-lg" />
+                <div className="absolute inset-0 bg-gradient-to-r from-accent/30 to-accent/10 blur-2xl rounded-[var(--radius-xl)] scale-110 opacity-0 group-hover:opacity-100 transition-all duration-700" />
+                <div className="relative p-[var(--space-24)] rounded-[var(--radius-xl)] bg-accent/10 border border-accent/20 backdrop-blur-sm">
+                  <Icon className="w-[var(--space-48)] h-[var(--space-48)] text-accent drop-shadow-lg" />
                 </div>
               </motion.div>
 
               {/* Enhanced Title and Description */}
-              <div className="space-y-6">
-                <h3 className="text-4xl font-bold bg-gradient-to-r from-white via-gray-200 to-gray-400 bg-clip-text text-transparent leading-tight">
+              <div className="stack [--stack-space:var(--space-24)]">
+                <h3 className="text-[length:var(--font-700)] font-semibold text-[var(--text)] leading-[var(--leading-tight)] tracking-[var(--tracking-tight)]">
                   {title}
                 </h3>
-                <p className="text-xl text-gray-300 leading-relaxed">{description}</p>
+                <p className="text-[length:var(--font-300)] text-[var(--text-muted)] leading-[var(--leading-body)]">{description}</p>
               </div>
 
               {/* Technology Tags */}
-              <div className="flex flex-wrap gap-2">
+              <div className="flex flex-wrap gap-[var(--space-8)]">
                 {tags.map((tag, index) => (
                   <motion.span
                     key={tag}
                     initial={{ opacity: 0, y: 10 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ delay: 0.3 + index * 0.1 }}
-                    className="px-3 py-1.5 rounded-lg bg-white/5 border border-white/10 text-sm text-gray-300 hover:bg-lime-400/10 hover:border-lime-400/30 hover:text-lime-400 transition-all duration-300"
+                    className="px-[var(--space-12)] py-[var(--space-8)] rounded-[var(--radius-md)] bg-[var(--surface-strong)] border border-[var(--border)] text-[length:var(--font-100)] text-[var(--text-muted)] hover:bg-accent/10 hover:border-accent/30 hover:text-accent transition-all duration-300"
                   >
                     {tag}
                   </motion.span>
@@ -70,27 +70,27 @@ export const TechnologyCard = ({ technology }: { technology: Technology }) => {
               </div>
 
               {/* Enhanced Progress Bar */}
-              <div className="space-y-4">
+              <div className="stack [--stack-space:var(--space-16)]">
                 <div className="flex justify-between items-center">
-                  <TranslationText translationKey="home.technologies.proficiencyLevel" as="span" shimmerWidth="150px" className="text-sm font-medium text-gray-400 uppercase tracking-wider" />
-                  <div className="flex items-center gap-2">
-                    <span className="text-2xl font-bold text-lime-400">{level}%</span>
-                    <div className="w-2 h-2 bg-lime-400 rounded-full animate-pulse" />
+                  <TranslationText translationKey="home.technologies.proficiencyLevel" as="span" shimmerWidth="150px" className="text-[length:var(--font-100)] font-medium text-[var(--text-muted)] uppercase tracking-[var(--tracking-wide)]" />
+                  <div className="flex items-center gap-[var(--space-8)]">
+                    <span className="text-[length:var(--font-600)] font-semibold text-accent">{level}%</span>
+                    <div className="w-[var(--space-8)] h-[var(--space-8)] bg-accent rounded-full animate-pulse" />
                   </div>
                 </div>
-                <div className="relative h-4 bg-white/5 rounded-full overflow-hidden border border-white/10">
+                <div className="relative h-[var(--space-16)] bg-[var(--surface-strong)] rounded-full overflow-hidden border border-[var(--border)]">
                   <motion.div
                     initial={{ width: 0 }}
                     animate={{ width: `${level}%` }}
                     transition={{ duration: 2, ease: "easeOut", delay: 0.5 }}
-                    className="absolute top-0 left-0 h-full bg-gradient-to-r from-lime-400 via-emerald-400 to-teal-400 rounded-full shadow-lg shadow-lime-400/25"
+                    className="absolute top-0 left-0 h-full bg-gradient-to-r from-accent via-accent-strong to-accent rounded-full shadow-[var(--shadow-sm)]"
                   />
                   {/* Progress glow effect */}
                   <motion.div
                     initial={{ opacity: 0 }}
                     animate={{ opacity: 1 }}
                     transition={{ delay: 1.5 }}
-                    className="absolute top-0 left-0 h-full bg-gradient-to-r from-lime-400/50 to-emerald-400/50 rounded-full blur-sm"
+                    className="absolute top-0 left-0 h-full bg-gradient-to-r from-accent/50 to-accent/30 rounded-full blur-sm"
                     style={{ width: `${level}%` }}
                   />
                 </div>
@@ -98,38 +98,38 @@ export const TechnologyCard = ({ technology }: { technology: Technology }) => {
 
               {/* Enhanced Real World Impact */}
               <motion.div 
-                className="p-8 rounded-2xl bg-gradient-to-br from-white/5 to-white/0 border border-white/10 hover:border-lime-400/20 transition-all duration-500"
+                className="p-[var(--space-32)] rounded-[var(--radius-lg)] bg-[var(--surface)] border border-[var(--border)] hover:border-accent/30 transition-all duration-500"
                 whileHover={{ y: -2 }}
               >
-                <h4 className="text-xl font-semibold text-white mb-4 flex items-center gap-3">
-                  <div className="w-3 h-3 bg-gradient-to-r from-lime-400 to-emerald-400 rounded-full" />
+                <h4 className="text-[length:var(--font-500)] font-semibold text-[var(--text)] mb-[var(--space-16)] flex items-center gap-[var(--space-12)]">
+                  <div className="w-[var(--space-12)] h-[var(--space-12)] bg-gradient-to-r from-accent to-accent-strong rounded-full" />
                   Real World Impact
                 </h4>
-                <p className="text-gray-300 leading-relaxed text-lg">{realWorldExample}</p>
+                <p className="text-[var(--text-muted)] leading-[var(--leading-body)] text-[length:var(--font-300)]">{realWorldExample}</p>
               </motion.div>
             </div>
 
             {/* Right Column */}
-            <div className="space-y-8">
+            <div className="stack [--stack-space:var(--space-32)]">
               <motion.div 
-                className="p-8 rounded-2xl bg-gradient-to-br from-white/5 to-white/0 border border-white/10 hover:border-lime-400/20 transition-all duration-500"
+                className="p-[var(--space-32)] rounded-[var(--radius-lg)] bg-[var(--surface)] border border-[var(--border)] hover:border-accent/30 transition-all duration-500"
                 whileHover={{ y: -2 }}
               >
-                <h4 className="text-2xl font-semibold text-white mb-8 flex items-center gap-3">
-                  <div className="w-3 h-3 bg-gradient-to-r from-lime-400 to-emerald-400 rounded-full" />
+                <h4 className="text-[length:var(--font-600)] font-semibold text-[var(--text)] mb-[var(--space-32)] flex items-center gap-[var(--space-12)]">
+                  <div className="w-[var(--space-12)] h-[var(--space-12)] bg-gradient-to-r from-accent to-accent-strong rounded-full" />
                   Detailed Overview
                 </h4>
-                <div className="space-y-6">
+                <div className="stack [--stack-space:var(--space-24)]">
                   {detailedDescription.map((desc, index) => (
                     <motion.div
                       key={index}
                       initial={{ opacity: 0, x: 20 }}
                       animate={{ opacity: 1, x: 0 }}
                       transition={{ duration: 0.5, delay: 0.4 + index * 0.1 }}
-                      className="flex items-start gap-4 p-4 rounded-xl bg-white/5 hover:bg-white/10 transition-colors duration-300"
+                      className="flex items-start gap-[var(--space-16)] p-[var(--space-16)] rounded-[var(--radius-md)] bg-[var(--surface-strong)] hover:bg-[var(--surface)] transition-colors duration-300"
                     >
-                      <div className="w-2 h-2 bg-gradient-to-r from-lime-400 to-emerald-400 rounded-full mt-2 flex-shrink-0" />
-                      <p className="text-gray-300 leading-relaxed text-lg">{desc}</p>
+                      <div className="w-[var(--space-8)] h-[var(--space-8)] bg-gradient-to-r from-accent to-accent-strong rounded-full mt-[var(--space-8)] flex-shrink-0" />
+                      <p className="text-[var(--text-muted)] leading-[var(--leading-body)] text-[length:var(--font-300)]">{desc}</p>
                     </motion.div>
                   ))}
                 </div>

@@ -29,8 +29,8 @@ export function AboutPage() {
       <ParticleBackground />
       <SectionNavigation />
       
-      <PageLayout ariaLabel="About page">
-        <div className="absolute inset-0 bg-gradient-to-b from-transparent via-[#edfc3a]/5 to-transparent" />
+      <PageLayout ariaLabel={t('pages.about.ariaLabel')}>
+        <div className="absolute inset-0 bg-gradient-to-b from-transparent via-accent/5 to-transparent" />
         
         <PageHeader
           icon={User}
@@ -38,17 +38,17 @@ export function AboutPage() {
           subtitle={<TranslationText translationKey="pages.about.subtitle" as="span" shimmerWidth="400px" />}
         />
         
-        <div className="space-y-20">
+        <div className="space-y-[var(--space-64)]">
           <AboutMe />
           <div className="max-w-6xl mx-auto px-4">
-            <div className="h-px bg-gradient-to-r from-transparent via-[#edfc3a]/30 to-transparent" />
+            <div className="h-px bg-gradient-to-r from-transparent via-accent/30 to-transparent" />
           </div>
-          <div className="flex flex-col md:grid md:grid-cols-2 gap-10 mb-24 md:mb-32 lg:mb-40">
+          <div className="flex flex-col md:grid md:grid-cols-2 gap-[var(--space-32)] mb-[var(--space-64)]">
             <KeyResults />
             <Languages />
           </div>
           <div className="max-w-6xl mx-auto px-4">
-            <div className="h-px bg-gradient-to-r from-transparent via-[#edfc3a]/30 to-transparent" />
+            <div className="h-px bg-gradient-to-r from-transparent via-accent/30 to-transparent" />
           </div>
           
           {/* Philosophy Narrative Section */}
@@ -59,7 +59,7 @@ export function AboutPage() {
             viewport={{ once: true }}
             className="max-w-3xl mx-auto"
           >
-            <div className="bg-white/5 backdrop-blur-sm rounded-xl p-8 border border-white/10 hover:border-[#edfc3a]/30 transition-all duration-300">
+            <div className="bg-white/5 backdrop-blur-sm rounded-xl p-8 border border-white/10 hover:border-accent/30 transition-all duration-300">
               <h3 className="text-2xl font-bold text-white mb-4">
                 {t('about.philosophy')}
               </h3>
@@ -98,3 +98,4 @@ export function AboutPage() {
     </>
   );
 }
+

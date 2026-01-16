@@ -22,10 +22,10 @@ export function MobileMenu() {
   const showLanguageSelector = isFeatureEnabled('language_selector');
   
   const navItems = [
-    { to: "/about", label: "About" },
-    ...(showWorkSection ? [{ to: "/work", label: "Work" }] : []),
-    ...(showBlogSection ? [{ to: "/blog", label: "Blog" }] : []),
-    { to: "/contact", label: "Contact" },
+    { to: "/about", labelKey: "nav.about" },
+    ...(showWorkSection ? [{ to: "/work", labelKey: "nav.work" }] : []),
+    ...(showBlogSection ? [{ to: "/blog", labelKey: "nav.blog" }] : []),
+    { to: "/contact", labelKey: "nav.contact" },
   ];
 
   // Close on route change
@@ -72,12 +72,12 @@ export function MobileMenu() {
     <div className="md:hidden relative">
       <button
         onClick={() => setIsOpen(true)}
-        className="p-2 text-gray-300 hover:text-[#edfc3a] transition-all duration-300 hover:scale-110 active:scale-95 hover:rotate-90 group"
+        className="p-[var(--space-8)] text-[var(--text-muted)] hover:text-[var(--text)] transition-colors duration-300 group"
         aria-label={t('aria.openMenu')}
         aria-expanded={isOpen}
         aria-controls="mobile-dropdown"
       >
-        <Menu className="h-6 w-6 transition-transform duration-300 group-hover:scale-110" />
+        <Menu className="h-[var(--space-24)] w-[var(--space-24)] transition-transform duration-300 group-hover:scale-105" />
       </button>
 
       {/* Dropdown Menu */}
@@ -96,27 +96,29 @@ export function MobileMenu() {
             role="dialog"
             aria-modal="true"
             aria-labelledby="mobile-dropdown-title"
-            className="absolute top-full right-0 z-[1001] mt-2 w-64 bg-black/95 backdrop-blur-md rounded-lg shadow-2xl border border-white/10 overflow-hidden animate-in slide-in-from-top-2 fade-in duration-300"
+            className="absolute top-full right-0 z-[1001] mt-[var(--space-8)] w-64 bg-[var(--bg-elevated)] backdrop-blur-md rounded-[var(--radius-md)] shadow-2xl border border-[var(--border)] overflow-hidden animate-in slide-in-from-top-2 fade-in duration-300"
           >
             {/* Header */}
-            <div className="flex items-center justify-between px-4 py-3 border-b border-white/10">
-              <h2 id="mobile-dropdown-title" className="text-sm font-medium text-white">Menu</h2>
+            <div className="flex items-center justify-between px-[var(--space-16)] py-[var(--space-12)] border-b border-[var(--border)]">
+              <h2 id="mobile-dropdown-title" className="text-[length:var(--font-100)] font-medium text-[var(--text)]">
+                <TranslationText translationKey="mobile.menu" shimmerWidth="50px" />
+              </h2>
               <button
                 onClick={() => setIsOpen(false)}
-                className="p-1 rounded text-gray-300 hover:text-[#edfc3a] transition-all duration-300 hover:rotate-90 hover:scale-110 group"
+                className="p-[var(--space-4)] rounded-[var(--radius-sm)] text-[var(--text-muted)] hover:text-[var(--text)] transition-colors duration-300 group"
                 aria-label={t('aria.closeMenu')}
               >
-                <X className="h-5 w-5 transition-transform duration-300 group-hover:scale-110" />
+                <X className="h-[var(--space-20)] w-[var(--space-20)] transition-transform duration-300 group-hover:scale-105" />
               </button>
             </div>
 
             {/* Navigation Links */}
-            <nav className="px-2 py-2">
-              <ul className="space-y-1">
-                {navItems.map(({ to, label }) => (
+            <nav className="px-[var(--space-8)] py-[var(--space-8)]">
+              <ul className="stack [--stack-space:var(--space-4)]">
+                {navItems.map(({ to, labelKey }) => (
                   <li key={to}>
                     <MobileNavLink to={to} onClick={() => setIsOpen(false)}>
-                      {label}
+                      <TranslationText translationKey={labelKey} shimmerWidth="60px" />
                     </MobileNavLink>
                   </li>
                 ))}
@@ -125,25 +127,25 @@ export function MobileMenu() {
 
             {/* Language Selector */}
             {showLanguageSelector && (
-              <div className="px-4 py-3 border-t border-white/10">
-                <div className="space-y-2">
-                  <div className="flex items-center gap-2 text-sm text-gray-300">
-                    <Languages className="h-4 w-4" />
+              <div className="px-[var(--space-16)] py-[var(--space-12)] border-t border-[var(--border)]">
+                <div className="stack [--stack-space:var(--space-8)]">
+                  <div className="flex items-center gap-[var(--space-8)] text-[length:var(--font-100)] text-[var(--text-muted)]">
+                    <Languages className="h-[var(--space-16)] w-[var(--space-16)]" />
                     <span>Language</span>
                   </div>
-                  <div className="grid grid-cols-1 gap-1">
+                  <div className="grid grid-cols-1 gap-[var(--space-4)]">
                     {languages.map((lang) => (
                       <button
                         key={lang.code}
                         onClick={() => setLanguage(lang.code)}
-                        className={`flex items-center gap-3 px-3 py-2 rounded-md text-sm transition-colors duration-200 ${
+                        className={`flex items-center gap-[var(--space-12)] px-[var(--space-12)] py-[var(--space-8)] rounded-[var(--radius-md)] text-[length:var(--font-100)] transition-colors duration-200 ${
                           language === lang.code
-                            ? 'text-[#edfc3a] bg-[#edfc3a]/10 border border-[#edfc3a]/20'
-                            : 'text-gray-300 hover:text-white hover:bg-white/5'
+                            ? 'text-accent bg-[var(--surface-strong)] border border-[var(--border)]'
+                            : 'text-[var(--text-muted)] hover:text-[var(--text)] hover:bg-[var(--surface)]'
                         }`}
                       >
-                        <div className={`w-2 h-2 rounded-full transition-colors duration-200 ${
-                          language === lang.code ? 'bg-[#edfc3a]' : 'bg-gray-500'
+                        <div className={`w-[var(--space-8)] h-[var(--space-8)] rounded-full transition-colors duration-200 ${
+                          language === lang.code ? 'bg-accent' : 'bg-[var(--text-muted)]'
                         }`} />
                         <span>{lang.label}</span>
                       </button>
@@ -154,12 +156,12 @@ export function MobileMenu() {
             )}
 
             {/* CV Download Button */}
-            <div className="px-4 py-3 border-t border-white/10">
+            <div className="px-[var(--space-16)] py-[var(--space-12)] border-t border-[var(--border)]">
               <button
                 onClick={handleDownloadCV}
-                className="w-full flex items-center justify-center gap-2 px-4 py-2 rounded-md bg-[#edfc3a] text-black font-medium hover:bg-[#c4cf2b] transition-colors duration-200 group"
+                className="w-full flex items-center justify-center gap-[var(--space-8)] px-[var(--space-16)] py-[var(--space-8)] rounded-[var(--radius-md)] bg-accent text-accent-ink font-medium hover:bg-accent-strong transition-colors duration-200 group"
               >
-                <FileDown className="h-4 w-4" />
+                <FileDown className="h-[var(--space-16)] w-[var(--space-16)]" />
                 <span>
                   <TranslationText translationKey="hero.downloadCV" shimmerWidth="100px" />
                 </span>
@@ -184,10 +186,10 @@ function MobileNavLink({ to, children, onClick }: MobileNavLinkProps) {
       to={to}
       onClick={onClick}
       className={({ isActive }) =>
-        `block rounded-md px-3 py-2 text-sm transition-colors duration-300 relative group ${
+        `block rounded-[var(--radius-md)] px-[var(--space-12)] py-[var(--space-8)] text-[length:var(--font-100)] transition-colors duration-300 relative group ${
           isActive
-            ? "text-[#edfc3a] bg-[#edfc3a]/10 border border-[#edfc3a]/20"
-            : "text-gray-300 hover:text-white hover:bg-white/5"
+            ? "text-accent bg-[var(--surface-strong)] border border-[var(--border)]"
+            : "text-[var(--text-muted)] hover:text-[var(--text)] hover:bg-[var(--surface)]"
         }`
       }
     >
@@ -196,10 +198,11 @@ function MobileNavLink({ to, children, onClick }: MobileNavLinkProps) {
           {children}
           {/* Simple active indicator */}
           {isActive && (
-            <span className="absolute left-0 top-0 bottom-0 w-1 bg-[#edfc3a] rounded-r-md" />
+            <span className="absolute left-0 top-0 bottom-0 w-1 bg-accent rounded-r-md" />
           )}
         </>
       )}
     </NavLink>
   );
 }
+

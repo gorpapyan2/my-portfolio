@@ -7,29 +7,29 @@ interface AuthorBioProps {
 
 export function AuthorBio({ className = "" }: AuthorBioProps) {
   return (
-    <div className={`bg-white/5 rounded-lg border border-white/10 p-6 ${className}`}>
-      <div className="flex items-start gap-4">
-        <div className="w-16 h-16 rounded-full bg-gradient-to-br from-[#edfc3a] to-[#f2ff4d] flex items-center justify-center text-black font-bold text-xl">
+    <div className={`bg-[var(--surface)] rounded-[var(--radius-lg)] border border-[var(--border)] p-[var(--space-24)] ${className}`}>
+      <div className="flex items-start gap-[var(--space-16)]">
+        <div className="w-[var(--space-64)] h-[var(--space-64)] rounded-full bg-gradient-to-br from-accent to-accent-strong flex items-center justify-center text-accent-ink font-semibold text-[length:var(--font-400)]">
           <TranslationText translationKey="author.initials" as="span" shimmerWidth="40px" />
         </div>
         <div className="flex-1">
-          <h3 className="text-lg font-semibold text-white mb-2">
+          <h3 className="text-[length:var(--font-500)] font-semibold text-[var(--text)] mb-[var(--space-8)]">
             <TranslationText translationKey="author.name" as="span" shimmerWidth="120px" />
           </h3>
-          <p className="text-gray-400 text-sm mb-3">
+          <p className="text-[var(--text-muted)] text-[length:var(--font-100)] mb-[var(--space-12)]">
             <TranslationText translationKey="author.bio" as="span" shimmerWidth="500px" />
           </p>
-          <div className="flex flex-wrap items-center gap-4 text-xs text-gray-500">
-            <div className="flex items-center gap-1">
-              <Briefcase className="h-3 w-3" />
+          <div className="flex flex-wrap items-center gap-[var(--space-16)] text-[length:var(--font-100)] text-[var(--text-muted)]">
+            <div className="flex items-center gap-[var(--space-4)]">
+              <Briefcase className="h-[var(--space-12)] w-[var(--space-12)]" />
               <TranslationText translationKey="author.role" as="span" shimmerWidth="100px" />
             </div>
-            <div className="flex items-center gap-1">
-              <MapPin className="h-3 w-3" />
+            <div className="flex items-center gap-[var(--space-4)]">
+              <MapPin className="h-[var(--space-12)] w-[var(--space-12)]" />
               <TranslationText translationKey="author.location" as="span" shimmerWidth="70px" />
             </div>
-            <div className="flex items-center gap-1">
-              <Calendar className="h-3 w-3" />
+            <div className="flex items-center gap-[var(--space-4)]">
+              <Calendar className="h-[var(--space-12)] w-[var(--space-12)]" />
               <TranslationText translationKey="author.experience" as="span" shimmerWidth="150px" />
             </div>
           </div>
@@ -38,3 +38,4 @@ export function AuthorBio({ className = "" }: AuthorBioProps) {
     </div>
   );
 }
+

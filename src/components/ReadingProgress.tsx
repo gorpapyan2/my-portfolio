@@ -22,11 +22,12 @@ export function ReadingProgress({ className = "" }: ReadingProgressProps) {
   }, []);
 
   return (
-    <div className={`fixed top-0 left-0 w-full h-1 bg-transparent z-50 ${className}`}>
+    <div className={`fixed top-0 left-0 w-full h-[var(--space-2)] bg-transparent z-50 ${className}`}>
       <div 
-        className="h-full bg-gradient-to-r from-[#edfc3a] to-[#f2ff4d] transition-all duration-150 ease-out"
+        className="h-full bg-gradient-to-r from-accent to-accent-strong transition-all duration-150 ease-out"
         style={{ width: `${progress}%` }}
       />
     </div>
   );
 }
+

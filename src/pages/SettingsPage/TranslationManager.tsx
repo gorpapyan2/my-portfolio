@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useMemo, useState, useEffect } from 'react';
 import { Plus, Search, Filter, Download, AlertCircle } from 'lucide-react';
 import { Card } from '../../components/shared/Card';
 import { UnifiedTranslationModal } from '../../components/shared/UnifiedTranslationModal';
@@ -20,6 +20,8 @@ interface TranslationInsert {
 export function TranslationManager() {
   const { t } = useLanguage();
   const translationService = useTranslationService();
+  const [page, setPage] = useState(1);
+  const pageSize = 20;
   
   // Use centralized translation manager hook
   const {
@@ -44,6 +46,18 @@ export function TranslationManager() {
     categories,
   } = useTranslationManager();
 
+  useEffect(() => {
+    setPage(1);
+  }, [searchTerm, selectedCategory, selectedLanguage]);
+
+  const totalTranslations = filteredTranslations.length;
+  const totalPages = Math.max(1, Math.ceil(totalTranslations / pageSize));
+  const currentPage = Math.min(page, totalPages);
+  const paginatedTranslations = useMemo(() => {
+    const start = (currentPage - 1) * pageSize;
+    return filteredTranslations.slice(start, start + pageSize);
+  }, [filteredTranslations, currentPage, pageSize]);
+
   return (
     <div className="space-y-6">
       {/* Controls */}
@@ -57,7 +71,7 @@ export function TranslationManager() {
             <select
               value={selectedLanguage}
               onChange={(e) => setSelectedLanguage(e.target.value as 'en' | 'ru' | 'am')}
-              className="px-3 py-1 rounded-lg bg-white/5 border border-white/10 text-white focus:ring-2 focus:ring-[#edfc3a] focus:border-transparent min-w-32"
+              className="px-3 py-1 rounded-lg bg-white/5 border border-white/10 text-white focus:ring-2 focus:ring-accent focus:border-transparent min-w-32"
             >
               <option value="en" className="bg-gray-800 text-white">English</option>
               <option value="ru" className="bg-gray-800 text-white">Русский</option>
@@ -73,7 +87,7 @@ export function TranslationManager() {
               placeholder={t('settings.searchPlaceholder')}
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
-              className="flex-1 px-3 py-1 rounded-lg bg-white/5 border border-white/10 text-white placeholder-gray-400 focus:ring-2 focus:ring-[#edfc3a] focus:border-transparent"
+              className="flex-1 px-3 py-1 rounded-lg bg-white/5 border border-white/10 text-white placeholder-gray-400 focus:ring-2 focus:ring-accent focus:border-transparent"
             />
           </div>
 
@@ -83,7 +97,7 @@ export function TranslationManager() {
             <select
               value={selectedCategory}
               onChange={(e) => setSelectedCategory(e.target.value)}
-              className="px-3 py-1 rounded-lg bg-white/5 border border-white/10 text-white focus:ring-2 focus:ring-[#edfc3a] focus:border-transparent min-w-40"
+              className="px-3 py-1 rounded-lg bg-white/5 border border-white/10 text-white focus:ring-2 focus:ring-accent focus:border-transparent min-w-40"
             >
               <option value="all" className="bg-gray-800 text-white">{t('settings.allCategories')}</option>
               {categories.filter(cat => cat !== 'all').map(category => (
@@ -99,7 +113,7 @@ export function TranslationManager() {
         <div className="flex flex-wrap items-center gap-3">
           <button
             onClick={handleAddTranslation}
-            className="inline-flex items-center gap-2 px-4 py-2 bg-[#edfc3a] text-black rounded-lg font-medium hover:bg-[#f2ff4d] transition-colors"
+            className="inline-flex items-center gap-2 px-4 py-2 bg-accent text-black rounded-lg font-medium hover:bg-accent-strong transition-colors"
           >
             <Plus className="h-4 w-4" />
             {t('settings.addTranslation')}
@@ -125,10 +139,38 @@ export function TranslationManager() {
 
       {/* Translation Table */}
       <TranslationTable
-        translations={filteredTranslations}
+        translations={paginatedTranslations}
         onEdit={handleEditTranslation}
         onDelete={handleDeleteTranslation}
       />
+
+      <div className="flex flex-col sm:flex-row items-center justify-between gap-3">
+        <p className="text-sm text-gray-400">
+          Showing {totalTranslations === 0 ? 0 : (currentPage - 1) * pageSize + 1}-
+          {Math.min(currentPage * pageSize, totalTranslations)} of {totalTranslations}
+        </p>
+        <div className="flex items-center gap-2">
+          <button
+            type="button"
+            className="px-3 py-1 rounded-lg bg-white/10 text-white text-sm hover:bg-white/20 transition-colors disabled:opacity-50"
+            onClick={() => setPage((prev) => Math.max(1, prev - 1))}
+            disabled={currentPage === 1}
+          >
+            Prev
+          </button>
+          <span className="text-sm text-gray-400">
+            {currentPage} / {totalPages}
+          </span>
+          <button
+            type="button"
+            className="px-3 py-1 rounded-lg bg-white/10 text-white text-sm hover:bg-white/20 transition-colors disabled:opacity-50"
+            onClick={() => setPage((prev) => Math.min(totalPages, prev + 1))}
+            disabled={currentPage === totalPages}
+          >
+            Next
+          </button>
+        </div>
+      </div>
 
       {/* Modals */}
       {showEditor && (
@@ -215,3 +257,4 @@ export function TranslationManager() {
     </div>
   );
 }
+

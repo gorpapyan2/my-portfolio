@@ -84,18 +84,18 @@ export function ImportExport({ onClose, onImport, onExport }: ImportExportProps)
         console.error('Import validation error:', error);
         
         // Provide specific error messages based on error type
-        let userMessage = 'Import failed: Invalid JSON format or validation failed';
+        let userMessage = t('settings.importFailed');
         
         if (error instanceof Error) {
           const errorMsg = error.message.toLowerCase();
           
           // Detect specific validation errors
           if (errorMsg.includes('duplicate') || errorMsg.includes('unique')) {
-            userMessage = 'One or more translations already exist. Existing translations will be updated with the new values.';
+            userMessage = t('settings.importDuplicate');
           } else if (errorMsg.includes('json')) {
-            userMessage = 'Invalid JSON format. Please check your file and try again.';
+            userMessage = t('settings.importInvalidJson');
           } else if (errorMsg.includes('validation') || errorMsg.includes('parse')) {
-            userMessage = 'Validation failed. Ensure file follows the template format with "en", "ru", "am" language keys.';
+            userMessage = t('settings.importValidationFailed');
           }
         }
         
@@ -124,11 +124,11 @@ export function ImportExport({ onClose, onImport, onExport }: ImportExportProps)
         <div className="space-y-6">
           {/* Export Section */}
           <div>
-            <h3 className="text-lg font-medium text-white mb-3">Export</h3>
+            <h3 className="text-lg font-medium text-white mb-3">{t('settings.export')}</h3>
             <div className="space-y-3">
               <button
                 onClick={handleExport}
-                className="w-full inline-flex items-center justify-center gap-2 px-4 py-3 bg-[#edfc3a] text-black rounded-lg font-medium hover:bg-[#f2ff4d] transition-colors"
+                className="w-full inline-flex items-center justify-center gap-2 px-4 py-3 bg-accent text-black rounded-lg font-medium hover:bg-accent-strong transition-colors"
               >
                 <Download className="h-5 w-5" />
                 {t('settings.exportTranslations')}
@@ -146,14 +146,14 @@ export function ImportExport({ onClose, onImport, onExport }: ImportExportProps)
 
           {/* Import Section */}
           <div>
-            <h3 className="text-lg font-medium text-white mb-3">Import</h3>
+            <h3 className="text-lg font-medium text-white mb-3">{t('settings.import')}</h3>
             <div className="space-y-3">
               <div>
                 <input
                   type="file"
                   accept=".json"
                   onChange={handleFileUpload}
-                  className="w-full px-3 py-2 rounded-lg bg-white/5 border border-white/10 text-white file:mr-3 file:py-1 file:px-3 file:rounded file:border-0 file:bg-[#edfc3a] file:text-black file:text-sm file:font-medium"
+                  className="w-full px-3 py-2 rounded-lg bg-white/5 border border-white/10 text-white file:mr-3 file:py-1 file:px-3 file:rounded file:border-0 file:bg-accent file:text-black file:text-sm file:font-medium"
                 />
               </div>
               
@@ -185,3 +185,4 @@ export function ImportExport({ onClose, onImport, onExport }: ImportExportProps)
     </div>
   );
 }
+

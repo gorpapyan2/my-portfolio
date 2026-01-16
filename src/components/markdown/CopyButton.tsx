@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { Copy, Check } from 'lucide-react';
+import { useLanguage } from '../../context/LanguageContext';
 
 interface CopyButtonProps {
   code: string;
@@ -10,6 +11,7 @@ interface CopyButtonProps {
  * Displays a copy icon that changes to a checkmark on successful copy
  */
 export function CopyButton({ code }: CopyButtonProps) {
+  const { t } = useLanguage();
   const [copied, setCopied] = useState(false);
 
   const handleCopy = async () => {
@@ -25,16 +27,17 @@ export function CopyButton({ code }: CopyButtonProps) {
   return (
     <button
       onClick={handleCopy}
-      aria-label={copied ? 'Copied to clipboard' : 'Copy code to clipboard'}
-      className="code-copy-button absolute top-2 right-2 p-2 rounded-lg bg-gray-800/50 hover:bg-gray-700/70 text-gray-400 hover:text-white transition-all duration-200 opacity-0 group-hover:opacity-100 focus:opacity-100 focus:outline-none focus:ring-2 focus:ring-[#edfc3a] focus:ring-offset-2 focus:ring-offset-gray-900"
-      title={copied ? 'Copied!' : 'Copy code'}
+      aria-label={copied ? t('markdown.copied') : t('markdown.copyCode')}
+      className="code-copy-button absolute top-[var(--space-8)] right-[var(--space-8)] p-[var(--space-8)] rounded-[var(--radius-md)] bg-[var(--surface-strong)] hover:bg-[var(--surface)] text-[var(--text-muted)] hover:text-[var(--text)] transition-all duration-200 opacity-0 group-hover:opacity-100 focus:opacity-100 focus:outline-none focus:ring-2 focus:ring-accent focus:ring-offset-2 focus:ring-offset-[var(--bg)]"
+      title={copied ? t('markdown.copied') : t('markdown.copyCode')}
     >
       {copied ? (
-        <Check className="h-4 w-4 text-green-400" aria-hidden="true" />
+        <Check className="h-[var(--space-16)] w-[var(--space-16)] text-green-400" aria-hidden="true" />
       ) : (
-        <Copy className="h-4 w-4" aria-hidden="true" />
+        <Copy className="h-[var(--space-16)] w-[var(--space-16)]" aria-hidden="true" />
       )}
     </button>
   );
 }
+
 

@@ -63,32 +63,32 @@ export function TableOfContents({ className = "" }: TableOfContentsProps) {
   if (tocItems.length === 0) return null;
 
   return (
-    <div className={`bg-white/5 rounded-lg border border-white/10 p-4 ${className}`}>
+    <div className={`bg-[var(--surface)] rounded-[var(--radius-md)] border border-[var(--border)] p-[var(--space-16)] ${className}`}>
       <button
         onClick={() => setIsExpanded(!isExpanded)}
-        className="flex items-center gap-2 w-full text-left text-white hover:text-[#edfc3a] transition-colors"
+        className="flex items-center gap-[var(--space-8)] w-full text-left text-[var(--text)] hover:text-accent transition-colors text-[length:var(--font-100)] font-medium"
       >
-        <List className="h-4 w-4" />
+        <List className="h-[var(--space-16)] w-[var(--space-16)]" />
         <TranslationText translationKey="blog.tableOfContents" as="span" shimmerWidth="150px" className="font-medium" />
         {isExpanded ? (
-          <ChevronDown className="h-4 w-4 ml-auto" />
+          <ChevronDown className="h-[var(--space-16)] w-[var(--space-16)] ml-auto" />
         ) : (
-          <ChevronRight className="h-4 w-4 ml-auto" />
+          <ChevronRight className="h-[var(--space-16)] w-[var(--space-16)] ml-auto" />
         )}
       </button>
       
       {isExpanded && (
-        <nav className="mt-3 space-y-1">
+        <nav className="mt-[var(--space-12)] stack [--stack-space:var(--space-4)]">
           {tocItems.map((item) => (
             <button
               key={item.id}
               onClick={() => scrollToHeading(item.id)}
-              className={`block w-full text-left text-sm transition-colors ${
+              className={`block w-full text-left text-[length:var(--font-100)] transition-colors ${
                 activeId === item.id
-                  ? 'text-[#edfc3a] font-medium'
-                  : 'text-gray-400 hover:text-white'
+                  ? 'text-accent font-medium'
+                  : 'text-[var(--text-muted)] hover:text-[var(--text)]'
               }`}
-              style={{ paddingLeft: `${(item.level - 1) * 12}px` }}
+              style={{ paddingLeft: `calc(${item.level - 1} * var(--space-12))` }}
             >
               {item.text}
             </button>
@@ -98,3 +98,4 @@ export function TableOfContents({ className = "" }: TableOfContentsProps) {
     </div>
   );
 }
+

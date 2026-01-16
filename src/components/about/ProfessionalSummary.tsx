@@ -14,7 +14,7 @@ export function ProfessionalSummary() {
     return parts.map((part, i) => {
       if (/^\d+(?:\.\d+)?%?$/.test(part)) {
         return (
-          <span key={i} className="text-[#edfc3a] font-semibold">
+          <span key={i} className="text-accent font-semibold">
             {part}
           </span>
         );
@@ -32,10 +32,10 @@ export function ProfessionalSummary() {
         />
 
         {isLoading && (
-          <div className="bg-white/5 backdrop-blur-sm rounded-xl p-4 border border-white/10">
+          <div className="bg-[var(--surface)] backdrop-blur-sm rounded-xl p-4 border border-[var(--border)]">
             <div className="space-y-2">
               {[0,1,2].map(i => (
-                <div key={i} className="h-5 bg-white/10 rounded animate-pulse" />
+                <div key={i} className="h-5 bg-[var(--surface-strong)] rounded animate-pulse" />
               ))}
             </div>
           </div>
@@ -46,7 +46,7 @@ export function ProfessionalSummary() {
         )}
 
         {!isLoading && !error && (
-          <div className="bg-white/5 backdrop-blur-sm rounded-xl p-4 border border-white/10 hover:border-[#edfc3a]/30 transition-colors">
+          <div className="bg-[var(--surface)] backdrop-blur-sm rounded-xl p-4 border border-[var(--border)] hover:border-accent/30 transition-colors">
             <div className="space-y-3">
               {summary.map((para, idx) => (
                 <motion.p
@@ -55,7 +55,7 @@ export function ProfessionalSummary() {
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true }}
                   transition={{ duration: 0.4, delay: idx * 0.03 }}
-                  className="text-gray-300 leading-relaxed text-lg"
+                  className="text-[var(--text-muted)] leading-relaxed text-[length:var(--font-300)]"
                 >
                   {emphasize(para)}
                 </motion.p>
@@ -67,5 +67,6 @@ export function ProfessionalSummary() {
     </section>
   );
 }
+
 
 

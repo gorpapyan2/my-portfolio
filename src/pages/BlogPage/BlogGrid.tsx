@@ -29,8 +29,8 @@ export function BlogGrid({ blogPosts }: BlogGridProps) {
 
   if (!blogPosts || blogPosts.length === 0) {
     return (
-      <div className="text-center py-16">
-        <p className="text-gray-400 text-lg">
+      <div className="text-center py-[var(--space-64)]">
+        <p className="text-[var(--text-muted)] text-[length:var(--font-300)]">
           <TranslationText translationKey="blog.empty" as="span" shimmerWidth="200px" />
         </p>
       </div>
@@ -38,7 +38,7 @@ export function BlogGrid({ blogPosts }: BlogGridProps) {
   }
 
   return (
-    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-[var(--space-24)]">
       {blogPosts.map((post) => (
         <BlogCard 
           key={post.id}

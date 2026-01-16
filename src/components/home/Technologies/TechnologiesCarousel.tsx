@@ -86,32 +86,32 @@ export function TechnologyCarousel() {
     return (
         <div className="relative">
             {/* Carousel Content */}
-            <div className="relative overflow-hidden rounded-3xl">
-                <TechnologyCard technology={currentTechnology} />
-                
-                {/* Navigation Controls - Positioned at corners */}
-                <button
-                    onClick={() => navigate(-1)}
-                    className="absolute left-4 top-1/2 -translate-y-1/2 group flex items-center justify-center w-12 h-12 rounded-full bg-white/10 hover:bg-white/20 border border-white/20 hover:border-lime-400/50 backdrop-blur-sm transition-all duration-300 z-10"
-                    aria-label={t('aria.previousTechnology')}
-                >
-                    <ChevronLeft className="w-6 h-6 text-white group-hover:text-lime-400 transition-colors" />
-                </button>
+        <div className="relative overflow-hidden rounded-[var(--radius-xl)]">
+            <TechnologyCard technology={currentTechnology} />
+            
+            {/* Navigation Controls - Positioned at corners */}
+            <button
+                onClick={() => navigate(-1)}
+                className="absolute left-[var(--space-16)] top-1/2 -translate-y-1/2 group flex items-center justify-center w-[var(--size-tap)] h-[var(--size-tap)] rounded-full bg-[var(--surface)] hover:bg-[var(--surface-strong)] border border-[var(--border)] hover:border-accent/40 backdrop-blur-sm transition-all duration-300 z-10"
+                aria-label={t('aria.previousTechnology')}
+            >
+                <ChevronLeft className="w-[var(--space-24)] h-[var(--space-24)] text-[var(--text)] group-hover:text-accent transition-colors" />
+            </button>
 
-                <button
-                    onClick={() => navigate(1)}
-                    className="absolute right-4 top-1/2 -translate-y-1/2 group flex items-center justify-center w-12 h-12 rounded-full bg-white/10 hover:bg-white/20 border border-white/20 hover:border-lime-400/50 backdrop-blur-sm transition-all duration-300 z-10"
-                    aria-label={t('aria.nextTechnology')}
-                >
-                    <ChevronRight className="w-6 h-6 text-white group-hover:text-lime-400 transition-colors" />
-                </button>
-            </div>
+            <button
+                onClick={() => navigate(1)}
+                className="absolute right-[var(--space-16)] top-1/2 -translate-y-1/2 group flex items-center justify-center w-[var(--size-tap)] h-[var(--size-tap)] rounded-full bg-[var(--surface)] hover:bg-[var(--surface-strong)] border border-[var(--border)] hover:border-accent/40 backdrop-blur-sm transition-all duration-300 z-10"
+                aria-label={t('aria.nextTechnology')}
+            >
+                <ChevronRight className="w-[var(--space-24)] h-[var(--space-24)] text-[var(--text)] group-hover:text-accent transition-colors" />
+            </button>
+        </div>
 
-            {/* Pagination */}
-            <div className="flex items-center justify-center mt-12 gap-4">
-                <PaginationDots
-                    total={technologys.length}
-                    current={currentIndex}
+        {/* Pagination */}
+        <div className="flex items-center justify-center mt-[var(--space-48)] gap-[var(--space-16)]">
+            <PaginationDots
+                total={technologys.length}
+                current={currentIndex}
                     onChange={setCurrentIndex}
                 />
             </div>
