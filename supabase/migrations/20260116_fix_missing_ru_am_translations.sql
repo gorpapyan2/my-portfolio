@@ -661,7 +661,7 @@ SELECT
 FROM public.translations
 WHERE language IN ('ru', 'am')
 AND key LIKE 'admin.%'
-GROUP BY category, language
+GROUP BY SUBSTRING(key FROM 'admin\.([^\.]+)\.'), language
 ORDER BY category, language;
 
 -- Check for any missing translations (keys that have one language but not the other)
