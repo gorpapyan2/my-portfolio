@@ -1,0 +1,1 @@
+{"root":".","reportDir":"reports","ignore":["node_modules","dist","build",".git","reports"],"extensions":[".ts"],"entrypoints":["src/entry.ts"],"enableExternalTools":false,"duplication":{"minLines":4},"complexity":{"maxBranches":4},"coupling":{"maxImports":3}}

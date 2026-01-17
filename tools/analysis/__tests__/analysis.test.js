@@ -1,0 +1,10 @@
+const fs=require("fs");
+const path=require("path");
+const { execSync }=require("child_process");
+const root=path.resolve(__dirname,"..","fixtures","simple");
+const reportDir=path.join(root,"reports");
+const configPath=path.join(root,"analysis.config.json");
+const cliPath=path.resolve(__dirname,"..","cli.ts");
+const npx=process.platform==="win32"?"npx.cmd":"npx";
+const runScan=()=>execSync(`${npx} tsx ${cliPath} scan --root ${root} --config ${configPath} --out ${reportDir}`,{stdio:"ignore"});
+test("scan detects duplication, unused, deprecated, complexity",()=>{runScan();const reportPath=path.join(reportDir,"analysis.json");const report=JSON.parse(fs.readFileSync(reportPath,"utf8"));const types=new Set(report.modules.flatMap((module)=>module.issues.map((issue)=>issue.type)));expect(types.has("duplication")).toBe(true);expect(types.has("unused")).toBe(true);expect(types.has("deprecated")).toBe(true);expect(types.has("complexity")).toBe(true);});

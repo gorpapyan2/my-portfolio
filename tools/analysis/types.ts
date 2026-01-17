@@ -1,0 +1,10 @@
+export type IssueType="duplication"|"unused"|"dead"|"deprecated"|"complexity"|"coupling"|"consistency";
+export type Priority="P0"|"P1"|"P2"|"P3";
+export type IssueEvidence={loc?:number;fanIn?:number;fanOut?:number;ageDays?:number;churn?:number;isPublicApi?:boolean;note?:string;};
+export type Issue={id:string;type:IssueType;title:string;file:string;startLine:number;endLine:number;excerpt:string;evidence?:IssueEvidence;impact:number;risk:number;priority:Priority;suggestions:string[];};
+export type ModuleScores={impact:number;risk:number;priority:Priority;};
+export type ModuleReport={name:string;path:string;scores:ModuleScores;issues:Issue[];};
+export type RoadmapPhase={name:string;items:string[];};
+export type ReportSummary={totalsByType:Record<IssueType,number>;topHotspots:{module:string;impact:number;risk:number;}[];roadmapPhases:RoadmapPhase[];};
+export type Report={generatedAt:string;modules:ModuleReport[];summary:ReportSummary;};
+export type AnalysisConfig={root:string;reportDir:string;ignore:string[];extensions:string[];entrypoints:string[];enableExternalTools:boolean;duplication:{minLines:number};complexity:{maxBranches:number};coupling:{maxImports:number};};

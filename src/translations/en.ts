@@ -90,12 +90,22 @@ export const en = {
   'about.professionalJourney': 'Professional Journey',
   'about.philosophy': 'Philosophy',
   'about.toolbox': 'Toolbox',
+  'about.fallback.journey': 'Professional journey coming soon.',
+  'about.fallback.philosophy': 'Philosophy details coming soon.',
+  'about.fallback.toolbox': 'Toolbox highlights coming soon.',
+  'about.fallback.error': 'Unable to load about content. Please try again.',
+  'about.portraitAlt': 'Gor Papyan portrait',
+  'about.headline': 'QA Automation Specialist focused on deterministic testing and reliable delivery.',
+  'about.keyResults.title': 'Key Results',
+  'about.languages.title': 'Languages',
   'about.experience.title': 'Experience',
   'about.experience.subtitle': 'A journey through my professional career in software quality assurance',
   'about.education.title': 'Education',
   'about.education.subtitle': 'Academic background and continuous learning',
   'about.skills.title': 'Skills & Expertise',
   'about.skills.subtitle': 'Advanced proficiencies across test automation, CI/CD, and quality engineering',
+  'experience.title': 'Experience',
+  'experience.keyAchievements': 'Key Achievements',
 
   // Skills
   'skills.testAutomation': 'Test Automation',
@@ -127,6 +137,7 @@ export const en = {
   // Footer
   'footer.copyright': '© 2024 Gor Papyan. All rights reserved.',
   'footer.builtWith': 'Built with React & Vite',
+  'footer.terms': 'Terms of Service',
 
   // Settings
   'settings.title': 'Settings',

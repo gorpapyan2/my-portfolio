@@ -1,0 +1,482 @@
+{
+  "generatedAt": "2026-01-17T10:57:38.502Z",
+  "modules": [
+    {
+      "name": "src/b.ts",
+      "path": "/src/b.ts",
+      "scores": {
+        "impact": 0,
+        "risk": 1,
+        "priority": "P3"
+      },
+      "issues": [
+        {
+          "id": "duplication:C:/Users/gor_p/Documents/Xxx/my-portfolio/tools/analysis/fixtures/simple/src/b.ts:2",
+          "type": "duplication",
+          "title": "Duplicate block (143b2e)",
+          "file": "C:/Users/gor_p/Documents/Xxx/my-portfolio/tools/analysis/fixtures/simple/src/b.ts",
+          "startLine": 2,
+          "endLine": 5,
+          "excerpt": "  const value = 1;\n  const total = value + 2;\n  return total;\n}",
+          "evidence": {
+            "loc": 4,
+            "churn": 0
+          },
+          "impact": 0,
+          "risk": 1,
+          "priority": "P3",
+          "suggestions": [
+            "Extract shared helper and reuse across call sites.",
+            "Add a focused unit test before refactor."
+          ]
+        },
+        {
+          "id": "duplication:C:/Users/gor_p/Documents/Xxx/my-portfolio/tools/analysis/fixtures/simple/src/b.ts:3",
+          "type": "duplication",
+          "title": "Duplicate block (706c7d)",
+          "file": "C:/Users/gor_p/Documents/Xxx/my-portfolio/tools/analysis/fixtures/simple/src/b.ts",
+          "startLine": 3,
+          "endLine": 6,
+          "excerpt": "  const total = value + 2;\n  return total;\n}\n",
+          "evidence": {
+            "loc": 4,
+            "churn": 0
+          },
+          "impact": 0,
+          "risk": 1,
+          "priority": "P3",
+          "suggestions": [
+            "Extract shared helper and reuse across call sites.",
+            "Add a focused unit test before refactor."
+          ]
+        },
+        {
+          "id": "unused:C:/Users/gor_p/Documents/Xxx/my-portfolio/tools/analysis/fixtures/simple/src/b.ts:1",
+          "type": "unused",
+          "title": "Unused export: duplicate",
+          "file": "C:/Users/gor_p/Documents/Xxx/my-portfolio/tools/analysis/fixtures/simple/src/b.ts",
+          "startLine": 1,
+          "endLine": 1,
+          "excerpt": "export function duplicate() {",
+          "evidence": {
+            "fanIn": 0,
+            "isPublicApi": false,
+            "churn": 0
+          },
+          "impact": 0,
+          "risk": 1,
+          "priority": "P3",
+          "suggestions": [
+            "Remove export and adjust imports.",
+            "Verify via build/lint."
+          ]
+        },
+        {
+          "id": "dead:C:/Users/gor_p/Documents/Xxx/my-portfolio/tools/analysis/fixtures/simple/src/b.ts:1",
+          "type": "dead",
+          "title": "File has no inbound references",
+          "file": "C:/Users/gor_p/Documents/Xxx/my-portfolio/tools/analysis/fixtures/simple/src/b.ts",
+          "startLine": 1,
+          "endLine": 1,
+          "excerpt": "export function duplicate() {",
+          "evidence": {
+            "fanIn": 0,
+            "isPublicApi": false,
+            "churn": 0
+          },
+          "impact": 0,
+          "risk": 1,
+          "priority": "P3",
+          "suggestions": [
+            "Confirm no runtime entrypoint references.",
+            "Delete file and run tests."
+          ]
+        }
+      ]
+    },
+    {
+      "name": "src/a.ts",
+      "path": "/src/a.ts",
+      "scores": {
+        "impact": 0,
+        "risk": 1,
+        "priority": "P3"
+      },
+      "issues": [
+        {
+          "id": "duplication:C:/Users/gor_p/Documents/Xxx/my-portfolio/tools/analysis/fixtures/simple/src/a.ts:2",
+          "type": "duplication",
+          "title": "Duplicate block (143b2e)",
+          "file": "C:/Users/gor_p/Documents/Xxx/my-portfolio/tools/analysis/fixtures/simple/src/a.ts",
+          "startLine": 2,
+          "endLine": 5,
+          "excerpt": "  const value = 1;\n  const total = value + 2;\n  return total;\n}",
+          "evidence": {
+            "loc": 4,
+            "churn": 0
+          },
+          "impact": 0,
+          "risk": 1,
+          "priority": "P3",
+          "suggestions": [
+            "Extract shared helper and reuse across call sites.",
+            "Add a focused unit test before refactor."
+          ]
+        },
+        {
+          "id": "duplication:C:/Users/gor_p/Documents/Xxx/my-portfolio/tools/analysis/fixtures/simple/src/a.ts:3",
+          "type": "duplication",
+          "title": "Duplicate block (706c7d)",
+          "file": "C:/Users/gor_p/Documents/Xxx/my-portfolio/tools/analysis/fixtures/simple/src/a.ts",
+          "startLine": 3,
+          "endLine": 6,
+          "excerpt": "  const total = value + 2;\n  return total;\n}\n",
+          "evidence": {
+            "loc": 4,
+            "churn": 0
+          },
+          "impact": 0,
+          "risk": 1,
+          "priority": "P3",
+          "suggestions": [
+            "Extract shared helper and reuse across call sites.",
+            "Add a focused unit test before refactor."
+          ]
+        }
+      ]
+    },
+    {
+      "name": "src/unused.ts",
+      "path": "/src/unused.ts",
+      "scores": {
+        "impact": 0,
+        "risk": 1,
+        "priority": "P3"
+      },
+      "issues": [
+        {
+          "id": "unused:C:/Users/gor_p/Documents/Xxx/my-portfolio/tools/analysis/fixtures/simple/src/unused.ts:1",
+          "type": "unused",
+          "title": "Unused export: unusedValue",
+          "file": "C:/Users/gor_p/Documents/Xxx/my-portfolio/tools/analysis/fixtures/simple/src/unused.ts",
+          "startLine": 1,
+          "endLine": 1,
+          "excerpt": "export const unusedValue = 42;",
+          "evidence": {
+            "fanIn": 0,
+            "isPublicApi": false,
+            "churn": 0
+          },
+          "impact": 0,
+          "risk": 1,
+          "priority": "P3",
+          "suggestions": [
+            "Remove export and adjust imports.",
+            "Verify via build/lint."
+          ]
+        },
+        {
+          "id": "dead:C:/Users/gor_p/Documents/Xxx/my-portfolio/tools/analysis/fixtures/simple/src/unused.ts:1",
+          "type": "dead",
+          "title": "File has no inbound references",
+          "file": "C:/Users/gor_p/Documents/Xxx/my-portfolio/tools/analysis/fixtures/simple/src/unused.ts",
+          "startLine": 1,
+          "endLine": 1,
+          "excerpt": "export const unusedValue = 42;",
+          "evidence": {
+            "fanIn": 0,
+            "isPublicApi": false,
+            "churn": 0
+          },
+          "impact": 0,
+          "risk": 1,
+          "priority": "P3",
+          "suggestions": [
+            "Confirm no runtime entrypoint references.",
+            "Delete file and run tests."
+          ]
+        }
+      ]
+    },
+    {
+      "name": "src/entry.ts",
+      "path": "/src/entry.ts",
+      "scores": {
+        "impact": 0,
+        "risk": 1,
+        "priority": "P3"
+      },
+      "issues": [
+        {
+          "id": "unused:C:/Users/gor_p/Documents/Xxx/my-portfolio/tools/analysis/fixtures/simple/src/entry.ts:3",
+          "type": "unused",
+          "title": "Unused export: main",
+          "file": "C:/Users/gor_p/Documents/Xxx/my-portfolio/tools/analysis/fixtures/simple/src/entry.ts",
+          "startLine": 3,
+          "endLine": 3,
+          "excerpt": "export function main() {",
+          "evidence": {
+            "fanIn": 0,
+            "isPublicApi": false,
+            "churn": 0
+          },
+          "impact": 0,
+          "risk": 1,
+          "priority": "P3",
+          "suggestions": [
+            "Remove export and adjust imports.",
+            "Verify via build/lint."
+          ]
+        }
+      ]
+    },
+    {
+      "name": "src/deprecated.ts",
+      "path": "/src/deprecated.ts",
+      "scores": {
+        "impact": 0,
+        "risk": 1,
+        "priority": "P3"
+      },
+      "issues": [
+        {
+          "id": "unused:C:/Users/gor_p/Documents/Xxx/my-portfolio/tools/analysis/fixtures/simple/src/deprecated.ts:2",
+          "type": "unused",
+          "title": "Unused export: legacyApi",
+          "file": "C:/Users/gor_p/Documents/Xxx/my-portfolio/tools/analysis/fixtures/simple/src/deprecated.ts",
+          "startLine": 2,
+          "endLine": 2,
+          "excerpt": "export function legacyApi() {",
+          "evidence": {
+            "fanIn": 0,
+            "isPublicApi": false,
+            "churn": 0
+          },
+          "impact": 0,
+          "risk": 1,
+          "priority": "P3",
+          "suggestions": [
+            "Remove export and adjust imports.",
+            "Verify via build/lint."
+          ]
+        },
+        {
+          "id": "deprecated:C:/Users/gor_p/Documents/Xxx/my-portfolio/tools/analysis/fixtures/simple/src/deprecated.ts:1",
+          "type": "deprecated",
+          "title": "Deprecated marker",
+          "file": "C:/Users/gor_p/Documents/Xxx/my-portfolio/tools/analysis/fixtures/simple/src/deprecated.ts",
+          "startLine": 1,
+          "endLine": 1,
+          "excerpt": "/** @deprecated */",
+          "evidence": {
+            "note": "/** @deprecated */",
+            "churn": 0
+          },
+          "impact": 0,
+          "risk": 1,
+          "priority": "P3",
+          "suggestions": [
+            "Replace deprecated APIs and add deprecation lint.",
+            "Add migration note in changelog."
+          ]
+        },
+        {
+          "id": "deprecated:C:/Users/gor_p/Documents/Xxx/my-portfolio/tools/analysis/fixtures/simple/src/deprecated.ts:2",
+          "type": "deprecated",
+          "title": "Deprecated marker",
+          "file": "C:/Users/gor_p/Documents/Xxx/my-portfolio/tools/analysis/fixtures/simple/src/deprecated.ts",
+          "startLine": 2,
+          "endLine": 2,
+          "excerpt": "export function legacyApi() {",
+          "evidence": {
+            "note": "export function legacyApi() {",
+            "churn": 0
+          },
+          "impact": 0,
+          "risk": 1,
+          "priority": "P3",
+          "suggestions": [
+            "Replace deprecated APIs and add deprecation lint.",
+            "Add migration note in changelog."
+          ]
+        },
+        {
+          "id": "dead:C:/Users/gor_p/Documents/Xxx/my-portfolio/tools/analysis/fixtures/simple/src/deprecated.ts:1",
+          "type": "dead",
+          "title": "File has no inbound references",
+          "file": "C:/Users/gor_p/Documents/Xxx/my-portfolio/tools/analysis/fixtures/simple/src/deprecated.ts",
+          "startLine": 1,
+          "endLine": 1,
+          "excerpt": "/** @deprecated */",
+          "evidence": {
+            "fanIn": 0,
+            "isPublicApi": false,
+            "churn": 0
+          },
+          "impact": 0,
+          "risk": 1,
+          "priority": "P3",
+          "suggestions": [
+            "Confirm no runtime entrypoint references.",
+            "Delete file and run tests."
+          ]
+        }
+      ]
+    },
+    {
+      "name": "src/complex.ts",
+      "path": "/src/complex.ts",
+      "scores": {
+        "impact": 0,
+        "risk": 1,
+        "priority": "P3"
+      },
+      "issues": [
+        {
+          "id": "unused:C:/Users/gor_p/Documents/Xxx/my-portfolio/tools/analysis/fixtures/simple/src/complex.ts:1",
+          "type": "unused",
+          "title": "Unused export: complicated",
+          "file": "C:/Users/gor_p/Documents/Xxx/my-portfolio/tools/analysis/fixtures/simple/src/complex.ts",
+          "startLine": 1,
+          "endLine": 1,
+          "excerpt": "export function complicated(value: number) {",
+          "evidence": {
+            "fanIn": 0,
+            "isPublicApi": false,
+            "churn": 0
+          },
+          "impact": 0,
+          "risk": 1,
+          "priority": "P3",
+          "suggestions": [
+            "Remove export and adjust imports.",
+            "Verify via build/lint."
+          ]
+        },
+        {
+          "id": "dead:C:/Users/gor_p/Documents/Xxx/my-portfolio/tools/analysis/fixtures/simple/src/complex.ts:1",
+          "type": "dead",
+          "title": "File has no inbound references",
+          "file": "C:/Users/gor_p/Documents/Xxx/my-portfolio/tools/analysis/fixtures/simple/src/complex.ts",
+          "startLine": 1,
+          "endLine": 1,
+          "excerpt": "export function complicated(value: number) {",
+          "evidence": {
+            "fanIn": 0,
+            "isPublicApi": false,
+            "churn": 0
+          },
+          "impact": 0,
+          "risk": 1,
+          "priority": "P3",
+          "suggestions": [
+            "Confirm no runtime entrypoint references.",
+            "Delete file and run tests."
+          ]
+        },
+        {
+          "id": "complexity:C:/Users/gor_p/Documents/Xxx/my-portfolio/tools/analysis/fixtures/simple/src/complex.ts:1",
+          "type": "complexity",
+          "title": "High complexity (5)",
+          "file": "C:/Users/gor_p/Documents/Xxx/my-portfolio/tools/analysis/fixtures/simple/src/complex.ts",
+          "startLine": 1,
+          "endLine": 1,
+          "excerpt": "export function complicated(value: number) {",
+          "evidence": {
+            "loc": 5,
+            "isPublicApi": false,
+            "churn": 0
+          },
+          "impact": 0,
+          "risk": 1,
+          "priority": "P3",
+          "suggestions": [
+            "Split function into smaller helpers.",
+            "Add tests around branches before refactor."
+          ]
+        }
+      ]
+    }
+  ],
+  "summary": {
+    "totalsByType": {
+      "duplication": 4,
+      "unused": 5,
+      "dead": 4,
+      "deprecated": 2,
+      "complexity": 1,
+      "coupling": 0,
+      "consistency": 0
+    },
+    "topHotspots": [
+      {
+        "module": "src/b.ts",
+        "impact": 0,
+        "risk": 1
+      },
+      {
+        "module": "src/a.ts",
+        "impact": 0,
+        "risk": 1
+      },
+      {
+        "module": "src/unused.ts",
+        "impact": 0,
+        "risk": 1
+      },
+      {
+        "module": "src/entry.ts",
+        "impact": 0,
+        "risk": 1
+      },
+      {
+        "module": "src/deprecated.ts",
+        "impact": 0,
+        "risk": 1
+      },
+      {
+        "module": "src/complex.ts",
+        "impact": 0,
+        "risk": 1
+      }
+    ],
+    "roadmapPhases": [
+      {
+        "name": "Phase 1 (Low-risk wins)",
+        "items": [
+          "Duplicate block (143b2e) (C:/Users/gor_p/Documents/Xxx/my-portfolio/tools/analysis/fixtures/simple/src/b.ts:2) [P3]",
+          "Duplicate block (706c7d) (C:/Users/gor_p/Documents/Xxx/my-portfolio/tools/analysis/fixtures/simple/src/b.ts:3) [P3]",
+          "Unused export: duplicate (C:/Users/gor_p/Documents/Xxx/my-portfolio/tools/analysis/fixtures/simple/src/b.ts:1) [P3]",
+          "File has no inbound references (C:/Users/gor_p/Documents/Xxx/my-portfolio/tools/analysis/fixtures/simple/src/b.ts:1) [P3]",
+          "Duplicate block (143b2e) (C:/Users/gor_p/Documents/Xxx/my-portfolio/tools/analysis/fixtures/simple/src/a.ts:2) [P3]",
+          "Duplicate block (706c7d) (C:/Users/gor_p/Documents/Xxx/my-portfolio/tools/analysis/fixtures/simple/src/a.ts:3) [P3]",
+          "Unused export: unusedValue (C:/Users/gor_p/Documents/Xxx/my-portfolio/tools/analysis/fixtures/simple/src/unused.ts:1) [P3]",
+          "File has no inbound references (C:/Users/gor_p/Documents/Xxx/my-portfolio/tools/analysis/fixtures/simple/src/unused.ts:1) [P3]",
+          "Unused export: main (C:/Users/gor_p/Documents/Xxx/my-portfolio/tools/analysis/fixtures/simple/src/entry.ts:3) [P3]",
+          "Unused export: legacyApi (C:/Users/gor_p/Documents/Xxx/my-portfolio/tools/analysis/fixtures/simple/src/deprecated.ts:2) [P3]"
+        ]
+      },
+      {
+        "name": "Phase 2 (Moderate)",
+        "items": [
+          "High complexity (5) (C:/Users/gor_p/Documents/Xxx/my-portfolio/tools/analysis/fixtures/simple/src/complex.ts:1) [P3]"
+        ]
+      },
+      {
+        "name": "Phase 3 (Higher-risk)",
+        "items": [
+          "Duplicate block (143b2e) (C:/Users/gor_p/Documents/Xxx/my-portfolio/tools/analysis/fixtures/simple/src/b.ts:2) [P3]",
+          "Duplicate block (706c7d) (C:/Users/gor_p/Documents/Xxx/my-portfolio/tools/analysis/fixtures/simple/src/b.ts:3) [P3]",
+          "Unused export: duplicate (C:/Users/gor_p/Documents/Xxx/my-portfolio/tools/analysis/fixtures/simple/src/b.ts:1) [P3]",
+          "File has no inbound references (C:/Users/gor_p/Documents/Xxx/my-portfolio/tools/analysis/fixtures/simple/src/b.ts:1) [P3]",
+          "Duplicate block (143b2e) (C:/Users/gor_p/Documents/Xxx/my-portfolio/tools/analysis/fixtures/simple/src/a.ts:2) [P3]",
+          "Duplicate block (706c7d) (C:/Users/gor_p/Documents/Xxx/my-portfolio/tools/analysis/fixtures/simple/src/a.ts:3) [P3]",
+          "Unused export: unusedValue (C:/Users/gor_p/Documents/Xxx/my-portfolio/tools/analysis/fixtures/simple/src/unused.ts:1) [P3]",
+          "File has no inbound references (C:/Users/gor_p/Documents/Xxx/my-portfolio/tools/analysis/fixtures/simple/src/unused.ts:1) [P3]",
+          "Unused export: main (C:/Users/gor_p/Documents/Xxx/my-portfolio/tools/analysis/fixtures/simple/src/entry.ts:3) [P3]",
+          "Unused export: legacyApi (C:/Users/gor_p/Documents/Xxx/my-portfolio/tools/analysis/fixtures/simple/src/deprecated.ts:2) [P3]"
+        ]
+      }
+    ]
+  }
+}

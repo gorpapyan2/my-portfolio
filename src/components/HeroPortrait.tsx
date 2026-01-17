@@ -37,7 +37,6 @@ export default function HeroPortrait({
           width={width}
           height={height}
           loading="eager"
-          fetchPriority="high"
           className="block w-full h-full object-cover"
         />
         {/* sheen */}

@@ -1,0 +1,4 @@
+import crypto from "crypto";
+import { DetectorContext, RawIssue } from "../collectors/index.js";
+import { readLines } from "../utils/fs.js";
+export const runDuplication=async(ctx:DetectorContext):Promise<RawIssue[]>=>{const minLines=ctx.config.duplicationMinLines;const seen=new Map<string,{file:string;line:number}[]>();for(const file of ctx.files){const lines=readLines(file).map((line)=>line.trim());for(let i=0;i<=lines.length-minLines;i++){const block=lines.slice(i,i+minLines).join("\n");if(!block)continue;const hash=crypto.createHash("md5").update(block).digest("hex");if(!seen.has(hash))seen.set(hash,[]);seen.get(hash)?.push({file,line:i+1});}}const issues:RawIssue[]=[];for(const [hash,entries] of seen.entries()){if(entries.length<2)continue;for(const entry of entries){issues.push({type:"duplication",title:`Duplicate block (${hash.slice(0,6)})`,file:entry.file,startLine:entry.line,endLine:entry.line+minLines-1,evidence:{loc:minLines}});}}return issues;};

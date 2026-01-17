@@ -1,7 +1,9 @@
 import { useEffect, useState } from "react";
+import { useReducedMotion } from "framer-motion";
 import { User } from 'lucide-react';
 import { PageLayout } from "@/components/shared/PageLayout";
 import { PageHeader } from "@/components/shared/PageHeader";
+import { Card } from "@/components/shared/Card";
 import AboutMe from "@/components/AboutMe";
 import { KeyResults } from "@/components/about/KeyResults";
 import { Languages } from "@/components/about/Languages";
@@ -21,7 +23,8 @@ import { getAbout, type AboutContent } from "@/lib/db/getAbout";
 
 export function AboutPage() {
   const soundEnabled = false;
-  const motionEnabled = true;
+  const shouldReduceMotion = useReducedMotion();
+  const motionEnabled = !shouldReduceMotion;
   const [performanceMonitoring, setPerformanceMonitoring] = useState(false);
   const { t, language } = useLanguage();
   const [aboutContent, setAboutContent] = useState<AboutContent>({
@@ -32,12 +35,12 @@ export function AboutPage() {
     languages: [],
   });
   const [aboutLoading, setAboutLoading] = useState(true);
-  const [aboutError, setAboutError] = useState<string | null>(null);
+  const [aboutErrorKey, setAboutErrorKey] = useState<string | null>(null);
 
   useEffect(() => {
     let isActive = true;
     setAboutLoading(true);
-    setAboutError(null);
+    setAboutErrorKey(null);
 
     getAbout(language)
       .then(data => {
@@ -46,7 +49,7 @@ export function AboutPage() {
       })
       .catch(() => {
         if (!isActive) return;
-        setAboutError(t('about.fallback.error'));
+        setAboutErrorKey('about.fallback.error');
       })
       .finally(() => {
         if (!isActive) return;
@@ -56,7 +59,7 @@ export function AboutPage() {
     return () => {
       isActive = false;
     };
-  }, [language, t]);
+  }, [language]);
 
   return (
     <>
@@ -65,7 +68,10 @@ export function AboutPage() {
       <SectionNavigation />
       
       <PageLayout ariaLabel={t('pages.about.ariaLabel')}>
-        <div className="absolute inset-0 bg-gradient-to-b from-transparent via-accent/5 to-transparent" />
+        <div
+          className="absolute inset-0 bg-gradient-to-b from-transparent via-accent/5 to-transparent pointer-events-none"
+          aria-hidden="true"
+        />
         
         <PageHeader
           icon={User}
@@ -91,16 +97,18 @@ export function AboutPage() {
             toolbox={aboutContent.toolbox}
             isLoading={aboutLoading}
           />
-          <div className="max-w-6xl mx-auto px-4">
-            <div className="h-px bg-gradient-to-r from-transparent via-accent/30 to-transparent" />
+          <div className="relative rounded-[var(--radius-2xl)] border border-[var(--border)] bg-[var(--surface-strong)] p-[var(--space-24)] md:p-[var(--space-32)] shadow-[0_30px_80px_rgba(7,10,18,0.3)]">
+            <div className="absolute inset-0 rounded-[var(--radius-2xl)] bg-[radial-gradient(circle_at_top,var(--color-accent),transparent_60%)] opacity-10 pointer-events-none" aria-hidden="true" />
+            <div className="relative grid gap-[var(--space-24)] md:grid-cols-2">
+              <div className="min-w-0">
+                <KeyResults items={aboutContent.keyResults} isLoading={aboutLoading} />
+              </div>
+              <div className="min-w-0">
+                <Languages items={aboutContent.languages} isLoading={aboutLoading} />
+              </div>
+            </div>
           </div>
-          <div className="flex flex-col md:grid md:grid-cols-2 gap-[var(--space-32)] mb-[var(--space-64)]">
-            <KeyResults items={aboutContent.keyResults} isLoading={aboutLoading} />
-            <Languages items={aboutContent.languages} isLoading={aboutLoading} />
-          </div>
-          <div className="max-w-6xl mx-auto px-4">
-            <div className="h-px bg-gradient-to-r from-transparent via-accent/30 to-transparent" />
-          </div>
+          <div className="h-px bg-gradient-to-r from-transparent via-accent/30 to-transparent" />
           
           {/* Philosophy Narrative Section */}
           {/* <motion.div
@@ -123,20 +131,25 @@ export function AboutPage() {
           <Experience />
           <Education />
           <Skills />
-          <CVDownload />
+          <Card className="flex flex-col items-center gap-[var(--space-16)] text-center">
+            <h2 className="text-[length:var(--font-600)] font-semibold text-[var(--text)] font-display text-balance">
+              <TranslationText translationKey="hero.downloadCV" shimmerWidth="140px" />
+            </h2>
+            <CVDownload />
+          </Card>
         </div>
       </PageLayout>
       
       <ScrollIndicator />
       <FloatingActions />
       <PerformanceMonitor enabled={performanceMonitoring} />
-      {aboutError ? (
+      {aboutErrorKey ? (
         <div
           className="fixed bottom-4 left-1/2 -translate-x-1/2 bg-[var(--surface-strong)] border border-[var(--border)] text-[var(--text-muted)] px-4 py-2 rounded-full text-[length:var(--font-100)] shadow-[0_12px_30px_rgba(0,0,0,0.35)]"
           role="status"
           aria-live="polite"
         >
-          {aboutError}
+          {t(aboutErrorKey)}
         </div>
       ) : null}
 
@@ -153,11 +166,11 @@ export function AboutPage() {
         <button
           type="button"
           className="fixed top-0 left-0 w-4 h-4 z-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/60 focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--bg)]"
-          onDoubleClick={() => setPerformanceMonitoring(!performanceMonitoring)}
+          onDoubleClick={() => setPerformanceMonitoring((prev) => !prev)}
           onKeyDown={(event) => {
             if (event.key === 'Enter' || event.key === ' ') {
               event.preventDefault();
-              setPerformanceMonitoring(!performanceMonitoring);
+              setPerformanceMonitoring((prev) => !prev);
             }
           }}
           title="Double-click to toggle performance monitoring"

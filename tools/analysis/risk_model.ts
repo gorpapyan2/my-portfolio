@@ -1,0 +1,11 @@
+import { Issue, IssueEvidence, ModuleScores, Priority } from "./types.js";
+const clamp=(value:number)=>Math.max(0,Math.min(5,value));
+const locBucket=(loc?:number)=>!loc?0:loc>=120?3:loc>=40?2:loc>=10?1:0;
+const fanInWeight=(fanIn?:number)=>!fanIn?0:fanIn>=10?2:fanIn>=4?1:0;
+const hotPathBonus=(churn?:number)=>!churn?0:churn>=10?1:0;
+const ageRisk=(ageDays?:number)=>ageDays===undefined?1:ageDays<30?3:ageDays<180?2:1;
+const couplingRisk=(fanOut?:number)=>!fanOut?0:fanOut>=12?2:fanOut>=6?1:0;
+const publicApiRisk=(isPublicApi?:boolean)=>isPublicApi?1:0;
+export const scoreIssue=(evidence:IssueEvidence):{impact:number;risk:number;priority:Priority;}=>{const impact=clamp(locBucket(evidence.loc)+fanInWeight(evidence.fanIn)+hotPathBonus(evidence.churn));const risk=clamp(ageRisk(evidence.ageDays)+couplingRisk(evidence.fanOut)+publicApiRisk(evidence.isPublicApi));return{impact,risk,priority:priorityFromMatrix(impact,risk)};};
+export const priorityFromMatrix=(impact:number,risk:number):Priority=>impact>=4&&risk<=2?"P0":impact>=3&&risk<=3?"P1":impact>=2?"P2":"P3";
+export const scoreModule=(issues:Issue[]):ModuleScores=>{if(!issues.length)return{impact:0,risk:0,priority:"P3"};const impact=Math.round(issues.reduce((sum,item)=>sum+item.impact,0)/issues.length);const risk=Math.round(issues.reduce((sum,item)=>sum+item.risk,0)/issues.length);return{impact,risk,priority:priorityFromMatrix(impact,risk)};};

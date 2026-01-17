@@ -1,0 +1,1 @@
+{"root":".","reportDir":"reports","ignore":["node_modules","dist","build",".git","reports","coverage"],"extensions":[".ts",".tsx",".js",".jsx",".mjs",".cjs",".py",".go"],"entrypoints":["src/main.tsx","src/App.tsx","src/routes/index.tsx"],"enableExternalTools":false,"duplication":{"minLines":6},"complexity":{"maxBranches":12},"coupling":{"maxImports":12}}

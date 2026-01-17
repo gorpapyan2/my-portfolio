@@ -7,7 +7,7 @@ interface HeroButtonProps {
   children: React.ReactNode;
 }
 
-const MotionLink = motion(Link);
+const MotionLink = motion.create(Link);
 
 export function HeroButton({ variant, href, children }: HeroButtonProps) {
   const baseStyles = "px-[var(--space-24)] py-[var(--space-12)] min-h-[var(--size-tap)] rounded-full font-medium text-[length:var(--font-200)] transition-[color,background-color,box-shadow,transform] inline-flex items-center gap-[var(--space-8)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/60 focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--bg)]";

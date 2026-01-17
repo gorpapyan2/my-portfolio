@@ -1,0 +1,7 @@
+import path from "path";
+import { Issue, ModuleReport } from "./types.js";
+import { scoreModule } from "./risk_model.js";
+import { toPosix } from "./utils/fs.js";
+type ModuleRef={name:string;path:string};
+const moduleFromPath=(filePath:string):ModuleRef=>{const normalized=toPosix(filePath);const rules:{re:RegExp;name:string}[]=[{re:/\/apps\/([^/]+)/,name:"apps/$1"},{re:/\/packages\/([^/]+)/,name:"packages/$1"},{re:/\/services\/([^/]+)/,name:"services/$1"},{re:/\/src\/features\/([^/]+)/,name:"src/features/$1"},{re:/\/src\/pages\/([^/]+)/,name:"src/pages/$1"},{re:/\/src\/components\/([^/]+)/,name:"src/components/$1"},{re:/\/src\/([^/]+)/,name:"src/$1"}];for(const rule of rules){const match=normalized.match(rule.re);if(match)return{name:rule.name.replace("$1",match[1]),path:match[0]};}const dir=path.dirname(normalized);return{name:dir==="."?"root":dir,path:dir};};
+export const groupByModule=(issues:Issue[]):ModuleReport[]=>{const buckets=new Map<string,ModuleReport>();for(const issue of issues){const moduleRef=moduleFromPath(issue.file);if(!buckets.has(moduleRef.name))buckets.set(moduleRef.name,{name:moduleRef.name,path:moduleRef.path,scores:{impact:0,risk:0,priority:"P3"},issues:[]});buckets.get(moduleRef.name)?.issues.push(issue);}for(const module of buckets.values())module.scores=scoreModule(module.issues);return Array.from(buckets.values()).sort((a,b)=>b.scores.impact-a.scores.impact);};

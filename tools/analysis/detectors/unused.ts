@@ -1,0 +1,6 @@
+import { DetectorContext, RawIssue, scanImports, inferPublicApi } from "../collectors/index.js";
+import { readText } from "../utils/fs.js";
+type ExportRef={name:string;line:number};
+const lineOf=(text:string,index:number)=>text.slice(0,index).split(/\r?\n/).length;
+const findExports=(text:string):ExportRef[]=>{const exports:ExportRef[]=[];const patterns=[/export\s+const\s+(\w+)/g,/export\s+function\s+(\w+)/g,/export\s+class\s+(\w+)/g];for(const pattern of patterns){for(const match of text.matchAll(pattern))exports.push({name:match[1],line:lineOf(text,match.index??0)});}return exports;};
+export const runUnused=async(ctx:DetectorContext):Promise<RawIssue[]>=>{const issues:RawIssue[]=[];const imports=scanImports(ctx.files);for(const file of ctx.files){const text=readText(file);const exported=findExports(text);const fanIn=imports.get(file)?.size??0;for(const item of exported){const regex=new RegExp(`\\b${item.name}\\b`,"g");const total=ctx.files.reduce((count,candidate)=>candidate===file?count:count+(readText(candidate).match(regex)?.length??0),0);if(total===0)issues.push({type:"unused",title:`Unused export: ${item.name}`,file,startLine:item.line,endLine:item.line,evidence:{fanIn,isPublicApi:inferPublicApi(file)}});}}return issues;};

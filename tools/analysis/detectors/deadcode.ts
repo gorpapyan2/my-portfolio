@@ -1,0 +1,3 @@
+import path from "path";
+import { DetectorContext, RawIssue, scanImports, inferPublicApi } from "../collectors/index.js";
+export const runDeadcode=async(ctx:DetectorContext):Promise<RawIssue[]>=>{const issues:RawIssue[]=[];const imports=scanImports(ctx.files);const entrySet=new Set(ctx.entrypoints.map((entry)=>path.resolve(ctx.root,entry)));for(const file of ctx.files){if(entrySet.has(path.resolve(file)))continue;const fanIn=imports.get(file)?.size??0;if(fanIn===0)issues.push({type:"dead",title:"File has no inbound references",file,startLine:1,endLine:1,evidence:{fanIn,isPublicApi:inferPublicApi(file)}});}return issues;};
