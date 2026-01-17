@@ -67,7 +67,7 @@ export async function validateSlugUniqueness(
     }
 
     // Query database for existing slug
-    let query = supabase
+    const query = supabase
       .from('blog_posts')
       .select('id')
       .eq('slug', slug);

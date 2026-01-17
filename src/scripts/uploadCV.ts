@@ -1,6 +1,5 @@
 import { supabase } from '../lib/supabase';
 import fs from 'fs';
-import path from 'path';
 
 /**
  * Uploads CV file to Supabase Storage

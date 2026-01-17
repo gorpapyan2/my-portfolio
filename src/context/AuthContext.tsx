@@ -1,3 +1,4 @@
+/* eslint-disable react-refresh/only-export-components */
 import React, { createContext, useContext, ReactNode, useState } from 'react';
 import { useAuthService } from '../lib/services/useAuthService';
 import type { User } from '@supabase/supabase-js';

@@ -9,7 +9,6 @@ interface Translation {
 }
 
 interface UnifiedTranslationModalProps {
-  mode: 'simple' | 'advanced';
   isOpen: boolean;
   language: 'en' | 'ru' | 'am';
   translation?: Translation | null;
@@ -18,7 +17,6 @@ interface UnifiedTranslationModalProps {
 }
 
 export function UnifiedTranslationModal({
-  mode,
   isOpen,
   language,
   translation,

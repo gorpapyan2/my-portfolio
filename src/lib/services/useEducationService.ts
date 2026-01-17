@@ -15,7 +15,7 @@
  * @returns {Function} refetch - Manually refetch all education records
  */
 
-import { useState, useEffect } from 'react';
+import { useCallback, useState, useEffect } from 'react';
 import { supabase } from '../supabase';
 import { Education, EducationInsert, EducationUpdate, EducationTranslationInsert } from '../../types/database.types';
 import { educationSchema } from '../schemas/educationSchema';
@@ -38,7 +38,7 @@ export function useEducationService(options: UseEducationOptions = {}) {
    * Loads education records from Supabase, sorted by order_index
    * @private
    */
-  const loadEducation = async () => {
+  const loadEducation = useCallback(async () => {
     try {
       setIsLoading(true);
       setError(null);
@@ -82,7 +82,7 @@ export function useEducationService(options: UseEducationOptions = {}) {
     } finally {
       setIsLoading(false);
     }
-  };
+  }, [activeLanguage]);
 
   /**
    * Creates a new education record
@@ -208,7 +208,7 @@ export function useEducationService(options: UseEducationOptions = {}) {
 
   useEffect(() => {
     loadEducation();
-  }, [activeLanguage]);
+  }, [loadEducation]);
 
   return {
     education,

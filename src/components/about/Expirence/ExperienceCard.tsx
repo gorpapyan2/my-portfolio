@@ -1,5 +1,5 @@
 import { Card } from '../../shared/Card';
-import { motion } from 'framer-motion';
+import { motion, useReducedMotion } from 'framer-motion';
 import { useLanguage } from '../../../context/LanguageContext';
 import { TranslationText } from '../../../components/shared/TranslationText';
 
@@ -14,6 +14,7 @@ interface ExperienceCardProps {
 
 export function ExperienceCard({ role, company, period, description, achievements, baseKey }: ExperienceCardProps) {
   const { t } = useLanguage();
+  const shouldReduceMotion = useReducedMotion();
 
   const isMissing = (val: string) => val.startsWith('[missing:');
   const tv = (path: string, fallback: string) => {
@@ -29,12 +30,12 @@ export function ExperienceCard({ role, company, period, description, achievement
   const achievementsToRender = translatedAchievements.length > 0 ? translatedAchievements : achievements;
   return (
     <motion.div
-      initial={{ opacity: 0, y: 20 }}
+      initial={shouldReduceMotion ? false : { opacity: 0, y: 20 }}
       whileInView={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
+      transition={{ duration: shouldReduceMotion ? 0 : 0.6, ease: [0.16, 1, 0.3, 1] }}
       viewport={{ once: true }}
     >
-      <Card className="group hover:bg-[var(--surface-strong)] transition-all duration-500">
+      <Card className="group hover:bg-[var(--surface-strong)] transition-[background-color,border-color,box-shadow] duration-500">
         <div className="flex justify-between items-start mb-6">
           <div>
             <h3 className="text-xl font-semibold text-[var(--text)] group-hover:text-accent transition-colors duration-300">
@@ -57,9 +58,9 @@ export function ExperienceCard({ role, company, period, description, achievement
             {achievementsToRender.map((achievement, index) => (
               <motion.li 
                 key={index} 
-                initial={{ opacity: 0, x: -20 }}
+                initial={shouldReduceMotion ? false : { opacity: 0, x: -20 }}
                 whileInView={{ opacity: 1, x: 0 }}
-                transition={{ duration: 0.4, delay: index * 0.1 }}
+                transition={{ duration: shouldReduceMotion ? 0 : 0.4, delay: shouldReduceMotion ? 0 : index * 0.1 }}
                 viewport={{ once: true }}
                 className="flex items-start gap-3 text-[var(--text-muted)] group-hover:text-[var(--text)] transition-colors duration-300"
               >

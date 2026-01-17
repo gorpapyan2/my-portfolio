@@ -6,7 +6,7 @@ import { Toc } from '../../components/markdown/Toc';
 import { BlogCard } from './BlogCard';
 import { ReadingProgress } from '../../components/ReadingProgress';
 import { ShareButton } from '../../components/ShareButton';
-import { useBlogService } from '../../lib/services/useBlogService';
+import { useBlogService, type LocalizedBlogPost } from '../../lib/services/useBlogService';
 import { useToc } from '../../hooks/useToc';
 import { LoadingSpinner } from '../../components/loading/LoadingSpinner';
 import { useState } from 'react';
@@ -31,7 +31,7 @@ function formatDate(dateString: string, t: (key: string) => string): string {
 /**
  * Gets related posts excluding current post, limited to 3
  */
-function getRelatedPosts(currentPostId: string, allPosts: any[], limit: number = 3) {
+function getRelatedPosts(currentPostId: string, allPosts: LocalizedBlogPost[], limit: number = 3) {
   return allPosts
     .filter(post => post.id !== currentPostId)
     .slice(0, limit);
@@ -43,15 +43,15 @@ export function BlogViewPage() {
   const { blogPosts, isLoading, error, refreshBlogPosts } = useBlogService(language);
   const [isRetrying, setIsRetrying] = useState(false);
 
-  if (!slug) {
-    return <Navigate to=".." relative="path" replace />;
-  }
-
   // Find the blog post by slug
   const blogPost = blogPosts.find(post => post.slug === slug);
 
   // Extract TOC from post content
   const { headings } = useToc(blogPost?.content || '');
+
+  if (!slug) {
+    return <Navigate to=".." relative="path" replace />;
+  }
 
   // Handle loading state
   if (isLoading && !blogPost) {

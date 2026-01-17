@@ -1,5 +1,5 @@
 import { CheckCircle2 } from 'lucide-react';
-import { motion } from 'framer-motion';
+import { motion, useReducedMotion } from 'framer-motion';
 import { SectionHeader } from '../shared/SectionHeader';
 import { TranslationText } from '../../components/shared/TranslationText';
 
@@ -12,6 +12,7 @@ type KeyResultsProps = {
 
 export function KeyResults({ items, isLoading = false }: KeyResultsProps) {
   const keyResults = items ?? [];
+  const shouldReduceMotion = useReducedMotion();
 
   return (
     <section id="key-results" className="scroll-mt-24">
@@ -33,13 +34,13 @@ export function KeyResults({ items, isLoading = false }: KeyResultsProps) {
               {(keyResults.length > 0 ? keyResults : [{ summary: "Key results coming soon." }]).map((item, idx) => (
                 <motion.li
                   key={idx}
-                  initial={{ opacity: 0, y: 8 }}
+                  initial={shouldReduceMotion ? false : { opacity: 0, y: 8 }}
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true }}
-                  transition={{ duration: 0.4, delay: idx * 0.03 }}
+                  transition={{ duration: shouldReduceMotion ? 0 : 0.4, delay: shouldReduceMotion ? 0 : idx * 0.03 }}
                   className="flex items-start gap-2"
                 >
-                  <span className="mt-0.5 text-accent"><CheckCircle2 className="w-5 h-5" /></span>
+                  <span className="mt-0.5 text-accent"><CheckCircle2 className="w-5 h-5" aria-hidden="true" /></span>
                   <span className="text-[var(--text-muted)]">{item.summary}</span>
                 </motion.li>
               ))}
@@ -50,6 +51,5 @@ export function KeyResults({ items, isLoading = false }: KeyResultsProps) {
     </section>
   );
 }
-
 
 

@@ -1,5 +1,5 @@
 import { Card } from '../../shared/Card';
-import { motion } from 'framer-motion';
+import { motion, useReducedMotion } from 'framer-motion';
 
 interface EducationCardProps {
   degree: string;
@@ -9,14 +9,16 @@ interface EducationCardProps {
 }
 
 export function EducationCard({ degree, school, year, description }: EducationCardProps) {
+  const shouldReduceMotion = useReducedMotion();
+
   return (
     <motion.div
-      initial={{ opacity: 0, y: 20 }}
+      initial={shouldReduceMotion ? false : { opacity: 0, y: 20 }}
       whileInView={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
+      transition={{ duration: shouldReduceMotion ? 0 : 0.6, ease: [0.16, 1, 0.3, 1] }}
       viewport={{ once: true }}
     >
-      <Card className="group hover:bg-[var(--surface-strong)] transition-all duration-500">
+      <Card className="group hover:bg-[var(--surface-strong)] transition-[background-color,border-color,box-shadow] duration-500">
         <div className="flex justify-between items-start mb-6">
           <div>
             <h3 className="text-xl font-semibold text-[var(--text)] group-hover:text-accent transition-colors duration-300">

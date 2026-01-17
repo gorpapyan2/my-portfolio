@@ -12,6 +12,20 @@ import rehypeStringify from 'rehype-stringify';
 import { visit } from 'unist-util-visit';
 import { Root } from 'mdast';
 
+type HastNode = {
+  type?: string;
+  tagName?: string;
+  properties?: Record<string, unknown>;
+  children?: HastNode[];
+  value?: string;
+};
+
+type RehypePrettyCodeNode = {
+  properties: {
+    className?: string[];
+  };
+};
+
 // Theme type for dual-theme support
 export type AppTheme = 'light' | 'dark';
 
@@ -19,23 +33,23 @@ export type AppTheme = 'light' | 'dark';
  * Custom rehype plugin to add data attributes to code blocks for React copy button
  */
 function rehypeCodeMeta() {
-  return (tree: any) => {
-    visit(tree, 'element', (node: any) => {
+  return (tree: HastNode) => {
+    visit(tree as unknown as HastNode, 'element', (node: HastNode) => {
       // Handle both figure (with titles) and direct pre elements
       const isFigure = node.tagName === 'figure' && node.properties?.['data-rehype-pretty-code-figure'] !== undefined;
       const isPre = node.tagName === 'pre';
       
       if (isFigure || isPre) {
         // For figures, find the pre element; for pre, use it directly
-        const preElement = isFigure 
-          ? node.children?.find((child: any) => child.tagName === 'pre')
+        const preElement = isFigure
+          ? node.children?.find((child) => child.tagName === 'pre')
           : node;
           
         if (preElement) {
-          const codeElement = preElement.children?.find((child: any) => child.tagName === 'code');
+          const codeElement = preElement.children?.find((child) => child.tagName === 'code');
           if (codeElement) {
             // Extract text content from the code element
-            const extractText = (element: any): string => {
+            const extractText = (element: HastNode): string => {
               if (element.type === 'text') {
                 return element.value || '';
               }
@@ -55,7 +69,12 @@ function rehypeCodeMeta() {
             targetNode.properties['data-code-content'] = codeText;
             
             // Add wrapper class
-            const existingClasses = targetNode.properties.className || [];
+            const className = targetNode.properties.className;
+            const existingClasses = Array.isArray(className)
+              ? className
+              : className
+                ? [String(className)]
+                : [];
             if (!existingClasses.includes('code-block-wrapper')) {
               targetNode.properties.className = [...existingClasses, 'code-block-wrapper'];
             }
@@ -99,7 +118,8 @@ const sanitizeSchema = {
 /**
  * Build the unified markdown processor pipeline with dual theme support
  */
-function createProcessor(_theme: AppTheme = 'dark') {
+function createProcessor(theme: AppTheme = 'dark') {
+  void theme;
   return unified()
     .use(remarkParse)
     .use(remarkGfm)
@@ -124,26 +144,26 @@ function createProcessor(_theme: AppTheme = 'dark') {
         dark: 'github-dark-dimmed',
       },
       defaultLang: 'plaintext',
-      onVisitLine(node: any) {
+      onVisitLine(node: RehypePrettyCodeNode) {
         // Ensure each line has at least one class for proper styling
         if (!node.properties.className || node.properties.className.length === 0) {
           node.properties.className = ['line'];
         }
       },
-      onVisitHighlightedLine(node: any) {
+      onVisitHighlightedLine(node: RehypePrettyCodeNode) {
         // Add class to highlighted lines
         if (!node.properties.className) {
           node.properties.className = [];
         }
         node.properties.className.push('highlighted');
       },
-      onVisitHighlightedChars(node: any) {
+      onVisitHighlightedChars(node: RehypePrettyCodeNode) {
         // Add class to highlighted characters
         node.properties.className = ['word'];
       },
-    } as any)
+    } as Parameters<typeof rehypePrettyCode>[0])
     .use(rehypeCodeMeta)
-    .use(rehypeSanitize, sanitizeSchema as any)
+    .use(rehypeSanitize, sanitizeSchema as Parameters<typeof rehypeSanitize>[0])
     .use(rehypeStringify);
 }
 

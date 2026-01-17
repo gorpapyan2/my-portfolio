@@ -15,7 +15,7 @@
  * @returns {Function} refetch - Manually refetch all experience records
  */
 
-import { useState, useEffect } from 'react';
+import { useCallback, useState, useEffect } from 'react';
 import { supabase } from '../supabase';
 import { Experience, ExperienceInsert, ExperienceUpdate, ExperienceTranslationInsert } from '../../types/database.types';
 import { experienceSchema } from '../schemas/experienceSchema';
@@ -38,7 +38,7 @@ export function useExperienceService(options: UseExperienceOptions = {}) {
    * Loads experience records from Supabase, sorted by order_index
    * @private
    */
-  const loadExperiences = async () => {
+  const loadExperiences = useCallback(async () => {
     try {
       setIsLoading(true);
       setError(null);
@@ -83,7 +83,7 @@ export function useExperienceService(options: UseExperienceOptions = {}) {
     } finally {
       setIsLoading(false);
     }
-  };
+  }, [activeLanguage]);
 
   /**
    * Creates a new experience record
@@ -216,7 +216,7 @@ export function useExperienceService(options: UseExperienceOptions = {}) {
 
   useEffect(() => {
     loadExperiences();
-  }, [activeLanguage]);
+  }, [loadExperiences]);
 
   return {
     experiences,

@@ -15,7 +15,7 @@
  * @returns {Function} refetch - Manually refetch all skill records
  */
 
-import { useState, useEffect } from 'react';
+import { useCallback, useState, useEffect } from 'react';
 import { supabase } from '../supabase';
 import { Skill, SkillInsert, SkillUpdate, SkillTranslationInsert } from '../../types/database.types';
 import { skillSchema } from '../schemas/skillSchema';
@@ -38,7 +38,7 @@ export function useSkillService(options: UseSkillOptions = {}) {
    * Loads skill records from Supabase, sorted by order_index
    * @private
    */
-  const loadSkills = async () => {
+  const loadSkills = useCallback(async () => {
     try {
       setIsLoading(true);
       setError(null);
@@ -80,7 +80,7 @@ export function useSkillService(options: UseSkillOptions = {}) {
     } finally {
       setIsLoading(false);
     }
-  };
+  }, [activeLanguage]);
 
   /**
    * Creates a new skill record
@@ -205,7 +205,7 @@ export function useSkillService(options: UseSkillOptions = {}) {
 
   useEffect(() => {
     loadSkills();
-  }, [activeLanguage]);
+  }, [loadSkills]);
 
   return {
     skills,

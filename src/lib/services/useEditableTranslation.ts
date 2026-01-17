@@ -53,20 +53,18 @@ export function useEditableTranslation(translationKey: string): UseEditableTrans
       const languages = ['en', 'ru', 'am'] as const;
 
       // Fetch all existing records for this key in all languages (one query)
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      const { data: existingRecords, error: fetchError } = await (supabase
+      const { data: existingRecords, error: fetchError } = await supabase
         .from('translations')
         .select('id, language')
-        .eq('key', translationKey) as any);
+        .eq('key', translationKey);
 
       if (fetchError) {
         console.warn(`Failed to fetch existing translations for ${translationKey}:`, fetchError);
       }
 
       // Create lookup map by language
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       const existingMap = new Map(
-        (existingRecords || []).map((r: any) => [r.language, r.id])
+        (existingRecords || []).map((record) => [record.language, record.id])
       );
 
       // Process each language
@@ -81,10 +79,8 @@ export function useEditableTranslation(translationKey: string): UseEditableTrans
 
           if (existingId) {
             // Record exists - update it
-            // eslint-disable-next-line @typescript-eslint/no-explicit-any
-            const updateObj = supabase.from('translations');
-            // eslint-disable-next-line @typescript-eslint/no-explicit-any
-            const { error: updateError } = await (updateObj as any)
+            const { error: updateError } = await supabase
+              .from('translations')
               .update({
                 value: newValue,
                 category
@@ -94,15 +90,14 @@ export function useEditableTranslation(translationKey: string): UseEditableTrans
             if (updateError) throw updateError;
           } else {
             // Record doesn't exist - insert it
-            // eslint-disable-next-line @typescript-eslint/no-explicit-any
-            const { error: insertError } = await (supabase
+            const { error: insertError } = await supabase
               .from('translations')
               .insert([{
                 key: translationKey,
                 language: lang,
                 value: newValue,
                 category
-              }] as any) as any);
+              }]);
 
             if (insertError) throw insertError;
           }

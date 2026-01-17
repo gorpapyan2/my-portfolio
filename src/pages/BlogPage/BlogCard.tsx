@@ -58,7 +58,7 @@ export function BlogCard({
     
     // Remove markdown syntax and limit to 150 characters
     const cleaned = content
-      .replace(/[#*`\[\]()]/g, '')
+      .replace(/[[#*`()]/g, '')
       .replace(/\n/g, ' ')
       .trim();
     

@@ -1,4 +1,4 @@
-import { Root, Heading } from 'mdast';
+import type { Root, Content, Heading, Text } from 'mdast';
 
 export interface TocEntry {
   id: string;
@@ -16,24 +16,28 @@ export function extractToc(ast: Root | null): TocEntry[] {
   if (!ast) return [];
 
   const headings: TocEntry[] = [];
+  type MdastNode = Root | Content;
+  const hasChildren = (node: MdastNode): node is MdastNode & { children: MdastNode[] } =>
+    Array.isArray((node as MdastNode & { children?: MdastNode[] }).children);
 
   // Recursive tree traversal to find all headings
-  function traverse(node: any) {
+  function traverse(node: MdastNode) {
     if (node.type === 'heading') {
+      const headingNode = node as Heading;
       // Only include H2 and H3
-      if (node.depth < 2 || node.depth > 3) {
+      if (headingNode.depth < 2 || headingNode.depth > 3) {
         // Still traverse children
-        if (node.children && Array.isArray(node.children)) {
-          node.children.forEach(traverse);
+        if (hasChildren(headingNode)) {
+          headingNode.children.forEach(traverse);
         }
         return;
       }
 
       // Extract text from heading
-      const text = extractTextFromNode(node);
+      const text = extractTextFromNode(headingNode);
       if (!text) {
-        if (node.children && Array.isArray(node.children)) {
-          node.children.forEach(traverse);
+        if (hasChildren(headingNode)) {
+          headingNode.children.forEach(traverse);
         }
         return;
       }
@@ -43,13 +47,13 @@ export function extractToc(ast: Root | null): TocEntry[] {
 
       headings.push({
         id,
-        depth: node.depth,
+        depth: headingNode.depth,
         text,
       });
     }
 
     // Recurse through children
-    if (node.children && Array.isArray(node.children)) {
+    if (hasChildren(node)) {
       node.children.forEach(traverse);
     }
   }
@@ -63,15 +67,15 @@ export function extractToc(ast: Root | null): TocEntry[] {
  * @param node - MDAST node
  * @returns Plain text content
  */
-function extractTextFromNode(node: any): string {
+function extractTextFromNode(node: Root | Content): string {
   let text = '';
 
   if (node.type === 'text') {
-    return node.value;
+    return (node as Text).value;
   }
 
-  if (node.children && Array.isArray(node.children)) {
-    text = node.children.map((child: any) => extractTextFromNode(child)).join('');
+  if ('children' in node && Array.isArray(node.children)) {
+    text = node.children.map((child) => extractTextFromNode(child)).join('');
   }
 
   return text;

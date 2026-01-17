@@ -46,7 +46,6 @@ export function useAboutService(): AboutService {
       setRows((data || []) as TranslationRow[]);
     } catch (err) {
       const message = err instanceof Error ? err.message : 'Failed to load about content';
-      // eslint-disable-next-line no-console
       console.error('Error loading about content:', err);
       setError(message);
     } finally {

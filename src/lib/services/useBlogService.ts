@@ -148,7 +148,7 @@ export function useBlogService(language: 'en' | 'ru' | 'am' = 'en'): BlogService
       // Create blog post first
       const { data: newPost, error: postError } = await supabase
         .from('blog_posts')
-        .insert(validatedData as any)
+        .insert(validatedData as BlogPostInsert)
         .select()
         .single();
 
@@ -165,7 +165,7 @@ export function useBlogService(language: 'en' | 'ru' | 'am' = 'en'): BlogService
 
       const { error: translationsError } = await supabase
         .from('blog_post_translations')
-        .insert(translationsToInsert as any);
+        .insert(translationsToInsert);
 
       if (translationsError) throw translationsError;
 

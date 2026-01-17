@@ -19,10 +19,6 @@ export type AboutContent = {
 };
 
 type BaseRow = { id: string; order_index: number };
-type JourneyTranslation = Database['public']['Tables']['about_professional_journey_translations']['Row'];
-type PhilosophyTranslation = Database['public']['Tables']['about_philosophy_translations']['Row'];
-type ToolboxTranslation = Database['public']['Tables']['about_toolbox_translations']['Row'];
-type KeyResultTranslation = Database['public']['Tables']['about_key_result_translations']['Row'];
 type LanguageTranslation = Database['public']['Tables']['about_language_translations']['Row'];
 
 const DEFAULT_LANG = 'en';
@@ -37,7 +33,6 @@ async function fetchBase(table: string): Promise<BaseRow[]> {
     .order('order_index', { ascending: true });
 
   if (error) {
-    // eslint-disable-next-line no-console
     console.error(`getAbout failed to load ${table}`);
     return [];
   }
@@ -55,7 +50,6 @@ async function fetchTranslations<T extends { language: string }>(
     .eq('language', language);
 
   if (error) {
-    // eslint-disable-next-line no-console
     console.error(`getAbout failed to load ${table} translations`);
     return [];
   }

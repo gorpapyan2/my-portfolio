@@ -20,8 +20,8 @@ import { CVDownload } from "@/components/about/CVDownload";
 import { getAbout, type AboutContent } from "@/lib/db/getAbout";
 
 export function AboutPage() {
-  const [soundEnabled] = useState(false);
-  const [motionEnabled, ] = useState(true);
+  const soundEnabled = false;
+  const motionEnabled = true;
   const [performanceMonitoring, setPerformanceMonitoring] = useState(false);
   const { t, language } = useLanguage();
   const [aboutContent, setAboutContent] = useState<AboutContent>({
@@ -110,7 +110,7 @@ export function AboutPage() {
             viewport={{ once: true }}
             className="max-w-3xl mx-auto"
           >
-            <div className="bg-white/5 backdrop-blur-sm rounded-xl p-8 border border-white/10 hover:border-accent/30 transition-all duration-300">
+            <div className="bg-white/5 backdrop-blur-sm rounded-xl p-8 border border-white/10 hover:border-accent/30 transition-colors duration-300">
               <h3 className="text-2xl font-bold text-white mb-4">
                 {t('about.philosophy')}
               </h3>
@@ -130,29 +130,40 @@ export function AboutPage() {
       <ScrollIndicator />
       <FloatingActions />
       <PerformanceMonitor enabled={performanceMonitoring} />
-      {aboutError && (
-        <div className="fixed bottom-4 left-1/2 -translate-x-1/2 bg-[var(--surface-strong)] border border-[var(--border)] text-[var(--text-muted)] px-4 py-2 rounded-full text-[length:var(--font-100)] shadow-[0_12px_30px_rgba(0,0,0,0.35)]">
+      {aboutError ? (
+        <div
+          className="fixed bottom-4 left-1/2 -translate-x-1/2 bg-[var(--surface-strong)] border border-[var(--border)] text-[var(--text-muted)] px-4 py-2 rounded-full text-[length:var(--font-100)] shadow-[0_12px_30px_rgba(0,0,0,0.35)]"
+          role="status"
+          aria-live="polite"
+        >
           {aboutError}
         </div>
-      )}
+      ) : null}
 
       
       {/* Motion preference could be used to disable animations */}
-      {!motionEnabled && (
+      {!motionEnabled ? (
         <style>{`
           * { animation-duration: 0s !important; transition-duration: 0s !important; }
         `}</style>
-      )}
+      ) : null}
       
       {/* Development mode - double-click to enable performance monitoring */}
-      {import.meta.env.DEV && (
-        <div 
-          className="fixed top-0 left-0 w-4 h-4 z-50"
+      {import.meta.env.DEV ? (
+        <button
+          type="button"
+          className="fixed top-0 left-0 w-4 h-4 z-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/60 focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--bg)]"
           onDoubleClick={() => setPerformanceMonitoring(!performanceMonitoring)}
+          onKeyDown={(event) => {
+            if (event.key === 'Enter' || event.key === ' ') {
+              event.preventDefault();
+              setPerformanceMonitoring(!performanceMonitoring);
+            }
+          }}
           title="Double-click to toggle performance monitoring"
+          aria-label="Toggle performance monitoring"
         />
-      )}
+      ) : null}
     </>
   );
 }
-

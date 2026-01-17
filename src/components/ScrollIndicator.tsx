@@ -1,8 +1,9 @@
-import { motion } from "framer-motion";
+import { motion, useReducedMotion } from "framer-motion";
 import { useEffect, useState } from "react";
 
 export default function ScrollIndicator() {
   const [scrollProgress, setScrollProgress] = useState(0);
+  const shouldReduceMotion = useReducedMotion();
 
   useEffect(() => {
     const updateScrollProgress = () => {
@@ -22,13 +23,13 @@ export default function ScrollIndicator() {
         <motion.div
           className="w-full bg-gradient-to-b from-accent to-white/60 rounded-full"
           style={{ height: `${scrollProgress}%` }}
-          transition={{ duration: 0.1 }}
+          transition={{ duration: shouldReduceMotion ? 0 : 0.1 }}
         />
       </div>
       <motion.div
         className="absolute -right-2 top-0 w-2 h-2 bg-accent rounded-full"
         style={{ top: `${scrollProgress}%` }}
-        transition={{ duration: 0.1 }}
+        transition={{ duration: shouldReduceMotion ? 0 : 0.1 }}
       />
     </div>
   );

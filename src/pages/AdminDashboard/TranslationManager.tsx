@@ -36,7 +36,6 @@ export function TranslationManager() {
     setSearchTerm,
     setSelectedCategory,
     setShowEditor,
-    setEditingTranslation,
     setShowImportExport,
     setShowValidation,
     handleAddTranslation,
@@ -268,6 +267,5 @@ export function TranslationManager() {
     </div>
   );
 }
-
 
 

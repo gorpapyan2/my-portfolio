@@ -1,7 +1,6 @@
 import { useState, useEffect, useRef } from 'react';
-import { motion } from 'framer-motion';
+import { motion, useReducedMotion } from 'framer-motion';
 import { User, Briefcase, GraduationCap, Lightbulb } from 'lucide-react';
-import { useLanguage } from '../context/LanguageContext';
 import { TranslationText } from './shared/TranslationText';
 
 const sectionsBase = [
@@ -12,10 +11,10 @@ const sectionsBase = [
 ] as const;
 
 export function SectionNavigation() {
-  const { t } = useLanguage();
   const [activeSection, setActiveSection] = useState('about');
   const [isOpen, setIsOpen] = useState(false);
   const observerRef = useRef<IntersectionObserver | null>(null);
+  const shouldReduceMotion = useReducedMotion();
 
   useEffect(() => {
     // Create intersection observer for more reliable section detection
@@ -66,9 +65,9 @@ export function SectionNavigation() {
 
   return (
     <motion.nav
-      initial={{ opacity: 0, x: -20 }}
+      initial={shouldReduceMotion ? false : { opacity: 0, x: -20 }}
       animate={{ opacity: 1, x: 0 }}
-      transition={{ duration: 0.5 }}
+      transition={{ duration: shouldReduceMotion ? 0 : 0.5 }}
       className="fixed bottom-6 left-6 z-40"
     >
       <div className="bg-white/10 backdrop-blur-md rounded-full border border-white/20 px-4 py-2">
@@ -82,16 +81,16 @@ export function SectionNavigation() {
               <motion.button
                 key={section.id}
                 onClick={() => scrollToSection(section.id)}
-                className={`relative px-4 py-2 rounded-full transition-all duration-300 ${
+                className={`relative px-4 py-2 rounded-full transition-colors duration-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/60 focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--bg)] ${
                   isActive 
                     ? 'text-white bg-accent/20' 
                     : 'text-gray-400 hover:text-white hover:bg-white/10'
                 }`}
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
+                whileHover={shouldReduceMotion ? undefined : { scale: 1.05 }}
+                whileTap={shouldReduceMotion ? undefined : { scale: 0.95 }}
               >
                 <div className="flex items-center space-x-2">
-                  <Icon className="h-4 w-4" />
+                  <Icon className="h-4 w-4" aria-hidden="true" />
                   <span className="text-sm font-medium">
                     <TranslationText translationKey={section.labelKey} shimmerWidth="100px" />
                   </span>
@@ -101,7 +100,7 @@ export function SectionNavigation() {
                     layoutId="activeSection"
                     className="absolute inset-0 bg-accent/20 rounded-full"
                     initial={false}
-                    transition={{ type: "spring", stiffness: 500, damping: 30 }}
+                    transition={shouldReduceMotion ? { duration: 0 } : { type: "spring", stiffness: 500, damping: 30 }}
                   />
                 )}
               </motion.button>
@@ -113,8 +112,8 @@ export function SectionNavigation() {
         <div className="md:hidden">
           <motion.button
             onClick={() => setIsOpen(!isOpen)}
-            className="flex items-center space-x-2 px-3 py-2 text-white"
-            whileTap={{ scale: 0.95 }}
+            className="flex items-center space-x-2 px-3 py-2 text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/60 focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--bg)]"
+            whileTap={shouldReduceMotion ? undefined : { scale: 0.95 }}
           >
             <div className="w-6 h-6 flex flex-col justify-center space-y-1">
               <motion.div
@@ -142,7 +141,7 @@ export function SectionNavigation() {
               opacity: isOpen ? 1 : 0,
               pointerEvents: isOpen ? 'auto' : 'none'
             }}
-            transition={{ duration: 0.3 }}
+            transition={{ duration: shouldReduceMotion ? 0 : 0.3 }}
             className="absolute bottom-full left-0 mb-2 w-48 z-50"
           >
             <div className="space-y-1 bg-slate-900/80 backdrop-blur-md rounded-lg border border-white/20 p-2 shadow-xl">
@@ -154,15 +153,15 @@ export function SectionNavigation() {
                   <motion.button
                     key={section.id}
                     onClick={() => scrollToSection(section.id)}
-                    className={`w-full flex items-center space-x-3 px-3 py-2 rounded-lg transition-all duration-300 ${
+                    className={`w-full flex items-center space-x-3 px-3 py-2 rounded-lg transition-colors duration-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/60 focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--bg)] ${
                       isActive 
                         ? 'text-white bg-accent/20' 
                         : 'text-gray-400 hover:text-white hover:bg-white/10'
                     }`}
-                    whileHover={{ scale: 1.02 }}
-                    whileTap={{ scale: 0.98 }}
+                    whileHover={shouldReduceMotion ? undefined : { scale: 1.02 }}
+                    whileTap={shouldReduceMotion ? undefined : { scale: 0.98 }}
                   >
-                    <Icon className="h-4 w-4" />
+                    <Icon className="h-4 w-4" aria-hidden="true" />
                     <span className="text-sm font-medium">
                     <TranslationText translationKey={section.labelKey} shimmerWidth="100px" />
                   </span>

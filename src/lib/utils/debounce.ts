@@ -2,7 +2,7 @@
  * Creates a debounced version of a function that delays execution
  * Useful for auto-save, search, and other high-frequency operations
  */
-export function debounce<T extends (...args: any[]) => any>(
+export function debounce<T extends (...args: unknown[]) => unknown>(
   func: T,
   delay: number
 ): (...args: Parameters<T>) => void {
@@ -23,7 +23,7 @@ export function debounce<T extends (...args: any[]) => any>(
  * Creates a debounced async version that returns a promise
  * Useful for auto-save with await capability
  */
-export function debounceAsync<T extends (...args: any[]) => Promise<any>>(
+export function debounceAsync<T extends (...args: unknown[]) => Promise<unknown>>(
   func: T,
   delay: number
 ): (...args: Parameters<T>) => Promise<void> {

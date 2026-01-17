@@ -1,5 +1,8 @@
+import { useReducedMotion } from "framer-motion";
+
 export default function Sparkles() {
   const dots = Array.from({ length: 6 });
+  const shouldReduceMotion = useReducedMotion();
   return (
     <div className="pointer-events-none absolute inset-0 group-hover:opacity-100 opacity-60 transition-opacity duration-500">
       {dots.map((_, i) => (
@@ -8,7 +11,7 @@ export default function Sparkles() {
           style={{
             left: `${10 + i * 14}%`,
             top: `${20 + (i % 3) * 18}%`,
-            animation: `float${i} 10s ease-in-out ${i * 0.8}s infinite alternate`
+            animation: shouldReduceMotion ? 'none' : `float${i} 10s ease-in-out ${i * 0.8}s infinite alternate`
           }}
         />
       ))}

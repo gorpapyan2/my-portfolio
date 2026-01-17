@@ -280,8 +280,8 @@ export interface Database {
           id: string;
           technology_id: string;
           language: 'en' | 'ru' | 'am';
-          detailed_description: any;
-          tags: any;
+          detailed_description: string[];
+          tags: string[];
           real_world_example: string;
           created_at: string;
           updated_at: string;
@@ -290,8 +290,8 @@ export interface Database {
           id?: string;
           technology_id: string;
           language: 'en' | 'ru' | 'am';
-          detailed_description: any;
-          tags: any;
+          detailed_description: string[];
+          tags: string[];
           real_world_example: string;
           created_at?: string;
           updated_at?: string;
@@ -300,8 +300,8 @@ export interface Database {
           id?: string;
           technology_id?: string;
           language?: 'en' | 'ru' | 'am';
-          detailed_description?: any;
-          tags?: any;
+          detailed_description?: string[];
+          tags?: string[];
           real_world_example?: string;
           created_at?: string;
           updated_at?: string;

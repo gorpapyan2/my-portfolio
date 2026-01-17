@@ -1,7 +1,6 @@
 import { ReactNode } from 'react';
 import { Navigate } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext';
-import { useLanguage } from '../../context/LanguageContext';
 import { TranslationText } from '../shared/TranslationText';
 
 interface ProtectedRouteProps {
@@ -10,7 +9,6 @@ interface ProtectedRouteProps {
 
 export function ProtectedRoute({ children }: ProtectedRouteProps) {
   const { user, isLoading } = useAuth();
-  const { t } = useLanguage();
 
   if (isLoading) {
     return (

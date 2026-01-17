@@ -1,6 +1,5 @@
 import { BlogCard } from './BlogCard';
 import { LocalizedBlogPost } from '../../lib/services/useBlogService';
-import { useLanguage } from '../../context/LanguageContext';
 import { TranslationText } from '../../components/shared/TranslationText';
 
 interface BlogGridProps {
@@ -12,7 +11,6 @@ interface BlogGridProps {
  * Handles type-safe prop mapping from database BlogPost to BlogCard component
  */
 export function BlogGrid({ blogPosts }: BlogGridProps) {
-  const { t } = useLanguage();
   /**
    * Map LocalizedBlogPost to BlogCard props with explicit type safety
    */

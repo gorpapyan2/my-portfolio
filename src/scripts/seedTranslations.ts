@@ -155,18 +155,16 @@ export async function seedTranslations(): Promise<void> {
       const toUpdate = batch.filter(r => existingSet.has(`${r.key}::${r.language}`));
 
       if (toInsert.length > 0) {
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         const { error: insertErr } = await sb
           .from('translations')
-          .insert(toInsert as any);
+          .insert(toInsert);
         if (insertErr) throw insertErr; 
       }
 
       for (const rec of toUpdate) {
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         const { error: updateErr } = await sb
           .from('translations')
-          .update({ value: rec.value, category:  rec.category } as any)
+          .update({ value: rec.value, category: rec.category })
           .eq('key', rec.key)
           .eq('language', rec.language);
         if (updateErr) throw updateErr;

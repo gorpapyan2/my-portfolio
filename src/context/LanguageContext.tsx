@@ -1,3 +1,4 @@
+/* eslint-disable react-refresh/only-export-components */
 import React, { createContext, useContext, useState } from 'react';
 // DB-only i18n: no static fallback here
 import { useTranslationService } from '../lib/services/useTranslationService';
@@ -37,7 +38,6 @@ export function LanguageProvider({ children }: { children: React.ReactNode }) {
     const value = supabaseTranslations ? supabaseTranslations[key] : undefined;
     if (value && value.length > 0) return value;
     if (import.meta && (import.meta as unknown as { env?: Record<string, unknown> }).env) {
-      // eslint-disable-next-line no-console
       if ((import.meta as unknown as { env: Record<string, unknown> }).env.DEV) console.warn(`[i18n] Missing: ${key} (${language})`);
     }
     return `[missing:${key}]`;

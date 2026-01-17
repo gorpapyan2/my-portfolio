@@ -1,12 +1,10 @@
 import { BookOpen } from 'lucide-react';
 import { motion } from 'framer-motion';
 import { SectionHeader } from '../shared/SectionHeader';
-import { useLanguage } from '../../context/LanguageContext';
 import { useAboutService } from '../../lib/services/useAboutService';
 import { TranslationText } from '../../components/shared/TranslationText';
 
 export function ProfessionalSummary() {
-  const { t } = useLanguage();
   const { summary, isLoading, error } = useAboutService();
 
   function emphasize(text: string) {

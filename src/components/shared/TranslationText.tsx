@@ -8,7 +8,6 @@ interface TranslationTextProps {
   as?: 'span' | 'p' | 'div' | 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6';
   shimmerWidth?: string | number;
   shimmerHeight?: string;
-  fallback?: string;
   children?: React.ReactNode;
 }
 
@@ -22,7 +21,6 @@ export function TranslationText({
   as: Component = 'span',
   shimmerWidth,
   shimmerHeight = '1em',
-  fallback,
   children,
 }: TranslationTextProps) {
   const { t, isLoading } = useLanguage();

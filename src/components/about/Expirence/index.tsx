@@ -5,7 +5,7 @@ import { TranslationText } from '../../../components/shared/TranslationText';
 
 export function Experience() {
   return (
-    <section id="experience">
+    <section id="experience" className="scroll-mt-24">
       <div className="max-w-6xl mx-auto px-4">
         <SectionHeader
           icon={Briefcase}

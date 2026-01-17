@@ -1,6 +1,5 @@
 import { ExternalLink, Github } from 'lucide-react';
 import { Card } from '../../components/shared/Card';
-import { useLanguage } from '../../context/LanguageContext';
 import { TranslationText } from '../../components/shared/TranslationText';
 
 interface ProjectCardProps {
@@ -13,7 +12,6 @@ interface ProjectCardProps {
 }
 
 export function ProjectCard({ title, description, image, tags, liveUrl, githubUrl }: ProjectCardProps) {
-  const { t } = useLanguage();
   return (
     <Card className="group">
       <div className="relative aspect-video overflow-hidden rounded-[var(--radius-md)] mb-[var(--space-16)]">

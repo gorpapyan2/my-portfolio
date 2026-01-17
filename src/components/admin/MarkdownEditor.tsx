@@ -21,7 +21,6 @@ import {
 } from 'lucide-react';
 import { MarkdownRenderer } from './MarkdownRenderer';
 import { useLanguage } from '../../context/LanguageContext';
-import { TranslationText } from '../shared/TranslationText';
 
 interface MarkdownEditorProps {
   value: string;

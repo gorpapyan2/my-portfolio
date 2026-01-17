@@ -1,15 +1,11 @@
 import { Mail, Phone, MapPin } from 'lucide-react';
 import { Link } from 'react-router-dom';
-import { useLanguage } from '../../context/LanguageContext';
 import { FooterSection } from './FooterSection';
 import { SocialLinks } from './SocialLinks';
 import { Shimmer } from '../ui/Shimmer';
 import { TranslationText } from '../shared/TranslationText';
 
 export function Footer() {
-  const currentYear = new Date().getFullYear();
-  const { t } = useLanguage();
-
   return (
     <footer className="relative bg-[var(--bg-elevated)] transition-colors duration-200">
       <div className="max-w-6xl mx-auto px-4 py-[var(--space-48)]">

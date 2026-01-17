@@ -18,7 +18,7 @@ export function CVDownload() {
               setStatus(error instanceof Error ? error.message : "Failed to generate CV.");
             }
           }}
-          className="inline-flex items-center gap-2 rounded-full border border-[var(--border)] bg-[var(--surface)] px-5 py-2 text-sm text-[var(--text)] hover:border-accent/40 hover:bg-[var(--surface-strong)] transition-colors"
+          className="inline-flex items-center gap-2 rounded-full border border-[var(--border)] bg-[var(--surface)] px-5 py-2 text-sm text-[var(--text)] hover:border-accent/40 hover:bg-[var(--surface-strong)] transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/60 focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--bg)]"
         >
           Download CV (Markdown)
         </button>
@@ -32,12 +32,16 @@ export function CVDownload() {
               setStatus(error instanceof Error ? error.message : "Failed to generate PDF.");
             }
           }}
-          className="inline-flex items-center gap-2 rounded-full border border-[var(--border)] bg-[var(--surface)] px-5 py-2 text-sm text-[var(--text)] hover:border-accent/40 hover:bg-[var(--surface-strong)] transition-colors"
+          className="inline-flex items-center gap-2 rounded-full border border-[var(--border)] bg-[var(--surface)] px-5 py-2 text-sm text-[var(--text)] hover:border-accent/40 hover:bg-[var(--surface-strong)] transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/60 focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--bg)]"
         >
           Download CV (PDF)
         </button>
       </div>
-      {status && <span className="text-xs text-red-300">{status}</span>}
+      {status ? (
+        <span className="text-xs text-red-300" role="status" aria-live="polite">
+          {status}
+        </span>
+      ) : null}
     </div>
   );
 }

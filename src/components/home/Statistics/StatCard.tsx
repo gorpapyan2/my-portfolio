@@ -17,12 +17,10 @@ interface StatCardProps {
 export function StatCard({ 
   icon: Icon, 
   label, 
-  translationKey,
   value, 
   suffix, 
   index,
   description,
-  descriptionKey,
 }: StatCardProps) {
   const [displayValue, setDisplayValue] = useState(0);
   const shouldReduceMotion = useReducedMotion();
@@ -54,7 +52,7 @@ export function StatCard({
 
     animationFrameId = requestAnimationFrame(animate);
     return () => cancelAnimationFrame(animationFrameId);
-  }, [value]);
+  }, [value, shouldReduceMotion]);
 
   return (
     <motion.div
@@ -100,4 +98,3 @@ export function StatCard({
     </motion.div>
   );
 }
-

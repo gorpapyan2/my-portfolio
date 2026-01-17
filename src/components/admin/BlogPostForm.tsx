@@ -112,7 +112,7 @@ export function BlogPostForm({
           isChecking: false,
           message: isUnique ? t('admin.blog.slugAvailable') : t('admin.blog.slugExists')
         });
-      } catch (err) {
+      } catch {
         setSlugValidation({ 
           isValid: null, 
           isChecking: false, 
@@ -120,7 +120,7 @@ export function BlogPostForm({
         });
       }
     },
-    [editingPostId, validateSlugUniqueness]
+    [editingPostId, validateSlugUniqueness, t]
   );
 
   // Debounce slug validation
@@ -168,7 +168,7 @@ export function BlogPostForm({
     });
   };
 
-  const handleFeaturedImageUpload = (url: string, _filename: string) => {
+  const handleFeaturedImageUpload = (url: string) => {
     // For featured image upload, just set the image field
     handleInputChange('image', url);
   };

@@ -1,4 +1,4 @@
-import { User, Calendar, MapPin, Briefcase } from 'lucide-react';
+import { Calendar, MapPin, Briefcase } from 'lucide-react';
 import { TranslationText } from './shared/TranslationText';
 
 interface AuthorBioProps {

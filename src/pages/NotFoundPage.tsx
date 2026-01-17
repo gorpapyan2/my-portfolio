@@ -1,12 +1,9 @@
 import { motion } from 'framer-motion';
 import { Link } from 'react-router-dom';
 import { Home, ArrowLeft, Search } from 'lucide-react';
-import { useLanguage } from '../context/LanguageContext';
 import { TranslationText } from '../components/shared/TranslationText';
 
 export function NotFoundPage() {
-  const { t } = useLanguage();
-
   return (
     <div className="min-h-screen bg-[var(--bg)] flex items-center justify-center px-[var(--space-16)] py-[var(--space-64)]">
       <div className="max-w-2xl mx-auto text-center">

@@ -1,5 +1,5 @@
 import { supabase } from '../lib/supabase';
-import { useMarkdownService } from '../lib/services/useMarkdownService';
+import { calculateReadingTime, normalizeMarkdown } from '../lib/services/useMarkdownService';
 
 /**
  * Script to normalize existing blog posts in Supabase
@@ -27,7 +27,6 @@ async function normalizeBlogPosts() {
 
     console.log(`Found ${blogPosts.length} blog posts to normalize.\n`);
 
-    const { normalizeMarkdown, calculateReadingTime } = useMarkdownService();
     let normalizedCount = 0;
 
     // Process each blog post

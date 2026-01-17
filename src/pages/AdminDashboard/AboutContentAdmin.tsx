@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from 'react';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 import { Plus, Trash2, Save } from 'lucide-react';
 import { supabase } from '../../lib/supabase';
 import { useLanguage, type Language } from '../../context/LanguageContext';
@@ -142,7 +142,7 @@ export function AboutContentAdmin() {
     },
   ]), [journey, philosophy, toolbox, keyResults, newJourney, newPhilosophy, newToolbox, newKeyResult, t]);
 
-  const loadAll = async () => {
+  const loadAll = useCallback(async () => {
     try {
       setLoading(true);
       setError(null);
@@ -184,11 +184,11 @@ export function AboutContentAdmin() {
     } finally {
       setLoading(false);
     }
-  };
+  }, [activeLanguage]);
 
   useEffect(() => {
     void loadAll();
-  }, [activeLanguage]);
+  }, [loadAll]);
 
   const handleAddText = async (config: typeof sectionConfig[number]) => {
     if (!config.newValue.trim()) return;

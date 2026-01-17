@@ -1,5 +1,5 @@
 import { Languages as LanguagesIcon } from 'lucide-react';
-import { motion } from 'framer-motion';
+import { motion, useReducedMotion } from 'framer-motion';
 import { SectionHeader } from '../shared/SectionHeader';
 import { cn } from '../../utils/cn';
 import { TranslationText } from '../../components/shared/TranslationText';
@@ -16,6 +16,7 @@ type LanguagesProps = {
 
 export function Languages({ items, isLoading = false }: LanguagesProps) {
   const languages = items ?? [];
+  const shouldReduceMotion = useReducedMotion();
 
 	function levelClass(level?: string): string {
 		const l = (level ?? '').toLowerCase();
@@ -57,10 +58,10 @@ export function Languages({ items, isLoading = false }: LanguagesProps) {
 					{(languages.length > 0 ? languages : [{ name: "Languages coming soon." }]).map((lang, idx) => (
 						<motion.div
 							key={idx}
-							initial={{ opacity: 0, y: 8 }}
+							initial={shouldReduceMotion ? false : { opacity: 0, y: 8 }}
 							whileInView={{ opacity: 1, y: 0 }}
 							viewport={{ once: true }}
-							transition={{ duration: 0.35, delay: idx * 0.03 }}
+							transition={{ duration: shouldReduceMotion ? 0 : 0.35, delay: shouldReduceMotion ? 0 : idx * 0.03 }}
 						>
 							<LanguageBadge name={lang.name} level={lang.level ?? undefined} />
 						</motion.div>
@@ -72,6 +73,5 @@ export function Languages({ items, isLoading = false }: LanguagesProps) {
     </section>
   );
 }
-
 
 

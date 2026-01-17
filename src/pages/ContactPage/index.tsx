@@ -3,12 +3,9 @@ import { PageLayout } from '../../components/shared/PageLayout';
 import { PageHeader } from '../../components/shared/PageHeader';
 import { ContactForm } from './ContactForm';
 import { ContactInfo } from './ContactInfo';
-import { useLanguage } from '../../context/LanguageContext';
 import { TranslationText } from '../../components/shared/TranslationText';
 
 export function ContactPage() {
-  const { t } = useLanguage();
-
   return (
     <PageLayout>
       <div className="absolute inset-0 bg-gradient-to-b from-transparent via-blue-400/5 to-transparent" />

@@ -104,7 +104,7 @@ export function useBlogAdminService(): BlogAdminService {
       try {
         const draftKey = getDraftKey(postId);
         return localStorage.getItem(draftKey) !== null;
-      } catch (err) {
+      } catch {
         return false;
       }
     },
@@ -121,7 +121,7 @@ export function useBlogAdminService(): BlogAdminService {
         // Try to get timestamp from metadata
         const parsed = JSON.parse(draft);
         return parsed._draftTimestamp || null;
-      } catch (err) {
+      } catch {
         return null;
       }
     },

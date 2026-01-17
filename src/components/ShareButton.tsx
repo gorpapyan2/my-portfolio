@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Share2, Twitter, Linkedin, Link, Copy, Check } from 'lucide-react';
+import { Share2, Twitter, Linkedin, Copy, Check } from 'lucide-react';
 import { useLanguage } from '../context/LanguageContext';
 
 interface ShareButtonProps {
