@@ -1,5 +1,5 @@
 import { Users, Briefcase, BookOpen, Mail, Lock } from 'lucide-react';
-import { motion } from 'framer-motion';
+import { motion, useReducedMotion } from 'framer-motion';
 import { useLanguage } from '../../../context/LanguageContext';
 import { usePublicFeatureFlags } from '../../../lib/services/usePublicFeatureFlags';
 import { PortfolioNavCard } from './PortfolioNavCard';
@@ -22,11 +22,13 @@ interface DisabledCardProps {
 }
 
 function DisabledCard({ icon: Icon, title, index }: DisabledCardProps) {
+  const shouldReduceMotion = useReducedMotion();
+
   return (
     <motion.div
-      initial={{ opacity: 0, y: 20 }}
+      initial={shouldReduceMotion ? false : { opacity: 0, y: 20 }}
       whileInView={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.6, delay: index * 0.1, ease: [0.16, 1, 0.3, 1] }}
+      transition={{ duration: shouldReduceMotion ? 0 : 0.6, delay: shouldReduceMotion ? 0 : index * 0.1, ease: [0.16, 1, 0.3, 1] }}
       viewport={{ once: true }}
       className="group"
     >
@@ -34,7 +36,7 @@ function DisabledCard({ icon: Icon, title, index }: DisabledCardProps) {
         {/* Icon Container */}
         <div className="mb-[var(--space-24)]">
           <div className="inline-flex p-[var(--space-16)] rounded-[var(--radius-md)] bg-gray-700/20 text-gray-500">
-            <Icon className="h-7 w-7" />
+            <Icon className="h-7 w-7" aria-hidden="true" />
           </div>
         </div>
 
@@ -50,7 +52,7 @@ function DisabledCard({ icon: Icon, title, index }: DisabledCardProps) {
 
         {/* Lock Icon */}
         <div className="inline-flex items-center gap-[var(--space-8)] text-gray-500 text-[length:var(--font-200)]">
-          <Lock className="h-4 w-4" />
+          <Lock className="h-4 w-4" aria-hidden="true" />
           <span>Disabled</span>
         </div>
 
@@ -64,6 +66,7 @@ function DisabledCard({ icon: Icon, title, index }: DisabledCardProps) {
 export function PortfolioNav() {
   const { t } = useLanguage();
   const { isFeatureEnabled } = usePublicFeatureFlags();
+  const shouldReduceMotion = useReducedMotion();
 
   const allCards: NavCard[] = [
     {
@@ -100,27 +103,18 @@ export function PortfolioNav() {
   const showBlogSection = isFeatureEnabled('blog_section');
 
   return (
-    <section className="relative overflow-hidden bg-[var(--bg-elevated)] py-[var(--space-48)] md:py-[var(--space-64)]">
-      {/* Background Grid Pattern - matching Technologies */}
-      <div className="absolute inset-0 bg-[linear-gradient(to_right,rgba(255,255,255,0.04)_1px,transparent_1px),linear-gradient(to_bottom,rgba(255,255,255,0.04)_1px,transparent_1px)] bg-[size:3rem_3rem]" />
-
-      {/* Gradient Overlay - using lime accent like Technologies */}
-      <div className="absolute inset-0 bg-gradient-to-b from-transparent via-accent/5 to-transparent pointer-events-none" />
-
-      {/* Fade-out Bottom Overlay */}
-      <div className="absolute bottom-0 left-0 right-0 h-64 bg-gradient-to-t from-[var(--bg-elevated)] to-transparent pointer-events-none" />
-
-      <div className="relative z-10 mx-auto max-w-7xl px-4">
+    <section className="py-[var(--space-48)] md:py-[var(--space-64)] section-surface">
+      <div className="mx-auto max-w-7xl px-4 section-inner">
         {/* Section Header */}
         <motion.div
-          initial={{ opacity: 0, y: 20 }}
+          initial={shouldReduceMotion ? false : { opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6 }}
+          transition={{ duration: shouldReduceMotion ? 0 : 0.6 }}
           viewport={{ once: true }}
           className="mb-[var(--space-48)] md:mb-[var(--space-64)] text-center"
         >
           <h2 className="mb-[var(--space-12)] md:mb-[var(--space-16)] text-[length:var(--font-700)] md:text-[length:var(--font-800)] font-semibold text-[var(--text)] font-display">
-            <TranslationText translationKey="portfolioNav.title" as="span" shimmerWidth="250px" />
+            <TranslationText translationKey="portfolioNav.title" as="span" shimmerWidth="250px" className="text-gradient-accent" />
           </h2>
           <p className="mx-auto max-w-2xl text-[length:var(--font-300)] text-[var(--text-muted)]">
             <TranslationText translationKey="portfolioNav.subtitle" as="span" shimmerWidth="400px" />

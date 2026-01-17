@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { motion } from 'framer-motion';
+import { motion, useReducedMotion } from 'framer-motion';
 import { LucideIcon } from 'lucide-react';
 import { Card } from '../../shared/Card';
 
@@ -25,8 +25,14 @@ export function StatCard({
   descriptionKey,
 }: StatCardProps) {
   const [displayValue, setDisplayValue] = useState(0);
+  const shouldReduceMotion = useReducedMotion();
 
   useEffect(() => {
+    if (shouldReduceMotion) {
+      setDisplayValue(value);
+      return;
+    }
+
     let animationFrameId: number;
     let currentValue = 0;
     const duration = 2000; // 2 seconds animation
@@ -52,9 +58,9 @@ export function StatCard({
 
   return (
     <motion.div
-      initial={{ opacity: 0, y: 20 }}
+      initial={shouldReduceMotion ? false : { opacity: 0, y: 20 }}
       whileInView={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.6, delay: index * 0.1, ease: [0.16, 1, 0.3, 1] }}
+      transition={{ duration: shouldReduceMotion ? 0 : 0.6, delay: shouldReduceMotion ? 0 : index * 0.1, ease: [0.16, 1, 0.3, 1] }}
       viewport={{ once: true }}
       className="group"
     >
@@ -63,7 +69,7 @@ export function StatCard({
         <div className="mb-[var(--space-24)]">
           <div className="inline-flex p-[var(--space-16)] rounded-[var(--radius-md)] bg-accent/10 text-accent 
           group-hover:bg-accent/20 group-hover:scale-110 transition-transform duration-300">
-            <Icon className="h-7 w-7" />
+            <Icon className="h-7 w-7" aria-hidden="true" />
           </div>
         </div>
 

@@ -37,13 +37,13 @@ export function HomePage() {
       )}
 
       {showFeaturedProjects && (
-        <section className="py-[var(--space-64)] bg-[var(--bg-elevated)]">
-          <div className="max-w-7xl mx-auto px-4">
-            <div className="flex items-end justify-between mb-[var(--space-24)]">
+        <section className="py-[var(--space-64)] section-surface">
+          <div className="max-w-7xl mx-auto px-4 section-inner">
+            <div className="flex flex-wrap items-end justify-between gap-[var(--space-16)] mb-[var(--space-24)]">
               <h2 className="text-[length:var(--font-700)] md:text-[length:var(--font-800)] font-semibold text-[var(--text)] font-display">
                 <TranslationText translationKey="pages.home.featuredProjects" as="span" shimmerWidth="250px" />
               </h2>
-              <a href="/work" className="text-accent hover:text-white transition-colors text-[length:var(--font-200)]">
+              <a href="/work" className="text-accent hover:text-white transition-colors text-[length:var(--font-200)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/60 focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--bg)] rounded-full">
                 <TranslationText translationKey="viewAll" shimmerWidth="80px" />
               </a>
             </div>
@@ -71,13 +71,13 @@ export function HomePage() {
       )}
 
       {showLatestArticles && (
-        <section className="py-[var(--space-64)] bg-[var(--bg-elevated)]">
-          <div className="max-w-7xl mx-auto px-4">
-            <div className="flex items-end justify-between mb-[var(--space-24)]">
+        <section className="py-[var(--space-64)] section-surface">
+          <div className="max-w-7xl mx-auto px-4 section-inner">
+            <div className="flex flex-wrap items-end justify-between gap-[var(--space-16)] mb-[var(--space-24)]">
               <h2 className="text-[length:var(--font-700)] md:text-[length:var(--font-800)] font-semibold text-[var(--text)] font-display">
                 <TranslationText translationKey="pages.home.latestArticles" as="span" shimmerWidth="200px" />
               </h2>
-              <a href="/blog" className="text-accent hover:text-white transition-colors text-[length:var(--font-200)]">
+              <a href="/blog" className="text-accent hover:text-white transition-colors text-[length:var(--font-200)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/60 focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--bg)] rounded-full">
                 <TranslationText translationKey="viewAll" shimmerWidth="80px" />
               </a>
             </div>

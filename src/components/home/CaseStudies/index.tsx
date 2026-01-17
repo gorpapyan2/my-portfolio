@@ -1,7 +1,5 @@
-import { motion } from 'framer-motion';
-import { useLanguage } from '../../../context/LanguageContext';
+import { motion, useReducedMotion } from 'framer-motion';
 import { useBlogService } from '../../../lib/services/useBlogService';
-import { LoadingSpinner } from '../../loading/LoadingSpinner';
 
 interface CaseStudyCardProps {
   title: string;
@@ -13,11 +11,13 @@ interface CaseStudyCardProps {
 }
 
 function CaseStudyCard({ title, excerpt, slug, image, readTime, index }: CaseStudyCardProps) {
+  const shouldReduceMotion = useReducedMotion();
+
   return (
     <motion.div
-      initial={{ opacity: 0, y: 20 }}
+      initial={shouldReduceMotion ? false : { opacity: 0, y: 20 }}
       whileInView={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.6, delay: index * 0.1 }}
+      transition={{ duration: shouldReduceMotion ? 0 : 0.6, delay: shouldReduceMotion ? 0 : index * 0.1 }}
       viewport={{ once: true }}
       className="group h-full"
     >
@@ -25,6 +25,7 @@ function CaseStudyCard({ title, excerpt, slug, image, readTime, index }: CaseStu
         href={`/blog/${slug}`}
         className="block h-full rounded-[var(--radius-lg)] overflow-hidden bg-[var(--surface)] border border-[var(--border)] 
         hover:border-accent/30 hover:bg-[var(--surface-strong)] transition-colors duration-300 
+        focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/60 focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--bg)]
         hover:shadow-lg hover:shadow-accent/10"
       >
         {/* Image */}
@@ -32,6 +33,9 @@ function CaseStudyCard({ title, excerpt, slug, image, readTime, index }: CaseStu
           <img
             src={image}
             alt={title}
+            width={1200}
+            height={720}
+            loading="lazy"
             className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
           />
         </div>
@@ -53,8 +57,8 @@ function CaseStudyCard({ title, excerpt, slug, image, readTime, index }: CaseStu
             <span className="text-[length:var(--font-100)] text-gray-500 group-hover:text-accent/70 transition-colors">
               {readTime} min read
             </span>
-            <span className="text-[length:var(--font-100)] font-semibold text-accent opacity-0 group-hover:opacity-100 transition-all duration-300">
-              Read Case Study →
+            <span className="text-[length:var(--font-100)] font-semibold text-accent opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+              Read Case Study {'->'}
             </span>
           </div>
         </div>
@@ -64,8 +68,8 @@ function CaseStudyCard({ title, excerpt, slug, image, readTime, index }: CaseStu
 }
 
 export function CaseStudies() {
-  const { t } = useLanguage();
   const { blogPosts, isLoading } = useBlogService();
+  const shouldReduceMotion = useReducedMotion();
 
   // Find case study posts by slug pattern
   const caseStudySlugs = [
@@ -83,13 +87,13 @@ export function CaseStudies() {
   }
 
   return (
-    <section className="py-[var(--space-64)] bg-[var(--bg-elevated)]">
-      <div className="max-w-7xl mx-auto px-4">
+    <section className="py-[var(--space-64)] section-surface">
+      <div className="max-w-7xl mx-auto px-4 section-inner">
         {/* Section Header */}
         <motion.div
-          initial={{ opacity: 0, y: 20 }}
+          initial={shouldReduceMotion ? false : { opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6 }}
+          transition={{ duration: shouldReduceMotion ? 0 : 0.6 }}
           viewport={{ once: true }}
           className="text-center mb-[var(--space-64)]"
         >
@@ -118,9 +122,9 @@ export function CaseStudies() {
 
         {/* CTA */}
         <motion.div
-          initial={{ opacity: 0, y: 20 }}
+          initial={shouldReduceMotion ? false : { opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, delay: 0.3 }}
+          transition={{ duration: shouldReduceMotion ? 0 : 0.6, delay: shouldReduceMotion ? 0 : 0.3 }}
           viewport={{ once: true }}
           className="text-center mt-[var(--space-64)]"
         >
@@ -128,15 +132,14 @@ export function CaseStudies() {
             href="/blog"
             className="inline-flex items-center gap-[var(--space-8)] px-[var(--space-24)] py-[var(--space-12)] min-h-[var(--size-tap)] rounded-[var(--radius-md)] 
             bg-accent/10 text-accent border border-accent/30
-            hover:bg-accent/20 hover:border-accent/60 transition-colors duration-300 text-[length:var(--font-200)]"
+            hover:bg-accent/20 hover:border-accent/60 transition-colors duration-300 text-[length:var(--font-200)]
+            focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/60 focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--bg)]"
           >
             Explore More Articles
-            <span>→</span>
+            <span>{'->'}</span>
           </a>
         </motion.div>
       </div>
     </section>
   );
 }
-
-

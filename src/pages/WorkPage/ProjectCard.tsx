@@ -20,6 +20,9 @@ export function ProjectCard({ title, description, image, tags, liveUrl, githubUr
         <img
           src={image}
           alt={title}
+          width={1280}
+          height={720}
+          loading="lazy"
           className="w-full h-full object-cover transform group-hover:scale-105 transition-transform duration-500"
         />
         <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
@@ -45,9 +48,9 @@ export function ProjectCard({ title, description, image, tags, liveUrl, githubUr
             href={liveUrl}
             target="_blank"
             rel="noopener noreferrer"
-            className="inline-flex items-center gap-[var(--space-8)] text-[var(--text)] hover:text-accent transition-colors text-[length:var(--font-200)]"
+            className="inline-flex items-center gap-[var(--space-8)] text-[var(--text)] hover:text-accent transition-colors text-[length:var(--font-200)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/60 focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--bg)] rounded-full"
           >
-            <ExternalLink className="h-5 w-5" />
+            <ExternalLink className="h-5 w-5" aria-hidden="true" />
             <TranslationText translationKey="projects.liveDemo" shimmerWidth="100px" />
           </a>
         )}
@@ -56,9 +59,9 @@ export function ProjectCard({ title, description, image, tags, liveUrl, githubUr
             href={githubUrl}
             target="_blank"
             rel="noopener noreferrer"
-            className="inline-flex items-center gap-[var(--space-8)] text-[var(--text)] hover:text-accent transition-colors text-[length:var(--font-200)]"
+            className="inline-flex items-center gap-[var(--space-8)] text-[var(--text)] hover:text-accent transition-colors text-[length:var(--font-200)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/60 focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--bg)] rounded-full"
           >
-            <Github className="h-5 w-5" />
+            <Github className="h-5 w-5" aria-hidden="true" />
             <TranslationText translationKey="projects.sourceCode" shimmerWidth="120px" />
           </a>
         )}

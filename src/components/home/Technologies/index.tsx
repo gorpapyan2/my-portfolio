@@ -1,6 +1,6 @@
 import { TechnologyCarousel } from "./TechnologiesCarousel";
 import { TechnologiesBackground } from "./TechnologiesBackground";
-import { motion } from "framer-motion";
+import { motion, useReducedMotion } from "framer-motion";
 import { TranslationText } from "../../shared/TranslationText";
 
 export interface Technology {
@@ -15,6 +15,8 @@ export interface Technology {
 }
 
 export function Technologies() {
+  const shouldReduceMotion = useReducedMotion();
+
   return (
     <section className="py-[var(--space-48)] md:py-[var(--space-64)] bg-[var(--bg-elevated)] relative overflow-hidden">
       <TechnologiesBackground />
@@ -23,9 +25,9 @@ export function Technologies() {
         {/* Enhanced Header with Better Typography */}
         <motion.div 
           className="text-center mb-[var(--space-32)] md:mb-[var(--space-40)]"
-          initial={{ opacity: 0, y: 30 }}
+          initial={shouldReduceMotion ? false : { opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, ease: "easeOut" }}
+          transition={{ duration: shouldReduceMotion ? 0 : 0.8, ease: "easeOut" }}
           viewport={{ once: true }}
         >
           <div className="inline-flex items-center gap-[var(--space-8)] px-[var(--space-16)] py-[var(--space-8)] rounded-full bg-accent/10 border border-accent/20 mb-[var(--space-24)]">

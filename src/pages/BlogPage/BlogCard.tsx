@@ -32,17 +32,18 @@ export function BlogCard({
   created_at,
   read_time
 }: BlogCardProps) {
-  const { t } = useLanguage();
+  const { t, language } = useLanguage();
   /**
    * Format date string to readable format
    */
   const formatDate = (dateString: string): string => {
     try {
-      return new Date(dateString).toLocaleDateString('en-US', {
+      const locale = language === 'am' ? 'hy-AM' : language;
+      return new Intl.DateTimeFormat(locale, {
         year: 'numeric',
         month: 'short',
         day: 'numeric'
-      });
+      }).format(new Date(dateString));
     } catch {
       return t('blog.unknownDate');
     }
@@ -61,7 +62,7 @@ export function BlogCard({
       .replace(/\n/g, ' ')
       .trim();
     
-    return cleaned.length > 150 ? `${cleaned.substring(0, 150)}...` : cleaned;
+    return cleaned.length > 150 ? `${cleaned.substring(0, 150)}…` : cleaned;
   };
 
   // Use database-provided localized content directly
@@ -76,6 +77,8 @@ export function BlogCard({
         <img
           src={displayImage}
           alt={title}
+          width={1280}
+          height={720}
           className="w-full h-full object-cover transform group-hover:scale-105 transition-transform duration-500"
           loading="lazy"
         />
@@ -108,7 +111,7 @@ export function BlogCard({
       {/* Read More Link */}
       <Link 
         to={`/blog/${slug}`}
-        className="inline-flex items-center text-accent hover:text-white transition-colors font-medium text-[length:var(--font-200)] mt-auto"
+        className="inline-flex items-center text-accent hover:text-white transition-colors font-medium text-[length:var(--font-200)] mt-auto focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/60 focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--bg)] rounded-full"
       >
         <TranslationText translationKey="blog.readMore" shimmerWidth="100px" />
         <svg 

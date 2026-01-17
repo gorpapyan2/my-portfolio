@@ -16,7 +16,7 @@ const technologys: Technology[] = [
         'PyTest: Fast, modular automation for API and integration layers.',
         'XCUITest (Swift): Native iOS UI automation for mobile coverage.'
       ],
-      realWorldExample: 'Shipped Playwright suites integrated with AWS CodeBuild/CodeArtifact; regression time ↓ ~40% and flaky tests ↓ ~70%.',
+      realWorldExample: 'Shipped Playwright suites integrated with AWS CodeBuild/CodeArtifact; regression time down ~40% and flaky tests down ~70%.',
       level: 90,
       category: 'Testing',
       tags: ['Playwright', 'PyTest', 'XCUITest', 'TypeScript', 'Swift']
@@ -100,10 +100,10 @@ export function TechnologyCarousel() {
                     type="button"
                     aria-controls={panelId}
                     data-testid="technology-carousel-prev"
-                    className="group flex items-center justify-center w-[var(--size-tap)] h-[var(--size-tap)] rounded-full bg-[var(--surface)] hover:bg-[var(--surface-strong)] border border-[var(--border)] hover:border-accent/40 backdrop-blur-sm transition-all duration-300"
+                    className="group flex items-center justify-center w-[var(--size-tap)] h-[var(--size-tap)] rounded-full bg-[var(--surface)] hover:bg-[var(--surface-strong)] border border-[var(--border)] hover:border-accent/40 backdrop-blur-sm transition-[border-color,background-color] duration-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/60 focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--bg)]"
                     aria-label={t('aria.previousTechnology')}
                 >
-                    <ChevronLeft className="w-[var(--space-24)] h-[var(--space-24)] text-[var(--text)] group-hover:text-accent transition-colors" />
+                    <ChevronLeft className="w-[var(--space-24)] h-[var(--space-24)] text-[var(--text)] group-hover:text-accent transition-colors" aria-hidden="true" />
                 </button>
             </div>
 
@@ -119,10 +119,10 @@ export function TechnologyCarousel() {
                     type="button"
                     aria-controls={panelId}
                     data-testid="technology-carousel-next"
-                    className="group flex items-center justify-center w-[var(--size-tap)] h-[var(--size-tap)] rounded-full bg-[var(--surface)] hover:bg-[var(--surface-strong)] border border-[var(--border)] hover:border-accent/40 backdrop-blur-sm transition-all duration-300"
+                    className="group flex items-center justify-center w-[var(--size-tap)] h-[var(--size-tap)] rounded-full bg-[var(--surface)] hover:bg-[var(--surface-strong)] border border-[var(--border)] hover:border-accent/40 backdrop-blur-sm transition-[border-color,background-color] duration-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/60 focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--bg)]"
                     aria-label={t('aria.nextTechnology')}
                 >
-                    <ChevronRight className="w-[var(--space-24)] h-[var(--space-24)] text-[var(--text)] group-hover:text-accent transition-colors" />
+                    <ChevronRight className="w-[var(--space-24)] h-[var(--space-24)] text-[var(--text)] group-hover:text-accent transition-colors" aria-hidden="true" />
                 </button>
             </div>
         </div>
