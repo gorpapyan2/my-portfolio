@@ -26,6 +26,7 @@
     "upload:portrait": "tsx src/scripts/uploadPortrait.ts",
     "upload:cv": "tsx src/scripts/uploadCV.ts",
     "migration:add-missing": "tsx src/scripts/addMissingTranslations.ts",
+    "migration:add-missing-phase2": "tsx src/scripts/addMissingPhase2.ts",
     "migration:add-hy-language": "tsx src/scripts/addLanguageCodeHy.ts"
   },
   "dependencies": {
