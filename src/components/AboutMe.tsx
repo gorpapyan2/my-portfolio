@@ -7,8 +7,23 @@ import { useLanguage } from "../context/LanguageContext";
 import { assetUrls } from "../lib/config";
 import { TranslationText } from "./shared/TranslationText";
 
-export default function AboutMe() {
+type AboutMeProps = {
+  professionalJourney: string[];
+  philosophy: string[];
+  toolbox: string[];
+  isLoading?: boolean;
+};
+
+export default function AboutMe({
+  professionalJourney,
+  philosophy,
+  toolbox,
+  isLoading = false,
+}: AboutMeProps) {
   const { t } = useLanguage();
+  const journeyItems = professionalJourney.length > 0 ? professionalJourney : [t('about.fallback.journey')];
+  const philosophyItems = philosophy.length > 0 ? philosophy : [t('about.fallback.philosophy')];
+  const toolboxItems = toolbox.length > 0 ? toolbox : [t('about.fallback.toolbox')];
 
   return (
     <section id="about">
@@ -49,7 +64,19 @@ export default function AboutMe() {
               title={<TranslationText translationKey="about.professionalJourney" shimmerWidth="200px" />}
               delay={0.20}
             >
-              <TranslationText translationKey="about.professionalJourney.content" as="span" shimmerWidth="400px" />
+              {isLoading ? (
+                <div className="space-y-2">
+                  {[0, 1, 2].map(i => (
+                    <div key={i} className="h-4 bg-[var(--surface-strong)] rounded animate-pulse" />
+                  ))}
+                </div>
+              ) : (
+                <ul className="space-y-2 text-[var(--text-muted)]">
+                  {journeyItems.map((line, idx) => (
+                    <li key={idx} className="leading-relaxed">{line}</li>
+                  ))}
+                </ul>
+              )}
             </InfoCard>
           </motion.div>
 
@@ -62,7 +89,19 @@ export default function AboutMe() {
               title={<TranslationText translationKey="about.philosophy" shimmerWidth="150px" />}
               delay={0.26}
             >
-              <TranslationText translationKey="about.philosophy.content" as="span" shimmerWidth="400px" />
+              {isLoading ? (
+                <div className="space-y-2">
+                  {[0, 1].map(i => (
+                    <div key={i} className="h-4 bg-[var(--surface-strong)] rounded animate-pulse" />
+                  ))}
+                </div>
+              ) : (
+                <ul className="space-y-2 text-[var(--text-muted)]">
+                  {philosophyItems.map((line, idx) => (
+                    <li key={idx} className="leading-relaxed">{line}</li>
+                  ))}
+                </ul>
+              )}
             </InfoCard>
           </motion.div>
 
@@ -75,7 +114,27 @@ export default function AboutMe() {
               title={<TranslationText translationKey="about.toolbox" shimmerWidth="120px" />}
               delay={0.32}
             >
-              <TranslationText translationKey="about.toolbox.content" as="span" shimmerWidth="400px" />
+              {isLoading ? (
+                <div className="flex flex-wrap gap-2">
+                  {[0, 1, 2, 3].map(i => (
+                    <span
+                      key={i}
+                      className="h-6 w-16 rounded-full bg-[var(--surface-strong)] animate-pulse"
+                    />
+                  ))}
+                </div>
+              ) : (
+                <div className="flex flex-wrap gap-2">
+                  {toolboxItems.map((tool, idx) => (
+                    <span
+                      key={idx}
+                      className="text-xs px-2 py-1 rounded-full bg-[var(--surface)] border border-[var(--border)] text-[var(--text-muted)]"
+                    >
+                      {tool}
+                    </span>
+                  ))}
+                </div>
+              )}
             </InfoCard>
           </motion.div>
         </div>

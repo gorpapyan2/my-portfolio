@@ -17,10 +17,19 @@
 
 import { useState, useEffect } from 'react';
 import { supabase } from '../supabase';
-import { Experience, ExperienceInsert, ExperienceUpdate } from '../../types/database.types';
+import { Experience, ExperienceInsert, ExperienceUpdate, ExperienceTranslationInsert } from '../../types/database.types';
 import { experienceSchema } from '../schemas/experienceSchema';
+import { useLanguage, type Language } from '../../context/LanguageContext';
 
-export function useExperienceService() {
+const DEFAULT_LANGUAGE: Language = 'en';
+
+type UseExperienceOptions = {
+  language?: Language;
+};
+
+export function useExperienceService(options: UseExperienceOptions = {}) {
+  const { language: contextLanguage } = useLanguage();
+  const activeLanguage = options.language ?? contextLanguage;
   const [experiences, setExperiences] = useState<Experience[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -34,13 +43,39 @@ export function useExperienceService() {
       setIsLoading(true);
       setError(null);
       
-      const { data, error: supabaseError } = await supabase
+      const { data: baseData, error: supabaseError } = await supabase
         .from('experiences')
         .select('*')
         .order('order_index', { ascending: true });
 
       if (supabaseError) throw supabaseError;
-      setExperiences(data || []);
+
+      const { data: translationData, error: translationError } = await supabase
+        .from('experience_translations')
+        .select('*')
+        .eq('language', activeLanguage);
+
+      if (translationError) throw translationError;
+
+      const translationMap = new Map(
+        (translationData || []).map((row) => [row.experience_id, row])
+      );
+
+      const merged = (baseData || []).map((row) => {
+        const translation = translationMap.get(row.id);
+        return translation
+          ? {
+              ...row,
+              role: translation.role,
+              company: translation.company,
+              period: translation.period,
+              description: translation.description,
+              achievements: translation.achievements ?? row.achievements,
+            }
+          : row;
+      });
+
+      setExperiences(merged);
     } catch (err) {
       const message = err instanceof Error ? err.message : 'Failed to load experience records';
       console.error('Error loading experiences:', err);
@@ -56,7 +91,25 @@ export function useExperienceService() {
    * @returns {Promise<Experience>} Created experience record
    * @throws {Error} If validation fails or Supabase operation fails
    */
-  const createExperience = async (experienceData: ExperienceInsert) => {
+  const upsertTranslation = async (experienceId: string, payload: ExperienceInsert, language: Language) => {
+    const translation: ExperienceTranslationInsert = {
+      experience_id: experienceId,
+      language,
+      role: payload.role,
+      company: payload.company,
+      period: payload.period,
+      description: payload.description,
+      achievements: payload.achievements ?? [],
+    };
+
+    const { error: translationError } = await supabase
+      .from('experience_translations')
+      .upsert(translation, { onConflict: 'experience_id,language' });
+
+    if (translationError) throw translationError;
+  };
+
+  const createExperience = async (experienceData: ExperienceInsert, language: Language = activeLanguage) => {
     try {
       const validatedData = experienceSchema.parse(experienceData);
       
@@ -68,8 +121,11 @@ export function useExperienceService() {
 
       if (supabaseError) throw supabaseError;
 
+      await upsertTranslation(data.id, validatedData, language);
+
       // Optimistic update
-      setExperiences(prev => [...prev, data].sort((a, b) => a.order_index - b.order_index));
+      setExperiences(prev => [...prev, { ...data, ...validatedData }]
+        .sort((a, b) => a.order_index - b.order_index));
       
       return data;
     } catch (err) {
@@ -86,22 +142,43 @@ export function useExperienceService() {
    * @returns {Promise<Experience>} Updated experience record
    * @throws {Error} If validation fails or Supabase operation fails
    */
-  const updateExperience = async (id: string, experienceData: ExperienceUpdate) => {
+  const updateExperience = async (id: string, experienceData: ExperienceUpdate, language: Language = activeLanguage) => {
     try {
       const validatedData = experienceSchema.partial().parse(experienceData);
       
+      const baseUpdate: ExperienceUpdate = {
+        order_index: validatedData.order_index,
+      };
+
+      if (language === DEFAULT_LANGUAGE) {
+        baseUpdate.role = validatedData.role;
+        baseUpdate.company = validatedData.company;
+        baseUpdate.period = validatedData.period;
+        baseUpdate.description = validatedData.description;
+        baseUpdate.achievements = validatedData.achievements;
+      }
+
       const { data, error: supabaseError } = await supabase
         .from('experiences')
-        .update(validatedData)
+        .update(baseUpdate)
         .eq('id', id)
         .select()
         .single();
 
       if (supabaseError) throw supabaseError;
 
+      if (
+        validatedData.role &&
+        validatedData.company &&
+        validatedData.period &&
+        validatedData.description
+      ) {
+        await upsertTranslation(id, validatedData as ExperienceInsert, language);
+      }
+
       // Optimistic update
-      setExperiences(prev => 
-        prev.map(exp => exp.id === id ? data : exp)
+      setExperiences(prev =>
+        prev.map(exp => exp.id === id ? { ...exp, ...validatedData, ...data } : exp)
           .sort((a, b) => a.order_index - b.order_index)
       );
       
@@ -139,7 +216,7 @@ export function useExperienceService() {
 
   useEffect(() => {
     loadExperiences();
-  }, []);
+  }, [activeLanguage]);
 
   return {
     experiences,

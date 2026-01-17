@@ -1,42 +1,34 @@
 import { ExperienceCard } from './ExperienceCard';
 import { useExperienceService } from '../../../lib/services/useExperienceService';
-import { useLanguage } from '../../../context/LanguageContext';
 
 export function ExperienceList() {
   const { experiences, isLoading, error } = useExperienceService();
-  const { t } = useLanguage();
-
-  if (isLoading) {
-    return (
-      <div className="space-y-8">
-        {[1, 2].map((i) => (
-          <div key={i} className="animate-pulse">
-            <div className="h-32 bg-[var(--surface)] border border-[var(--border)] rounded-[var(--radius-md)]"></div>
-          </div>
-        ))}
-      </div>
-    );
-  }
-
-  if (error) {
-    return (
-      <div className="text-center py-8">
-        <p className="text-red-400">{t('errors.experiencesLoadFailed')}: {error}</p>
-      </div>
-    );
-  }
 
   return (
     <div className="space-y-8">
-      {experiences.map((experience) => (
-        <ExperienceCard 
-          key={experience.id}
+      {isLoading && (
+        [0, 1].map((idx) => (
+          <div key={idx} className="h-40 rounded-xl bg-[var(--surface-strong)] animate-pulse" />
+        ))
+      )}
+      {error && (
+        <div className="text-[var(--text-muted)] text-sm">Failed to load experience.</div>
+      )}
+      {!isLoading && !error && (experiences.length > 0 ? experiences : [{
+        company: "Experience",
+        role: "Details coming soon",
+        period: "YYYY - YYYY",
+        description: "Experience entries will appear here once published.",
+        achievements: [],
+        id: "placeholder"
+      }]).map((experience, idx) => (
+        <ExperienceCard
+          key={`${experience.company}-${experience.role}-${idx}`}
           role={experience.role}
           company={experience.company}
-          period={experience.period}
-          description={experience.description}
-          achievements={experience.achievements}
-          baseKey={`experience.${experience.company.toLowerCase().split(' ')[0] || 'entry'}`}
+          period={experience.period ?? "YYYY - YYYY"}
+          description={experience.description ?? "Experience details coming soon."}
+          achievements={experience.achievements ?? []}
         />
       ))}
     </div>

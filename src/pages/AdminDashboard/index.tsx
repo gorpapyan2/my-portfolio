@@ -8,6 +8,7 @@ import {
   GraduationCap, 
   Code2, 
   Languages,
+  User,
   FolderOpen,
   Flag
 } from 'lucide-react';
@@ -23,15 +24,17 @@ import { ExperienceAdmin } from './ExperienceAdmin';
 import { EducationAdmin } from './EducationAdmin';
 import { SkillsAdmin } from './SkillsAdmin';
 import { FeatureFlagAdmin } from './FeatureFlagAdmin';
+import { AboutContentAdmin } from './AboutContentAdmin';
 import AnimatedGridBackground from '../../components/AnimatedGridBackground';
 import ParticleBackground from '../../components/ParticleBackground';
 
-type AdminSection = 'blog' | 'projects' | 'translations' | 'experiences' | 'education' | 'skills' | 'feature-flags';
+type AdminSection = 'blog' | 'projects' | 'translations' | 'experiences' | 'education' | 'skills' | 'feature-flags' | 'about';
 
 const sections = [
   { id: 'blog' as AdminSection, labelKey: 'admin.dashboard.section.blog', icon: FileText },
   { id: 'projects' as AdminSection, labelKey: 'admin.dashboard.section.projects', icon: FolderOpen },
   { id: 'translations' as AdminSection, labelKey: 'admin.dashboard.section.translations', icon: Languages },
+  { id: 'about' as AdminSection, labelKey: 'admin.dashboard.section.about', icon: User },
   { id: 'experiences' as AdminSection, labelKey: 'admin.dashboard.section.experiences', icon: Briefcase },
   { id: 'education' as AdminSection, labelKey: 'admin.dashboard.section.education', icon: GraduationCap },
   { id: 'skills' as AdminSection, labelKey: 'admin.dashboard.section.skills', icon: Code2 },
@@ -59,6 +62,8 @@ export function AdminDashboard() {
         return <ProjectAdmin onClose={() => {}} />;
       case 'translations':
         return <TranslationManager />;
+      case 'about':
+        return <AboutContentAdmin />;
       case 'experiences':
         return <ExperienceAdmin onClose={() => {}} />;
       case 'education':

@@ -1,0 +1,69 @@
+{
+  "header": {
+    "titleKey": "pages.about.title",
+    "subtitleKey": "pages.about.subtitle"
+  },
+  "aboutMe": {
+    "professionalJourney": [
+      "TODO: Summarize your senior-level journey (scope, domains, years).",
+      "TODO: Highlight a cross-team initiative and ownership area."
+    ],
+    "philosophy": [
+      "TODO: State your engineering philosophy and quality bar.",
+      "TODO: Mention how you balance speed, reliability, and user impact."
+    ],
+    "toolbox": [
+      "React",
+      "TypeScript",
+      "Node.js",
+      "CI/CD",
+      "Testing Automation"
+    ]
+  },
+  "keyResults": [
+    {
+      "summary": "TODO: Reduce p95 latency by 35% for checkout.",
+      "metrics": {
+        "p95_ms_delta": -350
+      },
+      "year": 2024
+    }
+  ],
+  "languages": [
+    { "name": "English", "level": "C1" }
+  ],
+  "experience": [
+    {
+      "company": "<Company>",
+      "role": "Senior <Role>",
+      "start": "YYYY-MM",
+      "end": "Present",
+      "location": "<City, Country>",
+      "summary": "TODO: Define scope, team size, and area of ownership.",
+      "bullets": [
+        "TODO: Action verb + scope + tech + measurable outcome + business value."
+      ],
+      "tech": ["React", "TypeScript", "Node.js"]
+    }
+  ],
+  "education": [
+    {
+      "school": "<University>",
+      "degree": "<Degree>",
+      "start": "YYYY",
+      "end": "YYYY",
+      "details": ["TODO: Add relevant coursework, thesis, or honors."]
+    }
+  ],
+  "skills": {
+    "core": ["React", "TypeScript", "Node.js"],
+    "platforms": ["AWS"],
+    "tooling": ["CI/CD", "Docker", "Playwright"],
+    "soft": ["Mentorship", "Stakeholder Management", "Technical Leadership"]
+  },
+  "links": {
+    "github": "<https://github.com/>",
+    "linkedin": "<https://linkedin.com/in/>",
+    "website": "<https://example.com>"
+  }
+}

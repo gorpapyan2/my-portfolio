@@ -11,8 +11,11 @@ interface EducationAdminProps {
 }
 
 export function EducationAdmin({ onClose }: EducationAdminProps) {
-  const { t } = useLanguage();
-  const { education, isLoading, createEducation, updateEducation, deleteEducation } = useEducationService();
+  const { t, language } = useLanguage();
+  const [activeLanguage, setActiveLanguage] = useState(language);
+  const { education, isLoading, createEducation, updateEducation, deleteEducation } = useEducationService({
+    language: activeLanguage,
+  });
   const [showEditor, setShowEditor] = useState(false);
   const [editingEducation, setEditingEducation] = useState<Education | null>(null);
   const [formData, setFormData] = useState<Partial<EducationInsert>>({
@@ -32,9 +35,9 @@ export function EducationAdmin({ onClose }: EducationAdminProps) {
       const validatedData = educationSchema.parse(formData);
       
       if (editingEducation) {
-        await updateEducation(editingEducation.id, validatedData);
+        await updateEducation(editingEducation.id, validatedData, activeLanguage);
       } else {
-        await createEducation(validatedData);
+        await createEducation(validatedData, activeLanguage);
       }
       
       setShowEditor(false);
@@ -104,6 +107,18 @@ export function EducationAdmin({ onClose }: EducationAdminProps) {
 
       {showEditor ? (
         <form onSubmit={handleSubmit} className="space-y-4">
+          <div>
+            <label className="form-label">{t('admin.common.language')}</label>
+            <select
+              value={activeLanguage}
+              onChange={(e) => setActiveLanguage(e.target.value as typeof activeLanguage)}
+              className="field"
+            >
+              <option value="en">English</option>
+              <option value="ru">Russian</option>
+              <option value="am">Armenian</option>
+            </select>
+          </div>
           <div>
             <label className="form-label">
               {t('admin.education.form.degree')}
@@ -222,15 +237,26 @@ export function EducationAdmin({ onClose }: EducationAdminProps) {
         </form>
       ) : (
         <>
-          <div className="flex items-center justify-between mb-6">
-            <h3 className="text-[length:var(--font-400)] font-medium text-[var(--text)]">{t('admin.education.section.title')} ({education.length})</h3>
-            <button
-              onClick={() => setShowEditor(true)}
-              className="inline-flex items-center gap-2 btn btn-primary"
-            >
-              <Plus className="h-4 w-4" />
-              {t('admin.education.button.add')}
-            </button>
+          <div className="flex flex-wrap items-center justify-between gap-3 mb-6">
+            <h3 className="text-[length:var(--font-400)] font-medium text-[var(--text)]">{t('admin.education.titleCount')} ({education.length})</h3>
+            <div className="flex items-center gap-3">
+              <select
+                value={activeLanguage}
+                onChange={(e) => setActiveLanguage(e.target.value as typeof activeLanguage)}
+                className="field"
+              >
+                <option value="en">English</option>
+                <option value="ru">Russian</option>
+                <option value="am">Armenian</option>
+              </select>
+              <button
+                onClick={() => setShowEditor(true)}
+                className="inline-flex items-center gap-2 btn btn-primary"
+              >
+                <Plus className="h-4 w-4" />
+                {t('admin.education.addEducation')}
+              </button>
+            </div>
           </div>
 
           <div className="space-y-4">
@@ -269,7 +295,6 @@ export function EducationAdmin({ onClose }: EducationAdminProps) {
     </div>
   );
 }
-
 
 
 

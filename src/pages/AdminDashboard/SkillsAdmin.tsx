@@ -12,8 +12,11 @@ interface SkillsAdminProps {
 }
 
 export function SkillsAdmin({ onClose }: SkillsAdminProps) {
-  const { t } = useLanguage();
-  const { skills, isLoading, createSkill, updateSkill, deleteSkill } = useSkillService();
+  const { t, language } = useLanguage();
+  const [activeLanguage, setActiveLanguage] = useState(language);
+  const { skills, isLoading, createSkill, updateSkill, deleteSkill } = useSkillService({
+    language: activeLanguage,
+  });
   const [showEditor, setShowEditor] = useState(false);
   const [editingSkill, setEditingSkill] = useState<Skill | null>(null);
   const [formData, setFormData] = useState<Partial<SkillInsert>>({
@@ -38,9 +41,9 @@ export function SkillsAdmin({ onClose }: SkillsAdminProps) {
       const validatedData = skillSchema.parse(formData);
       
       if (editingSkill) {
-        await updateSkill(editingSkill.id, validatedData);
+        await updateSkill(editingSkill.id, validatedData, activeLanguage);
       } else {
-        await createSkill(validatedData);
+        await createSkill(validatedData, activeLanguage);
       }
       
       setShowEditor(false);
@@ -110,6 +113,18 @@ export function SkillsAdmin({ onClose }: SkillsAdminProps) {
 
       {showEditor ? (
         <form onSubmit={handleSubmit} className="space-y-4">
+          <div>
+            <label className="form-label">{t('admin.common.language')}</label>
+            <select
+              value={activeLanguage}
+              onChange={(e) => setActiveLanguage(e.target.value as typeof activeLanguage)}
+              className="field"
+            >
+              <option value="en">English</option>
+              <option value="ru">Russian</option>
+              <option value="am">Armenian</option>
+            </select>
+          </div>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div>
               <label className="form-label">
@@ -229,15 +244,26 @@ export function SkillsAdmin({ onClose }: SkillsAdminProps) {
         </form>
       ) : (
         <>
-          <div className="flex items-center justify-between mb-6">
-            <h3 className="text-[length:var(--font-400)] font-medium text-[var(--text)]">{t('admin.skills.section.title')} ({skills.length})</h3>
-            <button
-              onClick={() => setShowEditor(true)}
-              className="inline-flex items-center gap-2 btn btn-primary"
-            >
-              <Plus className="h-4 w-4" />
-              {t('admin.skills.button.add')}
-            </button>
+          <div className="flex flex-wrap items-center justify-between gap-3 mb-6">
+            <h3 className="text-[length:var(--font-400)] font-medium text-[var(--text)]">{t('admin.skills.titleCount')} ({skills.length})</h3>
+            <div className="flex items-center gap-3">
+              <select
+                value={activeLanguage}
+                onChange={(e) => setActiveLanguage(e.target.value as typeof activeLanguage)}
+                className="field"
+              >
+                <option value="en">English</option>
+                <option value="ru">Russian</option>
+                <option value="am">Armenian</option>
+              </select>
+              <button
+                onClick={() => setShowEditor(true)}
+                className="inline-flex items-center gap-2 btn btn-primary"
+              >
+                <Plus className="h-4 w-4" />
+                {t('admin.skills.addSkill')}
+              </button>
+            </div>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
@@ -296,7 +322,6 @@ export function SkillsAdmin({ onClose }: SkillsAdminProps) {
     </div>
   );
 }
-
 
 
 

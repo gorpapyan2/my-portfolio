@@ -1,12 +1,9 @@
 import { Briefcase } from 'lucide-react';
 import { ExperienceList } from './ExperienceList';
 import { SectionHeader } from '../../shared/SectionHeader';
-import { useLanguage } from '../../../context/LanguageContext';
 import { TranslationText } from '../../../components/shared/TranslationText';
 
 export function Experience() {
-  const { t } = useLanguage();
-
   return (
     <section id="experience">
       <div className="max-w-6xl mx-auto px-4">

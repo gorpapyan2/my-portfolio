@@ -1,19 +1,21 @@
 import { Languages as LanguagesIcon } from 'lucide-react';
 import { motion } from 'framer-motion';
 import { SectionHeader } from '../shared/SectionHeader';
-import { useLanguage } from '../../context/LanguageContext';
-import { useAboutService } from '../../lib/services/useAboutService';
 import { cn } from '../../utils/cn';
 import { TranslationText } from '../../components/shared/TranslationText';
 
-export function Languages() {
-  const { t } = useLanguage();
-  const { languages, isLoading, error } = useAboutService();
+type LanguageItem = {
+  name: string;
+  level?: string | null;
+};
 
-	function parseLanguage(raw: string): { name: string; level?: string } {
-		const match = raw.match(/^(.+?)\s*\(([^)]+)\)\s*$/);
-		return match ? { name: match[1].trim(), level: match[2].trim() } : { name: raw.trim(), level: undefined };
-	}
+type LanguagesProps = {
+  items: LanguageItem[];
+  isLoading?: boolean;
+};
+
+export function Languages({ items, isLoading = false }: LanguagesProps) {
+  const languages = items ?? [];
 
 	function levelClass(level?: string): string {
 		const l = (level ?? '').toLowerCase();
@@ -43,40 +45,29 @@ export function Languages() {
           title={<TranslationText translationKey="about.languages.title" shimmerWidth="150px" />}
         />
 
-		{isLoading && (
-			<div className="bg-[var(--surface)] backdrop-blur-sm rounded-xl p-4 border border-[var(--border)]">
-				<div className="grid grid-cols-1 gap-2" aria-label="language badges loading">
-					{Array.from({ length: 6 }).map((_, i) => (
-						<div key={i} className="h-9 rounded-full bg-[var(--surface-strong)] border border-[var(--border)] animate-pulse" />
+		<div className="bg-[var(--surface)] backdrop-blur-sm rounded-xl p-4 border border-[var(--border)] hover:border-accent/30 transition-colors">
+			{isLoading ? (
+				<div className="space-y-2">
+					{[0, 1].map(i => (
+						<div key={i} className="h-8 bg-[var(--surface-strong)] rounded-full animate-pulse" />
 					))}
 				</div>
-			</div>
-		)}
-
-        {error && (
-          <p className="text-red-400">{error}</p>
-        )}
-
-		{!isLoading && !error && (
-			<div className="bg-[var(--surface)] backdrop-blur-sm rounded-xl p-4 border border-[var(--border)] hover:border-accent/30 transition-colors">
+			) : (
 				<div className="grid grid-cols-1 gap-2" aria-label="language badges">
-					{languages.map((raw, idx) => {
-						const { name, level } = parseLanguage(raw);
-						return (
-							<motion.div
-								key={idx}
-								initial={{ opacity: 0, y: 8 }}
-								whileInView={{ opacity: 1, y: 0 }}
-								viewport={{ once: true }}
-								transition={{ duration: 0.35, delay: idx * 0.03 }}
-							>
-								<LanguageBadge name={name} level={level} />
-							</motion.div>
-						);
-					})}
+					{(languages.length > 0 ? languages : [{ name: "Languages coming soon." }]).map((lang, idx) => (
+						<motion.div
+							key={idx}
+							initial={{ opacity: 0, y: 8 }}
+							whileInView={{ opacity: 1, y: 0 }}
+							viewport={{ once: true }}
+							transition={{ duration: 0.35, delay: idx * 0.03 }}
+						>
+							<LanguageBadge name={lang.name} level={lang.level ?? undefined} />
+						</motion.div>
+					))}
 				</div>
-			</div>
-		)}
+			)}
+		</div>
       </div>
     </section>
   );

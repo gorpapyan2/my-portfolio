@@ -5,10 +5,10 @@ import { useLanguage, Language } from "../../context/LanguageContext";
 import { usePublicFeatureFlags } from "../../lib/services/usePublicFeatureFlags";
 import { TranslationText } from "../shared/TranslationText";
 
-const languages: { code: Language; label: string; }[] = [
-  { code: 'en', label: 'English' },
-  { code: 'ru', label: 'Русский' },
-  { code: 'am', label: 'Հայերեն' },
+const languages: { code: Language; labelKey: string }[] = [
+  { code: "en", labelKey: "language.en" },
+  { code: "ru", labelKey: "language.ru" },
+  { code: "am", labelKey: "language.am" },
 ];
 
 export function MobileMenu() {
@@ -16,11 +16,11 @@ export function MobileMenu() {
   const location = useLocation();
   const { t, language, setLanguage } = useLanguage();
   const { isFeatureEnabled } = usePublicFeatureFlags();
-  
-  const showWorkSection = isFeatureEnabled('work_section');
-  const showBlogSection = isFeatureEnabled('blog_section');
-  const showLanguageSelector = isFeatureEnabled('language_selector');
-  
+
+  const showWorkSection = isFeatureEnabled("work_section");
+  const showBlogSection = isFeatureEnabled("blog_section");
+  const showLanguageSelector = isFeatureEnabled("language_selector");
+
   const navItems = [
     { to: "/about", labelKey: "nav.about" },
     ...(showWorkSection ? [{ to: "/work", labelKey: "nav.work" }] : []),
@@ -52,18 +52,18 @@ export function MobileMenu() {
         setIsOpen(false);
       }
     };
-    
+
     if (isOpen) {
       document.addEventListener("keydown", handleKeyDown);
     }
-    
+
     return () => {
       document.removeEventListener("keydown", handleKeyDown);
     };
   }, [isOpen]);
 
   const handleDownloadCV = async () => {
-    const { downloadCV } = await import('../../lib/utils/downloadCV');
+    const { downloadCV } = await import("../../lib/utils/downloadCV");
     await downloadCV();
     setIsOpen(false);
   };
@@ -72,8 +72,10 @@ export function MobileMenu() {
     <div className="md:hidden relative">
       <button
         onClick={() => setIsOpen(true)}
-        className="p-[var(--space-8)] text-[var(--text-muted)] hover:text-[var(--text)] transition-colors duration-300 group"
-        aria-label={t('aria.openMenu')}
+        className={`p-[var(--space-8)] rounded-full border border-transparent text-[var(--text-muted)] hover:text-[var(--text)] hover:bg-[var(--surface)] hover:border-[var(--border)] transition-[color,background-color,border-color] duration-300 group ${
+          isOpen ? "bg-[var(--surface-strong)] text-[var(--text)] border-[var(--border)]" : ""
+        }`}
+        aria-label={t("aria.openMenu")}
         aria-expanded={isOpen}
         aria-controls="mobile-dropdown"
       >
@@ -96,7 +98,7 @@ export function MobileMenu() {
             role="dialog"
             aria-modal="true"
             aria-labelledby="mobile-dropdown-title"
-            className="absolute top-full right-0 z-[1001] mt-[var(--space-8)] w-64 bg-[var(--bg-elevated)] backdrop-blur-md rounded-[var(--radius-md)] shadow-2xl border border-[var(--border)] overflow-hidden animate-in slide-in-from-top-2 fade-in duration-300"
+            className="absolute top-full right-0 z-[1001] mt-[var(--space-8)] w-64 bg-[var(--bg-elevated)] backdrop-blur-md rounded-[var(--radius-md)] shadow-[0_24px_70px_rgba(7,10,18,0.55)] border border-[var(--border)] overflow-hidden animate-in slide-in-from-top-2 fade-in duration-300"
           >
             {/* Header */}
             <div className="flex items-center justify-between px-[var(--space-16)] py-[var(--space-12)] border-b border-[var(--border)]">
@@ -106,7 +108,7 @@ export function MobileMenu() {
               <button
                 onClick={() => setIsOpen(false)}
                 className="p-[var(--space-4)] rounded-[var(--radius-sm)] text-[var(--text-muted)] hover:text-[var(--text)] transition-colors duration-300 group"
-                aria-label={t('aria.closeMenu')}
+                aria-label={t("aria.closeMenu")}
               >
                 <X className="h-[var(--space-20)] w-[var(--space-20)] transition-transform duration-300 group-hover:scale-105" />
               </button>
@@ -140,14 +142,16 @@ export function MobileMenu() {
                         onClick={() => setLanguage(lang.code)}
                         className={`flex items-center gap-[var(--space-12)] px-[var(--space-12)] py-[var(--space-8)] rounded-[var(--radius-md)] text-[length:var(--font-100)] transition-colors duration-200 ${
                           language === lang.code
-                            ? 'text-accent bg-[var(--surface-strong)] border border-[var(--border)]'
-                            : 'text-[var(--text-muted)] hover:text-[var(--text)] hover:bg-[var(--surface)]'
+                            ? "text-accent bg-[var(--surface-strong)] border border-[var(--border)]"
+                            : "text-[var(--text-muted)] hover:text-[var(--text)] hover:bg-[var(--surface)]"
                         }`}
                       >
                         <div className={`w-[var(--space-8)] h-[var(--space-8)] rounded-full transition-colors duration-200 ${
-                          language === lang.code ? 'bg-accent' : 'bg-[var(--text-muted)]'
+                          language === lang.code ? "bg-accent" : "bg-[var(--text-muted)]"
                         }`} />
-                        <span>{lang.label}</span>
+                        <span>
+                          <TranslationText translationKey={lang.labelKey} shimmerWidth="80px" />
+                        </span>
                       </button>
                     ))}
                   </div>
@@ -205,4 +209,3 @@ function MobileNavLink({ to, children, onClick }: MobileNavLinkProps) {
     </NavLink>
   );
 }
-

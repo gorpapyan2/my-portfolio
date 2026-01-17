@@ -17,10 +17,19 @@
 
 import { useState, useEffect } from 'react';
 import { supabase } from '../supabase';
-import { Skill, SkillInsert, SkillUpdate } from '../../types/database.types';
+import { Skill, SkillInsert, SkillUpdate, SkillTranslationInsert } from '../../types/database.types';
 import { skillSchema } from '../schemas/skillSchema';
+import { useLanguage, type Language } from '../../context/LanguageContext';
 
-export function useSkillService() {
+const DEFAULT_LANGUAGE: Language = 'en';
+
+type UseSkillOptions = {
+  language?: Language;
+};
+
+export function useSkillService(options: UseSkillOptions = {}) {
+  const { language: contextLanguage } = useLanguage();
+  const activeLanguage = options.language ?? contextLanguage;
   const [skills, setSkills] = useState<Skill[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -34,13 +43,36 @@ export function useSkillService() {
       setIsLoading(true);
       setError(null);
       
-      const { data, error: supabaseError } = await supabase
+      const { data: baseData, error: supabaseError } = await supabase
         .from('skills')
         .select('*')
         .order('order_index', { ascending: true });
 
       if (supabaseError) throw supabaseError;
-      setSkills(data || []);
+
+      const { data: translationData, error: translationError } = await supabase
+        .from('skill_translations')
+        .select('*')
+        .eq('language', activeLanguage);
+
+      if (translationError) throw translationError;
+
+      const translationMap = new Map(
+        (translationData || []).map((row) => [row.skill_id, row])
+      );
+
+      const merged = (baseData || []).map((row) => {
+        const translation = translationMap.get(row.id);
+        return translation
+          ? {
+              ...row,
+              title: translation.title,
+              description: translation.description,
+            }
+          : row;
+      });
+
+      setSkills(merged);
     } catch (err) {
       const message = err instanceof Error ? err.message : 'Failed to load skills';
       console.error('Error loading skills:', err);
@@ -56,7 +88,22 @@ export function useSkillService() {
    * @returns {Promise<Skill>} Created skill record
    * @throws {Error} If validation fails or Supabase operation fails
    */
-  const createSkill = async (skillData: SkillInsert) => {
+  const upsertTranslation = async (skillId: string, payload: SkillInsert, language: Language) => {
+    const translation: SkillTranslationInsert = {
+      skill_id: skillId,
+      language,
+      title: payload.title,
+      description: payload.description,
+    };
+
+    const { error: translationError } = await supabase
+      .from('skill_translations')
+      .upsert(translation, { onConflict: 'skill_id,language' });
+
+    if (translationError) throw translationError;
+  };
+
+  const createSkill = async (skillData: SkillInsert, language: Language = activeLanguage) => {
     try {
       const validatedData = skillSchema.parse(skillData);
       
@@ -68,8 +115,11 @@ export function useSkillService() {
 
       if (supabaseError) throw supabaseError;
 
+      await upsertTranslation(data.id, validatedData, language);
+
       // Optimistic update
-      setSkills(prev => [...prev, data].sort((a, b) => a.order_index - b.order_index));
+      setSkills(prev => [...prev, { ...data, ...validatedData }]
+        .sort((a, b) => a.order_index - b.order_index));
       
       return data;
     } catch (err) {
@@ -86,22 +136,38 @@ export function useSkillService() {
    * @returns {Promise<Skill>} Updated skill record
    * @throws {Error} If validation fails or Supabase operation fails
    */
-  const updateSkill = async (id: string, skillData: SkillUpdate) => {
+  const updateSkill = async (id: string, skillData: SkillUpdate, language: Language = activeLanguage) => {
     try {
       const validatedData = skillSchema.partial().parse(skillData);
       
+      const baseUpdate: SkillUpdate = {
+        icon: validatedData.icon,
+        level: validatedData.level,
+        order_index: validatedData.order_index,
+        category: validatedData.category,
+      };
+
+      if (language === DEFAULT_LANGUAGE) {
+        baseUpdate.title = validatedData.title;
+        baseUpdate.description = validatedData.description;
+      }
+
       const { data, error: supabaseError } = await supabase
         .from('skills')
-        .update(validatedData)
+        .update(baseUpdate)
         .eq('id', id)
         .select()
         .single();
 
       if (supabaseError) throw supabaseError;
 
+      if (validatedData.title && validatedData.description) {
+        await upsertTranslation(id, validatedData as SkillInsert, language);
+      }
+
       // Optimistic update
-      setSkills(prev => 
-        prev.map(skill => skill.id === id ? data : skill)
+      setSkills(prev =>
+        prev.map(skill => skill.id === id ? { ...skill, ...validatedData, ...data } : skill)
           .sort((a, b) => a.order_index - b.order_index)
       );
       
@@ -139,7 +205,7 @@ export function useSkillService() {
 
   useEffect(() => {
     loadSkills();
-  }, []);
+  }, [activeLanguage]);
 
   return {
     skills,

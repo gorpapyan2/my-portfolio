@@ -9,6 +9,44 @@
     background-size: 48px 48px;
   }
 
+  .section-surface {
+    position: relative;
+    overflow: hidden;
+    background:
+      radial-gradient(900px 500px at 12% -12%, rgba(var(--accent), 0.16), transparent 60%),
+      radial-gradient(800px 500px at 88% 0%, rgba(120, 190, 255, 0.14), transparent 60%),
+      var(--bg-elevated);
+    border-top: 1px solid rgba(255, 255, 255, 0.04);
+  }
+
+  .section-surface::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background-image:
+      linear-gradient(to right, rgba(255, 255, 255, 0.05) 1px, transparent 1px),
+      linear-gradient(to bottom, rgba(255, 255, 255, 0.05) 1px, transparent 1px);
+    background-size: 3.5rem 3.5rem;
+    opacity: 0.35;
+    pointer-events: none;
+  }
+
+  .section-surface::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: -1px;
+    height: 240px;
+    background: linear-gradient(to top, var(--bg-elevated), transparent);
+    pointer-events: none;
+  }
+
+  .section-inner {
+    position: relative;
+    z-index: 1;
+  }
+
   /* Card Styles */
   .card {
     @apply relative bg-[var(--surface)] backdrop-blur-sm rounded-2xl p-6 

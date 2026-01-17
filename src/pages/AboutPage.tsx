@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { User } from 'lucide-react';
 import { PageLayout } from "@/components/shared/PageLayout";
 import { PageHeader } from "@/components/shared/PageHeader";
@@ -16,12 +16,47 @@ import { Education } from "@/components/about/Education";
 import { Skills } from "@/components/about/Skills";
 import { useLanguage } from "@/context/LanguageContext";
 import { TranslationText } from "@/components/shared/TranslationText";
+import { CVDownload } from "@/components/about/CVDownload";
+import { getAbout, type AboutContent } from "@/lib/db/getAbout";
 
 export function AboutPage() {
   const [soundEnabled] = useState(false);
   const [motionEnabled, ] = useState(true);
   const [performanceMonitoring, setPerformanceMonitoring] = useState(false);
-  const { t } = useLanguage();
+  const { t, language } = useLanguage();
+  const [aboutContent, setAboutContent] = useState<AboutContent>({
+    professionalJourney: [],
+    philosophy: [],
+    toolbox: [],
+    keyResults: [],
+    languages: [],
+  });
+  const [aboutLoading, setAboutLoading] = useState(true);
+  const [aboutError, setAboutError] = useState<string | null>(null);
+
+  useEffect(() => {
+    let isActive = true;
+    setAboutLoading(true);
+    setAboutError(null);
+
+    getAbout(language)
+      .then(data => {
+        if (!isActive) return;
+        setAboutContent(data);
+      })
+      .catch(() => {
+        if (!isActive) return;
+        setAboutError(t('about.fallback.error'));
+      })
+      .finally(() => {
+        if (!isActive) return;
+        setAboutLoading(false);
+      });
+
+    return () => {
+      isActive = false;
+    };
+  }, [language, t]);
 
   return (
     <>
@@ -34,18 +69,34 @@ export function AboutPage() {
         
         <PageHeader
           icon={User}
-          title={<TranslationText translationKey="pages.about.title" shimmerWidth="150px" />}
-          subtitle={<TranslationText translationKey="pages.about.subtitle" as="span" shimmerWidth="400px" />}
+          title={
+            <TranslationText
+              translationKey="pages.about.title"
+              shimmerWidth="150px"
+            />
+          }
+          subtitle={
+            <TranslationText
+              translationKey="pages.about.subtitle"
+              as="span"
+              shimmerWidth="400px"
+            />
+          }
         />
         
         <div className="space-y-[var(--space-64)]">
-          <AboutMe />
+          <AboutMe
+            professionalJourney={aboutContent.professionalJourney}
+            philosophy={aboutContent.philosophy}
+            toolbox={aboutContent.toolbox}
+            isLoading={aboutLoading}
+          />
           <div className="max-w-6xl mx-auto px-4">
             <div className="h-px bg-gradient-to-r from-transparent via-accent/30 to-transparent" />
           </div>
           <div className="flex flex-col md:grid md:grid-cols-2 gap-[var(--space-32)] mb-[var(--space-64)]">
-            <KeyResults />
-            <Languages />
+            <KeyResults items={aboutContent.keyResults} isLoading={aboutLoading} />
+            <Languages items={aboutContent.languages} isLoading={aboutLoading} />
           </div>
           <div className="max-w-6xl mx-auto px-4">
             <div className="h-px bg-gradient-to-r from-transparent via-accent/30 to-transparent" />
@@ -72,12 +123,18 @@ export function AboutPage() {
           <Experience />
           <Education />
           <Skills />
+          <CVDownload />
         </div>
       </PageLayout>
       
       <ScrollIndicator />
       <FloatingActions />
       <PerformanceMonitor enabled={performanceMonitoring} />
+      {aboutError && (
+        <div className="fixed bottom-4 left-1/2 -translate-x-1/2 bg-[var(--surface-strong)] border border-[var(--border)] text-[var(--text-muted)] px-4 py-2 rounded-full text-[length:var(--font-100)] shadow-[0_12px_30px_rgba(0,0,0,0.35)]">
+          {aboutError}
+        </div>
+      )}
 
       
       {/* Motion preference could be used to disable animations */}

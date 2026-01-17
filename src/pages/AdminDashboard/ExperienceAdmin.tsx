@@ -11,8 +11,11 @@ interface ExperienceAdminProps {
 }
 
 export function ExperienceAdmin({ onClose }: ExperienceAdminProps) {
-  const { t } = useLanguage();
-  const { experiences, isLoading, createExperience, updateExperience, deleteExperience } = useExperienceService();
+  const { t, language } = useLanguage();
+  const [activeLanguage, setActiveLanguage] = useState(language);
+  const { experiences, isLoading, createExperience, updateExperience, deleteExperience } = useExperienceService({
+    language: activeLanguage,
+  });
   const [showEditor, setShowEditor] = useState(false);
   const [editingExperience, setEditingExperience] = useState<Experience | null>(null);
   const [formData, setFormData] = useState<Partial<ExperienceInsert>>({
@@ -34,9 +37,9 @@ export function ExperienceAdmin({ onClose }: ExperienceAdminProps) {
       const validatedData = experienceSchema.parse(formData);
       
       if (editingExperience) {
-        await updateExperience(editingExperience.id, validatedData);
+        await updateExperience(editingExperience.id, validatedData, activeLanguage);
       } else {
-        await createExperience(validatedData);
+        await createExperience(validatedData, activeLanguage);
       }
       
       setShowEditor(false);
@@ -126,6 +129,18 @@ export function ExperienceAdmin({ onClose }: ExperienceAdminProps) {
 
       {showEditor ? (
         <form onSubmit={handleSubmit} className="space-y-4">
+          <div>
+            <label className="form-label">{t('admin.common.language')}</label>
+            <select
+              value={activeLanguage}
+              onChange={(e) => setActiveLanguage(e.target.value as typeof activeLanguage)}
+              className="field"
+            >
+              <option value="en">English</option>
+              <option value="ru">Russian</option>
+              <option value="am">Armenian</option>
+            </select>
+          </div>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div>
               <label className="form-label">
@@ -285,15 +300,26 @@ export function ExperienceAdmin({ onClose }: ExperienceAdminProps) {
         </form>
       ) : (
         <>
-          <div className="flex items-center justify-between mb-6">
-            <h3 className="text-[length:var(--font-400)] font-medium text-[var(--text)]">{t('admin.experience.section.title')} ({experiences.length})</h3>
-            <button
-              onClick={() => setShowEditor(true)}
-              className="inline-flex items-center gap-2 btn btn-primary"
-            >
-              <Plus className="h-4 w-4" />
-              {t('admin.experience.button.add')}
-            </button>
+          <div className="flex flex-wrap items-center justify-between gap-3 mb-6">
+            <h3 className="text-[length:var(--font-400)] font-medium text-[var(--text)]">{t('admin.experience.titleCount')} ({experiences.length})</h3>
+            <div className="flex items-center gap-3">
+              <select
+                value={activeLanguage}
+                onChange={(e) => setActiveLanguage(e.target.value as typeof activeLanguage)}
+                className="field"
+              >
+                <option value="en">English</option>
+                <option value="ru">Russian</option>
+                <option value="am">Armenian</option>
+              </select>
+              <button
+                onClick={() => setShowEditor(true)}
+                className="inline-flex items-center gap-2 btn btn-primary"
+              >
+                <Plus className="h-4 w-4" />
+                {t('admin.experience.addExperience')}
+              </button>
+            </div>
           </div>
 
           <div className="space-y-4">
@@ -340,7 +366,6 @@ export function ExperienceAdmin({ onClose }: ExperienceAdminProps) {
     </div>
   );
 }
-
 
 
 

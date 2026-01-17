@@ -3,18 +3,18 @@ import { useLanguage, Language } from '../../context/LanguageContext';
 import { usePublicFeatureFlags } from '../../lib/services/usePublicFeatureFlags';
 import { Shimmer } from '../ui/Shimmer';
 
-const languages: { code: Language; label: string; }[] = [
-  { code: 'en', label: 'English' },
-  { code: 'ru', label: 'Русский' },
-  { code: 'am', label: 'Հայերեն' },
+const languages: { code: Language; labelKey: string }[] = [
+  { code: 'en', labelKey: 'language.en' },
+  { code: 'ru', labelKey: 'language.ru' },
+  { code: 'am', labelKey: 'language.am' },
 ];
 
 export function LanguageSelector() {
-  const { language, setLanguage } = useLanguage();
+  const { t, language, setLanguage } = useLanguage();
   const { isFeatureEnabled } = usePublicFeatureFlags();
-  
+
   const showLanguageSelector = isFeatureEnabled('language_selector');
-  
+
   if (!showLanguageSelector) {
     return null;
   }
@@ -28,7 +28,7 @@ export function LanguageSelector() {
       >
         {languages.map((lang) => (
           <option key={lang.code} value={lang.code}>
-            {lang.label}
+            {t(lang.labelKey)}
           </option>
         ))}
       </select>

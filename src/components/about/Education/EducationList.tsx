@@ -1,37 +1,28 @@
 import { EducationCard } from './EducationCard';
 import { useEducationService } from '../../../lib/services/useEducationService';
-import { TranslationText } from '../../../components/shared/TranslationText';
 
 export function EducationList() {
   const { education, isLoading, error } = useEducationService();
 
-  if (isLoading) {
-    return (
-      <div className="space-y-6">
-        {[1].map((i) => (
-          <div key={i} className="animate-pulse">
-            <div className="h-24 bg-[var(--surface)] border border-[var(--border)] rounded-[var(--radius-md)]"></div>
-          </div>
-        ))}
-      </div>
-    );
-  }
-
-  if (error) {
-    return (
-      <div className="text-center py-8">
-        <p className="text-red-400">
-          <TranslationText translationKey="error.loadFailed.education" as="span" shimmerWidth="180px" />: {error}
-        </p>
-      </div>
-    );
-  }
-
   return (
     <div className="space-y-6">
-      {education.map((edu) => (
+      {isLoading && (
+        [0, 1].map((idx) => (
+          <div key={idx} className="h-32 rounded-xl bg-[var(--surface-strong)] animate-pulse" />
+        ))
+      )}
+      {error && (
+        <div className="text-[var(--text-muted)] text-sm">Failed to load education.</div>
+      )}
+      {!isLoading && !error && (education.length > 0 ? education : [{
+        degree: "Degree",
+        school: "School",
+        year: "YYYY",
+        description: "Education details will appear here once published.",
+        id: "placeholder"
+      }]).map((edu, idx) => (
         <EducationCard 
-          key={edu.id}
+          key={`${edu.school}-${edu.degree}-${idx}`}
           degree={edu.degree}
           school={edu.school}
           year={edu.year}

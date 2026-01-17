@@ -17,10 +17,19 @@
 
 import { useState, useEffect } from 'react';
 import { supabase } from '../supabase';
-import { Education, EducationInsert, EducationUpdate } from '../../types/database.types';
+import { Education, EducationInsert, EducationUpdate, EducationTranslationInsert } from '../../types/database.types';
 import { educationSchema } from '../schemas/educationSchema';
+import { useLanguage, type Language } from '../../context/LanguageContext';
 
-export function useEducationService() {
+const DEFAULT_LANGUAGE: Language = 'en';
+
+type UseEducationOptions = {
+  language?: Language;
+};
+
+export function useEducationService(options: UseEducationOptions = {}) {
+  const { language: contextLanguage } = useLanguage();
+  const activeLanguage = options.language ?? contextLanguage;
   const [education, setEducation] = useState<Education[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -34,13 +43,38 @@ export function useEducationService() {
       setIsLoading(true);
       setError(null);
       
-      const { data, error: supabaseError } = await supabase
+      const { data: baseData, error: supabaseError } = await supabase
         .from('education')
         .select('*')
         .order('order_index', { ascending: true });
 
       if (supabaseError) throw supabaseError;
-      setEducation(data || []);
+
+      const { data: translationData, error: translationError } = await supabase
+        .from('education_translations')
+        .select('*')
+        .eq('language', activeLanguage);
+
+      if (translationError) throw translationError;
+
+      const translationMap = new Map(
+        (translationData || []).map((row) => [row.education_id, row])
+      );
+
+      const merged = (baseData || []).map((row) => {
+        const translation = translationMap.get(row.id);
+        return translation
+          ? {
+              ...row,
+              degree: translation.degree,
+              school: translation.school,
+              year: translation.year,
+              description: translation.description,
+            }
+          : row;
+      });
+
+      setEducation(merged);
     } catch (err) {
       const message = err instanceof Error ? err.message : 'Failed to load education records';
       console.error('Error loading education:', err);
@@ -56,7 +90,24 @@ export function useEducationService() {
    * @returns {Promise<Education>} Created education record
    * @throws {Error} If validation fails or Supabase operation fails
    */
-  const createEducation = async (educationData: EducationInsert) => {
+  const upsertTranslation = async (educationId: string, payload: EducationInsert, language: Language) => {
+    const translation: EducationTranslationInsert = {
+      education_id: educationId,
+      language,
+      degree: payload.degree,
+      school: payload.school,
+      year: payload.year,
+      description: payload.description,
+    };
+
+    const { error: translationError } = await supabase
+      .from('education_translations')
+      .upsert(translation, { onConflict: 'education_id,language' });
+
+    if (translationError) throw translationError;
+  };
+
+  const createEducation = async (educationData: EducationInsert, language: Language = activeLanguage) => {
     try {
       const validatedData = educationSchema.parse(educationData);
       
@@ -68,8 +119,11 @@ export function useEducationService() {
 
       if (supabaseError) throw supabaseError;
 
+      await upsertTranslation(data.id, validatedData, language);
+
       // Optimistic update
-      setEducation(prev => [...prev, data].sort((a, b) => a.order_index - b.order_index));
+      setEducation(prev => [...prev, { ...data, ...validatedData }]
+        .sort((a, b) => a.order_index - b.order_index));
       
       return data;
     } catch (err) {
@@ -86,22 +140,37 @@ export function useEducationService() {
    * @returns {Promise<Education>} Updated education record
    * @throws {Error} If validation fails or Supabase operation fails
    */
-  const updateEducation = async (id: string, educationData: EducationUpdate) => {
+  const updateEducation = async (id: string, educationData: EducationUpdate, language: Language = activeLanguage) => {
     try {
       const validatedData = educationSchema.partial().parse(educationData);
       
+      const baseUpdate: EducationUpdate = {
+        order_index: validatedData.order_index,
+      };
+
+      if (language === DEFAULT_LANGUAGE) {
+        baseUpdate.degree = validatedData.degree;
+        baseUpdate.school = validatedData.school;
+        baseUpdate.year = validatedData.year;
+        baseUpdate.description = validatedData.description;
+      }
+
       const { data, error: supabaseError } = await supabase
         .from('education')
-        .update(validatedData)
+        .update(baseUpdate)
         .eq('id', id)
         .select()
         .single();
 
       if (supabaseError) throw supabaseError;
 
+      if (validatedData.degree && validatedData.school && validatedData.year && validatedData.description) {
+        await upsertTranslation(id, validatedData as EducationInsert, language);
+      }
+
       // Optimistic update
-      setEducation(prev => 
-        prev.map(edu => edu.id === id ? data : edu)
+      setEducation(prev =>
+        prev.map(edu => edu.id === id ? { ...edu, ...validatedData, ...data } : edu)
           .sort((a, b) => a.order_index - b.order_index)
       );
       
@@ -139,7 +208,7 @@ export function useEducationService() {
 
   useEffect(() => {
     loadEducation();
-  }, []);
+  }, [activeLanguage]);
 
   return {
     education,

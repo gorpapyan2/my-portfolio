@@ -80,24 +80,28 @@ export function Header() {
     return languages.find(lang => lang.code === language) || languages[0];
   };
 
+  const currentPageName = getCurrentPageName();
+
   return (
     <header 
-      className={`fixed top-0 left-0 right-0 z-50 px-[var(--space-12)] py-[var(--space-12)] md:px-[var(--space-16)] md:py-[var(--space-16)] transition-all duration-700 ease-out ${
+      className={`fixed top-0 left-0 right-0 z-50 px-[var(--space-8)] py-[var(--space-8)] md:px-[var(--space-12)] md:py-[var(--space-12)] transition-[transform,opacity] duration-700 ease-out ${
         isVisible 
           ? 'translate-y-0 opacity-100' 
           : 'translate-y-[-100%] opacity-0'
       }`}
     >
       <nav
-        className={`max-w-6xl mx-auto transition-all duration-500 ease-out ${
+        aria-label="Primary"
+        className={`relative max-w-6xl mx-auto rounded-[var(--radius-xl)] px-[var(--space-12)] py-[var(--space-8)] md:px-[var(--space-16)] md:py-[var(--space-12)] border border-[var(--border)] transition-[background-color,box-shadow,transform] duration-500 ease-out ${
           isScrolled
-            ? 'bg-[var(--surface-strong)] backdrop-blur-md shadow-[0_10px_30px_rgba(0,0,0,0.35)]'
+            ? 'bg-[var(--surface-strong)] shadow-[0_18px_50px_rgba(7,10,18,0.5)] backdrop-blur-md'
             : 'bg-[var(--surface)] backdrop-blur-sm'
-        } rounded-[var(--radius-xl)] px-[var(--space-16)] py-[var(--space-12)] md:px-[var(--space-24)] md:py-[var(--space-16)] border border-[var(--border)] ${
+        } ${
           isVisible ? 'scale-100' : 'scale-95'
         }`}
       >
-        <div className="flex items-center justify-between">
+        <div className="absolute inset-0 rounded-[inherit] bg-[linear-gradient(120deg,rgba(255,255,255,0.06),transparent_35%,rgba(255,255,255,0.02))] opacity-70 pointer-events-none" />
+        <div className="relative flex items-center justify-between">
           {/* Logo Section - Mobile optimized with page context */}
           <Link 
             to="/" 
@@ -107,16 +111,16 @@ export function Header() {
             style={{ transitionDelay: isInitialLoad ? '200ms' : '0ms' }}
           >
             <Bug
-              className="h-[var(--space-24)] w-[var(--space-24)] md:h-[var(--space-32)] md:w-[var(--space-32)] text-accent transition-transform duration-300 group-hover:rotate-6"
+              className="h-[var(--space-20)] w-[var(--space-20)] md:h-[var(--space-24)] md:w-[var(--space-24)] text-accent transition-transform duration-300 group-hover:rotate-6"
               aria-hidden="true"
             />
-            <div className="flex flex-col">
-              <span className="text-[length:var(--font-500)] md:text-[length:var(--font-600)] font-semibold text-[var(--text)] font-display group-hover:text-accent transition-colors duration-300">
+            <div className="flex flex-col gap-[var(--space-2)] leading-[var(--leading-tight)]">
+              <span className="text-[length:var(--font-400)] md:text-[length:var(--font-500)] font-semibold text-[var(--text)] font-display group-hover:text-accent transition-colors duration-300">
                 Gor Papyan
               </span>
               {/* Current page indicator - hidden on mobile, shown on desktop */}
               <span className="hidden md:block text-[length:var(--font-100)] text-[var(--text-muted)] transition-colors duration-300">
-                {getCurrentPageName()}
+                {currentPageName}
               </span>
             </div>
           </Link>
@@ -133,7 +137,7 @@ export function Header() {
 
           {/* Right-side Controls - Mobile-first */}
           <div 
-            className={`flex items-center gap-[var(--space-8)] md:gap-[var(--space-16)] transition-all duration-500 ease-out ${
+            className={`flex items-center gap-[var(--space-8)] md:gap-[var(--space-12)] transition-all duration-500 ease-out ${
               isVisible ? 'translate-x-0 opacity-100' : 'translate-x-[50px] opacity-0'
             }`}
             style={{ transitionDelay: isInitialLoad ? '300ms' : '0ms' }}
@@ -143,7 +147,9 @@ export function Header() {
               <div className="hidden md:block relative language-dropdown">
                 <button
                   onClick={() => setIsLanguageOpen(!isLanguageOpen)}
-                  className="flex items-center gap-[var(--space-8)] px-[var(--space-12)] py-[var(--space-8)] rounded-[var(--radius-md)] bg-[var(--surface)] hover:bg-[var(--surface-strong)] border border-[var(--border)] transition-colors duration-300 group"
+                  className="flex items-center gap-[var(--space-8)] px-[var(--space-10)] py-[var(--space-6)] rounded-[var(--radius-md)] bg-[var(--surface)] hover:bg-[var(--surface-strong)] border border-[var(--border)] transition-[color,background-color,box-shadow] duration-300 group"
+                  aria-expanded={isLanguageOpen}
+                  aria-haspopup="listbox"
                 >
                   <Globe className="h-4 w-4 text-[var(--text-muted)] group-hover:text-[var(--text)] transition-colors duration-300" />
                   <span className="text-[length:var(--font-100)] text-[var(--text)] transition-colors duration-300">
@@ -195,9 +201,9 @@ export function Header() {
               <button
                 onClick={() => setIsTranslationEditMode(!isTranslationEditMode)}
                 title={isTranslationEditMode ? 'Disable translation edit mode' : 'Enable translation edit mode'}
-                className={`hidden md:inline-flex items-center gap-[var(--space-8)] px-[var(--space-12)] py-[var(--space-8)] rounded-[var(--radius-md)] transition-colors duration-300 group ${
+                className={`hidden md:inline-flex items-center gap-[var(--space-8)] px-[var(--space-10)] py-[var(--space-6)] rounded-[var(--radius-md)] transition-[color,background-color,box-shadow] duration-300 group focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/60 focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--bg)] ${
                   isTranslationEditMode
-                    ? 'bg-[var(--surface-strong)] border border-accent text-accent'
+                    ? 'bg-[var(--surface-strong)] border border-accent text-accent shadow-[0_12px_24px_rgba(7,10,18,0.35)]'
                     : 'bg-[var(--surface)] border border-[var(--border)] text-[var(--text-muted)] hover:text-[var(--text)]'
                 }`}
               >
@@ -215,7 +221,7 @@ export function Header() {
             {/* Download CV Button - Desktop only */}
             <button
               onClick={handleDownloadCV}
-              className="hidden md:inline-flex items-center gap-[var(--space-8)] px-[var(--space-16)] py-[var(--space-8)] md:px-[var(--space-24)] md:py-[var(--space-8)] rounded-full bg-accent text-accent-ink font-medium hover:bg-accent-strong transition-colors duration-300 text-[length:var(--font-100)] md:text-[length:var(--font-200)] group"
+              className="hidden md:inline-flex items-center gap-[var(--space-8)] px-[var(--space-12)] py-[var(--space-6)] md:px-[var(--space-16)] md:py-[var(--space-6)] rounded-full bg-accent text-accent-ink font-medium hover:bg-accent-strong transition-[color,background-color,box-shadow,transform] duration-300 text-[length:var(--font-100)] md:text-[length:var(--font-200)] group shadow-[0_12px_28px_rgba(var(--accent),0.25)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/70 focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--bg)]"
             >
               <FileDown className="h-[var(--space-16)] w-[var(--space-16)] md:h-[var(--space-20)] md:w-[var(--space-20)] transition-transform duration-300 group-hover:translate-y-[-2px]" />
               <span className="transition-transform duration-300 group-hover:translate-y-[-1px]">

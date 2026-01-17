@@ -307,45 +307,380 @@ export interface Database {
           updated_at?: string;
         };
       };
-      skills: {
-        Row: {
-          id: string;
-          title: string;
-          description: string;
-          icon: string;
-          category: string;
-          level: number;
-          order_index: number;
-          created_at: string;
-          updated_at: string;
+        skills: {
+          Row: {
+            id: string;
+            title: string;
+            description: string;
+            icon: string;
+            category: string;
+            level: number;
+            order_index: number;
+            created_at: string;
+            updated_at: string;
+          };
+          Insert: {
+            id?: string;
+            title: string;
+            description: string;
+            icon: string;
+            level: number;
+            category?: string;
+            order_index?: number;
+            created_at?: string;
+            updated_at?: string;
+          };
+          Update: {
+            id?: string;
+            title?: string;
+            description?: string;
+            icon?: string;
+            level?: number;
+            category?: string;
+            order_index?: number;
+            created_at?: string;
+            updated_at?: string;
+          };
         };
-        Insert: {
-          id?: string;
-          title: string;
-          description: string;
-          icon: string;
-          level: number;
-          category?: string;
-          order_index?: number;
-          created_at?: string;
-          updated_at?: string;
+        education_translations: {
+          Row: {
+            id: string;
+            education_id: string;
+            language: 'en' | 'ru' | 'am';
+            degree: string;
+            school: string;
+            year: string;
+            description: string;
+            created_at: string;
+            updated_at: string;
+          };
+          Insert: {
+            id?: string;
+            education_id: string;
+            language: 'en' | 'ru' | 'am';
+            degree: string;
+            school: string;
+            year: string;
+            description: string;
+            created_at?: string;
+            updated_at?: string;
+          };
+          Update: {
+            id?: string;
+            education_id?: string;
+            language?: 'en' | 'ru' | 'am';
+            degree?: string;
+            school?: string;
+            year?: string;
+            description?: string;
+            created_at?: string;
+            updated_at?: string;
+          };
         };
-        Update: {
-          id?: string;
-          title?: string;
-          description?: string;
-          icon?: string;
-          level?: number;
-          category?: string;
-          order_index?: number;
-          created_at?: string;
-          updated_at?: string;
+        experience_translations: {
+          Row: {
+            id: string;
+            experience_id: string;
+            language: 'en' | 'ru' | 'am';
+            role: string;
+            company: string;
+            period: string;
+            description: string;
+            achievements: string[];
+            created_at: string;
+            updated_at: string;
+          };
+          Insert: {
+            id?: string;
+            experience_id: string;
+            language: 'en' | 'ru' | 'am';
+            role: string;
+            company: string;
+            period: string;
+            description: string;
+            achievements?: string[];
+            created_at?: string;
+            updated_at?: string;
+          };
+          Update: {
+            id?: string;
+            experience_id?: string;
+            language?: 'en' | 'ru' | 'am';
+            role?: string;
+            company?: string;
+            period?: string;
+            description?: string;
+            achievements?: string[];
+            created_at?: string;
+            updated_at?: string;
+          };
         };
-      };
-      feature_flags: {
-        Row: {
-          id: string;
-          flag_key: string;
+        skill_translations: {
+          Row: {
+            id: string;
+            skill_id: string;
+            language: 'en' | 'ru' | 'am';
+            title: string;
+            description: string;
+            created_at: string;
+            updated_at: string;
+          };
+          Insert: {
+            id?: string;
+            skill_id: string;
+            language: 'en' | 'ru' | 'am';
+            title: string;
+            description: string;
+            created_at?: string;
+            updated_at?: string;
+          };
+          Update: {
+            id?: string;
+            skill_id?: string;
+            language?: 'en' | 'ru' | 'am';
+            title?: string;
+            description?: string;
+            created_at?: string;
+            updated_at?: string;
+          };
+        };
+        about_key_results: {
+          Row: {
+            id: string;
+            order_index: number;
+            created_at: string;
+            updated_at: string;
+          };
+          Insert: {
+            id?: string;
+            order_index?: number;
+            created_at?: string;
+            updated_at?: string;
+          };
+          Update: {
+            id?: string;
+            order_index?: number;
+            created_at?: string;
+            updated_at?: string;
+          };
+        };
+        about_key_result_translations: {
+          Row: {
+            id: string;
+            key_result_id: string;
+            language: 'en' | 'ru' | 'am';
+            summary: string;
+            created_at: string;
+            updated_at: string;
+          };
+          Insert: {
+            id?: string;
+            key_result_id: string;
+            language: 'en' | 'ru' | 'am';
+            summary: string;
+            created_at?: string;
+            updated_at?: string;
+          };
+          Update: {
+            id?: string;
+            key_result_id?: string;
+            language?: 'en' | 'ru' | 'am';
+            summary?: string;
+            created_at?: string;
+            updated_at?: string;
+          };
+        };
+        about_languages: {
+          Row: {
+            id: string;
+            order_index: number;
+            created_at: string;
+            updated_at: string;
+          };
+          Insert: {
+            id?: string;
+            order_index?: number;
+            created_at?: string;
+            updated_at?: string;
+          };
+          Update: {
+            id?: string;
+            order_index?: number;
+            created_at?: string;
+            updated_at?: string;
+          };
+        };
+        about_language_translations: {
+          Row: {
+            id: string;
+            about_language_id: string;
+            language: 'en' | 'ru' | 'am';
+            name: string;
+            level: string | null;
+            created_at: string;
+            updated_at: string;
+          };
+          Insert: {
+            id?: string;
+            about_language_id: string;
+            language: 'en' | 'ru' | 'am';
+            name: string;
+            level?: string | null;
+            created_at?: string;
+            updated_at?: string;
+          };
+          Update: {
+            id?: string;
+            about_language_id?: string;
+            language?: 'en' | 'ru' | 'am';
+            name?: string;
+            level?: string | null;
+            created_at?: string;
+            updated_at?: string;
+          };
+        };
+        about_toolbox_items: {
+          Row: {
+            id: string;
+            order_index: number;
+            created_at: string;
+            updated_at: string;
+          };
+          Insert: {
+            id?: string;
+            order_index?: number;
+            created_at?: string;
+            updated_at?: string;
+          };
+          Update: {
+            id?: string;
+            order_index?: number;
+            created_at?: string;
+            updated_at?: string;
+          };
+        };
+        about_toolbox_translations: {
+          Row: {
+            id: string;
+            toolbox_item_id: string;
+            language: 'en' | 'ru' | 'am';
+            label: string;
+            created_at: string;
+            updated_at: string;
+          };
+          Insert: {
+            id?: string;
+            toolbox_item_id: string;
+            language: 'en' | 'ru' | 'am';
+            label: string;
+            created_at?: string;
+            updated_at?: string;
+          };
+          Update: {
+            id?: string;
+            toolbox_item_id?: string;
+            language?: 'en' | 'ru' | 'am';
+            label?: string;
+            created_at?: string;
+            updated_at?: string;
+          };
+        };
+        about_professional_journey: {
+          Row: {
+            id: string;
+            order_index: number;
+            created_at: string;
+            updated_at: string;
+          };
+          Insert: {
+            id?: string;
+            order_index?: number;
+            created_at?: string;
+            updated_at?: string;
+          };
+          Update: {
+            id?: string;
+            order_index?: number;
+            created_at?: string;
+            updated_at?: string;
+          };
+        };
+        about_professional_journey_translations: {
+          Row: {
+            id: string;
+            journey_id: string;
+            language: 'en' | 'ru' | 'am';
+            text: string;
+            created_at: string;
+            updated_at: string;
+          };
+          Insert: {
+            id?: string;
+            journey_id: string;
+            language: 'en' | 'ru' | 'am';
+            text: string;
+            created_at?: string;
+            updated_at?: string;
+          };
+          Update: {
+            id?: string;
+            journey_id?: string;
+            language?: 'en' | 'ru' | 'am';
+            text?: string;
+            created_at?: string;
+            updated_at?: string;
+          };
+        };
+        about_philosophy: {
+          Row: {
+            id: string;
+            order_index: number;
+            created_at: string;
+            updated_at: string;
+          };
+          Insert: {
+            id?: string;
+            order_index?: number;
+            created_at?: string;
+            updated_at?: string;
+          };
+          Update: {
+            id?: string;
+            order_index?: number;
+            created_at?: string;
+            updated_at?: string;
+          };
+        };
+        about_philosophy_translations: {
+          Row: {
+            id: string;
+            philosophy_id: string;
+            language: 'en' | 'ru' | 'am';
+            text: string;
+            created_at: string;
+            updated_at: string;
+          };
+          Insert: {
+            id?: string;
+            philosophy_id: string;
+            language: 'en' | 'ru' | 'am';
+            text: string;
+            created_at?: string;
+            updated_at?: string;
+          };
+          Update: {
+            id?: string;
+            philosophy_id?: string;
+            language?: 'en' | 'ru' | 'am';
+            text?: string;
+            created_at?: string;
+            updated_at?: string;
+          };
+        };
+        feature_flags: {
+          Row: {
+            id: string;
+            flag_key: string;
           content_type: 'section' | 'blog_post' | 'project';
           content_id: string | null;
           enabled: boolean;
@@ -404,19 +739,28 @@ export type ContactSubmissionInsert = Database['public']['Tables']['contact_subm
 export type ContactSubmissionUpdate = Database['public']['Tables']['contact_submissions']['Update'];
 
 // Experience types
-export type Experience = Database['public']['Tables']['experiences']['Row'];
-export type ExperienceInsert = Database['public']['Tables']['experiences']['Insert'];
-export type ExperienceUpdate = Database['public']['Tables']['experiences']['Update'];
-
-// Education types
-export type Education = Database['public']['Tables']['education']['Row'];
-export type EducationInsert = Database['public']['Tables']['education']['Insert'];
-export type EducationUpdate = Database['public']['Tables']['education']['Update'];
-
-// Skill types
-export type Skill = Database['public']['Tables']['skills']['Row'];
-export type SkillInsert = Database['public']['Tables']['skills']['Insert'];
-export type SkillUpdate = Database['public']['Tables']['skills']['Update'];
+  export type Experience = Database['public']['Tables']['experiences']['Row'];
+  export type ExperienceInsert = Database['public']['Tables']['experiences']['Insert'];
+  export type ExperienceUpdate = Database['public']['Tables']['experiences']['Update'];
+  export type ExperienceTranslation = Database['public']['Tables']['experience_translations']['Row'];
+  export type ExperienceTranslationInsert = Database['public']['Tables']['experience_translations']['Insert'];
+  export type ExperienceTranslationUpdate = Database['public']['Tables']['experience_translations']['Update'];
+  
+  // Education types
+  export type Education = Database['public']['Tables']['education']['Row'];
+  export type EducationInsert = Database['public']['Tables']['education']['Insert'];
+  export type EducationUpdate = Database['public']['Tables']['education']['Update'];
+  export type EducationTranslation = Database['public']['Tables']['education_translations']['Row'];
+  export type EducationTranslationInsert = Database['public']['Tables']['education_translations']['Insert'];
+  export type EducationTranslationUpdate = Database['public']['Tables']['education_translations']['Update'];
+  
+  // Skill types
+  export type Skill = Database['public']['Tables']['skills']['Row'];
+  export type SkillInsert = Database['public']['Tables']['skills']['Insert'];
+  export type SkillUpdate = Database['public']['Tables']['skills']['Update'];
+  export type SkillTranslation = Database['public']['Tables']['skill_translations']['Row'];
+  export type SkillTranslationInsert = Database['public']['Tables']['skill_translations']['Insert'];
+  export type SkillTranslationUpdate = Database['public']['Tables']['skill_translations']['Update'];
 
 // Technology types
 export type Technology = Database['public']['Tables']['technologies']['Row'];
