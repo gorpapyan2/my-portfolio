@@ -25,7 +25,8 @@
     "seed:all": "npm run seed:translations && npm run seed:blog && npm run seed:projects && npm run seed:about && npm run seed:flags && npm run seed:case-studies",
     "upload:portrait": "tsx src/scripts/uploadPortrait.ts",
     "upload:cv": "tsx src/scripts/uploadCV.ts",
-    "migration:add-missing": "tsx src/scripts/addMissingTranslations.ts"
+    "migration:add-missing": "tsx src/scripts/addMissingTranslations.ts",
+    "migration:add-hy-language": "tsx src/scripts/addLanguageCodeHy.ts"
   },
   "dependencies": {
     "@emailjs/browser": "^4.4.1",
