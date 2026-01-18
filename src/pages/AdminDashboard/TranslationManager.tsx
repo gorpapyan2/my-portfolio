@@ -1,4 +1,4 @@
-import { useMemo, useState, useEffect } from 'react';
+import { useMemo, useState, useEffect, useCallback } from 'react';
 import { Plus, Search, Filter, Download, AlertCircle } from 'lucide-react';
 import { useLanguage } from '../../context/LanguageContext';
 import { TranslationText } from '../../components/shared/TranslationText';
@@ -17,10 +17,27 @@ interface TranslationInsert {
   category: string;
 }
 
+interface MissingTranslationItem {
+  key: string;
+  category: string;
+  missingLanguages: Array<'en' | 'ru' | 'am'>;
+}
+
+interface TranslationKeyEntry {
+  key: string;
+  category: string;
+}
+
+const SUPPORTED_LANGUAGES = ['en', 'ru', 'am'] as const;
+
 export function TranslationManager() {
   const { t } = useLanguage();
   const translationService = useTranslationService();
   const [page, setPage] = useState(1);
+  const [activeTab, setActiveTab] = useState<'all' | 'missing'>('all');
+  const [missingDrafts, setMissingDrafts] = useState<Record<string, Partial<Record<'en' | 'ru' | 'am', string>>>>({});
+  const [savingMissing, setSavingMissing] = useState<Record<string, boolean>>({});
+  const [translationKeys, setTranslationKeys] = useState<TranslationKeyEntry[]>([]);
   const pageSize = 20;
   
   // Use centralized translation manager hook
@@ -45,17 +62,147 @@ export function TranslationManager() {
     categories,
   } = useTranslationManager();
 
+  const loadTranslationKeys = useCallback(async () => {
+    const pageSize = 1000;
+    let from = 0;
+    let allKeys: TranslationKeyEntry[] = [];
+
+    while (true) {
+      const { data, error } = await supabase
+        .from('translation_keys')
+        .select('key, category')
+        .range(from, from + pageSize - 1);
+
+      if (error) {
+        console.error('Error loading translation keys:', error);
+        return;
+      }
+
+      if (!data || data.length === 0) break;
+
+      allKeys = allKeys.concat(data as TranslationKeyEntry[]);
+      if (data.length < pageSize) break;
+      from += pageSize;
+    }
+
+    setTranslationKeys(allKeys);
+  }, []);
+
+  useEffect(() => {
+    loadTranslationKeys();
+  }, [loadTranslationKeys]);
+
   useEffect(() => {
     setPage(1);
-  }, [searchTerm, selectedCategory, selectedLanguage]);
+  }, [searchTerm, selectedCategory, selectedLanguage, activeTab]);
 
-  const totalTranslations = filteredTranslations.length;
+  const translationKeysMap = useMemo(() => {
+    return new Map(translationKeys.map((entry) => [entry.key, entry.category]));
+  }, [translationKeys]);
+
+  const missingTranslations = useMemo(() => {
+    const allKeys = new Set<string>();
+    if (translationKeys.length > 0) {
+      translationKeys.forEach(({ key }) => allKeys.add(key));
+    } else {
+      SUPPORTED_LANGUAGES.forEach((lang) => {
+        Object.keys(translationService.translations[lang] || {}).forEach((key) => {
+          allKeys.add(key);
+        });
+      });
+    }
+
+    const entries = Array.from(allKeys)
+      .map((key) => {
+        const missingLanguages = SUPPORTED_LANGUAGES.filter((lang) => {
+          const value = translationService.translations[lang]?.[key];
+          return !value || value.trim() === '';
+        });
+
+        if (missingLanguages.length === 0) {
+          return null;
+        }
+
+        return {
+          key,
+          category: translationKeysMap.get(key) ?? key.split('.')[0],
+          missingLanguages
+        } satisfies MissingTranslationItem;
+      })
+      .filter((entry): entry is MissingTranslationItem => Boolean(entry));
+
+    return entries
+      .filter(({ key }) => {
+        const matchesSearch = key.toLowerCase().includes(searchTerm.toLowerCase());
+        const matchesCategory = selectedCategory === 'all' || key.startsWith(selectedCategory);
+        return matchesSearch && matchesCategory;
+      })
+      .sort((a, b) => a.key.localeCompare(b.key));
+  }, [searchTerm, selectedCategory, translationKeys, translationKeysMap, translationService.translations]);
+
+  const totalTranslations = activeTab === 'all'
+    ? filteredTranslations.length
+    : missingTranslations.length;
   const totalPages = Math.max(1, Math.ceil(totalTranslations / pageSize));
   const currentPage = Math.min(page, totalPages);
   const paginatedTranslations = useMemo(() => {
     const start = (currentPage - 1) * pageSize;
     return filteredTranslations.slice(start, start + pageSize);
   }, [filteredTranslations, currentPage, pageSize]);
+  const paginatedMissingTranslations = useMemo(() => {
+    const start = (currentPage - 1) * pageSize;
+    return missingTranslations.slice(start, start + pageSize);
+  }, [missingTranslations, currentPage, pageSize]);
+
+  const handleSaveMissing = async (key: string, language: 'en' | 'ru' | 'am') => {
+    const draftValue = missingDrafts[key]?.[language]?.trim() ?? '';
+    if (!draftValue) {
+      alert(t('admin.translations.allFieldsRequired'));
+      return;
+    }
+
+    const category = translationKeysMap.get(key) ?? key.split('.')[0];
+    const savingKey = `${key}::${language}`;
+    setSavingMissing((prev) => ({ ...prev, [savingKey]: true }));
+
+    try {
+      const { data } = await supabase
+        .from('translations')
+        .select('id')
+        .eq('key', key)
+        .eq('language', language)
+        .single();
+
+      if (data) {
+        await translationService.updateTranslation(data.id, {
+          key,
+          value: draftValue,
+          category
+        });
+      } else {
+        await translationService.createTranslation({
+          key,
+          value: draftValue,
+          category,
+          language
+        });
+      }
+
+      setMissingDrafts((prev) => ({
+        ...prev,
+        [key]: {
+          ...(prev[key] ?? {}),
+          [language]: ''
+        }
+      }));
+      await loadTranslationKeys();
+    } catch (error) {
+      console.error('Error saving translation:', error);
+      alert(t('admin.error.saveFailed'));
+    } finally {
+      setSavingMissing((prev) => ({ ...prev, [savingKey]: false }));
+    }
+  };
 
   return (
     <div>
@@ -65,8 +212,40 @@ export function TranslationManager() {
         </h2>
       </div>
 
+      <div className="flex flex-wrap gap-[var(--space-8)] mb-6 border-b border-[var(--border)]">
+        <button
+          type="button"
+          onClick={() => setActiveTab('all')}
+          className={`pb-[var(--space-8)] px-[var(--space-4)] text-[length:var(--font-100)] font-medium border-b-2 transition-colors ${
+            activeTab === 'all'
+              ? 'border-accent text-[var(--text)]'
+              : 'border-transparent text-[var(--text-muted)] hover:text-[var(--text)]'
+          }`}
+        >
+          {t('admin.translations.title')}
+          <span className="ml-[var(--space-8)] text-[var(--text-muted)]">
+            {filteredTranslations.length}
+          </span>
+        </button>
+        <button
+          type="button"
+          onClick={() => setActiveTab('missing')}
+          className={`pb-[var(--space-8)] px-[var(--space-4)] text-[length:var(--font-100)] font-medium border-b-2 transition-colors ${
+            activeTab === 'missing'
+              ? 'border-accent text-[var(--text)]'
+              : 'border-transparent text-[var(--text-muted)] hover:text-[var(--text)]'
+          }`}
+        >
+          {t('settings.missingTranslations')}
+          <span className="ml-[var(--space-8)] text-[var(--text-muted)]">
+            {missingTranslations.length}
+          </span>
+        </button>
+      </div>
+
       {/* Language Selection */}
-      <div className="mb-6">
+      {activeTab === 'all' && (
+        <div className="mb-6">
         <div className="flex items-center gap-2 mb-4">
           <span className="text-[var(--text-muted)] text-[length:var(--font-100)]">{t('admin.translations.languageLabel')}</span>
           <div className="flex gap-[var(--space-8)]">
@@ -85,7 +264,8 @@ export function TranslationManager() {
             ))}
           </div>
         </div>
-      </div>
+        </div>
+      )}
 
       {/* Search and Filter Controls */}
       <div className="flex flex-col sm:flex-row gap-[var(--space-16)] mb-6">
@@ -149,13 +329,106 @@ export function TranslationManager() {
       </div>
 
       {/* Translation Table */}
-      <div className="bg-[var(--surface)] rounded-[var(--radius-md)] border border-[var(--border)] overflow-hidden">
-        <TranslationTable
-          translations={paginatedTranslations}
-          onEdit={handleEditTranslation}
-          onDelete={handleDeleteTranslation}
-        />
-      </div>
+      {activeTab === 'all' ? (
+        <div className="bg-[var(--surface)] rounded-[var(--radius-md)] border border-[var(--border)] overflow-hidden">
+          <TranslationTable
+            translations={paginatedTranslations}
+            onEdit={handleEditTranslation}
+            onDelete={handleDeleteTranslation}
+          />
+        </div>
+      ) : (
+        <div className="bg-[var(--surface)] rounded-[var(--radius-md)] border border-[var(--border)] overflow-hidden">
+          <div className="overflow-x-auto">
+            <table className="w-full">
+              <thead>
+                <tr className="border-b border-[var(--border)]">
+                  <th className="text-left py-[var(--space-12)] px-[var(--space-16)] text-[length:var(--font-100)] font-medium text-[var(--text-muted)]">
+                    {t('settings.key')}
+                  </th>
+                  {SUPPORTED_LANGUAGES.map((lang) => (
+                    <th
+                      key={lang}
+                      className="text-left py-[var(--space-12)] px-[var(--space-16)] text-[length:var(--font-100)] font-medium text-[var(--text-muted)]"
+                    >
+                      {lang.toUpperCase()}
+                    </th>
+                  ))}
+                  <th className="text-left py-[var(--space-12)] px-[var(--space-16)] text-[length:var(--font-100)] font-medium text-[var(--text-muted)]">
+                    {t('settings.category')}
+                  </th>
+                </tr>
+              </thead>
+              <tbody>
+                {paginatedMissingTranslations.length === 0 ? (
+                  <tr>
+                    <td colSpan={SUPPORTED_LANGUAGES.length + 2} className="text-center py-[var(--space-32)] text-[var(--text-muted)] text-[length:var(--font-100)]">
+                      {t('admin.translations.empty.notFound')}
+                    </td>
+                  </tr>
+                ) : (
+                  paginatedMissingTranslations.map((translation) => (
+                    <tr key={translation.key} className="border-b border-[var(--border)]/40 hover:bg-[var(--surface-strong)]">
+                      <td className="py-[var(--space-12)] px-[var(--space-16)] text-[length:var(--font-100)] text-[var(--text)] font-mono">
+                        {translation.key}
+                      </td>
+                      {SUPPORTED_LANGUAGES.map((lang) => {
+                        const value = translationService.translations[lang]?.[translation.key] ?? '';
+                        const isMissing = !value || value.trim() === '';
+                        const savingKey = `${translation.key}::${lang}`;
+
+                        return (
+                          <td
+                            key={`${translation.key}-${lang}`}
+                            className="py-[var(--space-12)] px-[var(--space-16)] text-[length:var(--font-100)] text-[var(--text-muted)] align-top"
+                          >
+                            {isMissing ? (
+                              <div className="flex flex-col gap-[var(--space-8)]">
+                                <input
+                                  type="text"
+                                  value={missingDrafts[translation.key]?.[lang] ?? ''}
+                                  onChange={(e) =>
+                                    setMissingDrafts((prev) => ({
+                                      ...prev,
+                                      [translation.key]: {
+                                        ...(prev[translation.key] ?? {}),
+                                        [lang]: e.target.value
+                                      }
+                                    }))
+                                  }
+                                  placeholder={t('settings.value')}
+                                  className="field min-w-[220px]"
+                                />
+                                <button
+                                  type="button"
+                                  onClick={() => handleSaveMissing(translation.key, lang)}
+                                  className="btn btn-secondary"
+                                  disabled={savingMissing[savingKey]}
+                                >
+                                  {t('save')}
+                                </button>
+                              </div>
+                            ) : (
+                              <span className="text-[var(--text)]">
+                                {value}
+                              </span>
+                            )}
+                          </td>
+                        );
+                      })}
+                      <td className="py-[var(--space-12)] px-[var(--space-16)] text-[length:var(--font-100)] text-[var(--text-muted)]">
+                        <span className="px-[var(--space-8)] py-[var(--space-4)] bg-[var(--surface-strong)] rounded-[var(--radius-sm)] text-[length:var(--font-100)]">
+                          {translation.category}
+                        </span>
+                      </td>
+                    </tr>
+                  ))
+                )}
+              </tbody>
+            </table>
+          </div>
+        </div>
+      )}
 
       <div className="flex flex-col sm:flex-row items-center justify-between gap-[var(--space-12)] mt-[var(--space-16)]">
         <p className="text-[length:var(--font-100)] text-[var(--text-muted)]">
@@ -267,5 +540,3 @@ export function TranslationManager() {
     </div>
   );
 }
-
-

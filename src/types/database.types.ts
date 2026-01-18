@@ -33,6 +33,29 @@ export interface Database {
           updated_at?: string;
         };
       };
+      translation_keys: {
+        Row: {
+          id: string;
+          key: string;
+          category: string;
+          created_at: string;
+          updated_at: string;
+        };
+        Insert: {
+          id?: string;
+          key: string;
+          category?: string;
+          created_at?: string;
+          updated_at?: string;
+        };
+        Update: {
+          id?: string;
+          key?: string;
+          category?: string;
+          created_at?: string;
+          updated_at?: string;
+        };
+      };
       blog_posts: {
         Row: {
           id: string;
@@ -717,6 +740,9 @@ export interface Database {
 export type Translation = Database['public']['Tables']['translations']['Row'];
 export type TranslationInsert = Database['public']['Tables']['translations']['Insert'];
 export type TranslationUpdate = Database['public']['Tables']['translations']['Update'];
+export type TranslationKey = Database['public']['Tables']['translation_keys']['Row'];
+export type TranslationKeyInsert = Database['public']['Tables']['translation_keys']['Insert'];
+export type TranslationKeyUpdate = Database['public']['Tables']['translation_keys']['Update'];
 
 // Blog post types
 export type BlogPost = Database['public']['Tables']['blog_posts']['Row'];

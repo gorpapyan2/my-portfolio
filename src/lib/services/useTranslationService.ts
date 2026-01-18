@@ -71,14 +71,26 @@ export function useTranslationService(): TranslationService {
       setIsLoading(true);
       setError(null);
 
-      // Fetch from Supabase
-      const { data, error: supabaseError } = await supabase
-        .from('translations')
-        .select('*');
+      // Fetch from Supabase in batches to avoid default row limits
+      const pageSize = 1000;
+      let from = 0;
+      let allTranslations: Translation[] = [];
 
-      if (supabaseError) throw supabaseError;
+      while (true) {
+        const { data, error: supabaseError } = await supabase
+          .from('translations')
+          .select('*')
+          .range(from, from + pageSize - 1);
 
-      if (data && data.length > 0) {
+        if (supabaseError) throw supabaseError;
+        if (!data || data.length === 0) break;
+
+        allTranslations = allTranslations.concat(data);
+        if (data.length < pageSize) break;
+        from += pageSize;
+      }
+
+      if (allTranslations.length > 0) {
         // Convert Supabase data to the format expected by LanguageContext
         const formattedTranslations: Record<string, Record<string, string>> = {
           en: {},
@@ -86,7 +98,7 @@ export function useTranslationService(): TranslationService {
           am: {}
         };
 
-        data.forEach((translation: Translation) => {
+        allTranslations.forEach((translation: Translation) => {
           if (formattedTranslations[translation.language]) {
             formattedTranslations[translation.language][translation.key] = translation.value;
           }
