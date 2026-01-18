@@ -1,4 +1,12 @@
-import { Plus, Edit, Trash2, Eye, EyeOff, FileText, Calendar, Clock, Globe } from 'lucide-react';
+import Plus from 'lucide-react/dist/esm/icons/plus';
+import Edit from 'lucide-react/dist/esm/icons/edit';
+import Trash2 from 'lucide-react/dist/esm/icons/trash-2';
+import Eye from 'lucide-react/dist/esm/icons/eye';
+import EyeOff from 'lucide-react/dist/esm/icons/eye-off';
+import FileText from 'lucide-react/dist/esm/icons/file-text';
+import Calendar from 'lucide-react/dist/esm/icons/calendar';
+import Clock from 'lucide-react/dist/esm/icons/clock';
+import Globe from 'lucide-react/dist/esm/icons/globe';
 import { useBlogService } from '../../lib/services/useBlogService';
 import { useBlogAdminState } from '../../lib/services/useBlogAdminState';
 import { BlogPostForm } from '../../components/admin/BlogPostForm';
@@ -209,7 +217,6 @@ export function BlogAdmin({ onClose }: BlogAdminProps) {
     </div>
   );
 }
-
 
 
 

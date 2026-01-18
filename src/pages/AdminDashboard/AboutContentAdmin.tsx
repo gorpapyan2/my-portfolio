@@ -1,5 +1,7 @@
 import { useCallback, useEffect, useMemo, useState } from 'react';
-import { Plus, Trash2, Save } from 'lucide-react';
+import Plus from 'lucide-react/dist/esm/icons/plus';
+import Trash2 from 'lucide-react/dist/esm/icons/trash-2';
+import Save from 'lucide-react/dist/esm/icons/save';
 import { supabase } from '../../lib/supabase';
 import { useLanguage, type Language } from '../../context/LanguageContext';
 import { TranslationText } from '../../components/shared/TranslationText';

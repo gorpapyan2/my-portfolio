@@ -1,14 +1,12 @@
 import { useState } from 'react';
-import { 
-  Plus, 
-  Edit2, 
-  Trash2, 
-  Search, 
-  Filter,
-  ToggleLeft,
-  ToggleRight,
-  Flag
-} from 'lucide-react';
+import Plus from 'lucide-react/dist/esm/icons/plus';
+import Edit2 from 'lucide-react/dist/esm/icons/edit-2';
+import Trash2 from 'lucide-react/dist/esm/icons/trash-2';
+import Search from 'lucide-react/dist/esm/icons/search';
+import Filter from 'lucide-react/dist/esm/icons/filter';
+import ToggleLeft from 'lucide-react/dist/esm/icons/toggle-left';
+import ToggleRight from 'lucide-react/dist/esm/icons/toggle-right';
+import Flag from 'lucide-react/dist/esm/icons/flag';
 import { useFeatureFlagService } from '../../lib/services/useFeatureFlagService';
 import { FeatureFlagInsert, FeatureFlagUpdate, FeatureFlag } from '../../types/database.types';
 import { LoadingSpinner } from '../../components/loading/LoadingSpinner';
@@ -520,6 +518,5 @@ export function FeatureFlagAdmin() {
     </div>
   );
 }
-
 
 

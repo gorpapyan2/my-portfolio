@@ -1,5 +1,7 @@
 import { useState } from 'react';
-import { Plus, Edit, Trash2 } from 'lucide-react';
+import Plus from 'lucide-react/dist/esm/icons/plus';
+import Edit from 'lucide-react/dist/esm/icons/edit';
+import Trash2 from 'lucide-react/dist/esm/icons/trash-2';
 import { useSkillService } from '../../lib/services/useSkillService';
 import { Skill, SkillInsert } from '../../types/database.types';
 import { skillSchema } from '../../lib/schemas/skillSchema';
@@ -322,6 +324,5 @@ export function SkillsAdmin({ onClose }: SkillsAdminProps) {
     </div>
   );
 }
-
 
 
