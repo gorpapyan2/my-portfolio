@@ -103,6 +103,10 @@ export function ImportExport({ onClose, onImport, onExport }: ImportExportProps)
         setIsImporting(false);
       }
     };
+    reader.onerror = () => {
+      setImportError(t('settings.importFailed'));
+      setIsImporting(false);
+    };
     reader.readAsText(importFile);
   };
 

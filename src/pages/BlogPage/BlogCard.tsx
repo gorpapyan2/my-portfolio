@@ -1,4 +1,4 @@
-import { Link } from 'react-router-dom';
+﻿import { Link } from 'react-router-dom';
 import { Card } from '../../components/shared/Card';
 import { MarkdownRenderer } from '../../components/markdown/MarkdownRenderer';
 import { useLanguage } from '../../context/LanguageContext';
@@ -62,26 +62,31 @@ export function BlogCard({
       .replace(/\n/g, ' ')
       .trim();
     
-    return cleaned.length > 150 ? `${cleaned.substring(0, 150)}…` : cleaned;
+    return cleaned.length > 150 ? `${cleaned.substring(0, 150)}...` : cleaned;
   };
 
   // Use database-provided localized content directly
   const preview = content ? getContentPreview() : excerpt;
-  const displayImage = image || '';
+  const hasImage = Boolean(image);
   const formattedDate = formatDate(created_at);
 
   return (
     <Card className="group h-full flex flex-col">
       {/* Image Container */}
       <div className="relative aspect-video overflow-hidden rounded-[var(--radius-md)] mb-[var(--space-16)]">
-        <img
-          src={displayImage}
-          alt={title}
-          width={1280}
-          height={720}
-          className="w-full h-full object-cover transform group-hover:scale-105 transition-transform duration-500"
-          loading="lazy"
-        />
+        {hasImage ? (
+          <img
+            src={image ?? ''}
+            alt={title}
+            width={1280}
+            height={720}
+            className="w-full h-full object-cover transform group-hover:scale-105 transition-transform duration-500"
+            loading="lazy"
+            decoding="async"
+          />
+        ) : (
+          <div className="w-full h-full bg-[var(--surface-strong)]" aria-hidden="true" />
+        )}
         <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
       </div>
       
@@ -131,3 +136,4 @@ export function BlogCard({
     </Card>
   );
 }
+

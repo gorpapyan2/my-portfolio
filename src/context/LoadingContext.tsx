@@ -1,16 +1,6 @@
-import { createContext, useState, useCallback } from 'react';
+import { useState, useCallback } from 'react';
 import { LoadingScreen } from '../components/loading/LoadingScreen';
-
-interface LoadingContextType {
-  isLoading: boolean;
-  progress: number;
-  message: string;
-  startLoading: (message?: string) => void;
-  updateProgress: (progress: number) => void;
-  stopLoading: () => void;
-}
-
-export const LoadingContext = createContext<LoadingContextType | undefined>(undefined);
+import { LoadingContext } from './LoadingContextValue';
 
 export function LoadingProvider({ children }: { children: React.ReactNode }) {
   const [isLoading, setIsLoading] = useState(false);

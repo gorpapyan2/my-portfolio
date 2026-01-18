@@ -16,13 +16,19 @@ import { TranslationText } from '../../components/shared/TranslationText';
 /**
  * Formats a date string to readable format with error handling
  */
-function formatDate(dateString: string, t: (key: string) => string): string {
+function formatDate(dateString: string, t: (key: string) => string, language: string): string {
+  const parsed = new Date(dateString);
+  if (Number.isNaN(parsed.getTime())) {
+    return t('blog.dateUnavailable');
+  }
+
   try {
-    return new Date(dateString).toLocaleDateString('en-US', {
+    const locale = language === 'am' ? 'hy-AM' : language;
+    return new Intl.DateTimeFormat(locale, {
       year: 'numeric',
       month: 'long',
       day: 'numeric'
-    });
+    }).format(parsed);
   } catch {
     return t('blog.dateUnavailable');
   }
@@ -59,33 +65,6 @@ export function BlogViewPage() {
       <PageLayout>
         <div className="min-h-screen flex items-center justify-center">
           <LoadingSpinner />
-        </div>
-      </PageLayout>
-    );
-  }
-
-  // Handle not found state
-  if (!isLoading && !blogPost) {
-    return (
-      <PageLayout>
-        <div className="min-h-screen flex items-center justify-center">
-          <div className="text-center max-w-md">
-            <BookOpen className="h-[var(--space-64)] w-[var(--space-64)] text-[var(--text-muted)] mx-auto mb-[var(--space-16)]" />
-            <h2 className="text-[length:var(--font-600)] font-semibold text-[var(--text)] mb-[var(--space-16)]">
-              <TranslationText translationKey="blog.notFound.title" as="span" shimmerWidth="200px" />
-            </h2>
-            <p className="text-[var(--text-muted)] mb-[var(--space-24)] text-[length:var(--font-200)]">
-              <TranslationText translationKey="blog.notFound.description" as="span" shimmerWidth="300px" />
-            </p>
-            <Link 
-              to=".." 
-              relative="path"
-              className="btn btn-primary inline-flex items-center gap-[var(--space-8)]"
-            >
-              <ArrowLeft className="h-[var(--space-16)] w-[var(--space-16)]" />
-              <TranslationText translationKey="blog.back" shimmerWidth="100px" />
-            </Link>
-          </div>
         </div>
       </PageLayout>
     );
@@ -144,6 +123,33 @@ export function BlogViewPage() {
     );
   }
 
+  // Handle not found state
+  if (!isLoading && !blogPost) {
+    return (
+      <PageLayout>
+        <div className="min-h-screen flex items-center justify-center">
+          <div className="text-center max-w-md">
+            <BookOpen className="h-[var(--space-64)] w-[var(--space-64)] text-[var(--text-muted)] mx-auto mb-[var(--space-16)]" />
+            <h2 className="text-[length:var(--font-600)] font-semibold text-[var(--text)] mb-[var(--space-16)]">
+              <TranslationText translationKey="blog.notFound.title" as="span" shimmerWidth="200px" />
+            </h2>
+            <p className="text-[var(--text-muted)] mb-[var(--space-24)] text-[length:var(--font-200)]">
+              <TranslationText translationKey="blog.notFound.description" as="span" shimmerWidth="300px" />
+            </p>
+            <Link 
+              to=".." 
+              relative="path"
+              className="btn btn-primary inline-flex items-center gap-[var(--space-8)]"
+            >
+              <ArrowLeft className="h-[var(--space-16)] w-[var(--space-16)]" />
+              <TranslationText translationKey="blog.back" shimmerWidth="100px" />
+            </Link>
+          </div>
+        </div>
+      </PageLayout>
+    );
+  }
+
   // Post not found and no error (shouldn't happen, but safeguard)
   if (!blogPost) {
     return <Navigate to=".." relative="path" replace />;
@@ -151,7 +157,7 @@ export function BlogViewPage() {
 
   const currentUrl = typeof window !== 'undefined' ? window.location.href : '';
   const relatedPosts = getRelatedPosts(blogPost.id, blogPosts);
-  const formattedDate = formatDate(blogPost.created_at, t);
+  const formattedDate = formatDate(blogPost.created_at, t, language);
   const hasImage = Boolean(blogPost.image);
   // Use localized content from database
   const hasContent = Boolean(blogPost.content);

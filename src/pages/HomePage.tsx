@@ -1,3 +1,4 @@
+import { Link } from 'react-router-dom';
 import { Hero } from '../components/home/Hero';
 import { Statistics } from '../components/home/Statistics';
 import { Technologies } from '../components/home/Technologies';
@@ -13,9 +14,9 @@ import { LoadingSpinner } from '../components/loading/LoadingSpinner';
 import { TranslationText } from '../components/shared/TranslationText';
 
 export function HomePage() {
-  const { t } = useLanguage();
+  const { t, language } = useLanguage();
   const { projects, isLoading: projectsLoading, error: projectsError } = useProjectService();
-  const { blogPosts, isLoading: blogLoading, error: blogError } = useBlogService();
+  const { blogPosts, isLoading: blogLoading, error: blogError } = useBlogService(language);
   const { isFeatureEnabled } = usePublicFeatureFlags();
 
   const featuredProjects = projects.filter(p => p.featured).slice(0, 2);
@@ -43,9 +44,9 @@ export function HomePage() {
               <h2 className="text-[length:var(--font-700)] md:text-[length:var(--font-800)] font-semibold text-[var(--text)] font-display">
                 <TranslationText translationKey="pages.home.featuredProjects" as="span" shimmerWidth="250px" />
               </h2>
-              <a href="/work" className="text-accent hover:text-white transition-colors text-[length:var(--font-200)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/60 focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--bg)] rounded-full">
+              <Link to="/work" className="text-accent hover:text-white transition-colors text-[length:var(--font-200)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/60 focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--bg)] rounded-full">
                 <TranslationText translationKey="viewAll" shimmerWidth="80px" />
-              </a>
+              </Link>
             </div>
             {projectsLoading ? (
               <div className="flex justify-center">
@@ -77,9 +78,9 @@ export function HomePage() {
               <h2 className="text-[length:var(--font-700)] md:text-[length:var(--font-800)] font-semibold text-[var(--text)] font-display">
                 <TranslationText translationKey="pages.home.latestArticles" as="span" shimmerWidth="200px" />
               </h2>
-              <a href="/blog" className="text-accent hover:text-white transition-colors text-[length:var(--font-200)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/60 focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--bg)] rounded-full">
+              <Link to="/blog" className="text-accent hover:text-white transition-colors text-[length:var(--font-200)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/60 focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--bg)] rounded-full">
                 <TranslationText translationKey="viewAll" shimmerWidth="80px" />
-              </a>
+              </Link>
             </div>
             {blogLoading ? (
               <div className="flex justify-center">
@@ -106,4 +107,3 @@ export function HomePage() {
     </>
   );
 }
-
