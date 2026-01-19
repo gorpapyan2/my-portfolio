@@ -1,6 +1,6 @@
 import { useState, useCallback } from 'react';
 import { useLanguage } from '../../context/LanguageContext';
-import { useTranslationService } from './useTranslationService';
+import type { TranslationService } from './useTranslationService';
 import { supabase } from '../supabase';
 
 export interface TranslationManagerState {
@@ -33,9 +33,8 @@ export interface TranslationManagerActions {
  * Consolidates logic used in both AdminDashboard and SettingsPage
  * @returns {TranslationManagerState & TranslationManagerActions} Manager state and action handlers
  */
-export function useTranslationManager(): TranslationManagerState & TranslationManagerActions {
+export function useTranslationManager(translationService: TranslationService): TranslationManagerState & TranslationManagerActions {
   const { t } = useLanguage();
-  const translationService = useTranslationService();
 
   const [selectedLanguage, setSelectedLanguage] = useState<'en' | 'ru' | 'am'>('en');
   const [searchTerm, setSearchTerm] = useState('');

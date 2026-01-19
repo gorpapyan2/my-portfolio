@@ -167,6 +167,32 @@ export interface Database {
           updated_at?: string;
         };
       };
+      site_assets: {
+        Row: {
+          id: string;
+          key: string;
+          url: string;
+          storage_path: string | null;
+          created_at: string;
+          updated_at: string;
+        };
+        Insert: {
+          id?: string;
+          key: string;
+          url: string;
+          storage_path?: string | null;
+          created_at?: string;
+          updated_at?: string;
+        };
+        Update: {
+          id?: string;
+          key?: string;
+          url?: string;
+          storage_path?: string | null;
+          created_at?: string;
+          updated_at?: string;
+        };
+      };
       contact_submissions: {
         Row: {
           id: string;
@@ -758,6 +784,11 @@ export type BlogPostTranslationUpdate = Database['public']['Tables']['blog_post_
 export type Project = Database['public']['Tables']['projects']['Row'];
 export type ProjectInsert = Database['public']['Tables']['projects']['Insert'];
 export type ProjectUpdate = Database['public']['Tables']['projects']['Update'];
+
+// Site asset types
+export type SiteAsset = Database['public']['Tables']['site_assets']['Row'];
+export type SiteAssetInsert = Database['public']['Tables']['site_assets']['Insert'];
+export type SiteAssetUpdate = Database['public']['Tables']['site_assets']['Update'];
 
 // Contact submission types
 export type ContactSubmission = Database['public']['Tables']['contact_submissions']['Row'];

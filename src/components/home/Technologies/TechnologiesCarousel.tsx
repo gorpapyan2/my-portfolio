@@ -1,13 +1,17 @@
-import { useState, useMemo } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { ChevronLeft, ChevronRight, Workflow } from 'lucide-react';
 import { Code2, Bug, Database } from 'lucide-react';
 import { TechnologyCard } from './TechnologyCard';
 import { PaginationDots } from '../../ui/PaginationDots';
-import { Technology } from './index';
+import type { TechnologyItem } from '../../../lib/services/useTechnologyCatalog';
+import { useTechnologyCatalog } from '../../../lib/services/useTechnologyCatalog';
+import { LoadingSpinner } from '../../loading/LoadingSpinner';
 import { useLanguage } from '../../../context/LanguageContext';
 
-const technologys: Technology[] = [
+const fallbackTechnologies: TechnologyItem[] = [
     {
+      id: 'automation-testing',
+      slug: 'automation-testing',
       icon: Code2,
       title: 'Automation Testing',
       description: 'Framework-first approach to robust UI/API automation with traceable results and CI gates.',
@@ -22,6 +26,8 @@ const technologys: Technology[] = [
       tags: ['Playwright', 'PyTest', 'XCUITest', 'TypeScript', 'Swift']
     },
     {
+      id: 'manual-integration-testing',
+      slug: 'manual-integration-testing',
       icon: Bug,
       title: 'Manual & Integration Testing',
       description: 'Structured regression + exploratory testing within Agile teams.',
@@ -36,6 +42,8 @@ const technologys: Technology[] = [
       tags: ['Manual Testing', 'Regression', 'Agile', 'Test Planning']
     },
     {
+      id: 'api-service-validation',
+      slug: 'api-service-validation',
       icon: Database,
       title: 'API & Service Validation',
       description: 'Contract and functional testing for reliable backend services.',
@@ -50,6 +58,8 @@ const technologys: Technology[] = [
       tags: ['REST API', 'Postman', 'Mountebank', 'OpenSearch']
     },
     {
+      id: 'cicd-acceleration',
+      slug: 'cicd-acceleration',
       icon: Workflow,
       title: 'CI/CD Acceleration',
       description: 'Speedy, reliable pipelines with parallelism and artifact hygiene.',
@@ -66,23 +76,47 @@ const technologys: Technology[] = [
   ];
 
 export function TechnologyCarousel() {
-    const { t } = useLanguage();
+    const { t, language } = useLanguage();
+    const { technologies, isLoading, error } = useTechnologyCatalog(language);
     const [currentIndex, setCurrentIndex] = useState(0);
     const panelId = "technology-carousel-panel";
+    const items = technologies.length > 0 ? technologies : fallbackTechnologies;
     
     const currentTechnology = useMemo(
-        () => technologys[currentIndex],
-        [currentIndex]
+        () => items[currentIndex],
+        [currentIndex, items]
     );
+
+    useEffect(() => {
+        if (currentIndex >= items.length) {
+            setCurrentIndex(0);
+        }
+    }, [currentIndex, items.length]);
 
     const navigate = (direction: number) => {
         setCurrentIndex((prev) => {
             let next = prev + direction;
-            if (next >= technologys.length) next = 0;
-            if (next < 0) next = technologys.length - 1;
+            if (next >= items.length) next = 0;
+            if (next < 0) next = items.length - 1;
             return next;
         });
     };
+
+    if (isLoading && technologies.length === 0) {
+        return (
+            <div className="flex justify-center py-[var(--space-24)]">
+                <LoadingSpinner />
+            </div>
+        );
+    }
+
+    if (!currentTechnology) {
+        return (
+            <div className="text-center text-[var(--text-muted)] text-[length:var(--font-200)]">
+                {error ? `${t('error')}: ${error}` : 'No technologies available yet.'}
+            </div>
+        );
+    }
 
     return (
         <div className="relative">
@@ -108,7 +142,7 @@ export function TechnologyCarousel() {
             </div>
 
             <PaginationDots
-                total={technologys.length}
+                total={items.length}
                 current={currentIndex}
                     onChange={setCurrentIndex}
             />

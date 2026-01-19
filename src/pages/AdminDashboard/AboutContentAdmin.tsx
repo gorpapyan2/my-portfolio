@@ -5,6 +5,18 @@ import Save from 'lucide-react/dist/esm/icons/save';
 import { supabase } from '../../lib/supabase';
 import { useLanguage, type Language } from '../../context/LanguageContext';
 import { TranslationText } from '../../components/shared/TranslationText';
+import { clearAboutCache } from '../../lib/db/getAbout';
+import { ImageUpload } from '../../components/admin/ImageUpload';
+import { clearSiteAssetCache } from '../../lib/db/getSiteAsset';
+
+type SiteAsset = {
+  id: string;
+  key: string;
+  url: string;
+  storage_path: string | null;
+  created_at: string;
+  updated_at: string;
+};
 
 type BaseRow = { id: string; order_index: number };
 
@@ -16,6 +28,8 @@ const languages: { code: Language; label: string }[] = [
   { code: 'ru', label: 'Russian' },
   { code: 'am', label: 'Armenian' },
 ];
+
+const PORTRAIT_ASSET_KEY = 'about_portrait';
 
 async function fetchBase(table: string) {
   const { data, error } = await supabase
@@ -79,6 +93,10 @@ export function AboutContentAdmin() {
   const [activeLanguage, setActiveLanguage] = useState<Language>(language);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const [portraitAsset, setPortraitAsset] = useState<SiteAsset | null>(null);
+  const [portraitError, setPortraitError] = useState<string | null>(null);
+  const [portraitLoading, setPortraitLoading] = useState(true);
+  const [portraitSaving, setPortraitSaving] = useState(false);
 
   const [journey, setJourney] = useState<TextItem[]>([]);
   const [philosophy, setPhilosophy] = useState<TextItem[]>([]);
@@ -144,6 +162,25 @@ export function AboutContentAdmin() {
     },
   ]), [journey, philosophy, toolbox, keyResults, newJourney, newPhilosophy, newToolbox, newKeyResult, t]);
 
+  const loadPortrait = useCallback(async () => {
+    try {
+      setPortraitLoading(true);
+      setPortraitError(null);
+      const { data, error: assetError } = await supabase
+        .from('site_assets')
+        .select('*')
+        .eq('key', PORTRAIT_ASSET_KEY)
+        .maybeSingle();
+      if (assetError) throw assetError;
+      setPortraitAsset((data ?? null) as SiteAsset | null);
+    } catch (err) {
+      const message = err instanceof Error ? err.message : 'Failed to load portrait asset';
+      setPortraitError(message);
+    } finally {
+      setPortraitLoading(false);
+    }
+  }, []);
+
   const loadAll = useCallback(async () => {
     try {
       setLoading(true);
@@ -192,6 +229,43 @@ export function AboutContentAdmin() {
     void loadAll();
   }, [loadAll]);
 
+  useEffect(() => {
+    void loadPortrait();
+  }, [loadPortrait]);
+
+  const handlePortraitUpload = async (url: string, _filename: string, storagePath?: string) => {
+    try {
+      setPortraitSaving(true);
+      setPortraitError(null);
+      const previousPath = portraitAsset?.storage_path ?? null;
+      const nextPath = storagePath ?? previousPath;
+
+      const { data, error: upsertError } = await supabase
+        .from('site_assets')
+        .upsert({
+          key: PORTRAIT_ASSET_KEY,
+          url,
+          storage_path: nextPath,
+        }, { onConflict: 'key' })
+        .select('*')
+        .single();
+
+      if (upsertError) throw upsertError;
+
+      setPortraitAsset(data as SiteAsset);
+      clearSiteAssetCache(PORTRAIT_ASSET_KEY);
+
+      if (previousPath && nextPath && previousPath !== nextPath) {
+        await supabase.storage.from('images').remove([previousPath]);
+      }
+    } catch (err) {
+      const message = err instanceof Error ? err.message : 'Failed to update portrait asset';
+      setPortraitError(message);
+    } finally {
+      setPortraitSaving(false);
+    }
+  };
+
   const handleAddText = async (config: typeof sectionConfig[number]) => {
     if (!config.newValue.trim()) return;
     const { data: baseRow, error: baseError } = await supabase
@@ -217,6 +291,7 @@ export function AboutContentAdmin() {
     }
 
     config.setNewValue('');
+    clearAboutCache();
     await loadAll();
   };
 
@@ -232,6 +307,7 @@ export function AboutContentAdmin() {
       setError(translationError.message);
       return;
     }
+    clearAboutCache();
     await loadAll();
   };
 
@@ -244,6 +320,7 @@ export function AboutContentAdmin() {
       setError(baseError.message);
       return;
     }
+    clearAboutCache();
     await loadAll();
   };
 
@@ -272,6 +349,7 @@ export function AboutContentAdmin() {
     }
     setNewLanguageName('');
     setNewLanguageLevel('');
+    clearAboutCache();
     await loadAll();
   };
 
@@ -288,6 +366,7 @@ export function AboutContentAdmin() {
       setError(translationError.message);
       return;
     }
+    clearAboutCache();
     await loadAll();
   };
 
@@ -300,6 +379,7 @@ export function AboutContentAdmin() {
       setError(baseError.message);
       return;
     }
+    clearAboutCache();
     await loadAll();
   };
 
@@ -331,6 +411,34 @@ export function AboutContentAdmin() {
       {error && (
         <div className="text-red-400 text-[length:var(--font-100)]">{error}</div>
       )}
+
+      <div className="space-y-3">
+        <h3 className="text-[length:var(--font-400)] font-medium text-[var(--text)]">
+          Portrait Image
+        </h3>
+        {portraitError && (
+          <div className="text-red-400 text-[length:var(--font-100)]">{portraitError}</div>
+        )}
+        {portraitLoading ? (
+          <div className="text-[var(--text)]">
+            <TranslationText translationKey="admin.common.loading" as="span" shimmerWidth="120px" />
+          </div>
+        ) : (
+          <div className="space-y-2">
+            <ImageUpload
+              currentImage={portraitAsset?.url ?? ''}
+              onUpload={handlePortraitUpload}
+              folder="portrait"
+              disabled={portraitSaving}
+            />
+            {portraitAsset?.url ? (
+              <div className="text-[length:var(--font-100)] text-[var(--text-muted)] break-all">
+                Current URL: {portraitAsset.url}
+              </div>
+            ) : null}
+          </div>
+        )}
+      </div>
 
       {sectionConfig.map((section) => (
         <div key={section.id} className="space-y-3">

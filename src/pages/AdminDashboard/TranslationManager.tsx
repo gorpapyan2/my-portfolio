@@ -1,5 +1,6 @@
 import { useMemo, useState, useEffect, useCallback, useId } from 'react';
 import Plus from 'lucide-react/dist/esm/icons/plus';
+import Copy from 'lucide-react/dist/esm/icons/copy';
 import Search from 'lucide-react/dist/esm/icons/search';
 import Filter from 'lucide-react/dist/esm/icons/filter';
 import Download from 'lucide-react/dist/esm/icons/download';
@@ -74,7 +75,7 @@ export function TranslationManager() {
     handleDeleteTranslation,
     filteredTranslations,
     categories,
-  } = useTranslationManager();
+  } = useTranslationManager(translationService);
 
   const loadTranslationKeys = useCallback(async () => {
     const pageSize = 1000;
@@ -232,6 +233,52 @@ export function TranslationManager() {
       alert(message);
     } finally {
       setSavingMissing((prev) => ({ ...prev, [savingKey]: false }));
+    }
+  };
+
+  const copyToClipboard = async (text: string): Promise<boolean> => {
+    if (typeof navigator !== 'undefined' && navigator.clipboard?.writeText) {
+      await navigator.clipboard.writeText(text);
+      return true;
+    }
+    if (typeof document === 'undefined') {
+      return false;
+    }
+
+    const textarea = document.createElement('textarea');
+    textarea.value = text;
+    textarea.setAttribute('readonly', 'true');
+    textarea.style.position = 'fixed';
+    textarea.style.top = '0';
+    textarea.style.left = '0';
+    textarea.style.opacity = '0';
+    document.body.appendChild(textarea);
+    textarea.select();
+    const copied = document.execCommand('copy');
+    document.body.removeChild(textarea);
+    return copied;
+  };
+
+  const handleCopyMissing = async (item: MissingTranslationItem) => {
+    const values = SUPPORTED_LANGUAGES.reduce((acc, lang) => {
+      const draftValue = missingDrafts[item.key]?.[lang]?.trim();
+      const existingValue = translationService.translations[lang]?.[item.key] ?? '';
+      acc[lang] = draftValue && draftValue.length > 0 ? draftValue : existingValue;
+      return acc;
+    }, {} as Record<'en' | 'ru' | 'am', string>);
+
+    try {
+      const payload = { key: item.key, values };
+      const copied = await copyToClipboard(JSON.stringify(payload, null, 2));
+      if (!copied) {
+        throw new Error('Copy failed');
+      }
+      setStatusMessage(`${t('success')}: ${item.key}`);
+    } catch (error) {
+      console.error('Error copying translation:', error);
+      const message = t('admin.error.saveFailed');
+      setErrorMessage(message);
+      alert(message);
     }
   };
 
@@ -452,8 +499,7 @@ export function TranslationManager() {
       <div role="tabpanel" id={panelMissingId} aria-labelledby={tabMissingId} hidden={activeTab !== 'missing'}>
         {activeTab === 'missing' && (
           <div className="bg-[var(--surface)] rounded-[var(--radius-md)] border border-[var(--border)] overflow-hidden" aria-busy={translationService.isLoading}>
-            <div className="overflow-x-auto">
-              <table className="w-full">
+              <table className="w-full table-fixed">
                 <caption className="text-left px-[var(--space-16)] py-[var(--space-12)] text-[length:var(--font-100)] text-[var(--text-muted)]">
                   {t('settings.missingTranslations')}
                 </caption>
@@ -487,7 +533,18 @@ export function TranslationManager() {
                     paginatedMissingTranslations.map((translation) => (
                       <tr key={translation.key} className="border-b border-[var(--border)]/40 hover:bg-[var(--surface-strong)]">
                         <td className="py-[var(--space-12)] px-[var(--space-16)] text-[length:var(--font-100)] text-[var(--text)] font-mono">
-                          {translation.key}
+                          <div className="flex flex-wrap items-start gap-[var(--space-8)]">
+                            <span className="break-all">{translation.key}</span>
+                            <button
+                              type="button"
+                              onClick={() => handleCopyMissing(translation)}
+                              className="btn btn-secondary inline-flex items-center gap-[var(--space-4)] text-[length:var(--font-100)]"
+                              aria-label={`Copy ${translation.key}`}
+                            >
+                              <Copy aria-hidden="true" className="h-[var(--space-12)] w-[var(--space-12)]" />
+                              <span>Copy</span>
+                            </button>
+                          </div>
                         </td>
                         {SUPPORTED_LANGUAGES.map((lang) => {
                           const value = translationService.translations[lang]?.[translation.key] ?? '';
@@ -498,7 +555,7 @@ export function TranslationManager() {
                           return (
                             <td
                               key={`${translation.key}-${lang}`}
-                              className="py-[var(--space-12)] px-[var(--space-16)] text-[length:var(--font-100)] text-[var(--text-muted)] align-top"
+                              className="py-[var(--space-12)] px-[var(--space-16)] text-[length:var(--font-100)] text-[var(--text-muted)] align-top break-words"
                               aria-busy={savingMissing[savingKey]}
                             >
                               {isMissing ? (
@@ -520,7 +577,7 @@ export function TranslationManager() {
                                       }))
                                     }
                                     placeholder={t('settings.value')}
-                                    className="field min-w-[220px]"
+                                    className="field w-full min-w-0"
                                     disabled={savingMissing[savingKey]}
                                   />
                                   <button
@@ -534,14 +591,14 @@ export function TranslationManager() {
                                   </button>
                                 </div>
                               ) : (
-                                <span className="text-[var(--text)]">
+                                <span className="text-[var(--text)] break-words whitespace-pre-wrap">
                                   {value}
                                 </span>
                               )}
                             </td>
                           );
                         })}
-                        <td className="py-[var(--space-12)] px-[var(--space-16)] text-[length:var(--font-100)] text-[var(--text-muted)]">
+                        <td className="py-[var(--space-12)] px-[var(--space-16)] text-[length:var(--font-100)] text-[var(--text-muted)] break-words">
                           <span className="px-[var(--space-8)] py-[var(--space-4)] bg-[var(--surface-strong)] rounded-[var(--radius-sm)] text-[length:var(--font-100)]">
                             {translation.category}
                           </span>
@@ -551,7 +608,6 @@ export function TranslationManager() {
                   )}
                 </tbody>
               </table>
-            </div>
           </div>
         )}
       </div>
@@ -630,6 +686,7 @@ export function TranslationManager() {
 
       {showImportExport && (
         <ImportExport
+          translations={translationService.translations}
           onClose={() => setShowImportExport(false)}
           onImport={async (translations) => {
             try {
@@ -660,6 +717,7 @@ export function TranslationManager() {
 
       {showValidation && (
         <ValidationPanel
+          translations={translationService.translations}
           onClose={() => setShowValidation(false)}
         />
       )}

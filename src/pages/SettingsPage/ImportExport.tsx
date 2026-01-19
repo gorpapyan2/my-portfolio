@@ -2,24 +2,22 @@ import { useState } from 'react';
 import { X, Download, Upload, FileText } from 'lucide-react';
 import { Card } from '../../components/shared/Card';
 import { useLanguage } from '../../context/LanguageContext';
-import { useTranslationService } from '../../lib/services/useTranslationService';
 import { bulkTranslationSchema } from '../../lib/schemas/translationSchema';
 
 interface ImportExportProps {
   onClose: () => void;
   onImport: (translations: Record<string, Record<string, string>>) => void;
   onExport: () => void;
+  translations: Record<string, Record<string, string>>;
 }
 
-export function ImportExport({ onClose, onImport, onExport }: ImportExportProps) {
+export function ImportExport({ onClose, onImport, onExport, translations }: ImportExportProps) {
   const { t } = useLanguage();
-  const translationService = useTranslationService();
   const [importFile, setImportFile] = useState<File | null>(null);
   const [isImporting, setIsImporting] = useState(false);
   const [importError, setImportError] = useState<string | null>(null);
 
   const handleExport = () => {
-    const translations = translationService.translations;
     const dataStr = JSON.stringify(translations, null, 2);
     const dataBlob = new Blob([dataStr], { type: 'application/json' });
     const url = URL.createObjectURL(dataBlob);

@@ -20,6 +20,8 @@ import { useLanguage } from "@/context/LanguageContext";
 import { TranslationText } from "@/components/shared/TranslationText";
 import { CVDownload } from "@/components/about/CVDownload";
 import { getAbout, type AboutContent } from "@/lib/db/getAbout";
+import { getSiteAsset } from "@/lib/db/getSiteAsset";
+import { assetUrls } from "@/lib/config";
 
 export function AboutPage() {
   const soundEnabled = false;
@@ -34,6 +36,7 @@ export function AboutPage() {
     keyResults: [],
     languages: [],
   });
+  const [portraitUrl, setPortraitUrl] = useState<string | null>(assetUrls.portrait);
   const [aboutLoading, setAboutLoading] = useState(true);
   const [aboutErrorKey, setAboutErrorKey] = useState<string | null>(null);
 
@@ -42,7 +45,7 @@ export function AboutPage() {
     setAboutLoading(true);
     setAboutErrorKey(null);
 
-    getAbout(language)
+    void getAbout(language)
       .then(data => {
         if (!isActive) return;
         setAboutContent(data);
@@ -54,6 +57,16 @@ export function AboutPage() {
       .finally(() => {
         if (!isActive) return;
         setAboutLoading(false);
+      });
+
+    void getSiteAsset('about_portrait')
+      .then(asset => {
+        if (!isActive) return;
+        setPortraitUrl(asset?.url ?? assetUrls.portrait);
+      })
+      .catch(() => {
+        if (!isActive) return;
+        setPortraitUrl(assetUrls.portrait);
       });
 
     return () => {
@@ -95,6 +108,7 @@ export function AboutPage() {
             professionalJourney={aboutContent.professionalJourney}
             philosophy={aboutContent.philosophy}
             toolbox={aboutContent.toolbox}
+            portraitUrl={portraitUrl ?? undefined}
             isLoading={aboutLoading}
           />
           <div className="relative rounded-[var(--radius-2xl)] border border-[var(--border)] bg-[var(--surface-strong)] p-[var(--space-24)] md:p-[var(--space-32)] shadow-[0_30px_80px_rgba(7,10,18,0.3)]">

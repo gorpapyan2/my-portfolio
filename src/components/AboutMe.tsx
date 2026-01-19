@@ -11,6 +11,7 @@ type AboutMeProps = {
   professionalJourney: string[];
   philosophy: string[];
   toolbox: string[];
+  portraitUrl?: string;
   isLoading?: boolean;
 };
 
@@ -18,6 +19,7 @@ export default function AboutMe({
   professionalJourney,
   philosophy,
   toolbox,
+  portraitUrl,
   isLoading = false,
 }: AboutMeProps) {
   const { t } = useLanguage();
@@ -25,6 +27,7 @@ export default function AboutMe({
   const journeyItems = professionalJourney.length > 0 ? professionalJourney : [t('about.fallback.journey')];
   const philosophyItems = philosophy.length > 0 ? philosophy : [t('about.fallback.philosophy')];
   const toolboxItems = toolbox.length > 0 ? toolbox : [t('about.fallback.toolbox')];
+  const portraitSrc = portraitUrl || assetUrls.portrait;
 
   return (
     <section id="about" className="scroll-mt-24">
@@ -36,7 +39,7 @@ export default function AboutMe({
           className="sticky top-24"
         >
           <HeroPortrait
-            src={assetUrls.portrait}
+            src={portraitSrc}
             alt={t('about.portraitAlt')}
           />
           <Sparkles />

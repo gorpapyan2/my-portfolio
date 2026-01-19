@@ -1,16 +1,19 @@
-import { useState, useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { Upload, X, Loader } from 'lucide-react';
 import { supabase } from '../../lib/supabase';
 import { useLanguage } from '../../context/LanguageContext';
 import { TranslationText } from '../shared/TranslationText';
 
 interface ImageUploadProps {
-  onUpload: (url: string, filename: string) => void;
+  onUpload?: (url: string, filename: string, storagePath?: string) => void;
+  onImageChange?: (url: string) => void;
+  currentImage?: string;
+  folder?: string;
   disabled?: boolean;
 }
 
 const BUCKET_NAME = 'images';
-const FOLDER_PATH = 'blog-images';
+const DEFAULT_FOLDER_PATH = 'blog-images';
 const MAX_FILE_SIZE = 5 * 1024 * 1024; // 5MB
 const ALLOWED_TYPES = ['image/jpeg', 'image/png', 'image/gif', 'image/webp'];
 
@@ -18,12 +21,25 @@ const ALLOWED_TYPES = ['image/jpeg', 'image/png', 'image/gif', 'image/webp'];
  * Image upload component with drag-and-drop support
  * Uploads to Supabase Storage and returns public URL
  */
-export function ImageUpload({ onUpload, disabled = false }: ImageUploadProps) {
+export function ImageUpload({
+  onUpload,
+  onImageChange,
+  currentImage,
+  folder,
+  disabled = false,
+}: ImageUploadProps) {
   const { t } = useLanguage();
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [preview, setPreview] = useState<string | null>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
+  const folderPath = folder ?? DEFAULT_FOLDER_PATH;
+
+  useEffect(() => {
+    if (currentImage) {
+      setPreview(currentImage);
+    }
+  }, [currentImage]);
 
   const validateFile = (file: File): string | null => {
     if (!ALLOWED_TYPES.includes(file.type)) {
@@ -54,7 +70,7 @@ export function ImageUpload({ onUpload, disabled = false }: ImageUploadProps) {
       const random = Math.random().toString(36).substring(2, 8);
       const ext = file.name.split('.').pop() || 'jpg';
       const filename = `${timestamp}-${random}.${ext}`;
-      const filepath = `${FOLDER_PATH}/${filename}`;
+      const filepath = `${folderPath}/${filename}`;
 
       // Upload to Supabase Storage
       const { error: uploadError } = await supabase.storage
@@ -87,7 +103,8 @@ export function ImageUpload({ onUpload, disabled = false }: ImageUploadProps) {
       reader.readAsDataURL(file);
 
       // Callback with URL and original filename (for alt text)
-      onUpload(urlData.publicUrl, file.name.replace(/\.[^/.]+$/, ''));
+      onUpload?.(urlData.publicUrl, file.name.replace(/\.[^/.]+$/, ''), filepath);
+      onImageChange?.(urlData.publicUrl);
     } catch (err) {
       console.error('Error uploading image:', err);
       setError(err instanceof Error ? err.message : 'Failed to upload image');
@@ -124,6 +141,7 @@ export function ImageUpload({ onUpload, disabled = false }: ImageUploadProps) {
     if (fileInputRef.current) {
       fileInputRef.current.value = '';
     }
+    onImageChange?.('');
   };
 
   return (

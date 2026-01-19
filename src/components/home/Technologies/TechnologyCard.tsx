@@ -1,4 +1,4 @@
-import { Technology } from ".";
+import type { TechnologyItem } from "../../../lib/services/useTechnologyCatalog";
 import { AutomationTestingCard } from "../../AutomationTestingCard";
 import { useLanguage } from "../../../context/LanguageContext";
 
@@ -6,11 +6,17 @@ export const TechnologyCard = ({
   technology,
   panelId,
 }: {
-  technology: Technology;
+  technology: TechnologyItem;
   panelId?: string;
 }) => {
   const { t } = useLanguage();
-  const proficiencyLabel = t("home.technologies.proficiencyLevel");
+  const resolveLabel = (key: string, fallback: string) => {
+    const value = t(key);
+    return value.startsWith('[missing:') ? fallback : value;
+  };
+  const proficiencyLabel = resolveLabel('proficiency', 'Proficiency');
+  const detailsTitle = resolveLabel('technologies.detailsTitle', 'Detailed Overview');
+  const impactTitle = resolveLabel('technologies.impactTitle', 'Real World Impact');
   const {
     icon: Icon,
     title,
@@ -34,10 +40,10 @@ export const TechnologyCard = ({
       impactDescription={realWorldExample}
       proficiencyLabel={proficiencyLabel}
       proficiencyLabelText={proficiencyLabel}
-      detailsTitle="Detailed Overview"
-      impactTitle="Real World Impact"
+      detailsTitle={detailsTitle}
+      impactTitle={impactTitle}
       panelId={panelId}
-      testId={title === "Automation Testing" ? "automation-testing-card" : "technology-card"}
+      testId={technology.slug === "automation-testing" ? "automation-testing-card" : "technology-card"}
     />
   );
 };

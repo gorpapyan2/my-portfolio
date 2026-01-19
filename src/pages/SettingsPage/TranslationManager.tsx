@@ -43,7 +43,7 @@ export function TranslationManager() {
     handleDeleteTranslation,
     filteredTranslations,
     categories,
-  } = useTranslationManager();
+  } = useTranslationManager(translationService);
 
   useEffect(() => {
     setPage(1);
@@ -217,6 +217,7 @@ export function TranslationManager() {
 
       {showImportExport && (
         <ImportExport
+          translations={translationService.translations}
           onClose={() => setShowImportExport(false)}
           onImport={async (translations: Record<string, Record<string, string>>) => {
             try {

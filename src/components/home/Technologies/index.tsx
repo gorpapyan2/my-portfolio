@@ -3,17 +3,6 @@ import { TechnologiesBackground } from "./TechnologiesBackground";
 import { motion, useReducedMotion } from "framer-motion";
 import { TranslationText } from "../../shared/TranslationText";
 
-export interface Technology {
-  icon: React.ElementType;
-  title: string;
-  description: string;
-  detailedDescription: string[];
-  realWorldExample: string;
-  level: number;
-  category: string;
-  tags: string[];
-}
-
 export function Technologies() {
   const shouldReduceMotion = useReducedMotion();
 
@@ -32,21 +21,15 @@ export function Technologies() {
         >
           <div className="inline-flex items-center gap-[var(--space-8)] px-[var(--space-16)] py-[var(--space-8)] rounded-full bg-accent/10 border border-accent/20 mb-[var(--space-24)]">
             <div className="w-[var(--space-8)] h-[var(--space-8)] bg-accent rounded-full animate-pulse" />
-            <TranslationText translationKey="home.technologies.title" as="span" shimmerWidth="180px" className="text-[length:var(--font-100)] font-medium text-accent uppercase tracking-[var(--tracking-wide)]" />
+            <TranslationText translationKey="technologies.title" as="span" shimmerWidth="180px" className="text-[length:var(--font-100)] font-medium text-accent uppercase tracking-[var(--tracking-wide)]" />
           </div>
           
           <h2 className="text-[length:var(--font-900)] font-semibold font-display mb-[var(--space-24)] text-[var(--text)]">
-            <span>
-              Technologies
-            </span>
-            <br />
-            <span className="text-accent">
-              & Tools
-            </span>
+            <TranslationText translationKey="technologies.title" as="span" shimmerWidth="260px" />
           </h2>
           
           <p className="text-[length:var(--font-300)] text-[var(--text-muted)] max-w-3xl mx-auto leading-[var(--leading-body)]">
-            Comprehensive testing frameworks and automation tools that drive quality engineering excellence
+            <TranslationText translationKey="technologies.subtitle" as="span" shimmerWidth="420px" />
           </p>
         </motion.div>
 

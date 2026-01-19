@@ -2,6 +2,7 @@ import { CheckCircle2 } from 'lucide-react';
 import { motion, useReducedMotion } from 'framer-motion';
 import { SectionHeader } from '../shared/SectionHeader';
 import { TranslationText } from '../../components/shared/TranslationText';
+import { useLanguage } from '../../context/LanguageContext';
 
 type KeyResult = { summary: string };
 
@@ -10,8 +11,25 @@ type KeyResultsProps = {
   isLoading?: boolean;
 };
 
+const MAX_FALLBACK_RESULTS = 12;
+const MISSING_PREFIX = '[missing:';
+
+function resolveFallbackKeyResults(t: (key: string) => string): KeyResult[] {
+  const results: KeyResult[] = [];
+  for (let i = 1; i <= MAX_FALLBACK_RESULTS; i += 1) {
+    const value = t(`about.keyResults.${i}`);
+    if (!value || value.startsWith(MISSING_PREFIX)) continue;
+    results.push({ summary: value });
+  }
+  return results;
+}
+
 export function KeyResults({ items, isLoading = false }: KeyResultsProps) {
-  const keyResults = items ?? [];
+  const { t } = useLanguage();
+  const keyResults = (items ?? []).filter(item => item.summary.trim().length > 0);
+  const fallbackKeyResults = keyResults.length > 0 ? [] : resolveFallbackKeyResults(t);
+  const emptyLabel = t('about.keyResults.empty');
+  const emptySummary = emptyLabel.startsWith(MISSING_PREFIX) ? 'Key results coming soon.' : emptyLabel;
   const shouldReduceMotion = useReducedMotion();
 
   return (
@@ -31,7 +49,7 @@ export function KeyResults({ items, isLoading = false }: KeyResultsProps) {
             </div>
           ) : (
             <ul className="space-y-2">
-              {(keyResults.length > 0 ? keyResults : [{ summary: "Key results coming soon." }]).map((item, idx) => (
+              {(keyResults.length > 0 ? keyResults : fallbackKeyResults.length > 0 ? fallbackKeyResults : [{ summary: emptySummary }]).map((item, idx) => (
                 <motion.li
                   key={idx}
                   initial={shouldReduceMotion ? false : { opacity: 0, y: 8 }}
@@ -51,5 +69,4 @@ export function KeyResults({ items, isLoading = false }: KeyResultsProps) {
     </section>
   );
 }
-
 

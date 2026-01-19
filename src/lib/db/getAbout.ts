@@ -26,6 +26,14 @@ const CACHE_TTL_MS = 5 * 60 * 1000;
 
 const cache = new Map<string, { data: AboutContent; fetchedAt: number }>();
 
+export function clearAboutCache(language?: string) {
+  if (language) {
+    cache.delete(language);
+    return;
+  }
+  cache.clear();
+}
+
 async function fetchBase(table: string): Promise<BaseRow[]> {
   const { data, error } = await supabase
     .from(table)

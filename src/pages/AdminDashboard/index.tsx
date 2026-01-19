@@ -6,6 +6,7 @@ import FileText from 'lucide-react/dist/esm/icons/file-text';
 import Briefcase from 'lucide-react/dist/esm/icons/briefcase';
 import GraduationCap from 'lucide-react/dist/esm/icons/graduation-cap';
 import Code2 from 'lucide-react/dist/esm/icons/code-2';
+import Cpu from 'lucide-react/dist/esm/icons/cpu';
 import Languages from 'lucide-react/dist/esm/icons/languages';
 import User from 'lucide-react/dist/esm/icons/user';
 import FolderOpen from 'lucide-react/dist/esm/icons/folder-open';
@@ -18,7 +19,7 @@ import { TranslationText } from '../../components/shared/TranslationText';
 import AnimatedGridBackground from '../../components/AnimatedGridBackground';
 import ParticleBackground from '../../components/ParticleBackground';
 
-type AdminSection = 'blog' | 'projects' | 'translations' | 'experiences' | 'education' | 'skills' | 'feature-flags' | 'about';
+type AdminSection = 'blog' | 'projects' | 'translations' | 'experiences' | 'education' | 'skills' | 'feature-flags' | 'about' | 'technologies';
 
 const BlogAdmin = lazy(() => import('./BlogAdmin').then((module) => ({ default: module.BlogAdmin })));
 const ProjectAdmin = lazy(() => import('./ProjectAdmin').then((module) => ({ default: module.ProjectAdmin })));
@@ -28,6 +29,7 @@ const EducationAdmin = lazy(() => import('./EducationAdmin').then((module) => ({
 const SkillsAdmin = lazy(() => import('./SkillsAdmin').then((module) => ({ default: module.SkillsAdmin })));
 const FeatureFlagAdmin = lazy(() => import('./FeatureFlagAdmin').then((module) => ({ default: module.FeatureFlagAdmin })));
 const AboutContentAdmin = lazy(() => import('./AboutContentAdmin').then((module) => ({ default: module.AboutContentAdmin })));
+const TechnologyAdmin = lazy(() => import('./TechnologyAdmin').then((module) => ({ default: module.TechnologyAdmin })));
 
 const sectionPreloaders: Record<AdminSection, () => Promise<unknown>> = {
   blog: () => import('./BlogAdmin'),
@@ -37,7 +39,8 @@ const sectionPreloaders: Record<AdminSection, () => Promise<unknown>> = {
   experiences: () => import('./ExperienceAdmin'),
   education: () => import('./EducationAdmin'),
   skills: () => import('./SkillsAdmin'),
-  'feature-flags': () => import('./FeatureFlagAdmin')
+  'feature-flags': () => import('./FeatureFlagAdmin'),
+  technologies: () => import('./TechnologyAdmin')
 };
 
 const sections = [
@@ -48,6 +51,7 @@ const sections = [
   { id: 'experiences' as AdminSection, labelKey: 'admin.dashboard.section.experiences', icon: Briefcase },
   { id: 'education' as AdminSection, labelKey: 'admin.dashboard.section.education', icon: GraduationCap },
   { id: 'skills' as AdminSection, labelKey: 'admin.dashboard.section.skills', icon: Code2 },
+  { id: 'technologies' as AdminSection, labelKey: 'technologies.title', icon: Cpu },
   { id: 'feature-flags' as AdminSection, labelKey: 'admin.dashboard.section.featureFlags', icon: Flag },
 ];
 
@@ -110,6 +114,8 @@ export function AdminDashboard() {
         return <EducationAdmin onClose={() => {}} />;
       case 'skills':
         return <SkillsAdmin onClose={() => {}} />;
+      case 'technologies':
+        return <TechnologyAdmin onClose={() => {}} />;
       case 'feature-flags':
         return <FeatureFlagAdmin />;
       default:
