@@ -1,5 +1,3 @@
-import { useEffect, useState } from "react";
-import { useReducedMotion } from "framer-motion";
 import { User } from 'lucide-react';
 import { PageLayout } from "@/components/shared/PageLayout";
 import { PageHeader } from "@/components/shared/PageHeader";
@@ -15,63 +13,22 @@ import { SectionNavigation } from "@/components/SectionNavigation";
 import { Experience } from "@/components/about/Expirence";
 import { Education } from "@/components/about/Education";
 import { Skills } from "@/components/about/Skills";
-import { useLanguage } from "@/context/LanguageContext";
 import { TranslationText } from "@/components/shared/TranslationText";
 import { CVDownload } from "@/components/about/CVDownload";
-import { getAbout, type AboutContent } from "@/lib/db/getAbout";
-import { getSiteAsset } from "@/lib/db/getSiteAsset";
-import { assetUrls } from "@/lib/config";
+import { useAboutPageData } from "@/hooks/useAboutPageData";
 
 export function AboutPage() {
-  const soundEnabled = false;
-  const shouldReduceMotion = useReducedMotion();
-  const motionEnabled = !shouldReduceMotion;
-  const [performanceMonitoring, setPerformanceMonitoring] = useState(false);
-  const { t, language } = useLanguage();
-  const [aboutContent, setAboutContent] = useState<AboutContent>({
-    professionalJourney: [],
-    philosophy: [],
-    toolbox: [],
-    keyResults: [],
-    languages: [],
-  });
-  const [portraitUrl, setPortraitUrl] = useState<string | null>(assetUrls.portrait);
-  const [aboutLoading, setAboutLoading] = useState(true);
-  const [aboutErrorKey, setAboutErrorKey] = useState<string | null>(null);
-
-  useEffect(() => {
-    let isActive = true;
-    setAboutLoading(true);
-    setAboutErrorKey(null);
-
-    void getAbout(language)
-      .then(data => {
-        if (!isActive) return;
-        setAboutContent(data);
-      })
-      .catch(() => {
-        if (!isActive) return;
-        setAboutErrorKey('about.fallback.error');
-      })
-      .finally(() => {
-        if (!isActive) return;
-        setAboutLoading(false);
-      });
-
-    void getSiteAsset('about_portrait')
-      .then(asset => {
-        if (!isActive) return;
-        setPortraitUrl(asset?.url ?? assetUrls.portrait);
-      })
-      .catch(() => {
-        if (!isActive) return;
-        setPortraitUrl(assetUrls.portrait);
-      });
-
-    return () => {
-      isActive = false;
-    };
-  }, [language]);
+  const {
+    aboutContent,
+    portraitUrl,
+    isLoading: aboutLoading,
+    errorKey: aboutErrorKey,
+    soundEnabled,
+    motionEnabled,
+    performanceMonitoring,
+    setPerformanceMonitoring,
+    t,
+  } = useAboutPageData();
 
   return (
     <>
