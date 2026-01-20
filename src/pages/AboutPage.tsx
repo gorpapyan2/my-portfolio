@@ -108,20 +108,11 @@ export function AboutPage() {
             professionalJourney={aboutContent.professionalJourney}
             philosophy={aboutContent.philosophy}
             toolbox={aboutContent.toolbox}
+            languages={aboutContent.languages}
             portraitUrl={portraitUrl ?? undefined}
             isLoading={aboutLoading}
           />
-          <div className="relative rounded-[var(--radius-2xl)] border border-[var(--border)] bg-[var(--surface-strong)] p-[var(--space-24)] md:p-[var(--space-32)] shadow-[0_30px_80px_rgba(7,10,18,0.3)]">
-            <div className="absolute inset-0 rounded-[var(--radius-2xl)] bg-[radial-gradient(circle_at_top,var(--color-accent),transparent_60%)] opacity-10 pointer-events-none" aria-hidden="true" />
-            <div className="relative grid gap-[var(--space-24)] md:grid-cols-2">
-              <div className="min-w-0">
-                <KeyResults items={aboutContent.keyResults} isLoading={aboutLoading} />
-              </div>
-              <div className="min-w-0">
-                <Languages items={aboutContent.languages} isLoading={aboutLoading} />
-              </div>
-            </div>
-          </div>
+          <KeyResults items={aboutContent.keyResults} isLoading={aboutLoading} />
           <div className="h-px bg-gradient-to-r from-transparent via-accent/30 to-transparent" />
           
           {/* Philosophy Narrative Section */}

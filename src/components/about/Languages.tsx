@@ -39,38 +39,34 @@ export function Languages({ items, isLoading = false }: LanguagesProps) {
 	}
 
   return (
-    <section id="languages" className="scroll-mt-24">
-      <div className="max-w-3xl mx-auto px-4">
-        <SectionHeader
-          icon={LanguagesIcon}
-          title={<TranslationText translationKey="about.languages.title" shimmerWidth="150px" />}
-        />
+    <div>
+      <h3 className="text-lg font-semibold text-[var(--text)] mb-4 flex items-center gap-2">
+        <LanguagesIcon className="w-5 h-5 text-accent" aria-hidden="true" />
+        <TranslationText translationKey="about.languages.title" shimmerWidth="150px" />
+      </h3>
 
-		<div className="bg-[var(--surface)] backdrop-blur-sm rounded-xl p-4 border border-[var(--border)] hover:border-accent/30 transition-colors">
-			{isLoading ? (
-				<div className="space-y-2">
-					{[0, 1].map(i => (
-						<div key={i} className="h-8 bg-[var(--surface-strong)] rounded-full animate-pulse" />
-					))}
-				</div>
-			) : (
-				<div className="grid grid-cols-1 gap-2" aria-label="language badges">
-					{(languages.length > 0 ? languages : [{ name: "Languages coming soon." }]).map((lang, idx) => (
-						<motion.div
-							key={idx}
-							initial={shouldReduceMotion ? false : { opacity: 0, y: 8 }}
-							whileInView={{ opacity: 1, y: 0 }}
-							viewport={{ once: true }}
-							transition={{ duration: shouldReduceMotion ? 0 : 0.35, delay: shouldReduceMotion ? 0 : idx * 0.03 }}
-						>
-							<LanguageBadge name={lang.name} level={lang.level ?? undefined} />
-						</motion.div>
-					))}
-				</div>
-			)}
-		</div>
-      </div>
-    </section>
+      {isLoading ? (
+        <div className="space-y-2">
+          {[0, 1].map(i => (
+            <div key={i} className="h-8 bg-[var(--surface-strong)] rounded-full animate-pulse" />
+          ))}
+        </div>
+      ) : (
+        <div className="space-y-2" aria-label="language badges">
+          {(languages.length > 0 ? languages : [{ name: "Languages coming soon." }]).map((lang, idx) => (
+            <motion.div
+              key={idx}
+              initial={shouldReduceMotion ? false : { opacity: 0, y: 8 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: shouldReduceMotion ? 0 : 0.35, delay: shouldReduceMotion ? 0 : idx * 0.03 }}
+            >
+              <LanguageBadge name={lang.name} level={lang.level ?? undefined} />
+            </motion.div>
+          ))}
+        </div>
+      )}
+    </div>
   );
 }
 

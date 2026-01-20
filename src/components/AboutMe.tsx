@@ -7,11 +7,19 @@ import { useLanguage } from "../context/LanguageContext";
 import { assetUrls } from "../lib/config";
 import { TranslationText } from "./shared/TranslationText";
 import { MarkdownRenderer } from "./markdown/MarkdownRenderer";
+import { QuickFacts } from "./about/QuickFacts";
+import { Languages } from "./about/Languages";
+
+type LanguageItem = {
+  name: string;
+  level?: string | null;
+};
 
 type AboutMeProps = {
   professionalJourney: string[];
   philosophy: string[];
   toolbox: string[];
+  languages: LanguageItem[];
   portraitUrl?: string;
   isLoading?: boolean;
 };
@@ -20,6 +28,7 @@ export default function AboutMe({
   professionalJourney,
   philosophy,
   toolbox,
+  languages,
   portraitUrl,
   isLoading = false,
 }: AboutMeProps) {
@@ -32,28 +41,49 @@ export default function AboutMe({
 
   return (
     <section id="about" className="scroll-mt-24">
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-12 lg:gap-16 items-start">
-        <motion.div
-          initial={shouldReduceMotion ? false : { opacity: 0, scale: 0.98 }}
-          animate={{ opacity: 1, scale: 1 }}
-          transition={{ duration: shouldReduceMotion ? 0 : 0.6, ease: [0.16, 1, 0.3, 1], delay: shouldReduceMotion ? 0 : 0.1 }}
-          className="sticky top-24 order-2 md:order-1"
-        >
-          <HeroPortrait
-            src={portraitSrc}
-            alt={t('about.portraitAlt')}
-          />
-          <Sparkles />
-        </motion.div>
+      {/* 12-column grid: sidebar (5 cols) + main content (7 cols) */}
+      <div className="grid grid-cols-1 gap-6 lg:grid-cols-12 lg:gap-8">
+        {/* Sticky Sidebar */}
+        <aside className="lg:col-span-5 lg:sticky lg:top-24 space-y-6 self-start">
+          <motion.div
+            initial={shouldReduceMotion ? false : { opacity: 0, scale: 0.98 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ duration: shouldReduceMotion ? 0 : 0.6, ease: [0.16, 1, 0.3, 1], delay: shouldReduceMotion ? 0 : 0.1 }}
+          >
+            <HeroPortrait
+              src={portraitSrc}
+              alt={t('about.portraitAlt')}
+            />
+            <Sparkles />
+          </motion.div>
 
-        <div className="space-y-6 md:space-y-8 order-1 md:order-2">
+          <motion.div
+            initial={shouldReduceMotion ? false : { opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: shouldReduceMotion ? 0 : 0.6, delay: shouldReduceMotion ? 0 : 0.3 }}
+          >
+            <QuickFacts />
+          </motion.div>
+
+          <motion.div
+            initial={shouldReduceMotion ? false : { opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: shouldReduceMotion ? 0 : 0.6, delay: shouldReduceMotion ? 0 : 0.35 }}
+            className="bg-[var(--surface)] backdrop-blur-sm rounded-xl p-6 border border-[var(--border)] hover:border-accent/30 transition-colors"
+          >
+            <Languages items={languages} isLoading={isLoading} />
+          </motion.div>
+        </aside>
+
+        {/* Main Content */}
+        <main className="lg:col-span-7 space-y-6">
           <motion.h2
             initial={shouldReduceMotion ? false : { opacity: 0, y: 12 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: shouldReduceMotion ? 0 : 0.5, ease: [0.22, 1, 0.36, 1], delay: shouldReduceMotion ? 0 : 0.15 }}
             className="text-2xl md:text-3xl font-semibold text-slate-100 bg-gradient-to-r from-slate-100 to-slate-300 bg-clip-text text-transparent"
           >
-            <Typewriter 
+            <Typewriter
               text={t('about.headline')}
               speed={30}
               delay={0.5}
@@ -65,7 +95,7 @@ export default function AboutMe({
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: shouldReduceMotion ? 0 : 0.6, delay: shouldReduceMotion ? 0 : 0.2 }}
           >
-            <InfoCard 
+            <InfoCard
               title={<TranslationText translationKey="about.professionalJourney" shimmerWidth="200px" />}
               delay={0.20}
             >
@@ -86,7 +116,7 @@ export default function AboutMe({
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: shouldReduceMotion ? 0 : 0.6, delay: shouldReduceMotion ? 0 : 0.26 }}
           >
-            <InfoCard 
+            <InfoCard
               title={<TranslationText translationKey="about.philosophy" shimmerWidth="150px" />}
               delay={0.26}
             >
@@ -107,7 +137,7 @@ export default function AboutMe({
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: shouldReduceMotion ? 0 : 0.6, delay: shouldReduceMotion ? 0 : 0.32 }}
           >
-            <InfoCard 
+            <InfoCard
               title={<TranslationText translationKey="about.toolbox" shimmerWidth="120px" />}
               delay={0.32}
             >
@@ -125,7 +155,7 @@ export default function AboutMe({
               )}
             </InfoCard>
           </motion.div>
-        </div>
+        </main>
       </div>
     </section>
   );
