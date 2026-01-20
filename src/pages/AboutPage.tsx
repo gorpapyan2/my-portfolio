@@ -6,7 +6,6 @@ import { PageHeader } from "@/components/shared/PageHeader";
 import { Card } from "@/components/shared/Card";
 import AboutMe from "@/components/AboutMe";
 import { KeyResults } from "@/components/about/KeyResults";
-import { Languages } from "@/components/about/Languages";
 import ScrollIndicator from "@/components/ScrollIndicator";
 import FloatingActions from "@/components/FloatingActions";
 import ParticleBackground from "@/components/ParticleBackground";

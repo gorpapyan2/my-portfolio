@@ -2,8 +2,6 @@
 import React, { createContext, useContext, useState } from 'react';
 // DB-only i18n: no static fallback here
 import { useTranslationService } from '../lib/services/useTranslationService';
-import { TranslationLoadingScreen } from '../components/loading/TranslationLoadingScreen';
-import { ErrorScreen } from '../components/loading/ErrorScreen';
 
 export type Language = 'en' | 'ru' | 'am';
 
@@ -43,42 +41,11 @@ export function LanguageProvider({ children }: { children: React.ReactNode }) {
     return `[missing:${key}]`;
   };
 
-  // Don't render children until translations are loaded
-  if (translationService.isLoading) {
-    return <TranslationLoadingScreen />;
-  }
-
-  // Show error state if translations failed to load
-  if (translationService.error) {
-    // Use fallback translations directly since translation service failed
-    const fallbackTitle = language === 'ru' 
-      ? 'Не удалось загрузить язык'
-      : language === 'am'
-      ? 'Լեզուն բեռնել չհաջողվեց'
-      : 'Unable to Load Your Language';
-    
-    const fallbackMessage = language === 'ru'
-      ? 'Мы не смогли загрузить настройки вашего языка. Это может быть временной проблемой.'
-      : language === 'am'
-      ? 'Ձեր նախընտրած լեզվի կարգավորումները բեռնել չհաջողվեց: Սա կարող է լինել ժամանակավոր խնդիր:'
-      : "We couldn't load your preferred language settings. This might be a temporary issue.";
-    
-    const fallbackRetry = language === 'ru' ? 'Попробовать снова' : language === 'am' ? 'Փորձել կրկին' : 'Try Again';
-    
-    return (
-      <ErrorScreen
-        title={fallbackTitle}
-        message={fallbackMessage}
-        onRetry={() => window.location.reload()}
-        retryText={fallbackRetry}
-      />
-    );
-  }
-
+  // Provider only manages state - UI rendering is handled by TranslationGate
   return (
-    <LanguageContext.Provider value={{ 
-      language, 
-      setLanguage, 
+    <LanguageContext.Provider value={{
+      language,
+      setLanguage,
       t,
       isLoading: translationService.isLoading,
       error: translationService.error

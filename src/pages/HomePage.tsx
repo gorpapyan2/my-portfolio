@@ -10,7 +10,7 @@ import { useLanguage } from '../context/LanguageContext';
 import { useProjectService } from '../lib/services/useProjectService';
 import { useBlogService } from '../lib/services/useBlogService';
 import { usePublicFeatureFlags } from '../lib/services/usePublicFeatureFlags';
-import { LoadingSpinner } from '../components/loading/LoadingSpinner';
+import { AsyncContent } from '../components/shared/AsyncContent';
 import { TranslationText } from '../components/shared/TranslationText';
 
 export function HomePage() {
@@ -48,25 +48,20 @@ export function HomePage() {
                 <TranslationText translationKey="viewAll" shimmerWidth="80px" />
               </Link>
             </div>
-            {projectsLoading ? (
-              <div className="flex justify-center">
-                <LoadingSpinner />
-              </div>
-            ) : projectsError ? (
-              <div className="text-center text-[var(--text-muted)] text-[length:var(--font-200)]">
-                <p>{t('errors.projectsLoadFailed')}: {projectsError}</p>
-              </div>
-            ) : (
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-[var(--space-24)]">
-                {featuredProjects.map((project, index) => (
-                  <ProjectCard
-                    key={project.id || index}
-                    {...project}
-                    image={project.image ?? ''} // Ensures image is string, not null
-                  />
-                ))}
-              </div>
-            )}
+            <AsyncContent
+              isLoading={projectsLoading}
+              error={projectsError}
+              errorMessage={t('errors.projectsLoadFailed')}
+              className="grid grid-cols-1 md:grid-cols-2 gap-[var(--space-24)]"
+            >
+              {featuredProjects.map((project, index) => (
+                <ProjectCard
+                  key={project.id || index}
+                  {...project}
+                  image={project.image ?? ''} // Ensures image is string, not null
+                />
+              ))}
+            </AsyncContent>
           </div>
         </section>
       )}
@@ -82,25 +77,20 @@ export function HomePage() {
                 <TranslationText translationKey="viewAll" shimmerWidth="80px" />
               </Link>
             </div>
-            {blogLoading ? (
-              <div className="flex justify-center">
-                <LoadingSpinner />
-              </div>
-            ) : blogError ? (
-              <div className="text-center text-[var(--text-muted)] text-[length:var(--font-200)]">
-                <p>{t('errors.blogLoadFailed')}: {blogError}</p>
-              </div>
-            ) : (
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-[var(--space-24)]">
-                {latestBlogPosts.map((post, index) => (
-                  <BlogCard
-                    key={post.id || index}
-                    {...post}
-                    image={post.image ?? 'https://images.unsplash.com/photo-1517694712202-14819c9cb6e1?w=500&h=300&fit=crop'}
-                  />
-                ))}
-              </div>
-            )}
+            <AsyncContent
+              isLoading={blogLoading}
+              error={blogError}
+              errorMessage={t('errors.blogLoadFailed')}
+              className="grid grid-cols-1 md:grid-cols-3 gap-[var(--space-24)]"
+            >
+              {latestBlogPosts.map((post, index) => (
+                <BlogCard
+                  key={post.id || index}
+                  {...post}
+                  image={post.image ?? 'https://images.unsplash.com/photo-1517694712202-14819c9cb6e1?w=500&h=300&fit=crop'}
+                />
+              ))}
+            </AsyncContent>
           </div>
         </section>
       )}

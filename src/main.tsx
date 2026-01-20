@@ -6,6 +6,7 @@ import { LanguageProvider } from './context/LanguageContext';
 import { ThemeProvider } from './context/ThemeContext';
 import { AuthProvider } from './context/AuthContext';
 import { ErrorBoundary } from './components/ErrorBoundary';
+import { TranslationGate } from './components/loading/TranslationGate';
 import './styles/index.css'
 
 createRoot(document.getElementById('root')!).render(
@@ -13,9 +14,11 @@ createRoot(document.getElementById('root')!).render(
     <ErrorBoundary>
       <AuthProvider>
         <LanguageProvider>
-          <ThemeProvider>
-            <RouterProvider router={router} />
-          </ThemeProvider>
+          <TranslationGate>
+            <ThemeProvider>
+              <RouterProvider router={router} />
+            </ThemeProvider>
+          </TranslationGate>
         </LanguageProvider>
       </AuthProvider>
     </ErrorBoundary>

@@ -82,6 +82,7 @@ export function TranslationManager() {
     let from = 0;
     let allKeys: TranslationKeyEntry[] = [];
 
+    // eslint-disable-next-line no-constant-condition
     while (true) {
       const { data, error } = await supabase
         .from('translation_keys')
