@@ -33,6 +33,11 @@ export const am = {
   'viewAll': 'Տեսնել բոլորը',
   'proficiency': 'Տիրապետման մակարդակ',
 
+  // Accessibility
+  'accessibility.skipToContent': 'Անցնել հիմնական բովանդակությանը',
+  'aria.openMenu': 'Բացել ընտրացանկը',
+  'aria.closeMenu': 'Փակել ընտրացանկը',
+
   // Pages
   'pages.home.title': 'Գլխավոր',
   'pages.home.featuredProjects': 'Առաջարկվող նախագծեր',
@@ -126,8 +131,16 @@ export const am = {
   'contact.location': 'Տեղանք',
 
   // Footer
+  'footer.about': 'Մեր մասին',
+  'footer.aboutDescription': 'QA Ավտոմատացման մասնագետ, որը կենտրոնացած է հուսալի թեստային շրջանակների և CI/CD ինտեգրացիայի վրա:',
+  'footer.contact': 'Կապ',
+  'footer.location': 'Երևան, Հայաստան',
+  'footer.quickLinks': 'Արագ հղումներ',
+  'footer.connect': 'Կապվեք',
+  'footer.privacy': 'Գաղտնիության քաղաքականություն',
   'footer.copyright': '© 2024 Գոր Պապյան: Բոլոր իրավունքները պաշտպանված են:',
   'footer.builtWith': 'Ստեղծված React-ով և Vite-ով',
+  'footer.terms': 'Ծառայության պայմաններ',
 
   // Settings
   'admin.about.markdownHint': 'Այս դաշտերում աջակցվում է Markdown (գլուխներ, ցուցակներ, ընդգծումներ, կոդ).',

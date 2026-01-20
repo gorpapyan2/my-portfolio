@@ -33,6 +33,11 @@ export const ru = {
   'viewAll': 'Посмотреть все',
   'proficiency': 'Уровень владения',
 
+  // Accessibility
+  'accessibility.skipToContent': 'Перейти к основному содержанию',
+  'aria.openMenu': 'Открыть меню',
+  'aria.closeMenu': 'Закрыть меню',
+
   // Pages
   'pages.home.title': 'Главная',
   'pages.home.featuredProjects': 'Рекомендуемые проекты',
@@ -125,8 +130,16 @@ export const ru = {
   'contact.location': 'Местоположение',
 
   // Footer
+  'footer.about': 'О сайте',
+  'footer.aboutDescription': 'Специалист по автоматизации QA, специализируется на создании надежных тестовых фреймворков и интеграции CI/CD.',
+  'footer.contact': 'Контакты',
+  'footer.location': 'Ереван, Армения',
+  'footer.quickLinks': 'Быстрые ссылки',
+  'footer.connect': 'Связаться',
+  'footer.privacy': 'Политика конфиденциальности',
   'footer.copyright': '© 2024 Гор Папян. Все права защищены.',
   'footer.builtWith': 'Создано с React и Vite',
+  'footer.terms': 'Условия использования',
 
   // Settings
   'admin.about.markdownHint': 'В этих полях поддерживается Markdown (заголовки, списки, выделение, код).',

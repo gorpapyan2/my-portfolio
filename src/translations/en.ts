@@ -33,6 +33,11 @@ export const en = {
   'viewAll': 'View all',
   'proficiency': 'Proficiency',
 
+  // Accessibility
+  'accessibility.skipToContent': 'Skip to main content',
+  'aria.openMenu': 'Open menu',
+  'aria.closeMenu': 'Close menu',
+
   // Pages
   'pages.home.title': 'Home',
   'pages.home.featuredProjects': 'Featured Projects',
@@ -136,6 +141,13 @@ export const en = {
   'contact.location': 'Location',
 
   // Footer
+  'footer.about': 'About',
+  'footer.aboutDescription': 'QA Automation Specialist focused on building reliable test frameworks and CI/CD integration.',
+  'footer.contact': 'Contact',
+  'footer.location': 'Yerevan, Armenia',
+  'footer.quickLinks': 'Quick Links',
+  'footer.connect': 'Connect',
+  'footer.privacy': 'Privacy Policy',
   'footer.copyright': '© 2024 Gor Papyan. All rights reserved.',
   'footer.builtWith': 'Built with React & Vite',
   'footer.terms': 'Terms of Service',
