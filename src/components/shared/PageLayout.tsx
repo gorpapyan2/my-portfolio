@@ -17,7 +17,7 @@ export function PageLayout({ children, className = "", ariaLabel = "Page layout"
       <div className="absolute bottom-0 left-0 right-0 h-64 bg-gradient-to-t from-[var(--bg)] to-transparent" />
 
       {/* Content wrapper */}
-      <div className="max-w-6xl mx-auto px-4 relative z-10">
+      <div className="max-w-6xl mx-auto px-6 lg:px-8 relative z-10">
         {children}
       </div>
     </section>
