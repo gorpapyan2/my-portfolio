@@ -12,10 +12,10 @@ export interface TranslationSeed {
 export async function seedTranslations(): Promise<void> {
   try {
     console.log('Starting translation seeding...');
-    
+
     const translationsToSeed: TranslationSeed[] = [];
     // Use service role key for seeding (bypasses RLS) or fall back to anon key
-    const serviceRoleKey = import.meta.env.VITE_SUPABASE_SERVICE_ROLE_KEY || supabaseConfig.anonKey;
+    const serviceRoleKey = (typeof process !== 'undefined' && process.env?.VITE_SUPABASE_SERVICE_ROLE_KEY) || supabaseConfig.anonKey;
     const sb = createClient(supabaseConfig.url, serviceRoleKey);
     
     // Convert static translations to Supabase format
@@ -183,9 +183,9 @@ export async function seedTranslations(): Promise<void> {
 export async function clearTranslations(): Promise<void> {
   try {
     console.log('Clearing existing translations...');
-    
+
     // Use service role key for clearing (bypasses RLS) or fall back to anon key
-    const serviceRoleKey = import.meta.env.VITE_SUPABASE_SERVICE_ROLE_KEY || supabaseConfig.anonKey;
+    const serviceRoleKey = (typeof process !== 'undefined' && process.env?.VITE_SUPABASE_SERVICE_ROLE_KEY) || supabaseConfig.anonKey;
     const sb = createClient(supabaseConfig.url, serviceRoleKey);
     const { error } = await sb
       .from('translations')
@@ -227,4 +227,17 @@ export function parseTranslationsFromJSON(jsonString: string): Record<string, Re
   } catch {
     throw new Error('Invalid JSON format');
   }
+}
+
+// Run seeding if this file is executed directly
+if (import.meta.url === `file://${process.argv[1]}`) {
+  seedTranslations()
+    .then(() => {
+      console.log('Translation seeding completed');
+      process.exit(0);
+    })
+    .catch((error) => {
+      console.error('Translation seeding failed:', error);
+      process.exit(1);
+    });
 }
