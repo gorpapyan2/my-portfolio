@@ -1,14 +1,11 @@
 ---
-name: playwright-tester
+name: test-runner
 description: Runs Playwright E2E tests and interprets results. MUST BE USED before deployments to verify critical user flows.
 tools:
   - Bash
-  - Read
-  - Grep
-  - Glob
 ---
 
-# Playwright Tester Agent
+# Test Runner Agent
 
 ## Responsibilities
 

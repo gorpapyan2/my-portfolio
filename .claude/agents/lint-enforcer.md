@@ -4,8 +4,6 @@ description: Runs ESLint and reports/fixes linting issues. PROACTIVELY run after
 tools:
   - Bash
   - Edit
-  - Read
-  - Grep
 ---
 
 # Lint Enforcer Agent

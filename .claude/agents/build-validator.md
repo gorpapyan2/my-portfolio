@@ -3,8 +3,6 @@ name: build-validator
 description: Validates Vite build completion and TypeScript compilation. PROACTIVELY run after significant code changes affecting components, types, or build configuration.
 tools:
   - Bash
-  - Read
-  - Grep
 ---
 
 # Build Validator Agent

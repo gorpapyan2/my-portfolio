@@ -3,8 +3,6 @@ name: deploy-guardian
 description: Manages deployment to GitHub Pages, verifies build artifacts, and monitors CI/CD workflows. MUST BE USED when deploying to production.
 tools:
   - Bash
-  - Read
-  - Grep
 ---
 
 # Deploy Guardian Agent

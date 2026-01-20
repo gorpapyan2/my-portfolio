@@ -3,9 +3,6 @@ name: supabase-seeder
 description: Manages database seeding scripts for content (blog posts, projects, experiences, translations, etc.). Use when updating content schemas or seeding data.
 tools:
   - Bash
-  - Read
-  - Grep
-  - Glob
 ---
 
 # Supabase Seeder Agent

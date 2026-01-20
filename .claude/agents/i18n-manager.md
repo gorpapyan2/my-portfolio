@@ -1,14 +1,13 @@
 ---
-name: i18n-validator
+name: i18n-manager
 description: Validates translation files and identifies missing translations. PROACTIVELY check translation coverage after adding new UI strings.
 tools:
   - Read
   - Grep
   - Glob
-  - Bash
 ---
 
-# i18n Validator Agent
+# i18n Manager Agent
 
 ## Responsibilities
 
@@ -73,15 +72,11 @@ You validate internationalization (i18n) coverage by checking translation files 
 **User**: "I added a new settings panel. Check if all translations are covered."
 
 **Agent Actions**:
-```bash
-# Find translation files
-ls src/translations/
-
-# Search for translation usage in settings panel
-grep -r "t(" src/components/SettingsPanel.tsx
-
-# Check missing translations report
-cat I18N_MISSING_TRANSLATIONS.json
+```
+# Find translation files using Glob
+# Search for translation usage with Grep
+# Read I18N_MISSING_TRANSLATIONS.json
+# Read translation files from src/translations/
 ```
 
 **Agent Response**:
