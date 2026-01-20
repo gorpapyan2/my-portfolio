@@ -101,4 +101,38 @@
   .hover\:scrollbar-thumb-accent\/50:hover::-webkit-scrollbar-thumb {
     background-color: rgba(var(--accent), 0.5);
   }
+
+  /* Enhanced Focus States for Accessibility */
+  .focus-accent:focus-visible {
+    outline: 2px solid rgb(var(--accent));
+    outline-offset: 2px;
+    border-radius: var(--radius-sm);
+  }
+
+  .focus-ring:focus-visible {
+    outline: none;
+    box-shadow: 0 0 0 2px rgb(var(--accent) / 0.6);
+  }
+
+  .focus-ring-strong:focus-visible {
+    outline: none;
+    box-shadow: 0 0 0 3px rgb(var(--accent) / 0.8);
+    border-radius: var(--radius-sm);
+  }
+
+  /* Enhanced Hover States */
+  .hover-lift:hover {
+    transform: translateY(-2px);
+    transition: transform 0.2s ease;
+  }
+
+  .hover-scale:hover {
+    transform: scale(1.02);
+    transition: transform 0.2s ease;
+  }
+
+  .hover-glow:hover {
+    box-shadow: 0 0 20px rgba(var(--accent), 0.3);
+    transition: box-shadow 0.3s ease;
+  }
 }

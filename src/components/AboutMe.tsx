@@ -32,12 +32,12 @@ export default function AboutMe({
 
   return (
     <section id="about" className="scroll-mt-24">
-      <div className="grid md:grid-cols-2 gap-10 items-start">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-12 lg:gap-16 items-start">
         <motion.div
           initial={shouldReduceMotion ? false : { opacity: 0, scale: 0.98 }}
           animate={{ opacity: 1, scale: 1 }}
           transition={{ duration: shouldReduceMotion ? 0 : 0.6, ease: [0.16, 1, 0.3, 1], delay: shouldReduceMotion ? 0 : 0.1 }}
-          className="sticky top-24"
+          className="sticky top-24 order-2 md:order-1"
         >
           <HeroPortrait
             src={portraitSrc}
@@ -46,7 +46,7 @@ export default function AboutMe({
           <Sparkles />
         </motion.div>
 
-        <div className="space-y-8">
+        <div className="space-y-6 md:space-y-8 order-1 md:order-2">
           <motion.h2
             initial={shouldReduceMotion ? false : { opacity: 0, y: 12 }}
             animate={{ opacity: 1, y: 0 }}
