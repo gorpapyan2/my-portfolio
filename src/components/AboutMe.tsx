@@ -41,10 +41,10 @@ export default function AboutMe({
 
   return (
     <section id="about" className="scroll-mt-24">
-      {/* 12-column grid: sidebar (5 cols) + main content (7 cols) */}
-      <div className="grid grid-cols-1 gap-6 lg:grid-cols-12 lg:gap-8">
-        {/* Sticky Sidebar */}
-        <aside className="lg:col-span-5 lg:sticky lg:top-24 space-y-6 self-start">
+      {/* Hero Section: Portrait + Quick Info Side by Side */}
+      <div className="grid grid-cols-1 gap-6 lg:grid-cols-12 lg:gap-8 mb-8">
+        {/* Portrait */}
+        <div className="lg:col-span-4">
           <motion.div
             initial={shouldReduceMotion ? false : { opacity: 0, scale: 0.98 }}
             animate={{ opacity: 1, scale: 1 }}
@@ -56,6 +56,22 @@ export default function AboutMe({
             />
             <Sparkles />
           </motion.div>
+        </div>
+
+        {/* Quick Info Column */}
+        <div className="lg:col-span-8 space-y-6 flex flex-col justify-center">
+          <motion.h2
+            initial={shouldReduceMotion ? false : { opacity: 0, y: 12 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: shouldReduceMotion ? 0 : 0.5, ease: [0.22, 1, 0.36, 1], delay: shouldReduceMotion ? 0 : 0.15 }}
+            className="text-2xl md:text-3xl font-semibold text-slate-100 bg-gradient-to-r from-slate-100 to-slate-300 bg-clip-text text-transparent"
+          >
+            <Typewriter
+              text={t('about.headline')}
+              speed={30}
+              delay={0.5}
+            />
+          </motion.h2>
 
           <motion.div
             initial={shouldReduceMotion ? false : { opacity: 0, y: 20 }}
@@ -73,89 +89,80 @@ export default function AboutMe({
           >
             <Languages items={languages} isLoading={isLoading} />
           </motion.div>
-        </aside>
+        </div>
+      </div>
 
-        {/* Main Content */}
-        <main className="lg:col-span-7 space-y-6">
-          <motion.h2
-            initial={shouldReduceMotion ? false : { opacity: 0, y: 12 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: shouldReduceMotion ? 0 : 0.5, ease: [0.22, 1, 0.36, 1], delay: shouldReduceMotion ? 0 : 0.15 }}
-            className="text-2xl md:text-3xl font-semibold text-slate-100 bg-gradient-to-r from-slate-100 to-slate-300 bg-clip-text text-transparent"
+      {/* Main Content Grid: Professional Journey, Philosophy, Toolbox */}
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 lg:gap-8">
+        {/* Professional Journey - Full Width on Top */}
+        <motion.div
+          initial={shouldReduceMotion ? false : { opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: shouldReduceMotion ? 0 : 0.6, delay: shouldReduceMotion ? 0 : 0.2 }}
+          className="lg:col-span-2"
+        >
+          <InfoCard
+            title={<TranslationText translationKey="about.professionalJourney" shimmerWidth="200px" />}
+            delay={0.20}
           >
-            <Typewriter
-              text={t('about.headline')}
-              speed={30}
-              delay={0.5}
-            />
-          </motion.h2>
+            {isLoading ? (
+              <div className="space-y-2">
+                {[0, 1, 2].map(i => (
+                  <div key={i} className="h-4 bg-[var(--surface-strong)] rounded animate-pulse" />
+                ))}
+              </div>
+            ) : (
+              <MarkdownRenderer content={journeyContent} className="text-[var(--text-muted)]" />
+            )}
+          </InfoCard>
+        </motion.div>
 
-          <motion.div
-            initial={shouldReduceMotion ? false : { opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: shouldReduceMotion ? 0 : 0.6, delay: shouldReduceMotion ? 0 : 0.2 }}
+        {/* Philosophy - Left Column */}
+        <motion.div
+          initial={shouldReduceMotion ? false : { opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: shouldReduceMotion ? 0 : 0.6, delay: shouldReduceMotion ? 0 : 0.26 }}
+        >
+          <InfoCard
+            title={<TranslationText translationKey="about.philosophy" shimmerWidth="150px" />}
+            delay={0.26}
           >
-            <InfoCard
-              title={<TranslationText translationKey="about.professionalJourney" shimmerWidth="200px" />}
-              delay={0.20}
-            >
-              {isLoading ? (
-                <div className="space-y-2">
-                  {[0, 1, 2].map(i => (
-                    <div key={i} className="h-4 bg-[var(--surface-strong)] rounded animate-pulse" />
-                  ))}
-                </div>
-              ) : (
-                <MarkdownRenderer content={journeyContent} className="text-[var(--text-muted)]" />
-              )}
-            </InfoCard>
-          </motion.div>
+            {isLoading ? (
+              <div className="space-y-2">
+                {[0, 1].map(i => (
+                  <div key={i} className="h-4 bg-[var(--surface-strong)] rounded animate-pulse" />
+                ))}
+              </div>
+            ) : (
+              <MarkdownRenderer content={philosophyContent} className="text-[var(--text-muted)]" />
+            )}
+          </InfoCard>
+        </motion.div>
 
-          <motion.div
-            initial={shouldReduceMotion ? false : { opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: shouldReduceMotion ? 0 : 0.6, delay: shouldReduceMotion ? 0 : 0.26 }}
+        {/* Toolbox - Right Column */}
+        <motion.div
+          initial={shouldReduceMotion ? false : { opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: shouldReduceMotion ? 0 : 0.6, delay: shouldReduceMotion ? 0 : 0.32 }}
+        >
+          <InfoCard
+            title={<TranslationText translationKey="about.toolbox" shimmerWidth="120px" />}
+            delay={0.32}
           >
-            <InfoCard
-              title={<TranslationText translationKey="about.philosophy" shimmerWidth="150px" />}
-              delay={0.26}
-            >
-              {isLoading ? (
-                <div className="space-y-2">
-                  {[0, 1].map(i => (
-                    <div key={i} className="h-4 bg-[var(--surface-strong)] rounded animate-pulse" />
-                  ))}
-                </div>
-              ) : (
-                <MarkdownRenderer content={philosophyContent} className="text-[var(--text-muted)]" />
-              )}
-            </InfoCard>
-          </motion.div>
-
-          <motion.div
-            initial={shouldReduceMotion ? false : { opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: shouldReduceMotion ? 0 : 0.6, delay: shouldReduceMotion ? 0 : 0.32 }}
-          >
-            <InfoCard
-              title={<TranslationText translationKey="about.toolbox" shimmerWidth="120px" />}
-              delay={0.32}
-            >
-              {isLoading ? (
-                <div className="flex flex-wrap gap-2">
-                  {[0, 1, 2, 3].map(i => (
-                    <span
-                      key={i}
-                      className="h-6 w-16 rounded-full bg-[var(--surface-strong)] animate-pulse"
-                    />
-                  ))}
-                </div>
-              ) : (
-                <MarkdownRenderer content={toolboxContent} className="text-[var(--text-muted)]" />
-              )}
-            </InfoCard>
-          </motion.div>
-        </main>
+            {isLoading ? (
+              <div className="flex flex-wrap gap-2">
+                {[0, 1, 2, 3].map(i => (
+                  <span
+                    key={i}
+                    className="h-6 w-16 rounded-full bg-[var(--surface-strong)] animate-pulse"
+                  />
+                ))}
+              </div>
+            ) : (
+              <MarkdownRenderer content={toolboxContent} className="text-[var(--text-muted)]" />
+            )}
+          </InfoCard>
+        </motion.div>
       </div>
     </section>
   );
