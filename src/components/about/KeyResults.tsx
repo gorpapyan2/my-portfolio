@@ -2,6 +2,7 @@ import { CheckCircle2 } from 'lucide-react';
 import { motion, useReducedMotion } from 'framer-motion';
 import { SectionHeader } from '../shared/SectionHeader';
 import { TranslationText } from '../../components/shared/TranslationText';
+import { MarkdownRenderer } from '../markdown/MarkdownRenderer';
 import { useLanguage } from '../../context/LanguageContext';
 
 type KeyResult = { summary: string };
@@ -59,7 +60,9 @@ export function KeyResults({ items, isLoading = false }: KeyResultsProps) {
                   className="flex items-start gap-2"
                 >
                   <span className="mt-0.5 text-accent"><CheckCircle2 className="w-5 h-5" aria-hidden="true" /></span>
-                  <span className="text-[var(--text-muted)]">{item.summary}</span>
+                  <div className="flex-1 text-[var(--text-muted)] text-sm">
+                    <MarkdownRenderer content={item.summary} className="mb-0 text-[var(--text-muted)] text-sm" />
+                  </div>
                 </motion.li>
               ))}
             </ul>
@@ -69,4 +72,3 @@ export function KeyResults({ items, isLoading = false }: KeyResultsProps) {
     </section>
   );
 }
-

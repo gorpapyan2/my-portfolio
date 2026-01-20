@@ -412,6 +412,10 @@ export function AboutContentAdmin() {
         <div className="text-red-400 text-[length:var(--font-100)]">{error}</div>
       )}
 
+      <p className="text-[var(--text-muted)] text-[length:var(--font-100)]">
+        {t('admin.about.markdownHint')}
+      </p>
+
       <div className="space-y-3">
         <h3 className="text-[length:var(--font-400)] font-medium text-[var(--text)]">
           Portrait Image

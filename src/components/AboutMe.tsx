@@ -6,6 +6,7 @@ import Typewriter from "./Typewriter";
 import { useLanguage } from "../context/LanguageContext";
 import { assetUrls } from "../lib/config";
 import { TranslationText } from "./shared/TranslationText";
+import { MarkdownRenderer } from "./markdown/MarkdownRenderer";
 
 type AboutMeProps = {
   professionalJourney: string[];
@@ -24,9 +25,9 @@ export default function AboutMe({
 }: AboutMeProps) {
   const { t } = useLanguage();
   const shouldReduceMotion = useReducedMotion();
-  const journeyItems = professionalJourney.length > 0 ? professionalJourney : [t('about.fallback.journey')];
-  const philosophyItems = philosophy.length > 0 ? philosophy : [t('about.fallback.philosophy')];
-  const toolboxItems = toolbox.length > 0 ? toolbox : [t('about.fallback.toolbox')];
+  const journeyContent = professionalJourney.length > 0 ? professionalJourney.join('\n\n') : t('about.fallback.journey');
+  const philosophyContent = philosophy.length > 0 ? philosophy.join('\n\n') : t('about.fallback.philosophy');
+  const toolboxContent = toolbox.length > 0 ? toolbox.join('\n\n') : t('about.fallback.toolbox');
   const portraitSrc = portraitUrl || assetUrls.portrait;
 
   return (
@@ -75,11 +76,7 @@ export default function AboutMe({
                   ))}
                 </div>
               ) : (
-                <ul className="space-y-2 text-[var(--text-muted)]">
-                  {journeyItems.map((line, idx) => (
-                    <li key={idx} className="leading-relaxed">{line}</li>
-                  ))}
-                </ul>
+                <MarkdownRenderer content={journeyContent} className="text-[var(--text-muted)]" />
               )}
             </InfoCard>
           </motion.div>
@@ -100,11 +97,7 @@ export default function AboutMe({
                   ))}
                 </div>
               ) : (
-                <ul className="space-y-2 text-[var(--text-muted)]">
-                  {philosophyItems.map((line, idx) => (
-                    <li key={idx} className="leading-relaxed">{line}</li>
-                  ))}
-                </ul>
+                <MarkdownRenderer content={philosophyContent} className="text-[var(--text-muted)]" />
               )}
             </InfoCard>
           </motion.div>
@@ -128,16 +121,7 @@ export default function AboutMe({
                   ))}
                 </div>
               ) : (
-                <div className="flex flex-wrap gap-2">
-                  {toolboxItems.map((tool, idx) => (
-                    <span
-                      key={idx}
-                      className="text-xs px-2 py-1 rounded-full bg-[var(--surface)] border border-[var(--border)] text-[var(--text-muted)]"
-                    >
-                      {tool}
-                    </span>
-                  ))}
-                </div>
+                <MarkdownRenderer content={toolboxContent} className="text-[var(--text-muted)]" />
               )}
             </InfoCard>
           </motion.div>

@@ -129,6 +129,7 @@ export const ru = {
   'footer.builtWith': 'Создано с React и Vite',
 
   // Settings
+  'admin.about.markdownHint': 'В этих полях поддерживается Markdown (заголовки, списки, выделение, код).',
   'settings.title': 'Настройки',
   'settings.translations': 'Управление переводами',
   'settings.selectLanguage': 'Выберите язык для редактирования',

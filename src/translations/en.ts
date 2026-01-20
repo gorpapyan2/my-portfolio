@@ -97,6 +97,7 @@ export const en = {
   'about.portraitAlt': 'Gor Papyan portrait',
   'about.headline': 'QA Automation Specialist focused on deterministic testing and reliable delivery.',
   'about.keyResults.title': 'Key Results',
+  'about.keyResults.empty': 'Key results coming soon.',
   'about.languages.title': 'Languages',
   'about.experience.title': 'Experience',
   'about.experience.subtitle': 'A journey through my professional career in software quality assurance',
@@ -140,6 +141,7 @@ export const en = {
   'footer.terms': 'Terms of Service',
 
   // Settings
+  'admin.about.markdownHint': 'Markdown is supported here (headings, lists, emphasis, code).',
   'settings.title': 'Settings',
   'settings.translations': 'Translation Management',
   'settings.selectLanguage': 'Select Language to Edit',

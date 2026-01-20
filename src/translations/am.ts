@@ -90,6 +90,7 @@ export const am = {
   'about.professionalJourney': 'Մասնագիտական ճանապարհ',
   'about.philosophy': 'Փիլիսոփայություն',
   'about.toolbox': 'Գործիքակազմ',
+  'about.keyResults.empty': 'Հիմնարար արդյունքները շուտով կհայտնվեն։',
   'about.experience.title': 'Փորձ',
   'about.experience.subtitle': 'Ճանապարհորդություն իմ մասնագիտական կարիերայում ծրագրային ապահովման որակի ապահովման ոլորտում',
   'about.education.title': 'Կրթություն',
@@ -129,6 +130,7 @@ export const am = {
   'footer.builtWith': 'Ստեղծված React-ով և Vite-ով',
 
   // Settings
+  'admin.about.markdownHint': 'Այս դաշտերում աջակցվում է Markdown (գլուխներ, ցուցակներ, ընդգծումներ, կոդ).',
   'settings.title': 'Կարգավորումներ',
   'settings.translations': 'Թարգմանությունների կառավարում',
   'settings.selectLanguage': 'Ընտրեք խմբագրման լեզուն',
