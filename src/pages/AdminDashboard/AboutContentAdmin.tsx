@@ -1,27 +1,10 @@
-import { useCallback, useEffect, useMemo, useState } from 'react';
 import Plus from 'lucide-react/dist/esm/icons/plus';
 import Trash2 from 'lucide-react/dist/esm/icons/trash-2';
 import Save from 'lucide-react/dist/esm/icons/save';
-import { supabase } from '../../lib/supabase';
 import { useLanguage, type Language } from '../../context/LanguageContext';
 import { TranslationText } from '../../components/shared/TranslationText';
-import { clearAboutCache } from '../../lib/db/getAbout';
 import { ImageUpload } from '../../components/admin/ImageUpload';
-import { clearSiteAssetCache } from '../../lib/db/getSiteAsset';
-
-type SiteAsset = {
-  id: string;
-  key: string;
-  url: string;
-  storage_path: string | null;
-  created_at: string;
-  updated_at: string;
-};
-
-type BaseRow = { id: string; order_index: number };
-
-type TextItem = { id: string; order_index: number; value: string };
-type LanguageItem = { id: string; order_index: number; name: string; level?: string | null };
+import { useAboutContentAdmin } from '../../hooks/useAboutContentAdmin';
 
 const languages: { code: Language; label: string }[] = [
   { code: 'en', label: 'English' },
@@ -29,359 +12,32 @@ const languages: { code: Language; label: string }[] = [
   { code: 'am', label: 'Armenian' },
 ];
 
-const PORTRAIT_ASSET_KEY = 'about_portrait';
-
-async function fetchBase(table: string) {
-  const { data, error } = await supabase
-    .from(table)
-    .select('id,order_index')
-    .order('order_index', { ascending: true });
-  if (error) throw error;
-  return (data ?? []) as BaseRow[];
-}
-
-async function fetchTranslations(table: string, language: Language) {
-  const { data, error } = await supabase
-    .from(table)
-    .select('*')
-    .eq('language', language);
-  if (error) throw error;
-  return data ?? [];
-}
-
-function mergeTextRows(
-  baseRows: BaseRow[],
-  translations: Array<Record<string, string>>,
-  foreignKey: string,
-  valueKey: string
-): TextItem[] {
-  const byId = new Map<string, string>();
-  translations.forEach((row) => {
-    const id = row[foreignKey];
-    const value = row[valueKey];
-    if (id && value) byId.set(id, value);
-  });
-
-  return baseRows.map((row) => ({
-    id: row.id,
-    order_index: row.order_index,
-    value: byId.get(row.id) ?? '',
-  }));
-}
-
-function mergeLanguageRows(
-  baseRows: BaseRow[],
-  translations: Array<{ about_language_id: string; name: string; level?: string | null }>
-): LanguageItem[] {
-  const byId = new Map<string, { name: string; level?: string | null }>();
-  translations.forEach((row) => {
-    if (row.about_language_id && row.name) {
-      byId.set(row.about_language_id, { name: row.name, level: row.level });
-    }
-  });
-
-  return baseRows.map((row) => ({
-    id: row.id,
-    order_index: row.order_index,
-    name: byId.get(row.id)?.name ?? '',
-    level: byId.get(row.id)?.level ?? '',
-  }));
-}
-
 export function AboutContentAdmin() {
   const { t, language } = useLanguage();
-  const [activeLanguage, setActiveLanguage] = useState<Language>(language);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
-  const [portraitAsset, setPortraitAsset] = useState<SiteAsset | null>(null);
-  const [portraitError, setPortraitError] = useState<string | null>(null);
-  const [portraitLoading, setPortraitLoading] = useState(true);
-  const [portraitSaving, setPortraitSaving] = useState(false);
-
-  const [journey, setJourney] = useState<TextItem[]>([]);
-  const [philosophy, setPhilosophy] = useState<TextItem[]>([]);
-  const [toolbox, setToolbox] = useState<TextItem[]>([]);
-  const [keyResults, setKeyResults] = useState<TextItem[]>([]);
-  const [languagesState, setLanguagesState] = useState<LanguageItem[]>([]);
-
-  const [newJourney, setNewJourney] = useState('');
-  const [newPhilosophy, setNewPhilosophy] = useState('');
-  const [newToolbox, setNewToolbox] = useState('');
-  const [newKeyResult, setNewKeyResult] = useState('');
-  const [newLanguageName, setNewLanguageName] = useState('');
-  const [newLanguageLevel, setNewLanguageLevel] = useState('');
-
-  const sectionConfig = useMemo(() => ([
-    {
-      id: 'journey',
-      label: t('about.professionalJourney'),
-      base: 'about_professional_journey',
-      translation: 'about_professional_journey_translations',
-      foreignKey: 'journey_id',
-      valueKey: 'text',
-      items: journey,
-      setItems: setJourney,
-      newValue: newJourney,
-      setNewValue: setNewJourney,
-    },
-    {
-      id: 'philosophy',
-      label: t('about.philosophy'),
-      base: 'about_philosophy',
-      translation: 'about_philosophy_translations',
-      foreignKey: 'philosophy_id',
-      valueKey: 'text',
-      items: philosophy,
-      setItems: setPhilosophy,
-      newValue: newPhilosophy,
-      setNewValue: setNewPhilosophy,
-    },
-    {
-      id: 'toolbox',
-      label: t('about.toolbox'),
-      base: 'about_toolbox_items',
-      translation: 'about_toolbox_translations',
-      foreignKey: 'toolbox_item_id',
-      valueKey: 'label',
-      items: toolbox,
-      setItems: setToolbox,
-      newValue: newToolbox,
-      setNewValue: setNewToolbox,
-    },
-    {
-      id: 'keyResults',
-      label: t('about.keyResults.title'),
-      base: 'about_key_results',
-      translation: 'about_key_result_translations',
-      foreignKey: 'key_result_id',
-      valueKey: 'summary',
-      items: keyResults,
-      setItems: setKeyResults,
-      newValue: newKeyResult,
-      setNewValue: setNewKeyResult,
-    },
-  ]), [journey, philosophy, toolbox, keyResults, newJourney, newPhilosophy, newToolbox, newKeyResult, t]);
-
-  const loadPortrait = useCallback(async () => {
-    try {
-      setPortraitLoading(true);
-      setPortraitError(null);
-      const { data, error: assetError } = await supabase
-        .from('site_assets')
-        .select('*')
-        .eq('key', PORTRAIT_ASSET_KEY)
-        .maybeSingle();
-      if (assetError) throw assetError;
-      setPortraitAsset((data ?? null) as SiteAsset | null);
-    } catch (err) {
-      const message = err instanceof Error ? err.message : 'Failed to load portrait asset';
-      setPortraitError(message);
-    } finally {
-      setPortraitLoading(false);
-    }
-  }, []);
-
-  const loadAll = useCallback(async () => {
-    try {
-      setLoading(true);
-      setError(null);
-      const [
-        journeyBase,
-        journeyTranslations,
-        philosophyBase,
-        philosophyTranslations,
-        toolboxBase,
-        toolboxTranslations,
-        keyResultBase,
-        keyResultTranslations,
-        languageBase,
-        languageTranslations,
-      ] = await Promise.all([
-        fetchBase('about_professional_journey'),
-        fetchTranslations('about_professional_journey_translations', activeLanguage),
-        fetchBase('about_philosophy'),
-        fetchTranslations('about_philosophy_translations', activeLanguage),
-        fetchBase('about_toolbox_items'),
-        fetchTranslations('about_toolbox_translations', activeLanguage),
-        fetchBase('about_key_results'),
-        fetchTranslations('about_key_result_translations', activeLanguage),
-        fetchBase('about_languages'),
-        fetchTranslations('about_language_translations', activeLanguage),
-      ]);
-
-      setJourney(mergeTextRows(journeyBase, journeyTranslations as Record<string, string>[], 'journey_id', 'text'));
-      setPhilosophy(mergeTextRows(philosophyBase, philosophyTranslations as Record<string, string>[], 'philosophy_id', 'text'));
-      setToolbox(mergeTextRows(toolboxBase, toolboxTranslations as Record<string, string>[], 'toolbox_item_id', 'label'));
-      setKeyResults(mergeTextRows(keyResultBase, keyResultTranslations as Record<string, string>[], 'key_result_id', 'summary'));
-      setLanguagesState(mergeLanguageRows(
-        languageBase,
-        languageTranslations as Array<{ about_language_id: string; name: string; level?: string | null }>
-      ));
-    } catch (err) {
-      const message = err instanceof Error ? err.message : 'Failed to load About content';
-      setError(message);
-    } finally {
-      setLoading(false);
-    }
-  }, [activeLanguage]);
-
-  useEffect(() => {
-    void loadAll();
-  }, [loadAll]);
-
-  useEffect(() => {
-    void loadPortrait();
-  }, [loadPortrait]);
-
-  const handlePortraitUpload = async (url: string, _filename: string, storagePath?: string) => {
-    try {
-      setPortraitSaving(true);
-      setPortraitError(null);
-      const previousPath = portraitAsset?.storage_path ?? null;
-      const nextPath = storagePath ?? previousPath;
-
-      const { data, error: upsertError } = await supabase
-        .from('site_assets')
-        .upsert({
-          key: PORTRAIT_ASSET_KEY,
-          url,
-          storage_path: nextPath,
-        }, { onConflict: 'key' })
-        .select('*')
-        .single();
-
-      if (upsertError) throw upsertError;
-
-      setPortraitAsset(data as SiteAsset);
-      clearSiteAssetCache(PORTRAIT_ASSET_KEY);
-
-      if (previousPath && nextPath && previousPath !== nextPath) {
-        await supabase.storage.from('images').remove([previousPath]);
-      }
-    } catch (err) {
-      const message = err instanceof Error ? err.message : 'Failed to update portrait asset';
-      setPortraitError(message);
-    } finally {
-      setPortraitSaving(false);
-    }
-  };
-
-  const handleAddText = async (config: typeof sectionConfig[number]) => {
-    if (!config.newValue.trim()) return;
-    const { data: baseRow, error: baseError } = await supabase
-      .from(config.base)
-      .insert({ order_index: config.items.length + 1 })
-      .select('id,order_index')
-      .single();
-    if (baseError) {
-      setError(baseError.message);
-      return;
-    }
-
-    const { error: translationError } = await supabase
-      .from(config.translation)
-      .insert({
-        [config.foreignKey]: baseRow.id,
-        language: activeLanguage,
-        [config.valueKey]: config.newValue.trim(),
-      });
-    if (translationError) {
-      setError(translationError.message);
-      return;
-    }
-
-    config.setNewValue('');
-    clearAboutCache();
-    await loadAll();
-  };
-
-  const handleSaveText = async (config: typeof sectionConfig[number], item: TextItem) => {
-    const { error: translationError } = await supabase
-      .from(config.translation)
-      .upsert({
-        [config.foreignKey]: item.id,
-        language: activeLanguage,
-        [config.valueKey]: item.value.trim(),
-      }, { onConflict: `${config.foreignKey},language` });
-    if (translationError) {
-      setError(translationError.message);
-      return;
-    }
-    clearAboutCache();
-    await loadAll();
-  };
-
-  const handleDeleteText = async (config: typeof sectionConfig[number], itemId: string) => {
-    const { error: baseError } = await supabase
-      .from(config.base)
-      .delete()
-      .eq('id', itemId);
-    if (baseError) {
-      setError(baseError.message);
-      return;
-    }
-    clearAboutCache();
-    await loadAll();
-  };
-
-  const handleAddLanguage = async () => {
-    if (!newLanguageName.trim()) return;
-    const { data: baseRow, error: baseError } = await supabase
-      .from('about_languages')
-      .insert({ order_index: languagesState.length + 1 })
-      .select('id,order_index')
-      .single();
-    if (baseError) {
-      setError(baseError.message);
-      return;
-    }
-    const { error: translationError } = await supabase
-      .from('about_language_translations')
-      .insert({
-        about_language_id: baseRow.id,
-        language: activeLanguage,
-        name: newLanguageName.trim(),
-        level: newLanguageLevel.trim() || null,
-      });
-    if (translationError) {
-      setError(translationError.message);
-      return;
-    }
-    setNewLanguageName('');
-    setNewLanguageLevel('');
-    clearAboutCache();
-    await loadAll();
-  };
-
-  const handleSaveLanguage = async (item: LanguageItem) => {
-    const { error: translationError } = await supabase
-      .from('about_language_translations')
-      .upsert({
-        about_language_id: item.id,
-        language: activeLanguage,
-        name: item.name.trim(),
-        level: item.level?.trim() || null,
-      }, { onConflict: 'about_language_id,language' });
-    if (translationError) {
-      setError(translationError.message);
-      return;
-    }
-    clearAboutCache();
-    await loadAll();
-  };
-
-  const handleDeleteLanguage = async (itemId: string) => {
-    const { error: baseError } = await supabase
-      .from('about_languages')
-      .delete()
-      .eq('id', itemId);
-    if (baseError) {
-      setError(baseError.message);
-      return;
-    }
-    clearAboutCache();
-    await loadAll();
-  };
+  const {
+    activeLanguage,
+    setActiveLanguage,
+    loading,
+    error,
+    portraitAsset,
+    portraitError,
+    portraitLoading,
+    portraitSaving,
+    handlePortraitUpload,
+    sectionConfig,
+    handleAddText,
+    handleSaveText,
+    handleDeleteText,
+    languagesState,
+    setLanguagesState,
+    handleAddLanguage,
+    handleSaveLanguage,
+    handleDeleteLanguage,
+    newLanguageName,
+    setNewLanguageName,
+    newLanguageLevel,
+    setNewLanguageLevel,
+  } = useAboutContentAdmin(language, t);
 
   if (loading) {
     return (

@@ -1,23 +1,14 @@
-import { useCallback, useEffect, useMemo, useState } from 'react';
 import Plus from 'lucide-react/dist/esm/icons/plus';
 import Edit from 'lucide-react/dist/esm/icons/edit';
 import Trash2 from 'lucide-react/dist/esm/icons/trash-2';
-import { supabase } from '../../lib/supabase';
-import { technologySchema, technologyDetailSchema } from '../../lib/schemas/technologySchema';
-import type { Technology, TechnologyDetail, TechnologyInsert } from '../../types/database.types';
 import { TranslationText } from '../../components/shared/TranslationText';
 import { useLanguage, type Language } from '../../context/LanguageContext';
 import { getIcon } from '../../utils/iconMap';
+import { useTechnologyAdmin } from '../../hooks/useTechnologyAdmin';
 
 interface TechnologyAdminProps {
   onClose: () => void;
 }
-
-type DetailDraft = {
-  detailed_description: string[];
-  tags: string[];
-  real_world_example: string;
-};
 
 const iconOptions = [
   'Code2', 'GitBranch', 'Workflow', 'Kanban', 'Database',
@@ -32,236 +23,53 @@ const parseLines = (value: string) =>
 
 const parseTags = (value: string) =>
   value
-    .split(/[,\\n]/)
+    .split(/[,\n]/)
     .map((tag) => tag.trim())
     .filter(Boolean);
 
 export function TechnologyAdmin({ onClose }: TechnologyAdminProps) {
   const { t, language } = useLanguage();
-  const [activeLanguage, setActiveLanguage] = useState<Language>(language);
-  const [technologies, setTechnologies] = useState<Technology[]>([]);
-  const [detailsMap, setDetailsMap] = useState<Record<string, TechnologyDetail>>({});
-  const [isLoading, setIsLoading] = useState(true);
-  const [errorMessage, setErrorMessage] = useState<string | null>(null);
-  const [showEditor, setShowEditor] = useState(false);
-  const [editingTechnology, setEditingTechnology] = useState<Technology | null>(null);
-  const [formData, setFormData] = useState<Partial<TechnologyInsert>>({
-    slug: '',
-    title: '',
-    description: '',
-    category: '',
-    level: 0,
-    icon_name: 'Code2',
-  });
-  const [detailText, setDetailText] = useState('');
-  const [tagsText, setTagsText] = useState('');
-  const [detailData, setDetailData] = useState<DetailDraft>({
-    detailed_description: [],
-    tags: [],
-    real_world_example: ''
-  });
-  const [errors, setErrors] = useState<Record<string, string>>({});
-  const [detailErrors, setDetailErrors] = useState<Record<string, string>>({});
+  const {
+    activeLanguage,
+    setActiveLanguage,
+    technologies,
+    isLoading,
+    errorMessage,
+    showEditor,
+    setShowEditor,
+    editingTechnology,
+    formData,
+    setFormData,
+    detailText,
+    setDetailText,
+    tagsText,
+    setTagsText,
+    detailData,
+    setDetailData,
+    errors,
+    detailErrors,
+    technologiesWithDetails,
+    handleEdit,
+    handleDelete,
+    handleSubmit,
+    resetForm,
+  } = useTechnologyAdmin(language);
 
-  const loadTechnologies = useCallback(async () => {
+  const handleDeleteWithAlert = async (id: string) => {
     try {
-      setIsLoading(true);
-      setErrorMessage(null);
-
-      const [techResult, detailResult] = await Promise.all([
-        supabase
-          .from('technologies')
-          .select('*')
-          .eq('language', activeLanguage)
-          .order('created_at', { ascending: true }),
-        supabase
-          .from('technology_details')
-          .select('*')
-          .eq('language', activeLanguage),
-      ]);
-
-      if (techResult.error) throw techResult.error;
-      if (detailResult.error) throw detailResult.error;
-
-      const nextDetails: Record<string, TechnologyDetail> = {};
-      (detailResult.data || []).forEach((detail) => {
-        nextDetails[detail.technology_id] = detail;
-      });
-
-      setTechnologies(techResult.data || []);
-      setDetailsMap(nextDetails);
-    } catch (error) {
-      const message = error instanceof Error ? error.message : 'Failed to load technologies';
-      console.error('Error loading technologies:', error);
-      setErrorMessage(message);
-    } finally {
-      setIsLoading(false);
-    }
-  }, [activeLanguage]);
-
-  useEffect(() => {
-    loadTechnologies();
-  }, [loadTechnologies]);
-
-  const resetForm = () => {
-    setEditingTechnology(null);
-    setFormData({
-      slug: '',
-      title: '',
-      description: '',
-      category: '',
-      level: 0,
-      icon_name: 'Code2',
-    });
-    setDetailText('');
-    setTagsText('');
-    setDetailData({
-      detailed_description: [],
-      tags: [],
-      real_world_example: ''
-    });
-    setErrors({});
-    setDetailErrors({});
-  };
-
-  const handleEdit = (technology: Technology) => {
-    const detail = detailsMap[technology.id];
-    setEditingTechnology(technology);
-    setFormData({
-      slug: technology.slug,
-      title: technology.title,
-      description: technology.description,
-      category: technology.category,
-      level: technology.level,
-      icon_name: technology.icon_name ?? 'Code2',
-    });
-    setDetailText((detail?.detailed_description || []).join('\n'));
-    setTagsText((detail?.tags || []).join(', '));
-    setDetailData({
-      detailed_description: (detail?.detailed_description || []) as string[],
-      tags: (detail?.tags || []) as string[],
-      real_world_example: detail?.real_world_example ?? ''
-    });
-    setShowEditor(true);
-  };
-
-  const handleDelete = async (id: string) => {
-    if (!confirm(t('admin.common.confirmDelete'))) {
-      return;
-    }
-
-    try {
-      const { error } = await supabase
-        .from('technologies')
-        .delete()
-        .eq('id', id);
-
-      if (error) throw error;
-      await loadTechnologies();
-    } catch (error) {
-      console.error('Error deleting technology:', error);
+      await handleDelete(id, t('admin.common.confirmDelete'));
+    } catch {
       alert(t('admin.error.deleteFailed'));
     }
   };
 
-  const handleSubmit = async (event: React.FormEvent) => {
-    event.preventDefault();
-    setErrors({});
-    setDetailErrors({});
-
-    const parsedDetails = {
-      detailed_description: parseLines(detailText),
-      tags: parseTags(tagsText),
-      real_world_example: detailData.real_world_example.trim(),
-    };
-
+  const handleSubmitWithAlert = async (event: React.FormEvent) => {
     try {
-      const validatedTechnology = technologySchema.parse({
-        ...formData,
-        language: activeLanguage,
-        level: Number(formData.level || 0),
-        icon_name: formData.icon_name || undefined,
-      });
-
-      if (editingTechnology) {
-        const { error } = await supabase
-          .from('technologies')
-          .update({
-            slug: validatedTechnology.slug,
-            title: validatedTechnology.title,
-            description: validatedTechnology.description,
-            category: validatedTechnology.category,
-            level: validatedTechnology.level,
-            icon_name: validatedTechnology.icon_name,
-          })
-          .eq('id', editingTechnology.id);
-
-        if (error) throw error;
-
-        const validatedDetail = technologyDetailSchema.parse({
-          technology_id: editingTechnology.id,
-          language: activeLanguage,
-          ...parsedDetails,
-        });
-
-        const { error: detailError } = await supabase
-          .from('technology_details')
-          .upsert(validatedDetail, { onConflict: 'technology_id,language' });
-
-        if (detailError) throw detailError;
-      } else {
-        const { data, error } = await supabase
-          .from('technologies')
-          .insert(validatedTechnology)
-          .select()
-          .single();
-
-        if (error) throw error;
-        if (!data) throw new Error('Failed to create technology');
-
-        const validatedDetail = technologyDetailSchema.parse({
-          technology_id: data.id,
-          language: activeLanguage,
-          ...parsedDetails,
-        });
-
-        const { error: detailError } = await supabase
-          .from('technology_details')
-          .upsert(validatedDetail, { onConflict: 'technology_id,language' });
-
-        if (detailError) throw detailError;
-      }
-
-      setShowEditor(false);
-      resetForm();
-      await loadTechnologies();
-    } catch (error) {
-      if (error instanceof Error && 'issues' in error) {
-        const fieldErrors: Record<string, string> = {};
-        const detailFieldErrors: Record<string, string> = {};
-        (error as { issues: Array<{ path: Array<string | number>; message: string }> }).issues.forEach((issue) => {
-          const field = issue.path[0];
-          if (field === 'detailed_description' || field === 'tags' || field === 'real_world_example') {
-            detailFieldErrors[String(field)] = issue.message;
-          } else {
-            fieldErrors[String(field)] = issue.message;
-          }
-        });
-        setErrors(fieldErrors);
-        setDetailErrors(detailFieldErrors);
-      } else {
-        console.error('Error saving technology:', error);
-        alert(t('admin.error.saveFailed'));
-      }
+      await handleSubmit(event);
+    } catch {
+      alert(t('admin.error.saveFailed'));
     }
   };
-
-  const technologiesWithDetails = useMemo(() => {
-    return technologies.map((tech) => ({
-      technology: tech,
-      detail: detailsMap[tech.id]
-    }));
-  }, [technologies, detailsMap]);
 
   if (isLoading) {
     return (
@@ -290,7 +98,7 @@ export function TechnologyAdmin({ onClose }: TechnologyAdminProps) {
       )}
 
       {showEditor ? (
-        <form onSubmit={handleSubmit} className="space-y-4">
+        <form onSubmit={handleSubmitWithAlert} className="space-y-4">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div>
               <label className="form-label">{t('admin.common.language')}</label>
@@ -502,7 +310,7 @@ export function TechnologyAdmin({ onClose }: TechnologyAdminProps) {
                         <Edit className="h-3 w-3" />
                       </button>
                       <button
-                        onClick={() => handleDelete(technology.id)}
+                        onClick={() => handleDeleteWithAlert(technology.id)}
                         className="p-1 text-[var(--text-muted)] hover:text-red-400 transition-colors"
                       >
                         <Trash2 className="h-3 w-3" />
