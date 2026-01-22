@@ -7,6 +7,7 @@ import { Education, EducationInsert } from '../../types/database.types';
 import { educationSchema } from '../../lib/schemas/educationSchema';
 import { TranslationText } from '../../components/shared/TranslationText';
 import { useLanguage } from '../../context/LanguageContext';
+import { useAdminCrudForm } from '../../hooks/useAdminCrudForm';
 
 interface EducationAdminProps {
   onClose: () => void;
@@ -18,72 +19,37 @@ export function EducationAdmin({ onClose }: EducationAdminProps) {
   const { education, isLoading, createEducation, updateEducation, deleteEducation } = useEducationService({
     language: activeLanguage,
   });
-  const [showEditor, setShowEditor] = useState(false);
-  const [editingEducation, setEditingEducation] = useState<Education | null>(null);
-  const [formData, setFormData] = useState<Partial<EducationInsert>>({
-    degree: '',
-    school: '',
-    year: '',
-    description: '',
-    order_index: 0
+
+  const {
+    showEditor,
+    setShowEditor,
+    editingItem: editingEducation,
+    formData,
+    setFormData,
+    errors,
+    handleSubmit,
+    handleEdit,
+    handleDelete,
+    resetForm
+  } = useAdminCrudForm<Education, EducationInsert>({
+    items: education,
+    isLoading,
+    createItem: createEducation,
+    updateItem: updateEducation,
+    deleteItem: deleteEducation,
+    schema: educationSchema,
+    initialFormData: {
+      degree: '',
+      school: '',
+      year: '',
+      description: '',
+      order_index: 0
+    },
+    language: activeLanguage,
+    confirmDeleteKey: 'admin.education.confirm.delete',
+    deleteErrorKey: 'admin.education.error.deleteFailed',
+    t
   });
-  const [errors, setErrors] = useState<Record<string, string>>({});
-
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    setErrors({});
-
-    try {
-      const validatedData = educationSchema.parse(formData);
-      
-      if (editingEducation) {
-        await updateEducation(editingEducation.id, validatedData, activeLanguage);
-      } else {
-        await createEducation(validatedData, activeLanguage);
-      }
-      
-      setShowEditor(false);
-      setEditingEducation(null);
-      setFormData({
-        degree: '',
-        school: '',
-        year: '',
-        description: '',
-        order_index: 0
-      });
-    } catch (error) {
-      if (error instanceof Error && 'issues' in error) {
-        const fieldErrors: Record<string, string> = {};
-        (error as { issues: Array<{ path: string[]; message: string }> }).issues.forEach((issue) => {
-          fieldErrors[issue.path[0]] = issue.message;
-        });
-        setErrors(fieldErrors);
-      }
-    }
-  };
-
-  const handleEdit = (education: Education) => {
-    setEditingEducation(education);
-    setFormData({
-      degree: education.degree,
-      school: education.school,
-      year: education.year,
-      description: education.description,
-      order_index: education.order_index
-    });
-    setShowEditor(true);
-  };
-
-  const handleDelete = async (id: string) => {
-    if (confirm(t('admin.education.confirm.delete'))) {
-      try {
-        await deleteEducation(id);
-      } catch (error) {
-        console.error('Error deleting education:', error);
-        alert(t('admin.education.error.deleteFailed'));
-      }
-    }
-  };
 
   if (isLoading) {
     return (
@@ -213,17 +179,7 @@ export function EducationAdmin({ onClose }: EducationAdminProps) {
           <div className="flex items-center justify-end gap-3 pt-4">
             <button
               type="button"
-              onClick={() => {
-                setShowEditor(false);
-                setEditingEducation(null);
-                setFormData({
-                  degree: '',
-                  school: '',
-                  year: '',
-                  description: '',
-                  order_index: 0
-                });
-              }}
+              onClick={resetForm}
               className="btn btn-secondary"
             >
               {t('admin.common.cancel')}
@@ -297,5 +253,3 @@ export function EducationAdmin({ onClose }: EducationAdminProps) {
     </div>
   );
 }
-
-

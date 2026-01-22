@@ -8,6 +8,7 @@ import { skillSchema } from '../../lib/schemas/skillSchema';
 import { getIcon } from '../../utils/iconMap';
 import { TranslationText } from '../../components/shared/TranslationText';
 import { useLanguage } from '../../context/LanguageContext';
+import { useAdminCrudForm } from '../../hooks/useAdminCrudForm';
 
 interface SkillsAdminProps {
   onClose: () => void;
@@ -19,77 +20,42 @@ export function SkillsAdmin({ onClose }: SkillsAdminProps) {
   const { skills, isLoading, createSkill, updateSkill, deleteSkill } = useSkillService({
     language: activeLanguage,
   });
-  const [showEditor, setShowEditor] = useState(false);
-  const [editingSkill, setEditingSkill] = useState<Skill | null>(null);
-  const [formData, setFormData] = useState<Partial<SkillInsert>>({
-    title: '',
-    description: '',
-    icon: 'Code2',
-    level: 0,
-    order_index: 0
+
+  const {
+    showEditor,
+    setShowEditor,
+    editingItem: editingSkill,
+    formData,
+    setFormData,
+    errors,
+    handleSubmit,
+    handleEdit,
+    handleDelete,
+    resetForm
+  } = useAdminCrudForm<Skill, SkillInsert>({
+    items: skills,
+    isLoading,
+    createItem: createSkill,
+    updateItem: updateSkill,
+    deleteItem: deleteSkill,
+    schema: skillSchema,
+    initialFormData: {
+      title: '',
+      description: '',
+      icon: 'Code2',
+      level: 0,
+      order_index: 0
+    },
+    language: activeLanguage,
+    confirmDeleteKey: 'admin.skills.confirm.delete',
+    deleteErrorKey: 'admin.skills.error.deleteFailed',
+    t
   });
-  const [errors, setErrors] = useState<Record<string, string>>({});
 
   const iconOptions = [
-    'Code2', 'GitBranch', 'Workflow', 'Kanban', 'Database', 
+    'Code2', 'GitBranch', 'Workflow', 'Kanban', 'Database',
     'Bug', 'Globe', 'Lightbulb', 'Smartphone', 'Table'
   ];
-
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    setErrors({});
-
-    try {
-      const validatedData = skillSchema.parse(formData);
-      
-      if (editingSkill) {
-        await updateSkill(editingSkill.id, validatedData, activeLanguage);
-      } else {
-        await createSkill(validatedData, activeLanguage);
-      }
-      
-      setShowEditor(false);
-      setEditingSkill(null);
-      setFormData({
-        title: '',
-        description: '',
-        icon: 'Code2',
-        level: 0,
-        order_index: 0
-      });
-    } catch (error) {
-      if (error instanceof Error && 'issues' in error) {
-        const fieldErrors: Record<string, string> = {};
-        (error as { issues: Array<{ path: string[]; message: string }> }).issues.forEach((issue) => {
-          fieldErrors[issue.path[0]] = issue.message;
-        });
-        setErrors(fieldErrors);
-      }
-    }
-  };
-
-  const handleEdit = (skill: Skill) => {
-    setEditingSkill(skill);
-    setFormData({
-      title: skill.title,
-      description: skill.description,
-      icon: skill.icon,
-      level: skill.level,
-      order_index: skill.order_index
-    });
-    setShowEditor(true);
-  };
-
-  const handleDelete = async (id: string) => {
-    if (confirm(t('admin.skills.confirm.delete'))) {
-      try {
-        await deleteSkill(id);
-      } catch (error) {
-        console.error('Error deleting skill:', error);
-        alert(t('admin.skills.error.deleteFailed'));
-      }
-    }
-  };
 
   if (isLoading) {
     return (
@@ -220,17 +186,7 @@ export function SkillsAdmin({ onClose }: SkillsAdminProps) {
           <div className="flex items-center justify-end gap-3 pt-4">
             <button
               type="button"
-              onClick={() => {
-                setShowEditor(false);
-                setEditingSkill(null);
-                setFormData({
-                  title: '',
-                  description: '',
-                  icon: 'Code2',
-                  level: 0,
-                  order_index: 0
-                });
-              }}
+              onClick={resetForm}
               className="btn btn-secondary"
             >
               {t('admin.common.cancel')}

@@ -7,6 +7,7 @@ import { Experience, ExperienceInsert } from '../../types/database.types';
 import { experienceSchema } from '../../lib/schemas/experienceSchema';
 import { TranslationText } from '../../components/shared/TranslationText';
 import { useLanguage } from '../../context/LanguageContext';
+import { useAdminCrudForm } from '../../hooks/useAdminCrudForm';
 
 interface ExperienceAdminProps {
   onClose: () => void;
@@ -18,77 +19,41 @@ export function ExperienceAdmin({ onClose }: ExperienceAdminProps) {
   const { experiences, isLoading, createExperience, updateExperience, deleteExperience } = useExperienceService({
     language: activeLanguage,
   });
-  const [showEditor, setShowEditor] = useState(false);
-  const [editingExperience, setEditingExperience] = useState<Experience | null>(null);
-  const [formData, setFormData] = useState<Partial<ExperienceInsert>>({
-    role: '',
-    company: '',
-    period: '',
-    description: '',
-    achievements: [],
-    order_index: 0
+
+  const {
+    showEditor,
+    setShowEditor,
+    editingItem: editingExperience,
+    formData,
+    setFormData,
+    errors,
+    handleSubmit,
+    handleEdit,
+    handleDelete,
+    resetForm
+  } = useAdminCrudForm<Experience, ExperienceInsert>({
+    items: experiences,
+    isLoading,
+    createItem: createExperience,
+    updateItem: updateExperience,
+    deleteItem: deleteExperience,
+    schema: experienceSchema,
+    initialFormData: {
+      role: '',
+      company: '',
+      period: '',
+      description: '',
+      achievements: [],
+      order_index: 0
+    },
+    language: activeLanguage,
+    confirmDeleteKey: 'admin.experience.confirm.delete',
+    deleteErrorKey: 'admin.experience.error.deleteFailed',
+    t
   });
-  const [errors, setErrors] = useState<Record<string, string>>({});
+
+  // Custom state for achievements array management
   const [achievementInput, setAchievementInput] = useState('');
-
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    setErrors({});
-
-    try {
-      const validatedData = experienceSchema.parse(formData);
-      
-      if (editingExperience) {
-        await updateExperience(editingExperience.id, validatedData, activeLanguage);
-      } else {
-        await createExperience(validatedData, activeLanguage);
-      }
-      
-      setShowEditor(false);
-      setEditingExperience(null);
-      setFormData({
-        role: '',
-        company: '',
-        period: '',
-        description: '',
-        achievements: [],
-        order_index: 0
-      });
-      setAchievementInput('');
-    } catch (error) {
-      if (error instanceof Error && 'issues' in error) {
-        const fieldErrors: Record<string, string> = {};
-        (error as { issues: Array<{ path: string[]; message: string }> }).issues.forEach((issue) => {
-          fieldErrors[issue.path[0]] = issue.message;
-        });
-        setErrors(fieldErrors);
-      }
-    }
-  };
-
-  const handleEdit = (experience: Experience) => {
-    setEditingExperience(experience);
-    setFormData({
-      role: experience.role,
-      company: experience.company,
-      period: experience.period,
-      description: experience.description,
-      achievements: experience.achievements,
-      order_index: experience.order_index
-    });
-    setShowEditor(true);
-  };
-
-  const handleDelete = async (id: string) => {
-    if (confirm(t('admin.experience.confirm.delete'))) {
-      try {
-        await deleteExperience(id);
-      } catch (error) {
-        console.error('Error deleting experience:', error);
-        alert(t('admin.experience.error.deleteFailed'));
-      }
-    }
-  };
 
   const addAchievement = () => {
     if (achievementInput.trim() && !formData.achievements?.includes(achievementInput.trim())) {
@@ -105,6 +70,11 @@ export function ExperienceAdmin({ onClose }: ExperienceAdminProps) {
       ...formData,
       achievements: formData.achievements?.filter(achievement => achievement !== achievementToRemove) || []
     });
+  };
+
+  const handleCancel = () => {
+    resetForm();
+    setAchievementInput('');
   };
 
   if (isLoading) {
@@ -274,19 +244,7 @@ export function ExperienceAdmin({ onClose }: ExperienceAdminProps) {
           <div className="flex items-center justify-end gap-3 pt-4">
             <button
               type="button"
-              onClick={() => {
-                setShowEditor(false);
-                setEditingExperience(null);
-                setFormData({
-                  role: '',
-                  company: '',
-                  period: '',
-                  description: '',
-                  achievements: [],
-                  order_index: 0
-                });
-                setAchievementInput('');
-              }}
+              onClick={handleCancel}
               className="btn btn-secondary"
             >
               {t('admin.common.cancel')}
@@ -368,5 +326,3 @@ export function ExperienceAdmin({ onClose }: ExperienceAdminProps) {
     </div>
   );
 }
-
-
