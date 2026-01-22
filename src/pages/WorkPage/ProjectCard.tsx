@@ -1,4 +1,5 @@
-import { ExternalLink, Github } from 'lucide-react';
+import ExternalLink from 'lucide-react/dist/esm/icons/external-link';
+import Github from 'lucide-react/dist/esm/icons/github';
 import { Card } from '../../components/shared/Card';
 import { TranslationText } from '../../components/shared/TranslationText';
 

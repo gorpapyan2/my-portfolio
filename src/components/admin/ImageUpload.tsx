@@ -1,5 +1,7 @@
 import { useEffect, useRef, useState } from 'react';
-import { Upload, X, Loader } from 'lucide-react';
+import Upload from 'lucide-react/dist/esm/icons/upload';
+import X from 'lucide-react/dist/esm/icons/x';
+import Loader from 'lucide-react/dist/esm/icons/loader';
 import { supabase } from '../../lib/supabase';
 import { useLanguage } from '../../context/LanguageContext';
 import { TranslationText } from '../shared/TranslationText';

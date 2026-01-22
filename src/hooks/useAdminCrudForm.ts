@@ -41,6 +41,7 @@
 import { useState, useCallback } from 'react';
 import { ZodSchema } from 'zod';
 import type { Language } from '../context/LanguageContext';
+import { mapZodErrors } from '../lib/utils/zodErrorHandler';
 
 export interface UseAdminCrudFormConfig<TItem extends { id: string }, TInsert, TUpdate> {
   /** Array of items from the service */
@@ -133,13 +134,7 @@ export function useAdminCrudForm<
 
         resetForm();
       } catch (error) {
-        if (error instanceof Error && 'issues' in error) {
-          const fieldErrors: Record<string, string> = {};
-          (error as { issues: Array<{ path: string[]; message: string }> }).issues.forEach((issue) => {
-            fieldErrors[issue.path[0]] = issue.message;
-          });
-          setErrors(fieldErrors);
-        }
+        setErrors(mapZodErrors(error));
       }
     },
     [formData, editingItem, schema, createItem, updateItem, language, resetForm]

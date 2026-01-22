@@ -1,5 +1,7 @@
 import { useState, useEffect } from 'react';
-import { List, ChevronDown, ChevronRight } from 'lucide-react';
+import List from 'lucide-react/dist/esm/icons/list';
+import ChevronDown from 'lucide-react/dist/esm/icons/chevron-down';
+import ChevronRight from 'lucide-react/dist/esm/icons/chevron-right';
 import { TranslationText } from './shared/TranslationText';
 
 interface TableOfContentsProps {

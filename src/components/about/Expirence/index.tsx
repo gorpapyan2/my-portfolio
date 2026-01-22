@@ -1,4 +1,4 @@
-import { Briefcase } from 'lucide-react';
+import Briefcase from 'lucide-react/dist/esm/icons/briefcase';
 import { ExperienceList } from './ExperienceList';
 import { SectionHeader } from '../../shared/SectionHeader';
 import { TranslationText } from '../../../components/shared/TranslationText';

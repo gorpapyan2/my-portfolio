@@ -1,24 +1,22 @@
 import { useState, useRef } from 'react';
-import { 
-  Bold, 
-  Italic, 
-  List, 
-  ListOrdered, 
-  Quote, 
-  Code, 
-  Link, 
-  Image, 
-  Eye,
-  EyeOff,
-  Hash,
-  Maximize2,
-  Minimize2,
-  Copy,
-  Check,
-  ZoomIn,
-  ZoomOut,
-  RotateCcw
-} from 'lucide-react';
+import Bold from 'lucide-react/dist/esm/icons/bold';
+import Italic from 'lucide-react/dist/esm/icons/italic';
+import List from 'lucide-react/dist/esm/icons/list';
+import ListOrdered from 'lucide-react/dist/esm/icons/list-ordered';
+import Quote from 'lucide-react/dist/esm/icons/quote';
+import Code from 'lucide-react/dist/esm/icons/code';
+import Link from 'lucide-react/dist/esm/icons/link';
+import Image from 'lucide-react/dist/esm/icons/image';
+import Eye from 'lucide-react/dist/esm/icons/eye';
+import EyeOff from 'lucide-react/dist/esm/icons/eye-off';
+import Hash from 'lucide-react/dist/esm/icons/hash';
+import Maximize2 from 'lucide-react/dist/esm/icons/maximize-2';
+import Minimize2 from 'lucide-react/dist/esm/icons/minimize-2';
+import Copy from 'lucide-react/dist/esm/icons/copy';
+import Check from 'lucide-react/dist/esm/icons/check';
+import ZoomIn from 'lucide-react/dist/esm/icons/zoom-in';
+import ZoomOut from 'lucide-react/dist/esm/icons/zoom-out';
+import RotateCcw from 'lucide-react/dist/esm/icons/rotate-ccw';
 import { MarkdownRenderer } from './MarkdownRenderer';
 import { useLanguage } from '../../context/LanguageContext';
 

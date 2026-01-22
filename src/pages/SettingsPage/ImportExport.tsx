@@ -1,5 +1,8 @@
 import { useState } from 'react';
-import { X, Download, Upload, FileText } from 'lucide-react';
+import X from 'lucide-react/dist/esm/icons/x';
+import Download from 'lucide-react/dist/esm/icons/download';
+import Upload from 'lucide-react/dist/esm/icons/upload';
+import FileText from 'lucide-react/dist/esm/icons/file-text';
 import { Card } from '../../components/shared/Card';
 import { useLanguage } from '../../context/LanguageContext';
 import { bulkTranslationSchema } from '../../lib/schemas/translationSchema';

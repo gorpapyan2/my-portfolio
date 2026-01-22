@@ -1,5 +1,5 @@
 import { NavLink as RouterNavLink } from 'react-router-dom';
-import { Settings } from 'lucide-react';
+import Settings from 'lucide-react/dist/esm/icons/settings';
 import { useAuth } from '../../context/AuthContext';
 import { usePublicFeatureFlags } from '../../lib/services/usePublicFeatureFlags';
 import { TranslationText } from '../shared/TranslationText';

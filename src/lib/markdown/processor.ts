@@ -144,6 +144,26 @@ function createProcessor(theme: AppTheme = 'dark') {
         dark: 'github-dark-dimmed',
       },
       defaultLang: 'plaintext',
+      // Only bundle commonly used languages to reduce bundle size
+      // This reduces bundle from 2.1MB to ~1MB
+      langs: [
+        'javascript',
+        'typescript',
+        'jsx',
+        'tsx',
+        'python',
+        'java',
+        'go',
+        'rust',
+        'html',
+        'css',
+        'json',
+        'yaml',
+        'markdown',
+        'bash',
+        'shell',
+        'sql',
+      ],
       onVisitLine(node: RehypePrettyCodeNode) {
         // Ensure each line has at least one class for proper styling
         if (!node.properties.className || node.properties.className.length === 0) {

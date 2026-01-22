@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { motion, useReducedMotion } from 'framer-motion';
-import { LucideIcon } from 'lucide-react';
+import LucideIcon from 'lucide-react/dist/esm/icons/lucide-icon';
 import { Card } from '../../shared/Card';
 
 interface StatCardProps {

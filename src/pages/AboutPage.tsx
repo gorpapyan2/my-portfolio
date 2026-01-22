@@ -1,4 +1,4 @@
-import { User } from 'lucide-react';
+import User from 'lucide-react/dist/esm/icons/user';
 import { PageLayout } from "@/components/shared/PageLayout";
 import { PageHeader } from "@/components/shared/PageHeader";
 import { Card } from "@/components/shared/Card";

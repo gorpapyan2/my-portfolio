@@ -1,6 +1,7 @@
 import { motion, AnimatePresence } from "framer-motion";
 import { useState } from "react";
-import { HelpCircle, X } from "lucide-react";
+import HelpCircle from 'lucide-react/dist/esm/icons/help-circle';
+import X from 'lucide-react/dist/esm/icons/x';
 
 export default function HelpTooltip() {
   const [isOpen, setIsOpen] = useState(false);

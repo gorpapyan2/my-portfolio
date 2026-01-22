@@ -1,16 +1,14 @@
-import { 
-  Code2, 
-  GitBranch, 
-  Workflow, 
-  Kanban, 
-  Database, 
-  Bug, 
-  Globe, 
-  Lightbulb, 
-  Smartphone, 
-  Table,
-  LucideIcon
-} from 'lucide-react';
+import Code2 from 'lucide-react/dist/esm/icons/code-2';
+import GitBranch from 'lucide-react/dist/esm/icons/git-branch';
+import Workflow from 'lucide-react/dist/esm/icons/workflow';
+import Kanban from 'lucide-react/dist/esm/icons/kanban';
+import Database from 'lucide-react/dist/esm/icons/database';
+import Bug from 'lucide-react/dist/esm/icons/bug';
+import Globe from 'lucide-react/dist/esm/icons/globe';
+import Lightbulb from 'lucide-react/dist/esm/icons/lightbulb';
+import Smartphone from 'lucide-react/dist/esm/icons/smartphone';
+import Table from 'lucide-react/dist/esm/icons/table';
+import LucideIcon from 'lucide-react/dist/esm/icons/lucide-icon';
 
 export const iconMap: Record<string, LucideIcon> = {
   'Code2': Code2,

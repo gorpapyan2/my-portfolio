@@ -1,4 +1,6 @@
-import { Calendar, MapPin, Briefcase } from 'lucide-react';
+import Calendar from 'lucide-react/dist/esm/icons/calendar';
+import MapPin from 'lucide-react/dist/esm/icons/map-pin';
+import Briefcase from 'lucide-react/dist/esm/icons/briefcase';
 import { TranslationText } from './shared/TranslationText';
 
 interface AuthorBioProps {

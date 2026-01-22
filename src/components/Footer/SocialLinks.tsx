@@ -1,4 +1,6 @@
-import { Github, Linkedin, X } from 'lucide-react';
+import Github from 'lucide-react/dist/esm/icons/github';
+import Linkedin from 'lucide-react/dist/esm/icons/linkedin';
+import X from 'lucide-react/dist/esm/icons/x';
 import { Shimmer } from '../ui/Shimmer';
 
 export function SocialLinks() {

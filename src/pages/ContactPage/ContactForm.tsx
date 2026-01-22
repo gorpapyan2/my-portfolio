@@ -1,11 +1,12 @@
 import { useState, useEffect, useRef } from 'react';
-import { Send } from 'lucide-react';
+import Send from 'lucide-react/dist/esm/icons/send';
 import { Card } from '../../components/shared/Card';
 import emailjs from '@emailjs/browser';
 import { Popup } from '../../components/ui/Popup';
 import { useLanguage } from '../../context/LanguageContext';
 import { useContactService } from '../../lib/services/useContactService';
 import { contactFormSchema } from '../../lib/schemas/contactSchema';
+import { mapZodErrors } from '../../lib/utils/zodErrorHandler';
 
 interface FormField {
   id: string;
@@ -82,13 +83,10 @@ export function ContactForm() {
       }
     } catch (error) {
       console.error('Failed to send email:', error);
-      
-      if (error instanceof Error && 'issues' in error) {
+
+      const fieldErrors = mapZodErrors(error);
+      if (Object.keys(fieldErrors).length > 0) {
         // Zod validation error
-        const fieldErrors: Record<string, string> = {};
-        (error as { issues: Array<{ path: string[]; message: string }> }).issues.forEach((issue) => {
-          fieldErrors[issue.path[0]] = issue.message;
-        });
         setErrors(fieldErrors);
         setPopupMessage(t('contact.validationError'));
       } else {

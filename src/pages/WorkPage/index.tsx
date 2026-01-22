@@ -1,4 +1,4 @@
-import { Briefcase } from 'lucide-react';
+import Briefcase from 'lucide-react/dist/esm/icons/briefcase';
 import { PageLayout } from '../../components/shared/PageLayout';
 import { PageHeader } from '../../components/shared/PageHeader';
 import { ProjectGrid } from './ProjectGrid';

@@ -1,4 +1,5 @@
-import { Edit, Trash2 } from 'lucide-react';
+import Edit from 'lucide-react/dist/esm/icons/edit';
+import Trash2 from 'lucide-react/dist/esm/icons/trash-2';
 import { Card } from '../../components/shared/Card';
 import { useLanguage } from '../../context/LanguageContext';
 

@@ -1,10 +1,15 @@
 import { useState } from 'react';
-import { Plus, Edit, Trash2, Star, StarOff } from 'lucide-react';
+import Plus from 'lucide-react/dist/esm/icons/plus';
+import Edit from 'lucide-react/dist/esm/icons/edit';
+import Trash2 from 'lucide-react/dist/esm/icons/trash-2';
+import Star from 'lucide-react/dist/esm/icons/star';
+import StarOff from 'lucide-react/dist/esm/icons/star-off';
 import { Card } from '../../components/shared/Card';
 import { ImageUpload } from '../../components/admin/ImageUpload';
 import { useProjectService } from '../../lib/services/useProjectService';
 import { Project, ProjectInsert } from '../../types/database.types';
 import { projectSchema } from '../../lib/schemas/projectSchema';
+import { mapZodErrors } from '../../lib/utils/zodErrorHandler';
 
 interface ProjectAdminProps {
   onClose: () => void;
@@ -54,13 +59,7 @@ export function ProjectAdmin({ onClose }: ProjectAdminProps) {
       });
       setTagInput('');
     } catch (error) {
-      if (error instanceof Error && 'issues' in error) {
-        const fieldErrors: Record<string, string> = {};
-        (error as { issues: Array<{ path: string[]; message: string }> }).issues.forEach((issue) => {
-          fieldErrors[issue.path[0]] = issue.message;
-        });
-        setErrors(fieldErrors);
-      }
+      setErrors(mapZodErrors(error));
     }
   };
 

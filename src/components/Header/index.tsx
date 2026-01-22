@@ -1,5 +1,9 @@
 import { Link, useLocation } from 'react-router-dom';
-import { Bug, FileDown, ChevronDown, Globe, Edit3 } from 'lucide-react';
+import Bug from 'lucide-react/dist/esm/icons/bug';
+import FileDown from 'lucide-react/dist/esm/icons/file-down';
+import ChevronDown from 'lucide-react/dist/esm/icons/chevron-down';
+import Globe from 'lucide-react/dist/esm/icons/globe';
+import Edit3 from 'lucide-react/dist/esm/icons/edit-3';
 import { useEffect, useState } from 'react';
 // import { useTheme } from '../../context/ThemeContext';
 import { useLanguage, Language } from '../../context/LanguageContext';

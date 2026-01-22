@@ -1,4 +1,4 @@
-import { Mail } from 'lucide-react';
+import Mail from 'lucide-react/dist/esm/icons/mail';
 import { PageLayout } from '../../components/shared/PageLayout';
 import { PageHeader } from '../../components/shared/PageHeader';
 import { ContactForm } from './ContactForm';

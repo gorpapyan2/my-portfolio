@@ -1,5 +1,12 @@
 import { useEffect, useState, useCallback } from 'react';
-import { FileText, Calendar, Clock, Globe, Eye, AlertCircle, CheckCircle, Zap } from 'lucide-react';
+import FileText from 'lucide-react/dist/esm/icons/file-text';
+import Calendar from 'lucide-react/dist/esm/icons/calendar';
+import Clock from 'lucide-react/dist/esm/icons/clock';
+import Globe from 'lucide-react/dist/esm/icons/globe';
+import Eye from 'lucide-react/dist/esm/icons/eye';
+import AlertCircle from 'lucide-react/dist/esm/icons/alert-circle';
+import CheckCircle from 'lucide-react/dist/esm/icons/check-circle';
+import Zap from 'lucide-react/dist/esm/icons/zap';
 import { BlogPostInsert } from '../../types/database.types';
 import { FieldErrors } from '../../lib/utils/zodErrorHandler';
 import { ImageUpload } from './ImageUpload';

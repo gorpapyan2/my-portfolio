@@ -1,4 +1,4 @@
-import { Settings } from 'lucide-react';
+import Settings from 'lucide-react/dist/esm/icons/settings';
 import { PageLayout } from '../../components/shared/PageLayout';
 import { PageHeader } from '../../components/shared/PageHeader';
 import { TranslationManager } from './TranslationManager';

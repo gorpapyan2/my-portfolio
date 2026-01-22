@@ -1,6 +1,8 @@
 import { motion } from 'framer-motion';
 import { Link } from 'react-router-dom';
-import { Home, ArrowLeft, Search } from 'lucide-react';
+import Home from 'lucide-react/dist/esm/icons/home';
+import ArrowLeft from 'lucide-react/dist/esm/icons/arrow-left';
+import Search from 'lucide-react/dist/esm/icons/search';
 import { TranslationText } from '../components/shared/TranslationText';
 
 export function NotFoundPage() {

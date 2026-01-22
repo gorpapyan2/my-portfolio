@@ -1,4 +1,4 @@
-import { Languages as LanguagesIcon } from 'lucide-react';
+import LanguagesIcon from 'lucide-react/dist/esm/icons/languages';
 import { motion, useReducedMotion } from 'framer-motion';
 import { cn } from '../../utils/cn';
 import { TranslationText } from '../../components/shared/TranslationText';

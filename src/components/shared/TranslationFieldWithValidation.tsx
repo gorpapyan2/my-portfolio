@@ -1,4 +1,6 @@
-import { AlertCircle, CheckCircle, AlertTriangle } from 'lucide-react';
+import AlertCircle from 'lucide-react/dist/esm/icons/alert-circle';
+import CheckCircle from 'lucide-react/dist/esm/icons/check-circle';
+import AlertTriangle from 'lucide-react/dist/esm/icons/alert-triangle';
 import { FieldValidationState, LANGUAGE_HINTS } from '../../lib/utils/translationValidation';
 
 type LanguageCode = 'en' | 'ru' | 'am';

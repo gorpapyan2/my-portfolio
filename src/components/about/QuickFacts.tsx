@@ -1,4 +1,7 @@
-import { MapPin, Calendar, Target, Briefcase } from 'lucide-react';
+import MapPin from 'lucide-react/dist/esm/icons/map-pin';
+import Calendar from 'lucide-react/dist/esm/icons/calendar';
+import Target from 'lucide-react/dist/esm/icons/target';
+import Briefcase from 'lucide-react/dist/esm/icons/briefcase';
 import { motion, useReducedMotion } from 'framer-motion';
 import { Card } from '../shared/Card';
 import { useLanguage } from '../../context/LanguageContext';

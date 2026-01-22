@@ -1,5 +1,10 @@
 import { useParams, Link, Navigate } from 'react-router-dom';
-import { ArrowLeft, Calendar, Clock, User, BookOpen, RotateCw } from 'lucide-react';
+import ArrowLeft from 'lucide-react/dist/esm/icons/arrow-left';
+import Calendar from 'lucide-react/dist/esm/icons/calendar';
+import Clock from 'lucide-react/dist/esm/icons/clock';
+import User from 'lucide-react/dist/esm/icons/user';
+import BookOpen from 'lucide-react/dist/esm/icons/book-open';
+import RotateCw from 'lucide-react/dist/esm/icons/rotate-cw';
 import { PageLayout } from '../../components/shared/PageLayout';
 import { MarkdownRenderer } from '../../components/markdown/MarkdownRenderer';
 import { Toc } from '../../components/markdown/Toc';

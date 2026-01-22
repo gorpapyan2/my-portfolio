@@ -1,4 +1,5 @@
-import { ChevronDown, ChevronUp } from 'lucide-react';
+import ChevronDown from 'lucide-react/dist/esm/icons/chevron-down';
+import ChevronUp from 'lucide-react/dist/esm/icons/chevron-up';
 import { getDiffSummary, LANGUAGE_HINTS } from '../../lib/utils/translationValidation';
 
 type LanguageCode = 'en' | 'ru' | 'am';
