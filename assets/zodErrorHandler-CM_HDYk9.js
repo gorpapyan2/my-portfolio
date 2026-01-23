@@ -1,0 +1,1 @@
+import{ab as n}from"./index-siMbvs9L.js";function s(r){if(r instanceof n){const o={};return r.issues.forEach(t=>{const e=t.path[0]?.toString()||"root";o[e]=t.message}),o}return r instanceof Error?{root:r.message}:{root:"An unexpected error occurred during validation"}}function a(r){return r instanceof n}export{a as i,s as m};
