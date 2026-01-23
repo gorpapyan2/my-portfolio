@@ -32,18 +32,18 @@ export function HomePage() {
   return (
     <>
       <Hero />
-      <Suspense fallback={null}>
+      <Suspense fallback={<div className="py-[var(--space-64)]"></div>}>
         <Statistics />
       </Suspense>
-      <Suspense fallback={null}>
+      <Suspense fallback={<div className="py-[var(--space-64)]"></div>}>
         <Technologies />
       </Suspense>
-      <Suspense fallback={null}>
+      <Suspense fallback={<div className="py-[var(--space-64)]"></div>}>
         <PortfolioNav />
       </Suspense>
 
       {showCaseStudies && (
-        <Suspense fallback={null}>
+        <Suspense fallback={<div className="py-[var(--space-64)]"></div>}>
           <CaseStudies />
         </Suspense>
       )}
