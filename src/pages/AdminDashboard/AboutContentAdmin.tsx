@@ -1,16 +1,11 @@
 import Plus from 'lucide-react/dist/esm/icons/plus';
 import Trash2 from 'lucide-react/dist/esm/icons/trash-2';
 import Save from 'lucide-react/dist/esm/icons/save';
-import { useLanguage, type Language } from '../../context/LanguageContext';
+import { useLanguage } from '../../context/LanguageContext';
 import { TranslationText } from '../../components/shared/TranslationText';
 import { ImageUpload } from '../../components/admin/ImageUpload';
 import { useAboutContentAdmin } from '../../hooks/useAboutContentAdmin';
-
-const languages: { code: Language; label: string }[] = [
-  { code: 'en', label: 'English' },
-  { code: 'ru', label: 'Russian' },
-  { code: 'am', label: 'Armenian' },
-];
+import { LanguageSelector, AdminLoadingState } from '../../components/admin';
 
 export function AboutContentAdmin() {
   const { t, language } = useLanguage();
@@ -40,11 +35,7 @@ export function AboutContentAdmin() {
   } = useAboutContentAdmin(language, t);
 
   if (loading) {
-    return (
-      <div className="flex items-center justify-center py-8">
-        <TranslationText translationKey="admin.common.loading" as="div" shimmerWidth="120px" className="text-[var(--text)]" />
-      </div>
-    );
+    return <AdminLoadingState shimmerWidth="120px" />;
   }
 
   return (
@@ -53,15 +44,10 @@ export function AboutContentAdmin() {
         <h2 className="text-[length:var(--font-600)] font-semibold text-[var(--text)]">
           <TranslationText translationKey="admin.about.title" as="span" shimmerWidth="200px" />
         </h2>
-        <select
+        <LanguageSelector
           value={activeLanguage}
-          onChange={(e) => setActiveLanguage(e.target.value as Language)}
-          className="field"
-        >
-          {languages.map((lang) => (
-            <option key={lang.code} value={lang.code}>{lang.label}</option>
-          ))}
-        </select>
+          onChange={setActiveLanguage}
+        />
       </div>
 
       {error && (

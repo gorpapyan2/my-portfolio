@@ -1,5 +1,4 @@
 import { useState } from 'react';
-import Plus from 'lucide-react/dist/esm/icons/plus';
 import Edit from 'lucide-react/dist/esm/icons/edit';
 import Trash2 from 'lucide-react/dist/esm/icons/trash-2';
 import Star from 'lucide-react/dist/esm/icons/star';
@@ -10,6 +9,11 @@ import { useProjectService } from '../../lib/services/useProjectService';
 import { Project, ProjectInsert } from '../../types/database.types';
 import { projectSchema } from '../../lib/schemas/projectSchema';
 import { mapZodErrors } from '../../lib/utils/zodErrorHandler';
+import {
+  FormField,
+  TextareaField,
+  FormActions,
+} from '../../components/admin';
 
 interface ProjectAdminProps {
   onClose: () => void;
@@ -130,55 +134,31 @@ export function ProjectAdmin({ onClose }: ProjectAdminProps) {
         {showEditor ? (
           <form onSubmit={handleSubmit} className="space-y-4">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              <div>
-                <label className="form-label">
-                  Title
-                </label>
-                <input
-                  type="text"
-                  value={formData.title}
-                  onChange={(e) => setFormData({ ...formData, title: e.target.value })}
-                  className={`field ${
-                    errors.title ? 'border-red-500' : 'border-[var(--border)]'
-                  }`}
-                  required
-                />
-                {errors.title && (
-                  <p className="text-red-400 text-[length:var(--font-100)] mt-1">{errors.title}</p>
-                )}
-              </div>
-
-              <div>
-                <label className="form-label">
-                  Order Index
-                </label>
-                <input
-                  type="number"
-                  value={formData.order_index}
-                  onChange={(e) => setFormData({ ...formData, order_index: parseInt(e.target.value) || 0 })}
-                  className="field"
-                  min="0"
-                />
-              </div>
-            </div>
-
-            <div>
-              <label className="form-label">
-                Description
-              </label>
-              <textarea
-                value={formData.description}
-                onChange={(e) => setFormData({ ...formData, description: e.target.value })}
-                rows={4}
-                className={`field ${
-                  errors.description ? 'border-red-500' : 'border-[var(--border)]'
-                }`}
+              <FormField
+                label="Title"
+                value={formData.title || ''}
+                onChange={(value) => setFormData({ ...formData, title: value })}
+                error={errors.title}
                 required
               />
-              {errors.description && (
-                <p className="text-red-400 text-[length:var(--font-100)] mt-1">{errors.description}</p>
-              )}
+
+              <FormField
+                type="number"
+                label="Order Index"
+                value={formData.order_index || 0}
+                onChange={(value) => setFormData({ ...formData, order_index: parseInt(value) || 0 })}
+                min={0}
+              />
             </div>
+
+            <TextareaField
+              label="Description"
+              value={formData.description || ''}
+              onChange={(value) => setFormData({ ...formData, description: value })}
+              error={errors.description}
+              rows={4}
+              required
+            />
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div>
@@ -189,30 +169,20 @@ export function ProjectAdmin({ onClose }: ProjectAdminProps) {
                 />
               </div>
 
-              <div>
-                <label className="form-label">
-                  Live URL
-                </label>
-                <input
-                  type="url"
-                  value={formData.live_url}
-                  onChange={(e) => setFormData({ ...formData, live_url: e.target.value })}
-                  className="field"
-                />
-              </div>
-            </div>
-
-            <div>
-              <label className="form-label">
-                GitHub URL
-              </label>
-              <input
+              <FormField
                 type="url"
-                value={formData.github_url}
-                onChange={(e) => setFormData({ ...formData, github_url: e.target.value })}
-                className="field"
+                label="Live URL"
+                value={formData.live_url || ''}
+                onChange={(value) => setFormData({ ...formData, live_url: value })}
               />
             </div>
+
+            <FormField
+              type="url"
+              label="GitHub URL"
+              value={formData.github_url || ''}
+              onChange={(value) => setFormData({ ...formData, github_url: value })}
+            />
 
             <div>
               <label className="form-label">
@@ -270,36 +240,25 @@ export function ProjectAdmin({ onClose }: ProjectAdminProps) {
               </label>
             </div>
 
-            <div className="flex items-center justify-end gap-3 pt-4">
-              <button
-                type="button"
-                onClick={() => {
-                  setShowEditor(false);
-                  setEditingProject(null);
-                  setFormData({
-                    title: '',
-                    description: '',
-                    image: '',
-                    tags: [],
-                    live_url: '',
-                    github_url: '',
-                    order_index: 0,
-                    featured: false
-                  });
-                  setTagInput('');
-                }}
-                className="btn btn-secondary"
-              >
-                Cancel
-              </button>
-              <button
-                type="submit"
-                className="inline-flex items-center gap-2 btn btn-primary"
-              >
-                <Plus className="h-4 w-4" />
-                {editingProject ? 'Update Project' : 'Create Project'}
-              </button>
-            </div>
+            <FormActions
+              onCancel={() => {
+                setShowEditor(false);
+                setEditingProject(null);
+                setFormData({
+                  title: '',
+                  description: '',
+                  image: '',
+                  tags: [],
+                  live_url: '',
+                  github_url: '',
+                  order_index: 0,
+                  featured: false
+                });
+                setTagInput('');
+              }}
+              submitLabel={editingProject ? 'Update Project' : 'Create Project'}
+              cancelLabel="Cancel"
+            />
           </form>
         ) : (
           <>
