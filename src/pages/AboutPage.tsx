@@ -6,20 +6,19 @@ import { Card } from "@/components/shared/Card";
 import AboutMe from "@/components/AboutMe";
 import { KeyResults } from "@/components/about/KeyResults";
 import ScrollIndicator from "@/components/ScrollIndicator";
-import FloatingActions from "@/components/FloatingActions";
-import SoundEffects from "@/components/SoundEffects";
-import PerformanceMonitor from "@/components/PerformanceMonitor";
 import { SectionNavigation } from "@/components/SectionNavigation";
-import { Experience } from "@/components/about/Expirence";
-import { Education } from "@/components/about/Education";
 import { Skills } from "@/components/about/Skills";
 import { TranslationText } from "@/components/shared/TranslationText";
 import { useAboutPageData } from "@/hooks/useAboutPageData";
 
-// Lazy load CVDownload to avoid bundling jsPDF (~100KB) in main bundle
+// Lazy load heavy/utility components to reduce initial bundle
 const CVDownload = lazy(() => import("@/components/about/CVDownload").then(m => ({ default: m.CVDownload })));
-// Lazy load ParticleBackground (decorative element) to reduce initial bundle
 const ParticleBackground = lazy(() => import("@/components/ParticleBackground"));
+const Experience = lazy(() => import("@/components/about/Expirence").then(m => ({ default: m.Experience })));
+const Education = lazy(() => import("@/components/about/Education").then(m => ({ default: m.Education })));
+const FloatingActions = lazy(() => import("@/components/FloatingActions"));
+const SoundEffects = lazy(() => import("@/components/SoundEffects"));
+const PerformanceMonitor = lazy(() => import("@/components/PerformanceMonitor"));
 
 export function AboutPage() {
   const {
@@ -36,7 +35,9 @@ export function AboutPage() {
 
   return (
     <>
-      <SoundEffects enabled={soundEnabled} />
+      <Suspense fallback={null}>
+        <SoundEffects enabled={soundEnabled} />
+      </Suspense>
       <Suspense fallback={null}>
         <ParticleBackground />
       </Suspense>
@@ -95,8 +96,12 @@ export function AboutPage() {
             </div>
           </motion.div> */}
 
-          <Experience />
-          <Education />
+          <Suspense fallback={<div className="text-[var(--text-muted)] text-center py-8">Loading...</div>}>
+            <Experience />
+          </Suspense>
+          <Suspense fallback={<div className="text-[var(--text-muted)] text-center py-8">Loading...</div>}>
+            <Education />
+          </Suspense>
           <Skills />
           <Card className="flex flex-col items-center gap-[var(--space-16)] text-center">
             <h2 className="text-[length:var(--font-600)] font-semibold text-[var(--text)] font-display text-balance">
@@ -110,8 +115,12 @@ export function AboutPage() {
       </PageLayout>
       
       <ScrollIndicator />
-      <FloatingActions />
-      <PerformanceMonitor enabled={performanceMonitoring} />
+      <Suspense fallback={null}>
+        <FloatingActions />
+      </Suspense>
+      <Suspense fallback={null}>
+        <PerformanceMonitor enabled={performanceMonitoring} />
+      </Suspense>
       {aboutErrorKey ? (
         <div
           className="fixed bottom-4 left-1/2 -translate-x-1/2 bg-[var(--surface-strong)] border border-[var(--border)] text-[var(--text-muted)] px-4 py-2 rounded-full text-[length:var(--font-100)] shadow-[0_12px_30px_rgba(0,0,0,0.35)]"
