@@ -7,7 +7,6 @@ import AboutMe from "@/components/AboutMe";
 import { KeyResults } from "@/components/about/KeyResults";
 import ScrollIndicator from "@/components/ScrollIndicator";
 import FloatingActions from "@/components/FloatingActions";
-import ParticleBackground from "@/components/ParticleBackground";
 import SoundEffects from "@/components/SoundEffects";
 import PerformanceMonitor from "@/components/PerformanceMonitor";
 import { SectionNavigation } from "@/components/SectionNavigation";
@@ -19,6 +18,8 @@ import { useAboutPageData } from "@/hooks/useAboutPageData";
 
 // Lazy load CVDownload to avoid bundling jsPDF (~100KB) in main bundle
 const CVDownload = lazy(() => import("@/components/about/CVDownload").then(m => ({ default: m.CVDownload })));
+// Lazy load ParticleBackground (decorative element) to reduce initial bundle
+const ParticleBackground = lazy(() => import("@/components/ParticleBackground"));
 
 export function AboutPage() {
   const {
@@ -36,7 +37,9 @@ export function AboutPage() {
   return (
     <>
       <SoundEffects enabled={soundEnabled} />
-      <ParticleBackground />
+      <Suspense fallback={null}>
+        <ParticleBackground />
+      </Suspense>
       <SectionNavigation />
       
       <PageLayout ariaLabel={t('pages.about.ariaLabel')}>
