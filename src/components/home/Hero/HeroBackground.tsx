@@ -1,10 +1,15 @@
-import { GLSLHills } from "@/components/ui/glsl-hills";
+import { lazy, Suspense } from 'react';
+
+// Lazy load GLSLHills component to reduce initial bundle (Three.js is ~155KB)
+const GLSLHills = lazy(() => import("@/components/ui/glsl-hills").then(m => ({ default: m.GLSLHills })));
 
 export function HeroBackground() {
   return (
     <div className="absolute inset-0 z-0">
       <div className="absolute inset-0 pointer-events-none">
-        <GLSLHills width="100%" height="100%" />
+        <Suspense fallback={null}>
+          <GLSLHills width="100%" height="100%" />
+        </Suspense>
       </div>
       <div className="absolute inset-0 bg-[radial-gradient(1100px_520px_at_10%_-10%,rgba(var(--accent),0.18),transparent_60%),radial-gradient(900px_520px_at_88%_0%,rgba(110,180,255,0.16),transparent_60%)]" />
       <div className="absolute inset-0 opacity-60 bg-[linear-gradient(to_right,rgba(255,255,255,0.05)_1px,transparent_1px),linear-gradient(to_bottom,rgba(255,255,255,0.05)_1px,transparent_1px)] bg-[size:3.5rem_3.5rem]" />
