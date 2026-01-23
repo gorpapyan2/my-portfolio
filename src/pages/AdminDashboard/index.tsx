@@ -203,8 +203,9 @@ export function AdminDashboard() {
               <div className="p-[var(--space-24)]">
                 <Suspense
                   fallback={(
-                    <div className="flex items-center justify-center py-[var(--space-24)] text-[var(--text)]">
-                      <TranslationText translationKey="admin.common.loading" as="span" shimmerWidth="140px" />
+                    <div className="flex flex-col items-center justify-center py-[var(--space-64)] gap-[var(--space-16)]">
+                      <div className="w-8 h-8 border-4 border-[var(--border)] border-t-accent rounded-full animate-spin"></div>
+                      <TranslationText translationKey="admin.common.loading" as="span" shimmerWidth="140px" className="text-[var(--text-muted)] text-[length:var(--font-200)]" />
                     </div>
                   )}
                 >
