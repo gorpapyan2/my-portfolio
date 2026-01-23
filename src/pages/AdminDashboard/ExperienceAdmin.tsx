@@ -1,5 +1,4 @@
 import { useState } from 'react';
-import Plus from 'lucide-react/dist/esm/icons/plus';
 import Edit from 'lucide-react/dist/esm/icons/edit';
 import Trash2 from 'lucide-react/dist/esm/icons/trash-2';
 import { useExperienceService } from '../../lib/services/useExperienceService';
@@ -8,6 +7,15 @@ import { experienceSchema } from '../../lib/schemas/experienceSchema';
 import { TranslationText } from '../../components/shared/TranslationText';
 import { useLanguage } from '../../context/LanguageContext';
 import { useAdminCrudForm } from '../../hooks/useAdminCrudForm';
+import {
+  FormField,
+  TextareaField,
+  LanguageSelector,
+  AdminHeader,
+  FormActions,
+  AdminLoadingState,
+  AdminToolbar,
+} from '../../components/admin';
 
 interface ExperienceAdminProps {
   onClose: () => void;
@@ -78,115 +86,59 @@ export function ExperienceAdmin({ onClose }: ExperienceAdminProps) {
   };
 
   if (isLoading) {
-    return (
-      <div className="flex items-center justify-center py-8">
-        <TranslationText translationKey="admin.common.loading" as="div" shimmerWidth="100px" className="text-[var(--text)]" />
-      </div>
-    );
+    return <AdminLoadingState />;
   }
 
   return (
     <div>
-      <div className="flex items-center justify-between mb-6">
-        <h2 className="text-[length:var(--font-600)] font-semibold text-[var(--text)]">
-          <TranslationText translationKey="admin.experience.title" as="span" shimmerWidth="230px" />
-        </h2>
-        <button
-          onClick={onClose}
-          className="p-2 text-[var(--text-muted)] hover:text-[var(--text)] transition-colors"
-        >
-          ×
-        </button>
-      </div>
+      <AdminHeader
+        title={<TranslationText translationKey="admin.experience.title" as="span" shimmerWidth="230px" />}
+        onClose={onClose}
+      />
 
       {showEditor ? (
         <form onSubmit={handleSubmit} className="space-y-4">
-          <div>
-            <label className="form-label">{t('admin.common.language')}</label>
-            <select
-              value={activeLanguage}
-              onChange={(e) => setActiveLanguage(e.target.value as typeof activeLanguage)}
-              className="field"
-            >
-              <option value="en">English</option>
-              <option value="ru">Russian</option>
-              <option value="am">Armenian</option>
-            </select>
-          </div>
+          <LanguageSelector
+            value={activeLanguage}
+            onChange={setActiveLanguage}
+            label={t('admin.common.language')}
+          />
+
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <div>
-              <label className="form-label">
-                {t('admin.experience.form.role')}
-              </label>
-              <input
-                type="text"
-                value={formData.role}
-                onChange={(e) => setFormData({ ...formData, role: e.target.value })}
-                className={`field ${
-                  errors.role ? 'border-red-500' : 'border-[var(--border)]'
-                }`}
-                required
-              />
-              {errors.role && (
-                <p className="text-red-400 text-[length:var(--font-100)] mt-1">{errors.role}</p>
-              )}
-            </div>
-
-            <div>
-              <label className="form-label">
-                {t('admin.experience.form.company')}
-              </label>
-              <input
-                type="text"
-                value={formData.company}
-                onChange={(e) => setFormData({ ...formData, company: e.target.value })}
-                className={`field ${
-                  errors.company ? 'border-red-500' : 'border-[var(--border)]'
-                }`}
-                required
-              />
-              {errors.company && (
-                <p className="text-red-400 text-[length:var(--font-100)] mt-1">{errors.company}</p>
-              )}
-            </div>
-          </div>
-
-          <div>
-            <label className="form-label">
-              {t('admin.experience.form.period')}
-            </label>
-            <input
-              type="text"
-              value={formData.period}
-              onChange={(e) => setFormData({ ...formData, period: e.target.value })}
-              className={`field ${
-                errors.period ? 'border-red-500' : 'border-[var(--border)]'
-              }`}
-              placeholder={t('admin.experience.periodPlaceholder')}
+            <FormField
+              label={t('admin.experience.form.role')}
+              value={formData.role}
+              onChange={(value) => setFormData({ ...formData, role: value })}
+              error={errors.role}
               required
             />
-            {errors.period && (
-              <p className="text-red-400 text-[length:var(--font-100)] mt-1">{errors.period}</p>
-            )}
-          </div>
 
-          <div>
-            <label className="form-label">
-              {t('admin.common.description')}
-            </label>
-            <textarea
-              value={formData.description}
-              onChange={(e) => setFormData({ ...formData, description: e.target.value })}
-              rows={3}
-              className={`field ${
-                errors.description ? 'border-red-500' : 'border-[var(--border)]'
-              }`}
+            <FormField
+              label={t('admin.experience.form.company')}
+              value={formData.company}
+              onChange={(value) => setFormData({ ...formData, company: value })}
+              error={errors.company}
               required
             />
-            {errors.description && (
-              <p className="text-red-400 text-[length:var(--font-100)] mt-1">{errors.description}</p>
-            )}
           </div>
+
+          <FormField
+            label={t('admin.experience.form.period')}
+            value={formData.period}
+            onChange={(value) => setFormData({ ...formData, period: value })}
+            error={errors.period}
+            placeholder={t('admin.experience.periodPlaceholder')}
+            required
+          />
+
+          <TextareaField
+            label={t('admin.common.description')}
+            value={formData.description}
+            onChange={(value) => setFormData({ ...formData, description: value })}
+            error={errors.description}
+            rows={3}
+            required
+          />
 
           <div>
             <label className="form-label">
@@ -228,59 +180,30 @@ export function ExperienceAdmin({ onClose }: ExperienceAdminProps) {
             </div>
           </div>
 
-          <div>
-            <label className="form-label">
-              {t('admin.common.orderIndex')}
-            </label>
-            <input
-              type="number"
-              value={formData.order_index}
-              onChange={(e) => setFormData({ ...formData, order_index: parseInt(e.target.value) || 0 })}
-              className="field"
-              min="0"
-            />
-          </div>
+          <FormField
+            type="number"
+            label={t('admin.common.orderIndex')}
+            value={formData.order_index}
+            onChange={(value) => setFormData({ ...formData, order_index: parseInt(value) || 0 })}
+            min={0}
+          />
 
-          <div className="flex items-center justify-end gap-3 pt-4">
-            <button
-              type="button"
-              onClick={handleCancel}
-              className="btn btn-secondary"
-            >
-              {t('admin.common.cancel')}
-            </button>
-            <button
-              type="submit"
-              className="inline-flex items-center gap-2 btn btn-primary"
-            >
-              <Plus className="h-4 w-4" />
-              {editingExperience ? t('admin.experience.button.update') : t('admin.experience.button.create')}
-            </button>
-          </div>
+          <FormActions
+            onCancel={handleCancel}
+            submitLabel={editingExperience ? t('admin.experience.button.update') : t('admin.experience.button.create')}
+            cancelLabel={t('admin.common.cancel')}
+          />
         </form>
       ) : (
         <>
-          <div className="flex flex-wrap items-center justify-between gap-3 mb-6">
-            <h3 className="text-[length:var(--font-400)] font-medium text-[var(--text)]">{t('admin.experience.titleCount')} ({experiences.length})</h3>
-            <div className="flex items-center gap-3">
-              <select
-                value={activeLanguage}
-                onChange={(e) => setActiveLanguage(e.target.value as typeof activeLanguage)}
-                className="field"
-              >
-                <option value="en">English</option>
-                <option value="ru">Russian</option>
-                <option value="am">Armenian</option>
-              </select>
-              <button
-                onClick={() => setShowEditor(true)}
-                className="inline-flex items-center gap-2 btn btn-primary"
-              >
-                <Plus className="h-4 w-4" />
-                {t('admin.experience.addExperience')}
-              </button>
-            </div>
-          </div>
+          <AdminToolbar
+            title={t('admin.experience.titleCount')}
+            itemCount={experiences.length}
+            activeLanguage={activeLanguage}
+            onLanguageChange={setActiveLanguage}
+            onAdd={() => setShowEditor(true)}
+            addButtonLabel={t('admin.experience.addExperience')}
+          />
 
           <div className="space-y-4">
             {experiences.map((experience) => (

@@ -1,10 +1,19 @@
-import Plus from 'lucide-react/dist/esm/icons/plus';
 import Edit from 'lucide-react/dist/esm/icons/edit';
 import Trash2 from 'lucide-react/dist/esm/icons/trash-2';
 import { TranslationText } from '../../components/shared/TranslationText';
-import { useLanguage, type Language } from '../../context/LanguageContext';
+import { useLanguage } from '../../context/LanguageContext';
 import { getIcon } from '../../utils/iconMap';
 import { useTechnologyAdmin } from '../../hooks/useTechnologyAdmin';
+import {
+  FormField,
+  TextareaField,
+  SelectField,
+  LanguageSelector,
+  AdminHeader,
+  FormActions,
+  AdminLoadingState,
+  AdminToolbar,
+} from '../../components/admin';
 
 interface TechnologyAdminProps {
   onClose: () => void;
@@ -72,26 +81,15 @@ export function TechnologyAdmin({ onClose }: TechnologyAdminProps) {
   };
 
   if (isLoading) {
-    return (
-      <div className="flex items-center justify-center py-8">
-        <TranslationText translationKey="admin.common.loading" as="div" shimmerWidth="120px" className="text-[var(--text)]" />
-      </div>
-    );
+    return <AdminLoadingState shimmerWidth="120px" />;
   }
 
   return (
     <div>
-      <div className="flex items-center justify-between mb-6">
-        <h2 className="text-[length:var(--font-600)] font-semibold text-[var(--text)]">
-          <TranslationText translationKey="technologies.title" as="span" shimmerWidth="220px" />
-        </h2>
-        <button
-          onClick={onClose}
-          className="p-2 text-[var(--text-muted)] hover:text-[var(--text)] transition-colors"
-        >
-          X
-        </button>
-      </div>
+      <AdminHeader
+        title={<TranslationText translationKey="technologies.title" as="span" shimmerWidth="220px" />}
+        onClose={onClose}
+      />
 
       {errorMessage && (
         <div className="text-red-400 text-[length:var(--font-100)] mb-4">{errorMessage}</div>
@@ -100,195 +98,126 @@ export function TechnologyAdmin({ onClose }: TechnologyAdminProps) {
       {showEditor ? (
         <form onSubmit={handleSubmitWithAlert} className="space-y-4">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <div>
-              <label className="form-label">{t('admin.common.language')}</label>
-              <select
-                value={activeLanguage}
-                onChange={(e) => setActiveLanguage(e.target.value as Language)}
-                className="field"
-              >
-                <option value="en">English</option>
-                <option value="ru">Russian</option>
-                <option value="am">Armenian</option>
-              </select>
-            </div>
-            <div>
-              <label className="form-label">Slug</label>
-              <input
-                type="text"
-                value={formData.slug ?? ''}
-                onChange={(e) => setFormData({ ...formData, slug: e.target.value })}
-                className={`field ${errors.slug ? 'border-red-500' : 'border-[var(--border)]'}`}
-                required
-              />
-              {errors.slug && <p className="text-red-400 text-[length:var(--font-100)] mt-1">{errors.slug}</p>}
-            </div>
+            <LanguageSelector
+              value={activeLanguage}
+              onChange={setActiveLanguage}
+              label={t('admin.common.language')}
+            />
+
+            <FormField
+              label="Slug"
+              value={formData.slug ?? ''}
+              onChange={(value) => setFormData({ ...formData, slug: value })}
+              error={errors.slug}
+              required
+            />
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <div>
-              <label className="form-label">Title</label>
-              <input
-                type="text"
-                value={formData.title ?? ''}
-                onChange={(e) => setFormData({ ...formData, title: e.target.value })}
-                className={`field ${errors.title ? 'border-red-500' : 'border-[var(--border)]'}`}
-                required
-              />
-              {errors.title && <p className="text-red-400 text-[length:var(--font-100)] mt-1">{errors.title}</p>}
-            </div>
-            <div>
-              <label className="form-label">Category</label>
-              <input
-                type="text"
-                value={formData.category ?? ''}
-                onChange={(e) => setFormData({ ...formData, category: e.target.value })}
-                className={`field ${errors.category ? 'border-red-500' : 'border-[var(--border)]'}`}
-                required
-              />
-              {errors.category && <p className="text-red-400 text-[length:var(--font-100)] mt-1">{errors.category}</p>}
-            </div>
-          </div>
-
-          <div>
-            <label className="form-label">{t('admin.common.description')}</label>
-            <textarea
-              value={formData.description ?? ''}
-              onChange={(e) => setFormData({ ...formData, description: e.target.value })}
-              rows={3}
-              className={`field ${errors.description ? 'border-red-500' : 'border-[var(--border)]'}`}
+            <FormField
+              label="Title"
+              value={formData.title ?? ''}
+              onChange={(value) => setFormData({ ...formData, title: value })}
+              error={errors.title}
               required
             />
-            {errors.description && <p className="text-red-400 text-[length:var(--font-100)] mt-1">{errors.description}</p>}
+
+            <FormField
+              label="Category"
+              value={formData.category ?? ''}
+              onChange={(value) => setFormData({ ...formData, category: value })}
+              error={errors.category}
+              required
+            />
           </div>
+
+          <TextareaField
+            label={t('admin.common.description')}
+            value={formData.description ?? ''}
+            onChange={(value) => setFormData({ ...formData, description: value })}
+            error={errors.description}
+            rows={3}
+            required
+          />
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <div>
-              <label className="form-label">Icon</label>
-              <select
-                value={formData.icon_name ?? 'Code2'}
-                onChange={(e) => setFormData({ ...formData, icon_name: e.target.value })}
-                className="admin-select w-full"
-              >
-                {iconOptions.map((icon) => (
-                  <option key={icon} value={icon}>
-                    {icon}
-                  </option>
-                ))}
-              </select>
-            </div>
-            <div>
-              <label className="form-label">Level</label>
-              <input
-                type="number"
-                value={formData.level ?? 0}
-                onChange={(e) => setFormData({ ...formData, level: parseInt(e.target.value, 10) || 0 })}
-                className={`field ${errors.level ? 'border-red-500' : 'border-[var(--border)]'}`}
-                min="0"
-                max="100"
-                required
-              />
-              {errors.level && <p className="text-red-400 text-[length:var(--font-100)] mt-1">{errors.level}</p>}
-            </div>
-          </div>
+            <SelectField
+              label="Icon"
+              value={formData.icon_name ?? 'Code2'}
+              onChange={(value) => setFormData({ ...formData, icon_name: value })}
+              options={iconOptions.map((icon) => ({ value: icon, label: icon }))}
+            />
 
-          <div>
-            <label className="form-label">Detailed description (one per line)</label>
-            <textarea
-              value={detailText}
-              onChange={(e) => {
-                setDetailText(e.target.value);
-                setDetailData((prev) => ({
-                  ...prev,
-                  detailed_description: parseLines(e.target.value)
-                }));
-              }}
-              rows={4}
-              className={`field ${detailErrors.detailed_description ? 'border-red-500' : 'border-[var(--border)]'}`}
+            <FormField
+              type="number"
+              label="Level"
+              value={formData.level ?? 0}
+              onChange={(value) => setFormData({ ...formData, level: parseInt(value, 10) || 0 })}
+              error={errors.level}
+              min={0}
+              max={100}
               required
             />
-            {detailErrors.detailed_description && (
-              <p className="text-red-400 text-[length:var(--font-100)] mt-1">{detailErrors.detailed_description}</p>
-            )}
           </div>
 
-          <div>
-            <label className="form-label">Tags (comma or line separated)</label>
-            <textarea
-              value={tagsText}
-              onChange={(e) => {
-                setTagsText(e.target.value);
-                setDetailData((prev) => ({
-                  ...prev,
-                  tags: parseTags(e.target.value)
-                }));
-              }}
-              rows={2}
-              className={`field ${detailErrors.tags ? 'border-red-500' : 'border-[var(--border)]'}`}
-              required
-            />
-            {detailErrors.tags && <p className="text-red-400 text-[length:var(--font-100)] mt-1">{detailErrors.tags}</p>}
-          </div>
+          <TextareaField
+            label="Detailed description (one per line)"
+            value={detailText}
+            onChange={(value) => {
+              setDetailText(value);
+              setDetailData((prev) => ({
+                ...prev,
+                detailed_description: parseLines(value)
+              }));
+            }}
+            error={detailErrors.detailed_description}
+            rows={4}
+            required
+          />
 
-          <div>
-            <label className="form-label">Real world example</label>
-            <textarea
-              value={detailData.real_world_example}
-              onChange={(e) => setDetailData((prev) => ({ ...prev, real_world_example: e.target.value }))}
-              rows={3}
-              className={`field ${detailErrors.real_world_example ? 'border-red-500' : 'border-[var(--border)]'}`}
-              required
-            />
-            {detailErrors.real_world_example && (
-              <p className="text-red-400 text-[length:var(--font-100)] mt-1">{detailErrors.real_world_example}</p>
-            )}
-          </div>
+          <TextareaField
+            label="Tags (comma or line separated)"
+            value={tagsText}
+            onChange={(value) => {
+              setTagsText(value);
+              setDetailData((prev) => ({
+                ...prev,
+                tags: parseTags(value)
+              }));
+            }}
+            error={detailErrors.tags}
+            rows={2}
+            required
+          />
 
-          <div className="flex items-center justify-end gap-3 pt-4">
-            <button
-              type="button"
-              onClick={() => {
-                setShowEditor(false);
-                resetForm();
-              }}
-              className="btn btn-secondary"
-            >
-              {t('admin.common.cancel')}
-            </button>
-            <button
-              type="submit"
-              className="inline-flex items-center gap-2 btn btn-primary"
-            >
-              <Plus className="h-4 w-4" />
-              {editingTechnology ? t('admin.common.save') : t('admin.common.add')}
-            </button>
-          </div>
+          <TextareaField
+            label="Real world example"
+            value={detailData.real_world_example}
+            onChange={(value) => setDetailData((prev) => ({ ...prev, real_world_example: value }))}
+            error={detailErrors.real_world_example}
+            rows={3}
+            required
+          />
+
+          <FormActions
+            onCancel={() => {
+              setShowEditor(false);
+              resetForm();
+            }}
+            submitLabel={editingTechnology ? t('admin.common.save') : t('admin.common.add')}
+            cancelLabel={t('admin.common.cancel')}
+          />
         </form>
       ) : (
         <>
-          <div className="flex flex-wrap items-center justify-between gap-3 mb-6">
-            <h3 className="text-[length:var(--font-400)] font-medium text-[var(--text)]">
-              {t('technologies.title')} ({technologies.length})
-            </h3>
-            <div className="flex items-center gap-3">
-              <select
-                value={activeLanguage}
-                onChange={(e) => setActiveLanguage(e.target.value as Language)}
-                className="field"
-              >
-                <option value="en">English</option>
-                <option value="ru">Russian</option>
-                <option value="am">Armenian</option>
-              </select>
-              <button
-                onClick={() => setShowEditor(true)}
-                className="inline-flex items-center gap-2 btn btn-primary"
-              >
-                <Plus className="h-4 w-4" />
-                {t('admin.common.add')}
-              </button>
-            </div>
-          </div>
+          <AdminToolbar
+            title={t('technologies.title')}
+            itemCount={technologies.length}
+            activeLanguage={activeLanguage}
+            onLanguageChange={setActiveLanguage}
+            onAdd={() => setShowEditor(true)}
+            addButtonLabel={t('admin.common.add')}
+          />
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
             {technologiesWithDetails.map(({ technology, detail }) => {
