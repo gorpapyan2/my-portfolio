@@ -1,7 +1,6 @@
+import { lazy, Suspense } from 'react';
 import { Link } from 'react-router-dom';
 import { Hero } from '../components/home/Hero';
-import { Statistics } from '../components/home/Statistics';
-import { Technologies } from '../components/home/Technologies';
 import { PortfolioNav } from '../components/home/PortfolioNav';
 import { CaseStudies } from '../components/home/CaseStudies';
 import { ProjectCard } from './WorkPage/ProjectCard';
@@ -12,6 +11,10 @@ import { useBlogService } from '../lib/services/useBlogService';
 import { usePublicFeatureFlags } from '../lib/services/usePublicFeatureFlags';
 import { AsyncContent } from '../components/shared/AsyncContent';
 import { TranslationText } from '../components/shared/TranslationText';
+
+// Lazy load below-the-fold sections to reduce initial bundle
+const Statistics = lazy(() => import('../components/home/Statistics').then(m => ({ default: m.Statistics })));
+const Technologies = lazy(() => import('../components/home/Technologies').then(m => ({ default: m.Technologies })));
 
 export function HomePage() {
   const { t, language } = useLanguage();
@@ -29,8 +32,12 @@ export function HomePage() {
   return (
     <>
       <Hero />
-      <Statistics />
-      <Technologies />
+      <Suspense fallback={null}>
+        <Statistics />
+      </Suspense>
+      <Suspense fallback={null}>
+        <Technologies />
+      </Suspense>
       <PortfolioNav />
 
       {showCaseStudies && (

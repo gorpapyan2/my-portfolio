@@ -1,3 +1,4 @@
+import { lazy, Suspense } from 'react';
 import User from 'lucide-react/dist/esm/icons/user';
 import { PageLayout } from "@/components/shared/PageLayout";
 import { PageHeader } from "@/components/shared/PageHeader";
@@ -14,8 +15,10 @@ import { Experience } from "@/components/about/Expirence";
 import { Education } from "@/components/about/Education";
 import { Skills } from "@/components/about/Skills";
 import { TranslationText } from "@/components/shared/TranslationText";
-import { CVDownload } from "@/components/about/CVDownload";
 import { useAboutPageData } from "@/hooks/useAboutPageData";
+
+// Lazy load CVDownload to avoid bundling jsPDF (~100KB) in main bundle
+const CVDownload = lazy(() => import("@/components/about/CVDownload").then(m => ({ default: m.CVDownload })));
 
 export function AboutPage() {
   const {
@@ -96,7 +99,9 @@ export function AboutPage() {
             <h2 className="text-[length:var(--font-600)] font-semibold text-[var(--text)] font-display text-balance">
               <TranslationText translationKey="hero.downloadCV" shimmerWidth="140px" />
             </h2>
-            <CVDownload />
+            <Suspense fallback={<div className="text-[var(--text-muted)]">Loading...</div>}>
+              <CVDownload />
+            </Suspense>
           </Card>
         </div>
       </PageLayout>
