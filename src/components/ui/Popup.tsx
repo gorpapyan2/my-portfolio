@@ -1,5 +1,6 @@
 import { motion, AnimatePresence } from 'framer-motion';
-import { X, CheckCircle } from 'lucide-react';
+import X from 'lucide-react/dist/esm/icons/x';
+import CheckCircle from 'lucide-react/dist/esm/icons/check-circle';
 
 interface PopupProps {
   isOpen: boolean;

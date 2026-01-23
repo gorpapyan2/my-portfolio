@@ -1,5 +1,8 @@
 import React, { useEffect, useState } from "react";
-import { Menu, X, FileDown, Languages } from "lucide-react";
+import Menu from 'lucide-react/dist/esm/icons/menu';
+import X from 'lucide-react/dist/esm/icons/x';
+import FileDown from 'lucide-react/dist/esm/icons/file-down';
+import Languages from 'lucide-react/dist/esm/icons/languages';
 import { NavLink, useLocation } from "react-router-dom";
 import { useLanguage, Language } from "../../context/LanguageContext";
 import { usePublicFeatureFlags } from "../../lib/services/usePublicFeatureFlags";

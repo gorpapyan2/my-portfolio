@@ -1,5 +1,6 @@
 import { motion } from "framer-motion";
-import { ArrowUp, Home } from "lucide-react";
+import ArrowUp from 'lucide-react/dist/esm/icons/arrow-up';
+import Home from 'lucide-react/dist/esm/icons/home';
 import { Link } from "react-router-dom";
 
 export default function FloatingActions() {

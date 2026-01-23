@@ -1,17 +1,22 @@
 import { createBrowserRouter } from 'react-router-dom';
+import { lazy, Suspense } from 'react';
 import { Layout } from '../components/Layout';
 import { RootLayout } from '../components/RootLayout';
 import { HomePage } from '../pages/HomePage';
 import { AboutPage } from '../pages/AboutPage';
 import { WorkPage } from '../pages/WorkPage/index';
 import { BlogPage } from '../pages/BlogPage/index';
-import { BlogViewPage } from '../pages/BlogPage/BlogViewPage';
-import { ContactPage } from '../pages/ContactPage/index';
-import { AdminLoginPage } from '../pages/AdminLoginPage';
-import { AdminDashboard } from '../pages/AdminDashboard';
 import { NotFoundPage } from '../pages/NotFoundPage';
 import { ProtectedRoute } from '../components/auth/ProtectedRoute';
-import { AdminPage } from '../pages/AdminPage';
+import { LoadingFallback } from '../components/LoadingFallback';
+
+// Lazy load heavy/infrequent routes to reduce initial bundle size
+// These routes contain large dependencies (Markdown/Shiki, Three.js, admin logic)
+const BlogViewPage = lazy(() => import('../pages/BlogPage/BlogViewPage').then(m => ({ default: m.BlogViewPage })));
+const ContactPage = lazy(() => import('../pages/ContactPage/index').then(m => ({ default: m.ContactPage })));
+const AdminLoginPage = lazy(() => import('../pages/AdminLoginPage').then(m => ({ default: m.AdminLoginPage })));
+const AdminPage = lazy(() => import('../pages/AdminPage').then(m => ({ default: m.AdminPage })));
+const AdminDashboard = lazy(() => import('../pages/AdminDashboard').then(m => ({ default: m.AdminDashboard })));
 
 
 export const router = createBrowserRouter([
@@ -40,11 +45,19 @@ export const router = createBrowserRouter([
           },
           {
             path: 'blog/:slug',
-            element: <BlogViewPage />,
+            element: (
+              <Suspense fallback={<LoadingFallback />}>
+                <BlogViewPage />
+              </Suspense>
+            ),
           },
           {
             path: 'contact',
-            element: <ContactPage />,
+            element: (
+              <Suspense fallback={<LoadingFallback />}>
+                <ContactPage />
+              </Suspense>
+            ),
           },
           {
             path: '*',
@@ -54,18 +67,28 @@ export const router = createBrowserRouter([
       },
       {
         path: '/admin/login',
-        element: <AdminLoginPage />,
+        element: (
+          <Suspense fallback={<LoadingFallback />}>
+            <AdminLoginPage />
+          </Suspense>
+        ),
       },
       {
         path: '/admin',
-        element: <AdminPage />,
+        element: (
+          <Suspense fallback={<LoadingFallback />}>
+            <AdminPage />
+          </Suspense>
+        ),
       },
       {
         path: '/admin/dashboard',
         element: (
-          <ProtectedRoute>
-            <AdminDashboard />
-          </ProtectedRoute>
+          <Suspense fallback={<LoadingFallback />}>
+            <ProtectedRoute>
+              <AdminDashboard />
+            </ProtectedRoute>
+          </Suspense>
         ),
       },
       {

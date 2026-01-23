@@ -1,4 +1,4 @@
-import { GraduationCap } from 'lucide-react';
+import GraduationCap from 'lucide-react/dist/esm/icons/graduation-cap';
 import { EducationList } from './EducationList';
 import { SectionHeader } from '../../shared/SectionHeader';
 import { TranslationText } from '../../../components/shared/TranslationText';

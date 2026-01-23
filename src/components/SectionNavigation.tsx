@@ -1,6 +1,9 @@
 import { useState, useEffect, useRef } from 'react';
 import { motion, useReducedMotion } from 'framer-motion';
-import { User, Briefcase, GraduationCap, Lightbulb } from 'lucide-react';
+import User from 'lucide-react/dist/esm/icons/user';
+import Briefcase from 'lucide-react/dist/esm/icons/briefcase';
+import GraduationCap from 'lucide-react/dist/esm/icons/graduation-cap';
+import Lightbulb from 'lucide-react/dist/esm/icons/lightbulb';
 import { TranslationText } from './shared/TranslationText';
 
 const sectionsBase = [

@@ -1,4 +1,6 @@
-import { Mail, Phone, MapPin } from 'lucide-react';
+import Mail from 'lucide-react/dist/esm/icons/mail';
+import Phone from 'lucide-react/dist/esm/icons/phone';
+import MapPin from 'lucide-react/dist/esm/icons/map-pin';
 import { Card } from '../../components/shared/Card';
 import { useLanguage } from '../../context/LanguageContext';
 import { TranslationText } from '../../components/shared/TranslationText';

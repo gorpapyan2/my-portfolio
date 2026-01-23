@@ -1,5 +1,9 @@
 import { useMemo, useState, useEffect } from 'react';
-import { Plus, Search, Filter, Download, AlertCircle } from 'lucide-react';
+import Plus from 'lucide-react/dist/esm/icons/plus';
+import Search from 'lucide-react/dist/esm/icons/search';
+import Filter from 'lucide-react/dist/esm/icons/filter';
+import Download from 'lucide-react/dist/esm/icons/download';
+import AlertCircle from 'lucide-react/dist/esm/icons/alert-circle';
 import { Card } from '../../components/shared/Card';
 import { UnifiedTranslationModal } from '../../components/shared/UnifiedTranslationModal';
 import { useLanguage } from '../../context/LanguageContext';

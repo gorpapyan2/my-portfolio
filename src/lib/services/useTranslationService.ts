@@ -76,6 +76,7 @@ export function useTranslationService(): TranslationService {
       let from = 0;
       let allTranslations: Translation[] = [];
 
+      // eslint-disable-next-line no-constant-condition
       while (true) {
         const { data, error: supabaseError } = await supabase
           .from('translations')

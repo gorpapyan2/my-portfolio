@@ -1,4 +1,4 @@
-import { BookOpen } from 'lucide-react';
+import BookOpen from 'lucide-react/dist/esm/icons/book-open';
 import { PageLayout } from '../../components/shared/PageLayout';
 import { PageHeader } from '../../components/shared/PageHeader';
 import { BlogGrid } from './BlogGrid';

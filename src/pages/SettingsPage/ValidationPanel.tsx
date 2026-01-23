@@ -1,5 +1,7 @@
 import { useState } from 'react';
-import { X, AlertTriangle, CheckCircle } from 'lucide-react';
+import X from 'lucide-react/dist/esm/icons/x';
+import AlertTriangle from 'lucide-react/dist/esm/icons/alert-triangle';
+import CheckCircle from 'lucide-react/dist/esm/icons/check-circle';
 import { Card } from '../../components/shared/Card';
 import { useLanguage } from '../../context/LanguageContext';
 import { TranslationText } from '../../components/shared/TranslationText';

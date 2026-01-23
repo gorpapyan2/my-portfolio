@@ -1,5 +1,9 @@
 import { useState } from 'react';
-import { Share2, Twitter, Linkedin, Copy, Check } from 'lucide-react';
+import Share2 from 'lucide-react/dist/esm/icons/share-2';
+import Twitter from 'lucide-react/dist/esm/icons/twitter';
+import Linkedin from 'lucide-react/dist/esm/icons/linkedin';
+import Copy from 'lucide-react/dist/esm/icons/copy';
+import Check from 'lucide-react/dist/esm/icons/check';
 import { useLanguage } from '../context/LanguageContext';
 
 interface ShareButtonProps {

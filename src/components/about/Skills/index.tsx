@@ -1,4 +1,4 @@
-import { Lightbulb } from "lucide-react";
+import Lightbulb from 'lucide-react/dist/esm/icons/lightbulb';
 import { SectionHeader } from "../../shared/SectionHeader";
 import { TranslationText } from "../../../components/shared/TranslationText";
 import { useSkillService } from "../../../lib/services/useSkillService";

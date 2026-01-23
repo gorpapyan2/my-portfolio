@@ -1,10 +1,14 @@
-import { Users, Briefcase, BookOpen, Mail, Lock } from 'lucide-react';
+import Users from 'lucide-react/dist/esm/icons/users';
+import Briefcase from 'lucide-react/dist/esm/icons/briefcase';
+import BookOpen from 'lucide-react/dist/esm/icons/book-open';
+import Mail from 'lucide-react/dist/esm/icons/mail';
+import Lock from 'lucide-react/dist/esm/icons/lock';
 import { motion, useReducedMotion } from 'framer-motion';
 import { useLanguage } from '../../../context/LanguageContext';
 import { usePublicFeatureFlags } from '../../../lib/services/usePublicFeatureFlags';
 import { PortfolioNavCard } from './PortfolioNavCard';
 import { Card } from '../../shared/Card';
-import { LucideIcon } from 'lucide-react';
+import LucideIcon from 'lucide-react/dist/esm/icons/lucide-icon';
 import { TranslationText } from '../../../components/shared/TranslationText';
 
 interface NavCard {

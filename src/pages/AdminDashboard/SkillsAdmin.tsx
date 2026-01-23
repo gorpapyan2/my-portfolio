@@ -1,13 +1,21 @@
 import { useState } from 'react';
-import Plus from 'lucide-react/dist/esm/icons/plus';
-import Edit from 'lucide-react/dist/esm/icons/edit';
-import Trash2 from 'lucide-react/dist/esm/icons/trash-2';
 import { useSkillService } from '../../lib/services/useSkillService';
 import { Skill, SkillInsert } from '../../types/database.types';
 import { skillSchema } from '../../lib/schemas/skillSchema';
 import { getIcon } from '../../utils/iconMap';
 import { TranslationText } from '../../components/shared/TranslationText';
 import { useLanguage } from '../../context/LanguageContext';
+import { useAdminCrudForm } from '../../hooks/useAdminCrudForm';
+import {
+  FormField,
+  TextareaField,
+  SelectField,
+  LanguageSelector,
+  AdminHeader,
+  FormActions,
+  AdminLoadingState,
+  AdminToolbar,
+} from '../../components/admin';
 
 interface SkillsAdminProps {
   onClose: () => void;
@@ -19,254 +27,124 @@ export function SkillsAdmin({ onClose }: SkillsAdminProps) {
   const { skills, isLoading, createSkill, updateSkill, deleteSkill } = useSkillService({
     language: activeLanguage,
   });
-  const [showEditor, setShowEditor] = useState(false);
-  const [editingSkill, setEditingSkill] = useState<Skill | null>(null);
-  const [formData, setFormData] = useState<Partial<SkillInsert>>({
-    title: '',
-    description: '',
-    icon: 'Code2',
-    level: 0,
-    order_index: 0
+
+  const {
+    showEditor,
+    setShowEditor,
+    editingItem: editingSkill,
+    formData,
+    setFormData,
+    errors,
+    handleSubmit,
+    handleEdit,
+    handleDelete,
+    resetForm
+  } = useAdminCrudForm<Skill, SkillInsert>({
+    items: skills,
+    isLoading,
+    createItem: createSkill,
+    updateItem: updateSkill,
+    deleteItem: deleteSkill,
+    schema: skillSchema,
+    initialFormData: {
+      title: '',
+      description: '',
+      icon: 'Code2',
+      level: 0,
+      order_index: 0
+    },
+    language: activeLanguage,
+    confirmDeleteKey: 'admin.skills.confirm.delete',
+    deleteErrorKey: 'admin.skills.error.deleteFailed',
+    t
   });
-  const [errors, setErrors] = useState<Record<string, string>>({});
 
   const iconOptions = [
-    'Code2', 'GitBranch', 'Workflow', 'Kanban', 'Database', 
+    'Code2', 'GitBranch', 'Workflow', 'Kanban', 'Database',
     'Bug', 'Globe', 'Lightbulb', 'Smartphone', 'Table'
   ];
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    setErrors({});
-
-    try {
-      const validatedData = skillSchema.parse(formData);
-      
-      if (editingSkill) {
-        await updateSkill(editingSkill.id, validatedData, activeLanguage);
-      } else {
-        await createSkill(validatedData, activeLanguage);
-      }
-      
-      setShowEditor(false);
-      setEditingSkill(null);
-      setFormData({
-        title: '',
-        description: '',
-        icon: 'Code2',
-        level: 0,
-        order_index: 0
-      });
-    } catch (error) {
-      if (error instanceof Error && 'issues' in error) {
-        const fieldErrors: Record<string, string> = {};
-        (error as { issues: Array<{ path: string[]; message: string }> }).issues.forEach((issue) => {
-          fieldErrors[issue.path[0]] = issue.message;
-        });
-        setErrors(fieldErrors);
-      }
-    }
-  };
-
-  const handleEdit = (skill: Skill) => {
-    setEditingSkill(skill);
-    setFormData({
-      title: skill.title,
-      description: skill.description,
-      icon: skill.icon,
-      level: skill.level,
-      order_index: skill.order_index
-    });
-    setShowEditor(true);
-  };
-
-  const handleDelete = async (id: string) => {
-    if (confirm(t('admin.skills.confirm.delete'))) {
-      try {
-        await deleteSkill(id);
-      } catch (error) {
-        console.error('Error deleting skill:', error);
-        alert(t('admin.skills.error.deleteFailed'));
-      }
-    }
-  };
-
   if (isLoading) {
-    return (
-      <div className="flex items-center justify-center py-8">
-        <TranslationText translationKey="admin.common.loading" as="div" shimmerWidth="100px" className="text-[var(--text)]" />
-      </div>
-    );
+    return <AdminLoadingState />;
   }
 
   return (
     <div>
-      <div className="flex items-center justify-between mb-6">
-        <h2 className="text-[length:var(--font-600)] font-semibold text-[var(--text)]">
-          <TranslationText translationKey="admin.skills.title" as="span" shimmerWidth="180px" />
-        </h2>
-        <button
-          onClick={onClose}
-          className="p-2 text-[var(--text-muted)] hover:text-[var(--text)] transition-colors"
-        >
-          ×
-        </button>
-      </div>
+      <AdminHeader
+        title={<TranslationText translationKey="admin.skills.title" as="span" shimmerWidth="180px" />}
+        onClose={onClose}
+      />
 
       {showEditor ? (
         <form onSubmit={handleSubmit} className="space-y-4">
-          <div>
-            <label className="form-label">{t('admin.common.language')}</label>
-            <select
-              value={activeLanguage}
-              onChange={(e) => setActiveLanguage(e.target.value as typeof activeLanguage)}
-              className="field"
-            >
-              <option value="en">English</option>
-              <option value="ru">Russian</option>
-              <option value="am">Armenian</option>
-            </select>
-          </div>
+          <LanguageSelector
+            value={activeLanguage}
+            onChange={setActiveLanguage}
+            label={t('admin.common.language')}
+          />
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <div>
-              <label className="form-label">
-                {t('admin.skills.form.title')}
-              </label>
-              <input
-                type="text"
-                value={formData.title}
-                onChange={(e) => setFormData({ ...formData, title: e.target.value })}
-                className={`field ${
-                  errors.title ? 'border-red-500' : 'border-[var(--border)]'
-                }`}
-                required
-              />
-              {errors.title && (
-                <p className="text-red-400 text-[length:var(--font-100)] mt-1">{errors.title}</p>
-              )}
-            </div>
-
-            <div>
-              <label className="form-label">
-                {t('admin.skills.form.icon')}
-              </label>
-              <select
-                value={formData.icon}
-                onChange={(e) => setFormData({ ...formData, icon: e.target.value })}
-                className="w-full admin-select"
-              >
-                {iconOptions.map((icon) => (
-                  <option key={icon} value={icon}>
-                    {icon}
-                  </option>
-                ))}
-              </select>
-            </div>
-          </div>
-
-          <div>
-            <label className="form-label">
-              {t('admin.common.description')}
-            </label>
-            <textarea
-              value={formData.description}
-              onChange={(e) => setFormData({ ...formData, description: e.target.value })}
-              rows={3}
-              className={`field ${
-                errors.description ? 'border-red-500' : 'border-[var(--border)]'
-              }`}
+            <FormField
+              label={t('admin.skills.form.title')}
+              value={formData.title}
+              onChange={(value) => setFormData({ ...formData, title: value })}
+              error={errors.title}
               required
             />
-            {errors.description && (
-              <p className="text-red-400 text-[length:var(--font-100)] mt-1">{errors.description}</p>
-            )}
+
+            <SelectField
+              label={t('admin.skills.form.icon')}
+              value={formData.icon}
+              onChange={(value) => setFormData({ ...formData, icon: value })}
+              options={iconOptions.map((icon) => ({ value: icon, label: icon }))}
+            />
           </div>
+
+          <TextareaField
+            label={t('admin.common.description')}
+            value={formData.description}
+            onChange={(value) => setFormData({ ...formData, description: value })}
+            error={errors.description}
+            rows={3}
+            required
+          />
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <div>
-              <label className="form-label">
-                {t('admin.skills.form.level')}
-              </label>
-              <input
-                type="number"
-                value={formData.level}
-                onChange={(e) => setFormData({ ...formData, level: parseInt(e.target.value) || 0 })}
-                className={`field ${
-                  errors.level ? 'border-red-500' : 'border-[var(--border)]'
-                }`}
-                min="0"
-                max="100"
-                required
-              />
-              {errors.level && (
-                <p className="text-red-400 text-[length:var(--font-100)] mt-1">{errors.level}</p>
-              )}
-            </div>
+            <FormField
+              type="number"
+              label={t('admin.skills.form.level')}
+              value={formData.level}
+              onChange={(value) => setFormData({ ...formData, level: parseInt(value) || 0 })}
+              error={errors.level}
+              min={0}
+              max={100}
+              required
+            />
 
-            <div>
-              <label className="form-label">
-                {t('admin.common.orderIndex')}
-              </label>
-              <input
-                type="number"
-                value={formData.order_index}
-                onChange={(e) => setFormData({ ...formData, order_index: parseInt(e.target.value) || 0 })}
-                className="field"
-                min="0"
-              />
-            </div>
+            <FormField
+              type="number"
+              label={t('admin.common.orderIndex')}
+              value={formData.order_index}
+              onChange={(value) => setFormData({ ...formData, order_index: parseInt(value) || 0 })}
+              min={0}
+            />
           </div>
 
-          <div className="flex items-center justify-end gap-3 pt-4">
-            <button
-              type="button"
-              onClick={() => {
-                setShowEditor(false);
-                setEditingSkill(null);
-                setFormData({
-                  title: '',
-                  description: '',
-                  icon: 'Code2',
-                  level: 0,
-                  order_index: 0
-                });
-              }}
-              className="btn btn-secondary"
-            >
-              {t('admin.common.cancel')}
-            </button>
-            <button
-              type="submit"
-              className="inline-flex items-center gap-2 btn btn-primary"
-            >
-              <Plus className="h-4 w-4" />
-              {editingSkill ? t('admin.skills.button.update') : t('admin.skills.button.create')}
-            </button>
-          </div>
+          <FormActions
+            onCancel={resetForm}
+            submitLabel={editingSkill ? t('admin.skills.button.update') : t('admin.skills.button.create')}
+            cancelLabel={t('admin.common.cancel')}
+          />
         </form>
       ) : (
         <>
-          <div className="flex flex-wrap items-center justify-between gap-3 mb-6">
-            <h3 className="text-[length:var(--font-400)] font-medium text-[var(--text)]">{t('admin.skills.titleCount')} ({skills.length})</h3>
-            <div className="flex items-center gap-3">
-              <select
-                value={activeLanguage}
-                onChange={(e) => setActiveLanguage(e.target.value as typeof activeLanguage)}
-                className="field"
-              >
-                <option value="en">English</option>
-                <option value="ru">Russian</option>
-                <option value="am">Armenian</option>
-              </select>
-              <button
-                onClick={() => setShowEditor(true)}
-                className="inline-flex items-center gap-2 btn btn-primary"
-              >
-                <Plus className="h-4 w-4" />
-                {t('admin.skills.addSkill')}
-              </button>
-            </div>
-          </div>
+          <AdminToolbar
+            title={t('admin.skills.titleCount')}
+            itemCount={skills.length}
+            activeLanguage={activeLanguage}
+            onLanguageChange={setActiveLanguage}
+            onAdd={() => setShowEditor(true)}
+            addButtonLabel={t('admin.skills.addSkill')}
+          />
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
             {skills.map((skill) => {

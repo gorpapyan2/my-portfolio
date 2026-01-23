@@ -1,4 +1,5 @@
-import { LucideIcon, ReactNode } from 'lucide-react';
+import LucideIcon from 'lucide-react/dist/esm/icons/lucide-icon';
+import ReactNode from 'lucide-react/dist/esm/icons/react-node';
 
 interface PageHeaderProps {
   icon: LucideIcon;

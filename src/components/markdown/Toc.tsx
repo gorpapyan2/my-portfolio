@@ -1,5 +1,5 @@
 import { useEffect, useState, useRef } from 'react';
-import { ChevronDown } from 'lucide-react';
+import ChevronDown from 'lucide-react/dist/esm/icons/chevron-down';
 import { TocEntry } from '../../lib/markdown/toc';
 import { TranslationText } from '../shared/TranslationText';
 import { useLanguage } from '../../context/LanguageContext';

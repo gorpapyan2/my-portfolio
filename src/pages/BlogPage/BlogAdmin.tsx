@@ -1,5 +1,9 @@
 import { useState } from 'react';
-import { Plus, Edit, Trash2, Eye, EyeOff } from 'lucide-react';
+import Plus from 'lucide-react/dist/esm/icons/plus';
+import Edit from 'lucide-react/dist/esm/icons/edit';
+import Trash2 from 'lucide-react/dist/esm/icons/trash-2';
+import Eye from 'lucide-react/dist/esm/icons/eye';
+import EyeOff from 'lucide-react/dist/esm/icons/eye-off';
 import { Card } from '../../components/shared/Card';
 import { useBlogService } from '../../lib/services/useBlogService';
 import { useBlogAdminState } from '../../lib/services/useBlogAdminState';

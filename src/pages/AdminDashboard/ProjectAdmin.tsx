@@ -10,6 +10,7 @@ import { Project, ProjectInsert } from '../../types/database.types';
 import { projectSchema } from '../../lib/schemas/projectSchema';
 import { TranslationText } from '../../components/shared/TranslationText';
 import { useLanguage } from '../../context/LanguageContext';
+import { useAdminCrudForm } from '../../hooks/useAdminCrudForm';
 
 interface ProjectAdminProps {
   onClose: () => void;
@@ -18,83 +19,42 @@ interface ProjectAdminProps {
 export function ProjectAdmin({ onClose }: ProjectAdminProps) {
   const { t } = useLanguage();
   const { projects, isLoading, createProject, updateProject, deleteProject } = useProjectService();
-  const [showEditor, setShowEditor] = useState(false);
-  const [editingProject, setEditingProject] = useState<Project | null>(null);
-  const [formData, setFormData] = useState<Partial<ProjectInsert>>({
-    title: '',
-    description: '',
-    image: '',
-    tags: [],
-    live_url: '',
-    github_url: '',
-    order_index: 0,
-    featured: false
+
+  const {
+    showEditor,
+    setShowEditor,
+    editingItem: editingProject,
+    formData,
+    setFormData,
+    errors,
+    handleSubmit,
+    handleEdit,
+    handleDelete,
+    resetForm
+  } = useAdminCrudForm<Project, ProjectInsert>({
+    items: projects,
+    isLoading,
+    createItem: createProject,
+    updateItem: updateProject,
+    deleteItem: deleteProject,
+    schema: projectSchema,
+    initialFormData: {
+      title: '',
+      description: '',
+      image: '',
+      tags: [],
+      live_url: '',
+      github_url: '',
+      order_index: 0,
+      featured: false
+    },
+    confirmDeleteKey: 'admin.projects.confirm.delete',
+    deleteErrorKey: 'admin.projects.error.deleteFailed',
+    t
   });
-  const [errors, setErrors] = useState<Record<string, string>>({});
+
+  // Custom state for tag array management
   const [tagInput, setTagInput] = useState('');
-
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    setErrors({});
-
-    try {
-      const validatedData = projectSchema.parse(formData);
-      
-      if (editingProject) {
-        await updateProject(editingProject.id, validatedData);
-      } else {
-        await createProject(validatedData);
-      }
-      
-      setShowEditor(false);
-      setEditingProject(null);
-      setFormData({
-        title: '',
-        description: '',
-        image: '',
-        tags: [],
-        live_url: '',
-        github_url: '',
-        order_index: 0,
-        featured: false
-      });
-      setTagInput('');
-    } catch (error) {
-      if (error instanceof Error && 'issues' in error) {
-        const fieldErrors: Record<string, string> = {};
-        (error as { issues: Array<{ path: string[]; message: string }> }).issues.forEach((issue) => {
-          fieldErrors[issue.path[0]] = issue.message;
-        });
-        setErrors(fieldErrors);
-      }
-    }
-  };
-
-  const handleEdit = (project: Project) => {
-    setEditingProject(project);
-    setFormData({
-      title: project.title,
-      description: project.description,
-      image: project.image || '',
-      tags: project.tags,
-      live_url: project.live_url || '',
-      github_url: project.github_url || '',
-      order_index: project.order_index,
-      featured: project.featured
-    });
-    setShowEditor(true);
-  };
-
-  const handleDelete = async (id: string) => {
-    if (confirm(t('admin.projects.confirm.delete'))) {
-      try {
-        await deleteProject(id);
-      } catch (error) {
-        console.error('Error deleting project:', error);
-        alert(t('admin.projects.error.deleteFailed'));
-      }
-    }
-  };
 
   const addTag = () => {
     if (tagInput.trim() && !formData.tags?.includes(tagInput.trim())) {
@@ -285,18 +245,7 @@ export function ProjectAdmin({ onClose }: ProjectAdminProps) {
             <button
               type="button"
               onClick={() => {
-                setShowEditor(false);
-                setEditingProject(null);
-                setFormData({
-                  title: '',
-                  description: '',
-                  image: '',
-                  tags: [],
-                  live_url: '',
-                  github_url: '',
-                  order_index: 0,
-                  featured: false
-                });
+                resetForm();
                 setTagInput('');
               }}
               className="btn btn-secondary"

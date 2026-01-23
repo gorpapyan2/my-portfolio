@@ -1,6 +1,8 @@
 import { motion } from "framer-motion";
 import { useState, useEffect } from "react";
-import { Sun, Moon, Monitor } from "lucide-react";
+import Sun from 'lucide-react/dist/esm/icons/sun';
+import Moon from 'lucide-react/dist/esm/icons/moon';
+import Monitor from 'lucide-react/dist/esm/icons/monitor';
 
 type Theme = 'light' | 'dark' | 'system';
 

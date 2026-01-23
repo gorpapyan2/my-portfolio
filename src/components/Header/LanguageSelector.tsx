@@ -1,4 +1,4 @@
-import { Languages } from 'lucide-react';
+import Languages from 'lucide-react/dist/esm/icons/languages';
 import { useLanguage, Language } from '../../context/LanguageContext';
 import { usePublicFeatureFlags } from '../../lib/services/usePublicFeatureFlags';
 import { Shimmer } from '../ui/Shimmer';

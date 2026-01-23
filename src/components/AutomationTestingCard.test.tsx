@@ -2,7 +2,7 @@ import { render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import "@testing-library/jest-dom/vitest";
 import { describe, it, expect } from "vitest";
-import { Code2 } from "lucide-react";
+import Code2 from 'lucide-react/dist/esm/icons/code-2';
 import { AutomationTestingCard } from "./AutomationTestingCard";
 
 const baseProps = {

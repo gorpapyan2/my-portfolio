@@ -1,8 +1,11 @@
-import { Award, Target, Zap, TrendingUp } from 'lucide-react';
+import Award from 'lucide-react/dist/esm/icons/award';
+import Target from 'lucide-react/dist/esm/icons/target';
+import Zap from 'lucide-react/dist/esm/icons/zap';
+import TrendingUp from 'lucide-react/dist/esm/icons/trending-up';
 import { motion, useReducedMotion } from 'framer-motion';
 import { useLanguage } from '../../../context/LanguageContext';
 import { StatCard } from './StatCard';
-import { LucideIcon } from 'lucide-react';
+import LucideIcon from 'lucide-react/dist/esm/icons/lucide-icon';
 import { TranslationText } from '../../../components/shared/TranslationText';
 
 interface Stat {

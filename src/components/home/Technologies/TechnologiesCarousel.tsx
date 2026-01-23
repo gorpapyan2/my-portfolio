@@ -1,6 +1,10 @@
 import { useEffect, useMemo, useState } from 'react';
-import { ChevronLeft, ChevronRight, Workflow } from 'lucide-react';
-import { Code2, Bug, Database } from 'lucide-react';
+import ChevronLeft from 'lucide-react/dist/esm/icons/chevron-left';
+import ChevronRight from 'lucide-react/dist/esm/icons/chevron-right';
+import Workflow from 'lucide-react/dist/esm/icons/workflow';
+import Code2 from 'lucide-react/dist/esm/icons/code-2';
+import Bug from 'lucide-react/dist/esm/icons/bug';
+import Database from 'lucide-react/dist/esm/icons/database';
 import { TechnologyCard } from './TechnologyCard';
 import { PaginationDots } from '../../ui/PaginationDots';
 import type { TechnologyItem } from '../../../lib/services/useTechnologyCatalog';

@@ -1,4 +1,4 @@
-import { CheckCircle2 } from 'lucide-react';
+import CheckCircle2 from 'lucide-react/dist/esm/icons/check-circle-2';
 import { motion, useReducedMotion } from 'framer-motion';
 import { SectionHeader } from '../shared/SectionHeader';
 import { TranslationText } from '../../components/shared/TranslationText';

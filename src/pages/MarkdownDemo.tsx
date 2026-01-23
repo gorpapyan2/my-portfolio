@@ -3,7 +3,8 @@ import { MarkdownEditor } from '../components/admin/MarkdownEditor';
 import { MarkdownRenderer } from '../components/markdown/MarkdownRenderer';
 import { Card } from '../components/shared/Card';
 import { useTheme } from '../context/ThemeContext';
-import { Sun, Moon } from 'lucide-react';
+import Sun from 'lucide-react/dist/esm/icons/sun';
+import Moon from 'lucide-react/dist/esm/icons/moon';
 
 export function MarkdownDemo() {
   const { theme, toggleTheme } = useTheme();
