@@ -40,36 +40,46 @@ export function KeyResults({ items, isLoading = false }: KeyResultsProps) {
         title={<TranslationText translationKey="about.keyResults.title" shimmerWidth="180px" />}
       />
 
-      <div className="relative rounded-[var(--radius-2xl)] border border-[var(--border)] bg-[var(--surface-strong)] p-6 shadow-[0_30px_80px_rgba(7,10,18,0.3)]">
-        <div className="absolute inset-0 rounded-[var(--radius-2xl)] bg-[radial-gradient(circle_at_top,var(--color-accent),transparent_60%)] opacity-10 pointer-events-none" aria-hidden="true" />
-        <div className="relative">
+      <motion.div
+        initial={shouldReduceMotion ? false : { opacity: 0, y: 20 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true }}
+        transition={{ duration: 0.6 }}
+        className="relative rounded-3xl border border-white/10 bg-white/5 backdrop-blur-sm p-8 shadow-xl overflow-hidden group"
+      >
+        {/* Ambient Gradient Background */}
+        <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-accent/5 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2 pointer-events-none transition-opacity duration-700 opacity-50 group-hover:opacity-100" />
+
+        <div className="relative z-10">
           {isLoading ? (
-            <div className="space-y-2">
-              {[0, 1, 2].map(i => (
-                <div key={i} className="h-5 bg-[var(--surface-strong)] rounded animate-pulse" />
+            <div className="space-y-4">
+              {[0, 1, 2, 3].map(i => (
+                <div key={i} className="h-6 bg-white/5 rounded w-3/4 animate-pulse" />
               ))}
             </div>
           ) : (
-            <ul className="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-4">
+            <ul className="grid grid-cols-1 md:grid-cols-2 gap-x-12 gap-y-6">
               {(keyResults.length > 0 ? keyResults : fallbackKeyResults.length > 0 ? fallbackKeyResults : [{ summary: emptySummary }]).map((item, idx) => (
                 <motion.li
                   key={idx}
-                  initial={shouldReduceMotion ? false : { opacity: 0, y: 8 }}
-                  whileInView={{ opacity: 1, y: 0 }}
+                  initial={shouldReduceMotion ? false : { opacity: 0, x: -10 }}
+                  whileInView={{ opacity: 1, x: 0 }}
                   viewport={{ once: true }}
-                  transition={{ duration: shouldReduceMotion ? 0 : 0.4, delay: shouldReduceMotion ? 0 : idx * 0.03 }}
-                  className="flex items-start gap-3"
+                  transition={{ duration: shouldReduceMotion ? 0 : 0.4, delay: shouldReduceMotion ? 0 : idx * 0.05 }}
+                  className="flex items-start gap-4 group/item"
                 >
-                  <span className="mt-1 text-accent flex-shrink-0"><CheckCircle2 className="w-5 h-5" aria-hidden="true" /></span>
-                  <div className="flex-1 text-[var(--text-muted)] text-sm leading-relaxed">
-                    <MarkdownRenderer content={item.summary} className="mb-0 text-[var(--text-muted)] text-sm" />
+                  <span className="mt-1 flex-shrink-0 text-accent group-hover/item:text-white transition-colors duration-300 bg-white/5 p-1 rounded-full">
+                    <CheckCircle2 className="w-4 h-4" aria-hidden="true" />
+                  </span>
+                  <div className="flex-1 text-[var(--text-muted)] group-hover/item:text-[var(--text)] transition-colors duration-300 text-base leading-relaxed">
+                    <MarkdownRenderer content={item.summary} className="mb-0 text-inherit" />
                   </div>
                 </motion.li>
               ))}
             </ul>
           )}
         </div>
-      </div>
+      </motion.div>
     </section>
   );
 }

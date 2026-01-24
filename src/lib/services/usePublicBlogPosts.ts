@@ -106,7 +106,7 @@ export function usePublicBlogPosts(language: 'en' | 'ru' | 'am' = 'en'): PublicB
               .select('*')
               .eq('blog_post_id', post.id)
               .eq('language', 'en')
-              .single();
+              .maybeSingle();
             translation = (enTranslation as unknown as BlogPostTranslation) || undefined;
           }
 

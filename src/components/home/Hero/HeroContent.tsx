@@ -2,6 +2,7 @@ import { motion, useReducedMotion } from 'framer-motion';
 import { usePublicFeatureFlags } from '../../../lib/services/usePublicFeatureFlags';
 import { HeroButton } from './HeroButton';
 import { TranslationText } from '../../shared/TranslationText';
+import { HeroScroll } from './HeroScroll';
 
 export function HeroContent() {
   const { isFeatureEnabled } = usePublicFeatureFlags();
@@ -9,48 +10,57 @@ export function HeroContent() {
   const shouldReduceMotion = useReducedMotion();
 
   return (
-    <div className="relative z-10 max-w-7xl mx-auto px-4 h-[calc(100vh-5rem)] flex flex-col justify-center">
-      <motion.div 
-        className="max-w-3xl"
-        initial={shouldReduceMotion ? false : { opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: shouldReduceMotion ? 0 : 0.6 }}
-      >
-        <h1 className="text-[length:var(--font-900)] md:text-[length:clamp(3rem,4.2vw,4.6rem)] font-semibold text-[var(--text)] mb-[var(--space-24)] leading-[var(--leading-tight)] tracking-[var(--tracking-tight)]">
-          <TranslationText translationKey="hero.title" as="span" shimmerWidth="300px" className="text-gradient-accent" />
-        </h1>
-        
-        <p className="text-[length:var(--font-300)] text-[var(--text-muted)] mb-[var(--space-32)] max-w-2xl">
-          <TranslationText translationKey="hero.subtitle" as="span" shimmerWidth="500px" />
-        </p>
+    <div className="relative z-10 max-w-7xl mx-auto px-4 min-h-[calc(100vh-5rem)] flex flex-col pt-24 pb-12">
+      <div className="flex-grow flex flex-col justify-center">
+        <motion.div
+          className="max-w-5xl"
+          initial={shouldReduceMotion ? false : { opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: shouldReduceMotion ? 0 : 0.6 }}
+        >
+          <h1 className="text-[length:var(--font-900)] md:text-[length:clamp(2.5rem,4vw,3.5rem)] font-bold font-display text-[var(--text)] mb-4 leading-[var(--leading-tight)] tracking-tight">
+            <TranslationText translationKey="hero.title" as="span" shimmerWidth="300px" className="bg-gradient-to-r from-white via-white/90 to-white/70 bg-clip-text text-transparent" />
+          </h1>
 
-        {/* Proof Points */}
-        <div className="stack mb-[var(--space-48)] max-w-2xl [--stack-space:var(--space-12)]">
-          {['hero.proof1', 'hero.proof2', 'hero.proof3'].map((key, idx) => (
-            <motion.div
-              key={key}
-              initial={shouldReduceMotion ? false : { opacity: 0, x: -20 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{ duration: shouldReduceMotion ? 0 : 0.6, delay: shouldReduceMotion ? 0 : 0.1 + idx * 0.1 }}
-              className="flex items-start gap-[var(--space-12)] text-[length:var(--font-100)] md:text-[length:var(--font-200)] text-[var(--text-muted)]"
-            >
-              <span className="mt-[var(--space-8)] h-[var(--space-8)] w-[var(--space-8)] rounded-full bg-accent/80 shadow-[0_0_12px_rgba(var(--accent),0.45)]" aria-hidden="true" />
-              <TranslationText translationKey={key} as="span" shimmerWidth="400px" />
-            </motion.div>
-          ))}
-        </div>
+          <p className="text-lg md:text-xl text-[var(--text-muted)] mb-6 max-w-3xl leading-relaxed">
+            <TranslationText translationKey="hero.subtitle" as="span" shimmerWidth="500px" />
+          </p>
 
-        <div className="flex flex-wrap gap-[var(--space-16)]">
-          {showWorkSection && (
-            <HeroButton variant="primary" href="work">
-              <TranslationText translationKey="hero.ctaWork" shimmerWidth="120px" />
+          {/* Proof Points */}
+          <div className="flex flex-col gap-2 mb-8 max-w-2xl">
+            {['hero.proof1', 'hero.proof2', 'hero.proof3'].map((key, idx) => (
+              <motion.div
+                key={key}
+                initial={shouldReduceMotion ? false : { opacity: 0, x: -20 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{ duration: shouldReduceMotion ? 0 : 0.6, delay: shouldReduceMotion ? 0 : 0.1 + idx * 0.1 }}
+                className="flex items-center gap-3 text-base md:text-lg text-[var(--text-muted)]"
+              >
+                <span className="flex items-center justify-center w-6 h-6 rounded-full bg-accent/10 text-accent">
+                  <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" /></svg>
+                </span>
+                <TranslationText translationKey={key} as="span" shimmerWidth="400px" />
+              </motion.div>
+            ))}
+          </div>
+
+          <div className="flex flex-wrap gap-4">
+            {showWorkSection && (
+              <HeroButton variant="primary" href="work">
+                <TranslationText translationKey="hero.ctaWork" shimmerWidth="120px" />
+              </HeroButton>
+            )}
+            <HeroButton variant="secondary" href="contact">
+              <TranslationText translationKey="hero.ctaContact" shimmerWidth="130px" />
             </HeroButton>
-          )}
-          <HeroButton variant="secondary" href="contact">
-            <TranslationText translationKey="hero.ctaContact" shimmerWidth="130px" />
-          </HeroButton>
-        </div>
-      </motion.div>
+          </div>
+        </motion.div>
+      </div>
+
+      {/* Scroll indicator - now part of the flow */}
+      <div className="flex justify-center w-full">
+        <HeroScroll />
+      </div>
     </div>
   );
 }

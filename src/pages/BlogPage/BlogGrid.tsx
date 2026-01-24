@@ -1,6 +1,7 @@
 import { BlogCard } from './BlogCard';
 import { LocalizedBlogPost } from '../../lib/services/useBlogService';
 import { TranslationText } from '../../components/shared/TranslationText';
+import { motion } from 'framer-motion';
 
 interface BlogGridProps {
   blogPosts: LocalizedBlogPost[];
@@ -27,7 +28,7 @@ export function BlogGrid({ blogPosts }: BlogGridProps) {
 
   if (!blogPosts || blogPosts.length === 0) {
     return (
-      <div className="text-center py-[var(--space-64)]">
+      <div className="text-center py-[var(--space-64)] bg-white/5 rounded-3xl border border-white/10 m-4">
         <p className="text-[var(--text-muted)] text-[length:var(--font-300)]">
           <TranslationText translationKey="blog.empty" as="span" shimmerWidth="200px" />
         </p>
@@ -35,14 +36,29 @@ export function BlogGrid({ blogPosts }: BlogGridProps) {
     );
   }
 
+  const container = {
+    hidden: { opacity: 0 },
+    visible: {
+      opacity: 1,
+      transition: {
+        staggerChildren: 0.1
+      }
+    }
+  };
+
   return (
-    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-[var(--space-24)]">
+    <motion.div
+      variants={container}
+      initial="hidden"
+      animate="visible"
+      className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 py-8"
+    >
       {blogPosts.map((post) => (
-        <BlogCard 
+        <BlogCard
           key={post.id}
           {...mapBlogPostToCardProps(post)}
         />
       ))}
-    </div>
+    </motion.div>
   );
 }

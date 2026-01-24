@@ -1,7 +1,6 @@
-import ExternalLink from 'lucide-react/dist/esm/icons/external-link';
-import Github from 'lucide-react/dist/esm/icons/github';
-import { Card } from '../../components/shared/Card';
+import { ExternalLink, Github } from 'lucide-react';
 import { TranslationText } from '../../components/shared/TranslationText';
+import { motion } from 'framer-motion';
 
 interface ProjectCardProps {
   title: string;
@@ -16,8 +15,16 @@ export function ProjectCard({ title, description, image, tags, liveUrl, githubUr
   const hasImage = Boolean(image);
 
   return (
-    <Card className="group">
-      <div className="relative aspect-video overflow-hidden rounded-[var(--radius-md)] mb-[var(--space-16)]">
+    <motion.div
+      variants={{
+        hidden: { opacity: 0, y: 20 },
+        visible: { opacity: 1, y: 0 }
+      }}
+      whileHover={{ y: -5 }}
+      transition={{ duration: 0.3 }}
+      className="group h-full flex flex-col bg-white/5 backdrop-blur-sm border border-white/10 rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl hover:bg-white/10 transition-all duration-300"
+    >
+      <div className="relative aspect-video overflow-hidden">
         {hasImage ? (
           <img
             src={image}
@@ -26,52 +33,61 @@ export function ProjectCard({ title, description, image, tags, liveUrl, githubUr
             height={720}
             loading="lazy"
             decoding="async"
-            className="w-full h-full object-cover transform group-hover:scale-105 transition-transform duration-500"
+            className="w-full h-full object-cover transform group-hover:scale-105 transition-transform duration-700 ease-out"
           />
         ) : (
-          <div className="w-full h-full bg-[var(--surface-strong)]" aria-hidden="true" />
+          <div className="w-full h-full bg-[var(--surface-strong)] flex items-center justify-center" aria-hidden="true">
+            <span className="text-4xl font-bold opacity-10">Project</span>
+          </div>
         )}
-        <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+        <div className="absolute inset-0 bg-gradient-to-t from-background/90 via-transparent to-transparent opacity-60" />
       </div>
-      
-      <h3 className="text-[length:var(--font-500)] font-semibold text-[var(--text)] mb-[var(--space-8)]">{title}</h3>
-      <p className="text-[var(--text-muted)] text-[length:var(--font-200)] mb-[var(--space-16)]">{description}</p>
-      
-      <div className="flex flex-wrap gap-[var(--space-8)] mb-[var(--space-16)]">
-        {tags.map((tag) => (
-          <span
-            key={tag}
-            className="px-[var(--space-12)] py-[var(--space-4)] text-[length:var(--font-100)] bg-[var(--surface)] text-accent rounded-full border border-[var(--border)]"
-          >
-            {tag}
-          </span>
-        ))}
+
+      <div className="flex-grow p-6 flex flex-col">
+        <h3 className="text-xl font-bold text-[var(--text)] font-display mb-3 group-hover:text-accent transition-colors">
+          {title}
+        </h3>
+
+        <p className="text-[var(--text-muted)] text-sm leading-relaxed mb-6 line-clamp-3">
+          {description}
+        </p>
+
+        <div className="flex flex-wrap gap-2 mb-6 mt-auto">
+          {tags.map((tag) => (
+            <span
+              key={tag}
+              className="px-3 py-1 text-xs font-medium bg-white/5 text-accent rounded-full border border-white/10"
+            >
+              {tag}
+            </span>
+          ))}
+        </div>
+
+        <div className="flex gap-4 pt-4 border-t border-white/10">
+          {liveUrl && (
+            <a
+              href={liveUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-2 text-sm font-medium text-[var(--text-muted)] hover:text-white transition-colors group/link"
+            >
+              <ExternalLink className="h-4 w-4 text-accent group-hover/link:scale-110 transition-transform" aria-hidden="true" />
+              <TranslationText translationKey="projects.liveDemo" shimmerWidth="80px" />
+            </a>
+          )}
+          {githubUrl && (
+            <a
+              href={githubUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-2 text-sm font-medium text-[var(--text-muted)] hover:text-white transition-colors group/link"
+            >
+              <Github className="h-4 w-4 text-accent group-hover/link:scale-110 transition-transform" aria-hidden="true" />
+              <TranslationText translationKey="projects.sourceCode" shimmerWidth="100px" />
+            </a>
+          )}
+        </div>
       </div>
-      
-      <div className="flex gap-[var(--space-16)]">
-        {liveUrl && (
-          <a
-            href={liveUrl}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="inline-flex items-center gap-[var(--space-8)] text-[var(--text)] hover:text-accent transition-colors text-[length:var(--font-200)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/60 focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--bg)] rounded-full"
-          >
-            <ExternalLink className="h-5 w-5" aria-hidden="true" />
-            <TranslationText translationKey="projects.liveDemo" shimmerWidth="100px" />
-          </a>
-        )}
-        {githubUrl && (
-          <a
-            href={githubUrl}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="inline-flex items-center gap-[var(--space-8)] text-[var(--text)] hover:text-accent transition-colors text-[length:var(--font-200)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/60 focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--bg)] rounded-full"
-          >
-            <Github className="h-5 w-5" aria-hidden="true" />
-            <TranslationText translationKey="projects.sourceCode" shimmerWidth="120px" />
-          </a>
-        )}
-      </div>
-    </Card>
+    </motion.div>
   );
 }

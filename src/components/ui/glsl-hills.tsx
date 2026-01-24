@@ -201,9 +201,10 @@ const GLSLHills = ({
       renderer.render(scene, camera);
     };
 
+    let animationId: number;
     const renderLoop = () => {
       render();
-      requestAnimationFrame(renderLoop);
+      animationId = requestAnimationFrame(renderLoop);
     };
 
     const init = () => {
@@ -221,6 +222,7 @@ const GLSLHills = ({
 
     return () => {
       window.removeEventListener("resize", resize);
+      cancelAnimationFrame(animationId);
       renderer.dispose();
       plane.mesh.geometry.dispose();
       plane.mesh.material.dispose();

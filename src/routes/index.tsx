@@ -97,4 +97,10 @@ export const router = createBrowserRouter([
       },
     ],
   },
-], { basename: import.meta.env.BASE_URL });
+], {
+  basename: import.meta.env.BASE_URL,
+  future: {
+    // @ts-ignore - Flag exists in runtime but might be missing in types
+    v7_startTransition: true,
+  }
+});

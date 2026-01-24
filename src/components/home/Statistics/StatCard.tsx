@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { motion, useReducedMotion } from 'framer-motion';
-import LucideIcon from 'lucide-react/dist/esm/icons/lucide-icon';
+import { LucideIcon } from 'lucide-react';
 import { Card } from '../../shared/Card';
 
 interface StatCardProps {
@@ -14,11 +14,11 @@ interface StatCardProps {
   descriptionKey?: string;
 }
 
-export function StatCard({ 
-  icon: Icon, 
-  label, 
-  value, 
-  suffix, 
+export function StatCard({
+  icon: Icon,
+  label,
+  value,
+  suffix,
   index,
   description,
 }: StatCardProps) {
@@ -60,41 +60,39 @@ export function StatCard({
       whileInView={{ opacity: 1, y: 0 }}
       transition={{ duration: shouldReduceMotion ? 0 : 0.6, delay: shouldReduceMotion ? 0 : index * 0.1, ease: [0.16, 1, 0.3, 1] }}
       viewport={{ once: true }}
-      className="group"
+      className="group h-full"
     >
-      <Card className="h-full flex flex-col group-hover:bg-[var(--surface-strong)] transition-colors duration-500">
+      <div className="h-full flex flex-col bg-white/5 backdrop-blur-sm border border-white/10 rounded-2xl p-6 shadow-lg hover:shadow-xl hover:bg-white/10 transition-all duration-300 relative overflow-hidden">
+        {/* Ambient Hover Glow */}
+        <div className="absolute top-0 right-0 w-32 h-32 bg-accent/10 rounded-full blur-2xl -translate-y-1/2 translate-x-1/2 opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none" />
+
         {/* Icon Container */}
-        <div className="mb-[var(--space-24)]">
-          <div className="inline-flex p-[var(--space-16)] rounded-[var(--radius-md)] bg-accent/10 text-accent 
-          group-hover:bg-accent/20 group-hover:scale-110 transition-transform duration-300">
-            <Icon className="h-7 w-7" aria-hidden="true" />
+        <div className="mb-6">
+          <div className="inline-flex p-3 rounded-xl bg-white/5 text-accent border border-white/5 group-hover:scale-110 transition-transform duration-300">
+            <Icon className="h-6 w-6" aria-hidden="true" />
           </div>
         </div>
 
         {/* Value with animation */}
-        <div className="mb-[var(--space-16)]">
-          <h3 className="text-[length:var(--font-800)] md:text-[length:var(--font-900)] font-bold text-accent group-hover:text-white transition-colors duration-300">
+        <div className="mb-2">
+          <h3 className="text-4xl font-bold font-display text-[var(--text)] group-hover:text-accent transition-colors duration-300">
             {displayValue}
-            <span className="text-[length:var(--font-500)] md:text-[length:var(--font-600)] ml-[var(--space-4)]">{suffix}</span>
+            <span className="text-2xl ml-1 text-[var(--text-muted)]">{suffix}</span>
           </h3>
         </div>
 
         {/* Label */}
-        <h4 className="text-[length:var(--font-400)] font-semibold text-[var(--text)] group-hover:text-accent transition-colors duration-300 mb-[var(--space-12)]">
+        <h4 className="text-sm font-semibold uppercase tracking-wider text-[var(--text-muted)] mb-3">
           {label}
         </h4>
 
         {/* Description - optional */}
         {description && (
-          <p className="text-[length:var(--font-200)] text-[var(--text-muted)] group-hover:text-gray-300 transition-colors duration-300 flex-1">
+          <p className="text-sm text-[var(--text-muted)] leading-relaxed group-hover:text-gray-300 transition-colors duration-300 flex-1">
             {description}
           </p>
         )}
-
-        {/* Hover Effect Overlay */}
-        <div className="absolute inset-0 rounded-[var(--radius-lg)] bg-gradient-to-br from-accent/5 to-transparent 
-        opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none" />
-      </Card>
+      </div>
     </motion.div>
   );
 }

@@ -2,6 +2,7 @@ import { cn } from "../../utils/cn";
 
 interface CardProps extends React.HTMLAttributes<HTMLDivElement> {
   children: React.ReactNode;
+  variant?: "glass" | "glass-hover" | "ghost";
 }
 
 /**
@@ -10,11 +11,18 @@ interface CardProps extends React.HTMLAttributes<HTMLDivElement> {
  * Provides a glassmorphic card design with hover effects.
  * Used across the application for content grouping.
  */
-export function Card({ className, children, ...props }: CardProps) {
+export function Card({ className, children, variant = "glass", ...props }: CardProps) {
+  const variants = {
+    glass: "bg-white/5 backdrop-blur-sm border border-white/10 shadow-lg",
+    "glass-hover": "bg-white/5 backdrop-blur-sm border border-white/10 shadow-lg hover:bg-white/10 hover:shadow-xl transition-all duration-300",
+    ghost: "bg-transparent border-none shadow-none",
+  };
+
   return (
     <div
       className={cn(
-        'bg-[var(--surface)] backdrop-blur-sm rounded-[var(--radius-lg)] p-6 border border-[var(--border)] shadow-[0_20px_50px_rgba(7,10,18,0.35)] transition-[color,background-color,box-shadow,transform] duration-300 hover:bg-[var(--surface-strong)] hover:shadow-[0_26px_70px_rgba(7,10,18,0.45)]',
+        "rounded-[var(--radius-xl)] p-6 overflow-hidden",
+        variants[variant],
         className
       )}
       {...props}

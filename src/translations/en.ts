@@ -37,19 +37,21 @@ export const en = {
   'accessibility.skipToContent': 'Skip to main content',
   'aria.openMenu': 'Open menu',
   'aria.closeMenu': 'Close menu',
+  'aria.previousTechnology': 'Previous technology',
+  'aria.nextTechnology': 'Next technology',
 
   // Pages
   'pages.home.title': 'Home',
   'pages.home.featuredProjects': 'Featured Projects',
   'pages.home.latestArticles': 'Latest Articles',
-  
+
   'pages.about.title': 'About Me',
   'pages.about.subtitle': 'QA Automation Specialist | Deterministic Testing | CI/CD Integration',
   'pages.about.philosophy': 'I build reliable test automation that engineers trust. My approach: isolate data, make flows deterministic, minimize flakiness, and surface useful failure signals.',
-  
+
   'pages.work.title': 'My Work',
   'pages.work.subtitle': 'A showcase of test automation frameworks and quality assurance projects',
-  
+
   'pages.blog.title': 'Blog',
   'pages.blog.subtitle': 'Insights and thoughts on software testing and quality assurance',
   // Blog
@@ -68,7 +70,7 @@ export const en = {
   'blog.publishedOn': 'Published on',
   'blog.related.title': 'Related Articles',
   'blog.related.subtitle': 'Continue exploring more articles',
-  
+
   'pages.contact.title': 'Contact Me',
   'pages.contact.subtitle': 'Let\'s discuss how I can help ensure the quality of your software',
 
@@ -102,6 +104,15 @@ export const en = {
   'about.portraitAlt': 'Gor Papyan portrait',
   'about.headline': 'QA Automation Specialist focused on deterministic testing and reliable delivery.',
   'about.keyResults.title': 'Key Results',
+  'about.keyResults.4': 'Zero production defects in critical flows through robust pre-merge validation.',
+  'about.keyResults.5': 'Automated 80%+ of core user journeys with Playwright/TypeScript.',
+  'about.keyResults.6': 'Implemented contract testing for microservices reducing integration issues.',
+  'about.keyResults.7': 'Optimized Docker-based test environments for consistency across local/CI.',
+  'about.keyResults.8': 'Established quality gates in Jenkins/GitHub Actions for every PR.',
+  'about.keyResults.9': 'Reduced environment setup time by 50% using infrastructure-as-code.',
+  'about.keyResults.10': 'Enhanced test reporting with visual artifacts and performance metrics.',
+  'about.keyResults.11': 'Mentored junior QA engineers in modern automation best practices.',
+  'about.keyResults.12': 'Improved API test coverage by 60% with automated documentation checks.',
   'about.keyResults.empty': 'Key results coming soon.',
   'about.quickFacts.title': 'Quick Facts',
   'about.quickFacts.location': 'Location',
@@ -189,4 +200,13 @@ export const en = {
   'technologies.cicd': 'CI/CD Tools',
   'technologies.versionControl': 'Version Control',
   'technologies.projectManagement': 'Project Management',
+  'technologies.detailsTitle': 'Detailed Overview',
+  'technologies.impactTitle': 'Real World Impact',
+
+  // Loading
+  'loading.welcome': 'Welcome! Getting everything ready for you...',
+  'loading.settingUp': "Just a moment, we're setting things up...",
+  'loading.almostReady': 'Almost ready! Preparing your experience...',
+  'loading.patience': 'Thanks for your patience...',
+  'loading.hint': 'Please wait while we load your preferred language...',
 };

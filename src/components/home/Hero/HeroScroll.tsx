@@ -5,7 +5,7 @@ import { TranslationText } from '../../shared/TranslationText';
 export function HeroScroll() {
   return (
     <motion.div
-      className="absolute bottom-[var(--space-32)] left-1/2 -translate-x-1/2 z-20 text-[var(--text-muted)]"
+      className="z-20 text-[var(--text-muted)] mt-auto pt-8"
       animate={{ y: [0, 10, 0] }}
       transition={{ repeat: Infinity, duration: 2 }}
     >

@@ -7,7 +7,6 @@ export function Hero() {
     <section className="relative min-h-screen overflow-hidden bg-[var(--bg)]">
       <HeroBackground />
       <HeroContent />
-      <HeroScroll />
     </section>
   );
 }

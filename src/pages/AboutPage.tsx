@@ -1,8 +1,6 @@
 import { lazy, Suspense } from 'react';
 import User from 'lucide-react/dist/esm/icons/user';
 import { PageLayout } from "@/components/shared/PageLayout";
-import { PageHeader } from "@/components/shared/PageHeader";
-import { Card } from "@/components/shared/Card";
 import AboutMe from "@/components/AboutMe";
 import { KeyResults } from "@/components/about/KeyResults";
 import ScrollIndicator from "@/components/ScrollIndicator";
@@ -10,6 +8,7 @@ import { SectionNavigation } from "@/components/SectionNavigation";
 import { Skills } from "@/components/about/Skills";
 import { TranslationText } from "@/components/shared/TranslationText";
 import { useAboutPageData } from "@/hooks/useAboutPageData";
+import { motion } from "framer-motion";
 
 // Lazy load heavy/utility components to reduce initial bundle
 const CVDownload = lazy(() => import("@/components/about/CVDownload").then(m => ({ default: m.CVDownload })));
@@ -42,78 +41,75 @@ export function AboutPage() {
         <ParticleBackground />
       </Suspense>
       <SectionNavigation />
-      
-      <PageLayout ariaLabel={t('pages.about.ariaLabel')}>
-        <div
-          className="absolute inset-0 bg-gradient-to-b from-transparent via-accent/5 to-transparent pointer-events-none"
-          aria-hidden="true"
-        />
-        
-        <PageHeader
-          icon={User}
-          title={
-            <TranslationText
-              translationKey="pages.about.title"
-              shimmerWidth="150px"
-            />
-          }
-          subtitle={
-            <TranslationText
-              translationKey="pages.about.subtitle"
-              as="span"
-              shimmerWidth="400px"
-            />
-          }
-        />
-        
-        <div className="space-y-[var(--space-64)]">
-          <AboutMe
-            professionalJourney={aboutContent.professionalJourney}
-            philosophy={aboutContent.philosophy}
-            toolbox={aboutContent.toolbox}
-            languages={aboutContent.languages}
-            portraitUrl={portraitUrl ?? undefined}
-            isLoading={aboutLoading}
-          />
-          <KeyResults items={aboutContent.keyResults} isLoading={aboutLoading} />
-          <div className="h-px bg-gradient-to-r from-transparent via-accent/30 to-transparent" />
-          
-          {/* Philosophy Narrative Section */}
-          {/* <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6 }}
-            viewport={{ once: true }}
-            className="max-w-3xl mx-auto"
-          >
-            <div className="bg-white/5 backdrop-blur-sm rounded-xl p-8 border border-white/10 hover:border-accent/30 transition-colors duration-300">
-              <h3 className="text-2xl font-bold text-white mb-4">
-                {t('about.philosophy')}
-              </h3>
-              <p className="text-gray-300 leading-relaxed text-lg">
-                {t('pages.about.philosophy')}
-              </p>
-            </div>
-          </motion.div> */}
 
-          <Suspense fallback={<div className="text-[var(--text-muted)] text-center py-8">Loading...</div>}>
+      <PageLayout ariaLabel={t('pages.about.ariaLabel')} className="!overflow-visible">
+        {/* Ambient Background */}
+        <div className="absolute inset-0 bg-gradient-to-b from-emerald-500/5 via-teal-500/5 to-transparent pointer-events-none" />
+
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 md:py-20">
+          {/* Custom Glass-Style Header */}
+          <div className="text-center max-w-3xl mx-auto mb-16 relative">
+            <motion.div
+              initial={motionEnabled ? { opacity: 0, scale: 0.5 } : false}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ duration: 0.5 }}
+              className="inline-flex items-center justify-center w-20 h-20 rounded-3xl bg-white/5 border border-white/10 shadow-xl backdrop-blur-sm mb-8 transform rotate-3 hover:rotate-6 transition-transform duration-300"
+            >
+              <User className="w-10 h-10 text-accent" />
+            </motion.div>
+
+            <motion.h1
+              initial={motionEnabled ? { opacity: 0, y: 20 } : false}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.2, duration: 0.6 }}
+              className="text-4xl md:text-5xl lg:text-6xl font-bold font-display text-[var(--text)] mb-6 tracking-tight bg-clip-text text-transparent bg-gradient-to-r from-white via-white/80 to-white/60"
+            >
+              <TranslationText translationKey="pages.about.title" shimmerWidth="200px" />
+            </motion.h1>
+
+            <motion.p
+              initial={motionEnabled ? { opacity: 0, y: 20 } : false}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.3, duration: 0.6 }}
+              className="text-lg md:text-xl text-[var(--text-muted)] leading-relaxed max-w-2xl mx-auto"
+            >
+              <TranslationText translationKey="pages.about.subtitle" as="span" shimmerWidth="400px" />
+            </motion.p>
+          </div>
+
+          <div className="space-y-[var(--space-64)] relative z-10">
+            <AboutMe
+              professionalJourney={aboutContent.professionalJourney}
+              philosophy={aboutContent.philosophy}
+              toolbox={aboutContent.toolbox}
+              languages={aboutContent.languages}
+              portraitUrl={portraitUrl ?? undefined}
+              isLoading={aboutLoading}
+            />
+
+            <KeyResults items={aboutContent.keyResults} isLoading={aboutLoading} />
+
+            <div className="h-px bg-gradient-to-r from-transparent via-white/10 to-transparent" />
+
             <Experience />
-          </Suspense>
-          <Suspense fallback={<div className="text-[var(--text-muted)] text-center py-8">Loading...</div>}>
             <Education />
-          </Suspense>
-          <Skills />
-          <Card className="flex flex-col items-center gap-[var(--space-16)] text-center">
-            <h2 className="text-[length:var(--font-600)] font-semibold text-[var(--text)] font-display text-balance">
-              <TranslationText translationKey="hero.downloadCV" shimmerWidth="140px" />
-            </h2>
-            <Suspense fallback={<div className="text-[var(--text-muted)]">Loading...</div>}>
+            <Skills />
+
+            <motion.div
+              initial={motionEnabled ? { opacity: 0, y: 20 } : false}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              className="bg-white/5 backdrop-blur-sm border border-white/10 rounded-3xl p-12 text-center"
+            >
+              <h2 className="text-3xl font-bold text-[var(--text)] font-display mb-8">
+                <TranslationText translationKey="hero.downloadCV" shimmerWidth="140px" />
+              </h2>
               <CVDownload />
-            </Suspense>
-          </Card>
+            </motion.div>
+          </div>
         </div>
       </PageLayout>
-      
+
       <ScrollIndicator />
       <Suspense fallback={null}>
         <FloatingActions />
@@ -131,15 +127,14 @@ export function AboutPage() {
         </div>
       ) : null}
 
-      
-      {/* Motion preference could be used to disable animations */}
+      {/* Motion preference */}
       {!motionEnabled ? (
         <style>{`
           * { animation-duration: 0s !important; transition-duration: 0s !important; }
         `}</style>
       ) : null}
-      
-      {/* Development mode - double-click to enable performance monitoring */}
+
+      {/* Development mode monitor toggle */}
       {import.meta.env.DEV ? (
         <button
           type="button"
