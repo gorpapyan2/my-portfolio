@@ -1,5 +1,5 @@
 import { motion, useReducedMotion } from 'framer-motion';
-import LucideIcon from 'lucide-react/dist/esm/icons/lucide-icon';
+import type { LucideIcon } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { Card } from '../../shared/Card';
 import { TranslationText } from '../../../components/shared/TranslationText';
