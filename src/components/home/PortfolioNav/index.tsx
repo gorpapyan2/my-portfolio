@@ -8,7 +8,7 @@ import { useLanguage } from '../../../context/LanguageContext';
 import { usePublicFeatureFlags } from '../../../lib/services/usePublicFeatureFlags';
 import { PortfolioNavCard } from './PortfolioNavCard';
 import { Card } from '../../shared/Card';
-import LucideIcon from 'lucide-react/dist/esm/icons/lucide-icon';
+import type { LucideIcon } from 'lucide-react';
 import { TranslationText } from '../../../components/shared/TranslationText';
 
 interface NavCard {

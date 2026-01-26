@@ -5,7 +5,7 @@ import TrendingUp from 'lucide-react/dist/esm/icons/trending-up';
 import { motion, useReducedMotion } from 'framer-motion';
 import { useLanguage } from '../../../context/LanguageContext';
 import { StatCard } from './StatCard';
-import LucideIcon from 'lucide-react/dist/esm/icons/lucide-icon';
+import type { LucideIcon } from 'lucide-react';
 import { TranslationText } from '../../../components/shared/TranslationText';
 
 interface Stat {

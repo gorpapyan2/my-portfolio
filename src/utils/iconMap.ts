@@ -8,7 +8,7 @@ import Globe from 'lucide-react/dist/esm/icons/globe';
 import Lightbulb from 'lucide-react/dist/esm/icons/lightbulb';
 import Smartphone from 'lucide-react/dist/esm/icons/smartphone';
 import Table from 'lucide-react/dist/esm/icons/table';
-import LucideIcon from 'lucide-react/dist/esm/icons/lucide-icon';
+import type { LucideIcon } from 'lucide-react';
 
 export const iconMap: Record<string, LucideIcon> = {
   'Code2': Code2,
