@@ -26,9 +26,7 @@ export function AboutPage() {
     isLoading: aboutLoading,
     errorKey: aboutErrorKey,
     soundEnabled,
-    motionEnabled,
     performanceMonitoring,
-    setPerformanceMonitoring,
     t,
   } = useAboutPageData();
 
@@ -77,28 +75,10 @@ export function AboutPage() {
           <KeyResults items={aboutContent.keyResults} isLoading={aboutLoading} />
           <div className="h-px bg-gradient-to-r from-transparent via-accent/30 to-transparent" />
 
-          {/* Philosophy Narrative Section */}
-          {/* <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6 }}
-            viewport={{ once: true }}
-            className="max-w-3xl mx-auto"
-          >
-            <div className="bg-white/5 backdrop-blur-sm rounded-xl p-8 border border-white/10 hover:border-accent/30 transition-colors duration-300">
-              <h3 className="text-2xl font-bold text-white mb-4">
-                {t('about.philosophy')}
-              </h3>
-              <p className="text-gray-300 leading-relaxed text-lg">
-                {t('pages.about.philosophy')}
-              </p>
-            </div>
-          </motion.div> */}
-
-          <Suspense fallback={<div className="text-[var(--text-muted)] text-center py-8">Loading...</div>}>
+          <Suspense fallback={null}>
             <Experience />
           </Suspense>
-          <Suspense fallback={<div className="text-[var(--text-muted)] text-center py-8">Loading...</div>}>
+          <Suspense fallback={null}>
             <Education />
           </Suspense>
           <Skills />
@@ -106,7 +86,7 @@ export function AboutPage() {
             <h2 className="text-[length:var(--font-600)] font-semibold text-[var(--text)] font-display text-balance">
               <TranslationText translationKey="hero.downloadCV" shimmerWidth="140px" />
             </h2>
-            <Suspense fallback={<div className="text-[var(--text-muted)]">Loading...</div>}>
+            <Suspense fallback={null}>
               <CVDownload />
             </Suspense>
           </Card>
@@ -127,31 +107,6 @@ export function AboutPage() {
         >
           {t(aboutErrorKey)}
         </div>
-      ) : null}
-
-
-      {/* Motion preference could be used to disable animations */}
-      {!motionEnabled ? (
-        <style>{`
-          * { animation-duration: 0s !important; transition-duration: 0s !important; }
-        `}</style>
-      ) : null}
-
-      {/* Development mode - double-click to enable performance monitoring */}
-      {import.meta.env.DEV ? (
-        <button
-          type="button"
-          className="fixed top-0 left-0 w-4 h-4 z-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/60 focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--bg)]"
-          onDoubleClick={() => setPerformanceMonitoring((prev) => !prev)}
-          onKeyDown={(event) => {
-            if (event.key === 'Enter' || event.key === ' ') {
-              event.preventDefault();
-              setPerformanceMonitoring((prev) => !prev);
-            }
-          }}
-          title="Double-click to toggle performance monitoring"
-          aria-label="Toggle performance monitoring"
-        />
       ) : null}
     </>
   );

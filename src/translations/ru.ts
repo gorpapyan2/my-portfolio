@@ -42,14 +42,14 @@ export const ru = {
   'pages.home.title': 'Главная',
   'pages.home.featuredProjects': 'Рекомендуемые проекты',
   'pages.home.latestArticles': 'Последние статьи',
-  
+
   'pages.about.title': 'О себе',
   'pages.about.subtitle': 'Специалист по автоматизации QA | Детерминированное тестирование | Интеграция CI/CD',
   'pages.about.philosophy': 'Я создаю надежную автоматизацию тестирования, которой доверяют инженеры. Мой подход: изолировать данные, делать потоки детерминированными, минимизировать нестабильность и предоставлять полезные сигналы ошибок.',
-  
+
   'pages.work.title': 'Мои работы',
   'pages.work.subtitle': 'Демонстрация фреймворков автоматизации тестирования и проектов обеспечения качества',
-  
+
   'pages.blog.title': 'Блог',
   'pages.blog.subtitle': 'Размышления и идеи о тестировании программного обеспечения и обеспечении качества',
   // Blog
@@ -68,7 +68,7 @@ export const ru = {
   'blog.publishedOn': 'Опубликовано',
   'blog.related.title': 'Похожие статьи',
   'blog.related.subtitle': 'Продолжайте изучать больше статей',
-  
+
   'pages.contact.title': 'Связаться со мной',
   'pages.contact.subtitle': 'Давайте обсудим, как я могу помочь обеспечить качество вашего программного обеспечения',
 
@@ -109,13 +109,27 @@ export const ru = {
   'about.quickFacts.focus': 'Фокус',
   'about.quickFacts.availability': 'Доступность',
   'about.quickFacts.availabilityStatus': 'Открыт для новых возможностей',
+  'about.quickFacts.value.location': 'Армения, Ереван',
+  'about.quickFacts.value.experience': '5+ лет',
+  'about.quickFacts.value.focus': 'Автоматизация QA',
   'about.languages.title': 'Языки',
+  'about.languages.fallback': 'Языки скоро появятся.',
   'about.experience.title': 'Опыт',
   'about.experience.subtitle': 'Путешествие по моей профессиональной карьере в области обеспечения качества программного обеспечения',
+  'about.experience.error': 'Не удалось загрузить опыт. Пожалуйста, обновите страницу и попробуйте снова.',
+  'about.experience.fallback': 'Детали опыта скоро появятся.',
   'about.education.title': 'Образование',
   'about.education.subtitle': 'Академический фон и непрерывное обучение',
+  'about.education.error': 'Не удалось загрузить образование. Пожалуйста, обновите страницу и попробуйте снова.',
+  'about.education.fallback': 'Детали образования появятся здесь после публикации.',
   'about.skills.title': 'Навыки и экспертиза',
   'about.skills.subtitle': 'Продвинутые навыки в автоматизации тестирования, CI/CD и инженерии качества',
+  'about.skills.error': 'Не удалось загрузить навыки. Пожалуйста, обновите страницу и попробуйте снова.',
+  'about.skills.fallback': 'Навыки скоро появятся.',
+  'about.cv.downloadMarkdown': 'Скачать резюме (Markdown)',
+  'about.cv.downloadPdf': 'Скачать резюме (PDF)',
+  'about.cv.generateError': 'Не удалось сгенерировать резюме.',
+  'about.cv.pdfError': 'Не удалось сгенерировать PDF.',
   'experience.title': 'Опыт',
   'experience.keyAchievements': 'Ключевые достижения',
 
@@ -190,4 +204,16 @@ export const ru = {
   'technologies.cicd': 'Инструменты CI/CD',
   'technologies.versionControl': 'Контроль Версий',
   'technologies.projectManagement': 'Управление Проектами',
+
+  // Errors
+  'errors.projectsLoadFailed': 'Не удалось загрузить проекты. Пожалуйста, попробуйте еще раз.',
+  'errors.blogLoadFailed': 'Не удалось загрузить статьи блога. Пожалуйста, попробуйте еще раз.',
+
+  // PortfolioNav Disabled States
+  'portfolioNav.comingSoon': 'В разработке - Скоро',
+  'portfolioNav.disabled': 'Отключено',
+
+  // Contact Info Specifics
+  'contact.locationValue': 'Армения Капан, Сюник',
+  'contact.phoneValue': '+374 (98) 500-501',
 };

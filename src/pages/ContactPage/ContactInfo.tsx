@@ -25,13 +25,13 @@ export function ContactInfo() {
     {
       icon: Phone,
       label: t('contact.phone'),
-      value: '+374 (98) 500-501',
+      value: t('contact.phoneValue'),
       href: 'tel:+37498500501'
     },
     {
       icon: MapPin,
       label: t('contact.location'),
-      value: 'Armenia Kapan, Syunik'
+      value: t('contact.locationValue')
     }
   ];
 

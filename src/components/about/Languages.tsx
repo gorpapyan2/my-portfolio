@@ -2,10 +2,12 @@ import LanguagesIcon from 'lucide-react/dist/esm/icons/languages';
 import { motion, useReducedMotion } from 'framer-motion';
 import { cn } from '../../utils/cn';
 import { TranslationText } from '../../components/shared/TranslationText';
+import { useLanguage } from '../../context/LanguageContext';
 
 type LanguageItem = {
   name: string;
   level?: string | null;
+  englishLevel?: string | null;
 };
 
 type LanguagesProps = {
@@ -17,25 +19,27 @@ export function Languages({ items, isLoading = false }: LanguagesProps) {
   const languages = items ?? [];
   const shouldReduceMotion = useReducedMotion();
 
-	function levelClass(level?: string): string {
-		const l = (level ?? '').toLowerCase();
-		if (l.includes('native')) return 'bg-emerald-500/20 text-emerald-300 border-emerald-400/30';
-		if (l.includes('proficient') || l.includes('fluent')) return 'bg-sky-500/20 text-sky-300 border-sky-400/30';
-		if (l.includes('intermediate')) return 'bg-amber-500/20 text-amber-300 border-amber-400/30';
-		if (l.includes('basic') || l.includes('beginner')) return 'bg-zinc-500/20 text-zinc-300 border-zinc-400/30';
-		return 'bg-[var(--surface-strong)] text-[var(--text-muted)] border-[var(--border)]';
-	}
+  const { t } = useLanguage();
 
-	function LanguageBadge({ name, level }: { name: string; level?: string }) {
-		return (
-			<div className="inline-flex items-center gap-2 px-2.5 py-1.5 rounded-full bg-[var(--surface)] border border-[var(--border)] hover:border-accent/40 transition-colors whitespace-nowrap">
-				<span className="text-[var(--text)] whitespace-nowrap">{name}</span>
-				{level && (
-					<span className={cn('text-xs px-2 py-0.5 rounded-full border whitespace-nowrap', levelClass(level))}>{level}</span>
-				)}
-			</div>
-		);
-	}
+  function levelClass(englishLevel?: string): string {
+    const l = (englishLevel ?? '').toLowerCase();
+    if (l.includes('native')) return 'bg-emerald-500/20 text-emerald-300 border-emerald-400/30';
+    if (l.includes('proficient') || l.includes('fluent')) return 'bg-sky-500/20 text-sky-300 border-sky-400/30';
+    if (l.includes('intermediate')) return 'bg-amber-500/20 text-amber-300 border-amber-400/30';
+    if (l.includes('basic') || l.includes('beginner')) return 'bg-zinc-500/20 text-zinc-300 border-zinc-400/30';
+    return 'bg-[var(--surface-strong)] text-[var(--text-muted)] border-[var(--border)]';
+  }
+
+  function LanguageBadge({ name, level, englishLevel }: { name: string; level?: string; englishLevel?: string }) {
+    return (
+      <div className="inline-flex items-center gap-2 px-2.5 py-1.5 rounded-full bg-[var(--surface)] border border-[var(--border)] hover:border-accent/40 transition-colors whitespace-nowrap">
+        <span className="text-[var(--text)] whitespace-nowrap">{name}</span>
+        {level && (
+          <span className={cn('text-xs px-2 py-0.5 rounded-full border whitespace-nowrap', levelClass(englishLevel))}>{level}</span>
+        )}
+      </div>
+    );
+  }
 
   return (
     <div>
@@ -52,7 +56,7 @@ export function Languages({ items, isLoading = false }: LanguagesProps) {
         </div>
       ) : (
         <div className="space-y-2" aria-label="language badges">
-          {(languages.length > 0 ? languages : [{ name: "Languages coming soon." }]).map((lang, idx) => (
+          {(languages.length > 0 ? languages : ([{ name: t('about.languages.fallback') }] as LanguageItem[])).map((lang, idx) => (
             <motion.div
               key={idx}
               initial={shouldReduceMotion ? false : { opacity: 0, y: 8 }}
@@ -60,7 +64,7 @@ export function Languages({ items, isLoading = false }: LanguagesProps) {
               viewport={{ once: true }}
               transition={{ duration: shouldReduceMotion ? 0 : 0.35, delay: shouldReduceMotion ? 0 : idx * 0.03 }}
             >
-              <LanguageBadge name={lang.name} level={lang.level ?? undefined} />
+              <LanguageBadge name={lang.name} level={lang.level ?? undefined} englishLevel={lang.englishLevel ?? undefined} />
             </motion.div>
           ))}
         </div>

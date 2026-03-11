@@ -19,17 +19,17 @@ export function QuickFacts({ className }: QuickFactsProps) {
     {
       icon: MapPin,
       label: t('about.quickFacts.location') || 'Location',
-      value: 'Armenia, Yerevan',
+      value: t('about.quickFacts.value.location') || 'Armenia, Yerevan',
     },
     {
       icon: Briefcase,
       label: t('about.quickFacts.experience') || 'Experience',
-      value: '5+ years',
+      value: t('about.quickFacts.value.experience') || '5+ years',
     },
     {
       icon: Target,
       label: t('about.quickFacts.focus') || 'Focus',
-      value: 'QA Automation',
+      value: t('about.quickFacts.value.focus') || 'QA Automation',
     },
     {
       icon: Calendar,

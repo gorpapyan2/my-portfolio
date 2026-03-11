@@ -27,6 +27,7 @@ interface DisabledCardProps {
 
 function DisabledCard({ icon: Icon, title, index }: DisabledCardProps) {
   const shouldReduceMotion = useReducedMotion();
+  const { t } = useLanguage();
 
   return (
     <motion.div
@@ -51,13 +52,13 @@ function DisabledCard({ icon: Icon, title, index }: DisabledCardProps) {
 
         {/* TBD Status */}
         <p className="text-[length:var(--font-200)] text-gray-500 flex-1 leading-[var(--leading-body)] mb-[var(--space-24)]">
-          TBD - Coming soon
+          {t('portfolioNav.comingSoon')}
         </p>
 
         {/* Lock Icon */}
         <div className="inline-flex items-center gap-[var(--space-8)] text-gray-500 text-[length:var(--font-200)]">
           <Lock className="h-4 w-4" aria-hidden="true" />
-          <span>Disabled</span>
+          <span>{t('portfolioNav.disabled')}</span>
         </div>
 
         {/* Hover Effect Overlay */}

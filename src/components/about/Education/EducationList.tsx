@@ -1,23 +1,25 @@
 import { EducationCard } from './EducationCard';
 import { useEducationService } from '../../../lib/services/useEducationService';
+import { useLanguage } from '../../../context/LanguageContext';
 
 export function EducationList() {
   const { education, isLoading, error } = useEducationService();
+  const { t } = useLanguage();
   const content = isLoading ? (
     [0, 1].map((idx) => (
       <div key={idx} className="h-32 rounded-xl bg-[var(--surface-strong)] animate-pulse" />
     ))
   ) : error ? (
-    <div className="text-[var(--text-muted)] text-sm">Failed to load education. Please refresh and try again.</div>
+    <div className="text-[var(--text-muted)] text-sm" role="alert">{t('about.education.error')}</div>
   ) : (
     (education.length > 0 ? education : [{
       degree: "Degree",
       school: "School",
       year: "YYYY",
-      description: "Education details will appear here once published.",
+      description: t('about.education.fallback'),
       id: "placeholder"
     }]).map((edu, idx) => (
-      <EducationCard 
+      <EducationCard
         key={`${edu.school}-${edu.degree}-${idx}`}
         degree={edu.degree}
         school={edu.school}

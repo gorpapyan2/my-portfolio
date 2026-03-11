@@ -4,6 +4,7 @@ import { supabase } from '../supabase';
 export type AboutLanguage = {
   name: string;
   level?: string | null;
+  englishLevel?: string | null;
 };
 
 export type AboutKeyResult = {
@@ -74,10 +75,10 @@ async function loadTextSection(
 ): Promise<string[]> {
   const [baseRows, translations, fallbackTranslations] = await Promise.all([
     fetchBase(baseTable),
-    fetchTranslations<Record<string, string>>(translationTable, language),
+    fetchTranslations<Record<string, string> & { language: string }>(translationTable, language),
     language === DEFAULT_LANG
       ? Promise.resolve([])
-      : fetchTranslations<Record<string, string>>(translationTable, DEFAULT_LANG),
+      : fetchTranslations<Record<string, string> & { language: string }>(translationTable, DEFAULT_LANG),
   ]);
 
   const byId = new Map<string, string>();
@@ -108,10 +109,19 @@ async function loadLanguageSection(language: string): Promise<AboutLanguage[]> {
 
   const byId = new Map<string, AboutLanguage>();
   for (const row of fallbackTranslations) {
-    byId.set(row.about_language_id, { name: row.name, level: row.level });
+    byId.set(row.about_language_id, {
+      name: row.name,
+      level: row.level,
+      englishLevel: row.level
+    });
   }
   for (const row of translations) {
-    byId.set(row.about_language_id, { name: row.name, level: row.level });
+    const existing = byId.get(row.about_language_id);
+    byId.set(row.about_language_id, {
+      name: row.name,
+      level: row.level,
+      englishLevel: existing?.englishLevel || row.level
+    });
   }
 
   return baseRows

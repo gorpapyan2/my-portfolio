@@ -42,14 +42,14 @@ export const am = {
   'pages.home.title': 'Գլխավոր',
   'pages.home.featuredProjects': 'Առաջարկվող նախագծեր',
   'pages.home.latestArticles': 'Վերջին հոդվածներ',
-  
+
   'pages.about.title': 'Իմ մասին',
   'pages.about.subtitle': 'QA Ավտոմատացման Մասնագետ | Որոշ թեստավորում | CI/CD ինտեգրացիա',
   'pages.about.philosophy': 'Ես կառուցում եմ հուսալի թեստավորման ավտոմատացում, որին վստահում են ինժեներները: Իմ մոտեցումը՝ մեկուսացնել տվյալները, որոշ հոսքեր անել, նվազագույն անկայունություն և օգտակար ձախողման ազդանշաններ:',
-  
+
   'pages.work.title': 'Իմ աշխատանքները',
   'pages.work.subtitle': 'Թեստավորման ավտոմատացման շրջանակների և որակի ապահովման նախագծերի ցուցադրություն',
-  
+
   'pages.blog.title': 'Բլոգ',
   'pages.blog.subtitle': 'Ծրագրային թեստավորման և որակի ապահովման մասին մտքեր և գաղափարներ',
   // Blog
@@ -68,7 +68,7 @@ export const am = {
   'blog.publishedOn': 'Հրապարակված',
   'blog.related.title': 'Նմանատիպ հոդվածներ',
   'blog.related.subtitle': 'Շարունակեք ուսումնասիրել ավելի շատ հոդվածներ',
-  
+
   'pages.contact.title': 'Կապվեք ինձ հետ',
   'pages.contact.subtitle': 'Եկեք քննարկենք, թե ինչպես կարող եմ օգնել ձեր ծրագրային ապահովման որակն ապահովել',
 
@@ -109,13 +109,27 @@ export const am = {
   'about.quickFacts.focus': 'Կենտրոնացում',
   'about.quickFacts.availability': 'Հասանելիություն',
   'about.quickFacts.availabilityStatus': 'Բաց նոր հնարավորությունների համար',
+  'about.quickFacts.value.location': 'Հայաստան, Երևան',
+  'about.quickFacts.value.experience': '5+ տարի',
+  'about.quickFacts.value.focus': 'QA Ավտոմատացում',
   'about.languages.title': 'Լեզուներ',
+  'about.languages.fallback': 'Լեզուները շուտով կհայտնվեն:',
   'about.experience.title': 'Փորձ',
   'about.experience.subtitle': 'Ճանապարհորդություն իմ մասնագիտական կարիերայում ծրագրային ապահովման որակի ապահովման ոլորտում',
+  'about.experience.error': 'Չհաջողվեց բեռնել փորձը: Խնդրում ենք թարմացնել և փորձել կրկին:',
+  'about.experience.fallback': 'Փորձի մանրամասները շուտով կհայտնվեն:',
   'about.education.title': 'Կրթություն',
   'about.education.subtitle': 'Ակադեմիական ֆոն և շարունակական ուսուցում',
+  'about.education.error': 'Չհաջողվեց բեռնել կրթությունը: Խնդրում ենք թարմացնել և փորձել կրկին:',
+  'about.education.fallback': 'Կրթության մանրամասները կհայտնվեն այստեղ հրապարակվելուց հետո:',
   'about.skills.title': 'Հմտություններ և փորձագիտություն',
   'about.skills.subtitle': 'Ընդլայնված հմտություններ թեստավորման ավտոմատացման, CI/CD և որակի ինժեներության ոլորտում',
+  'about.skills.error': 'Չհաջողվեց բեռնել հմտությունները: Խնդրում ենք թարմացնել և փորձել կրկին:',
+  'about.skills.fallback': 'Հմտությունները շուտով կհայտնվեն:',
+  'about.cv.downloadMarkdown': 'Ներբեռնել CV (Markdown)',
+  'about.cv.downloadPdf': 'Ներբեռնել CV (PDF)',
+  'about.cv.generateError': 'Չհաջողվեց ստեղծել CV:',
+  'about.cv.pdfError': 'Չհաջողվեց ստեղծել PDF:',
   'experience.title': 'Փորձ',
   'experience.keyAchievements': 'Հիմնական ձեռքբերումներ',
 
@@ -189,4 +203,16 @@ export const am = {
   'technologies.cicd': 'CI/CD Գործիքներ',
   'technologies.versionControl': 'Տարբերակների Վերահսկում',
   'technologies.projectManagement': 'Ծրագրի Կառավարում',
+
+  // Errors
+  'errors.projectsLoadFailed': 'Նախագծերը բեռնել չհաջողվեց: Խնդրում ենք կրկին փորձել:',
+  'errors.blogLoadFailed': 'Բլոգի հոդվածները բեռնել չհաջողվեց: Խնդրում ենք կրկին փորձել:',
+
+  // PortfolioNav Disabled States
+  'portfolioNav.comingSoon': 'Մշակման փուլում է - Շուտով',
+  'portfolioNav.disabled': 'Անջատված է',
+
+  // Contact Info Specifics
+  'contact.locationValue': 'Հայաստան Կապան, Սյունիք',
+  'contact.phoneValue': '+374 (98) 500-501',
 };

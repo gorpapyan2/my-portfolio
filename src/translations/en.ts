@@ -42,14 +42,14 @@ export const en = {
   'pages.home.title': 'Home',
   'pages.home.featuredProjects': 'Featured Projects',
   'pages.home.latestArticles': 'Latest Articles',
-  
+
   'pages.about.title': 'About Me',
   'pages.about.subtitle': 'QA Automation Specialist | Deterministic Testing | CI/CD Integration',
   'pages.about.philosophy': 'I build reliable test automation that engineers trust. My approach: isolate data, make flows deterministic, minimize flakiness, and surface useful failure signals.',
-  
+
   'pages.work.title': 'My Work',
   'pages.work.subtitle': 'A showcase of test automation frameworks and quality assurance projects',
-  
+
   'pages.blog.title': 'Blog',
   'pages.blog.subtitle': 'Insights and thoughts on software testing and quality assurance',
   // Blog
@@ -68,7 +68,7 @@ export const en = {
   'blog.publishedOn': 'Published on',
   'blog.related.title': 'Related Articles',
   'blog.related.subtitle': 'Continue exploring more articles',
-  
+
   'pages.contact.title': 'Contact Me',
   'pages.contact.subtitle': 'Let\'s discuss how I can help ensure the quality of your software',
 
@@ -109,13 +109,27 @@ export const en = {
   'about.quickFacts.focus': 'Focus',
   'about.quickFacts.availability': 'Availability',
   'about.quickFacts.availabilityStatus': 'Open to opportunities',
+  'about.quickFacts.value.location': 'Armenia, Yerevan',
+  'about.quickFacts.value.experience': '5+ years',
+  'about.quickFacts.value.focus': 'QA Automation',
   'about.languages.title': 'Languages',
+  'about.languages.fallback': 'Languages coming soon.',
   'about.experience.title': 'Experience',
   'about.experience.subtitle': 'A journey through my professional career in software quality assurance',
+  'about.experience.error': 'Failed to load experience. Please refresh and try again.',
+  'about.experience.fallback': 'Experience details coming soon.',
   'about.education.title': 'Education',
   'about.education.subtitle': 'Academic background and continuous learning',
+  'about.education.error': 'Failed to load education. Please refresh and try again.',
+  'about.education.fallback': 'Education details will appear here once published.',
   'about.skills.title': 'Skills & Expertise',
   'about.skills.subtitle': 'Advanced proficiencies across test automation, CI/CD, and quality engineering',
+  'about.skills.error': 'Failed to load skills. Please refresh and try again.',
+  'about.skills.fallback': 'Skills coming soon.',
+  'about.cv.downloadMarkdown': 'Download CV (Markdown)',
+  'about.cv.downloadPdf': 'Download CV (PDF)',
+  'about.cv.generateError': 'Failed to generate CV.',
+  'about.cv.pdfError': 'Failed to generate PDF.',
   'experience.title': 'Experience',
   'experience.keyAchievements': 'Key Achievements',
 
@@ -189,4 +203,16 @@ export const en = {
   'technologies.cicd': 'CI/CD Tools',
   'technologies.versionControl': 'Version Control',
   'technologies.projectManagement': 'Project Management',
+
+  // Errors
+  'errors.projectsLoadFailed': 'Failed to load projects. Please try again.',
+  'errors.blogLoadFailed': 'Failed to load blog posts. Please try again.',
+
+  // PortfolioNav Disabled States
+  'portfolioNav.comingSoon': 'TBD - Coming soon',
+  'portfolioNav.disabled': 'Disabled',
+
+  // Contact Info Specifics
+  'contact.locationValue': 'Armenia Kapan, Syunik',
+  'contact.phoneValue': '+374 (98) 500-501',
 };

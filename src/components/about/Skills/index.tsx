@@ -2,9 +2,11 @@ import Lightbulb from 'lucide-react/dist/esm/icons/lightbulb';
 import { SectionHeader } from "../../shared/SectionHeader";
 import { TranslationText } from "../../../components/shared/TranslationText";
 import { useSkillService } from "../../../lib/services/useSkillService";
+import { useLanguage } from "../../../context/LanguageContext";
 
 export function Skills() {
   const { skills, isLoading, error } = useSkillService();
+  const { t } = useLanguage();
 
   const grouped = skills.reduce<Record<string, string[]>>((acc, skill) => {
     const key = skill.category || "core";
@@ -21,10 +23,10 @@ export function Skills() {
       ))}
     </div>
   ) : error ? (
-    <div className="text-[var(--text-muted)] text-sm">Failed to load skills. Please refresh and try again.</div>
+    <div className="text-[var(--text-muted)] text-sm" role="alert">{t('about.skills.error')}</div>
   ) : (
     <div className="space-y-8">
-      {(entries.length > 0 ? entries : [["core", ["Skills coming soon."]]]).map(
+      {(entries.length > 0 ? entries : ([["core", [t('about.skills.fallback')]]] as [string, string[]][])).map(
         ([category, items]) => (
           <div key={category}>
             <h3 className="text-lg font-semibold text-[var(--text)] capitalize">{category}</h3>
