@@ -22,8 +22,10 @@ export function LoadingScreen({ progress, message }: LoadingScreenProps) {
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
-      className="fixed inset-0 flex items-center justify-center overflow-hidden bg-gradient-to-br from-[var(--bg)] via-[var(--bg-elevated)] to-[var(--bg)]"
+      className="fixed inset-0 z-[2000] isolate flex items-center justify-center overflow-hidden bg-[var(--bg)]"
     >
+      <div className="absolute inset-0 bg-gradient-to-br from-[var(--bg)] via-[var(--bg-elevated)] to-[var(--bg)]" />
+      <div className="absolute inset-0 bg-[radial-gradient(1200px_700px_at_10%_-10%,rgba(var(--accent),0.12),transparent_55%),radial-gradient(900px_600px_at_90%_0%,rgba(120,180,255,0.08),transparent_55%)] opacity-80" />
       <ParticlesBackground />
       
       <div className="relative flex flex-col items-center gap-[var(--space-32)] p-[var(--space-32)] z-10">

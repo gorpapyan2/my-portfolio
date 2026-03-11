@@ -25,10 +25,9 @@ export function TranslationText({
 }: TranslationTextProps) {
   const { t, isLoading } = useLanguage();
   const translation = t(translationKey);
-  const isMissing = translation.startsWith('[missing:');
 
-  // Show shimmer if translation is missing or still loading
-  if (isMissing || isLoading) {
+  // Show shimmer only while translations are loading
+  if (isLoading) {
     // Calculate width based on key length or use provided width
     const width = shimmerWidth || estimateWidth(translationKey);
     
@@ -89,4 +88,3 @@ function estimateWidth(key: string): string {
   if (keyLength < 30) return '150px';
   return '200px';
 }
-

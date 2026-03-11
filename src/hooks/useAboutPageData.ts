@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { useReducedMotion } from 'framer-motion';
 import { useLanguage } from '@/context/LanguageContext';
 import { getAbout, type AboutContent } from '@/lib/db/getAbout';
@@ -61,6 +61,8 @@ export interface AboutPageData {
 export function useAboutPageData(): AboutPageData {
   const { t, language } = useLanguage();
   const shouldReduceMotion = useReducedMotion();
+  const requestIdRef = useRef(0);
+  const ABOUT_FETCH_TIMEOUT_MS = 8000;
 
   // Feature flags
   const soundEnabled = false; // Feature flag for sound effects
@@ -83,22 +85,33 @@ export function useAboutPageData(): AboutPageData {
   // Fetch about content and portrait when language changes
   useEffect(() => {
     let isActive = true;
+    const requestId = ++requestIdRef.current;
+    let timedOut = false;
 
     setIsLoading(true);
     setErrorKey(null);
 
     // Fetch about content
+    const timeoutId = window.setTimeout(() => {
+      if (!isActive || requestIdRef.current !== requestId) return;
+      timedOut = true;
+      setErrorKey('about.fallback.error');
+      setIsLoading(false);
+    }, ABOUT_FETCH_TIMEOUT_MS);
+
     void getAbout(language)
       .then(data => {
-        if (!isActive) return;
+        if (!isActive || requestIdRef.current !== requestId || timedOut) return;
         setAboutContent(data);
+        setErrorKey(null);
       })
       .catch(() => {
-        if (!isActive) return;
+        if (!isActive || requestIdRef.current !== requestId || timedOut) return;
         setErrorKey('about.fallback.error');
       })
       .finally(() => {
-        if (!isActive) return;
+        window.clearTimeout(timeoutId);
+        if (!isActive || requestIdRef.current !== requestId || timedOut) return;
         setIsLoading(false);
       });
 
@@ -115,6 +128,7 @@ export function useAboutPageData(): AboutPageData {
 
     // Cleanup function to prevent state updates after unmount
     return () => {
+      window.clearTimeout(timeoutId);
       isActive = false;
     };
   }, [language]);

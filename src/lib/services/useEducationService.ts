@@ -27,6 +27,13 @@ type UseEducationOptions = {
   language?: Language;
 };
 
+const EDUCATION_TRANSLATION_FIELDS: Array<keyof EducationInsert> = [
+  'degree',
+  'school',
+  'year',
+  'description'
+];
+
 /**
  * Hook for managing education records with translation support
  *
@@ -41,7 +48,7 @@ export function useEducationService(options: UseEducationOptions = {}) {
     tableName: 'education',
     translationTable: 'education_translations',
     foreignKey: 'education_id',
-    translationFields: ['degree', 'school', 'year', 'description'],
+    translationFields: EDUCATION_TRANSLATION_FIELDS,
     schema: educationSchema,
     orderBy: 'order_index',
     orderAscending: true,

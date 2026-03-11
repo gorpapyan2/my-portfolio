@@ -7,7 +7,7 @@ export function useRouteLoading() {
   const { startLoading, stopLoading } = useLoading();
 
   useEffect(() => {
-    if (navigation.state === 'loading') {
+    if (navigation.state !== 'idle') {
       startLoading('Navigating to your destination...');
     } else {
       stopLoading();

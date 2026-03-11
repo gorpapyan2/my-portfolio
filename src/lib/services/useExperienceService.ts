@@ -27,6 +27,14 @@ type UseExperienceOptions = {
   language?: Language;
 };
 
+const EXPERIENCE_TRANSLATION_FIELDS: Array<keyof ExperienceInsert> = [
+  'role',
+  'company',
+  'period',
+  'description',
+  'achievements'
+];
+
 /**
  * Hook for managing experience records with translation support
  *
@@ -41,7 +49,7 @@ export function useExperienceService(options: UseExperienceOptions = {}) {
     tableName: 'experiences',
     translationTable: 'experience_translations',
     foreignKey: 'experience_id',
-    translationFields: ['role', 'company', 'period', 'description', 'achievements'],
+    translationFields: EXPERIENCE_TRANSLATION_FIELDS,
     schema: experienceSchema,
     orderBy: 'order_index',
     orderAscending: true,

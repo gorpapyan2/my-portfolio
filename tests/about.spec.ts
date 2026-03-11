@@ -47,6 +47,9 @@ test('About page renders DB-driven content', async ({ page }) => {
 
   await page.goto('/about');
 
+  const keyResultsSection = page.locator('#key-results');
+  await keyResultsSection.scrollIntoViewIfNeeded();
+
   await expect(page.getByText('Reduced flakiness by 40%')).toBeVisible();
   await expect(page.getByText('Shipped platforms')).toBeVisible();
   await expect(page.getByText('TypeScript')).toBeVisible();

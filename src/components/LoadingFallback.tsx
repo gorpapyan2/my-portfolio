@@ -1,11 +1,17 @@
+import { useEffect } from 'react';
+import { useLoading } from '../hooks/useLoading';
+
 /**
  * Loading fallback component for lazy-loaded routes
- * Shows a simple loading indicator while route code is being fetched
+ * Triggers the global LoadingScreen while route code is being fetched
  */
 export function LoadingFallback() {
-  return (
-    <div className="flex items-center justify-center min-h-screen">
-      <div className="text-[var(--text-muted)]">Loading...</div>
-    </div>
-  );
+  const { startLoading, stopLoading } = useLoading();
+
+  useEffect(() => {
+    startLoading('Navigating to your destination...');
+    return () => stopLoading();
+  }, [startLoading, stopLoading]);
+
+  return null;
 }

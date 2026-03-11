@@ -1,4 +1,4 @@
-import { useState, useCallback } from 'react';
+import { useState, useCallback, useRef, useEffect } from 'react';
 import { LoadingScreen } from '../components/loading/LoadingScreen';
 import { LoadingContext } from './LoadingContextValue';
 
@@ -6,8 +6,21 @@ export function LoadingProvider({ children }: { children: React.ReactNode }) {
   const [isLoading, setIsLoading] = useState(false);
   const [progress, setProgress] = useState(0);
   const [message, setMessage] = useState('');
+  const hideTimeoutRef = useRef<number | null>(null);
+
+  useEffect(() => {
+    return () => {
+      if (hideTimeoutRef.current !== null) {
+        clearTimeout(hideTimeoutRef.current);
+      }
+    };
+  }, []);
 
   const startLoading = useCallback((message = '') => {
+    if (hideTimeoutRef.current !== null) {
+      clearTimeout(hideTimeoutRef.current);
+      hideTimeoutRef.current = null;
+    }
     setIsLoading(true);
     setProgress(0);
     setMessage(message);
@@ -19,10 +32,14 @@ export function LoadingProvider({ children }: { children: React.ReactNode }) {
 
   const stopLoading = useCallback(() => {
     setProgress(100);
-    setTimeout(() => {
+    if (hideTimeoutRef.current !== null) {
+      clearTimeout(hideTimeoutRef.current);
+    }
+    hideTimeoutRef.current = window.setTimeout(() => {
       setIsLoading(false);
       setProgress(0);
       setMessage('');
+      hideTimeoutRef.current = null;
     }, 500);
   }, []);
 

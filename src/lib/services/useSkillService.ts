@@ -27,6 +27,11 @@ type UseSkillOptions = {
   language?: Language;
 };
 
+const SKILL_TRANSLATION_FIELDS: Array<keyof SkillInsert> = [
+  'title',
+  'description'
+];
+
 /**
  * Hook for managing skill records with translation support
  *
@@ -41,7 +46,7 @@ export function useSkillService(options: UseSkillOptions = {}) {
     tableName: 'skills',
     translationTable: 'skill_translations',
     foreignKey: 'skill_id',
-    translationFields: ['title', 'description'],
+    translationFields: SKILL_TRANSLATION_FIELDS,
     schema: skillSchema,
     orderBy: 'order_index',
     orderAscending: true,

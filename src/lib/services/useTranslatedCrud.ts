@@ -1,4 +1,4 @@
-import { useCallback, useState, useEffect } from 'react';
+import { useCallback, useState, useEffect, useMemo } from 'react';
 import { supabase } from '../supabase';
 import { useLanguage, type Language } from '../../context/LanguageContext';
 import type { ZodSchema } from 'zod';
@@ -115,6 +115,10 @@ export function useTranslatedCrud<TBase extends { id: string }, TTranslation, TI
     orderAscending = true,
     defaultLanguage = 'en' as Language
   } = config;
+  const stableTranslationFields = useMemo(
+    () => [...translationFields],
+    [JSON.stringify(translationFields)]
+  );
 
   const [data, setData] = useState<TBase[]>([]);
   const [isLoading, setIsLoading] = useState(true);
@@ -156,7 +160,7 @@ export function useTranslatedCrud<TBase extends { id: string }, TTranslation, TI
 
         // Merge translation fields
         const mergedRow = { ...row };
-        translationFields.forEach(field => {
+        stableTranslationFields.forEach(field => {
           if (translation[field as string] !== undefined) {
             mergedRow[field as string] = translation[field as string];
           }
@@ -173,7 +177,7 @@ export function useTranslatedCrud<TBase extends { id: string }, TTranslation, TI
     } finally {
       setIsLoading(false);
     }
-  }, [activeLanguage, tableName, translationTable, foreignKey, translationFields, orderBy, orderAscending]);
+  }, [activeLanguage, tableName, translationTable, foreignKey, stableTranslationFields, orderBy, orderAscending]);
 
   /**
    * Upsert translation for a record
@@ -185,7 +189,7 @@ export function useTranslatedCrud<TBase extends { id: string }, TTranslation, TI
     };
 
     // Copy translation fields from payload
-    translationFields.forEach(field => {
+    stableTranslationFields.forEach(field => {
       if (payload[field as string] !== undefined) {
         translation[field as string] = payload[field as string];
       }
@@ -250,7 +254,7 @@ export function useTranslatedCrud<TBase extends { id: string }, TTranslation, TI
 
       // If updating default language, also update base table translatable fields
       if (language === defaultLanguage) {
-        translationFields.forEach(field => {
+        stableTranslationFields.forEach(field => {
           if (validatedData[field as string] !== undefined) {
             baseUpdate[field as string] = validatedData[field as string];
           }
@@ -268,7 +272,7 @@ export function useTranslatedCrud<TBase extends { id: string }, TTranslation, TI
       if (updateError) throw updateError;
 
       // Check if we have any translatable fields to update
-      const hasTranslatableFields = translationFields.some(
+      const hasTranslatableFields = stableTranslationFields.some(
         field => validatedData[field as string] !== undefined
       );
 

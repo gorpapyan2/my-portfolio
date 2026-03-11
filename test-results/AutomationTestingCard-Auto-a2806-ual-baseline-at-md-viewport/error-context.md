@@ -1,0 +1,226 @@
+# Page snapshot
+
+```yaml
+- generic [ref=e3]:
+  - link "Skip to main content" [ref=e4] [cursor=pointer]:
+    - /url: "#main-content"
+  - banner [ref=e5]:
+    - navigation "Primary" [ref=e6]:
+      - generic [ref=e7]:
+        - link "Gor Papyan Home" [ref=e8] [cursor=pointer]:
+          - /url: /my-portfolio/
+          - img [ref=e9]
+          - generic [ref=e18]:
+            - generic [ref=e19]: Gor Papyan
+            - generic [ref=e20]: Home
+        - navigation [ref=e22]:
+          - link "About Me" [ref=e23] [cursor=pointer]:
+            - /url: /my-portfolio/about
+            - text: About Me
+          - link "Blog" [ref=e25] [cursor=pointer]:
+            - /url: /my-portfolio/blog
+            - text: Blog
+          - link "Contact" [ref=e27] [cursor=pointer]:
+            - /url: /my-portfolio/contact
+            - text: Contact
+        - generic [ref=e29]:
+          - button "English" [ref=e31] [cursor=pointer]:
+            - img [ref=e32]
+            - generic [ref=e35]: English
+            - img [ref=e36]
+          - button "Download CV" [ref=e38] [cursor=pointer]:
+            - img [ref=e39]
+            - generic [ref=e43]: Download CV
+  - main [ref=e44]:
+    - generic [ref=e45]:
+      - generic [ref=e52]:
+        - heading "QA Automation Specialist" [level=1] [ref=e53]
+        - paragraph [ref=e54]: I help teams ship faster with fewer bugs. Deterministic test suites, CI/CD integration, and strategic quality automation.
+        - generic [ref=e55]:
+          - generic [ref=e58]: Flaky rate ↓ ~70% via data isolation & timeout tuning
+          - generic [ref=e61]: Regression time ↓ ~40% through robust Playwright suites
+          - generic [ref=e64]: CI time ↓ with parallel workers, sharding & storageState
+        - link "Contact Me" [ref=e66] [cursor=pointer]:
+          - /url: /my-portfolio/contact
+          - generic [ref=e67]: Contact Me
+      - generic [ref=e69]:
+        - generic [ref=e70]: Scroll Down
+        - img [ref=e71]
+    - generic [ref=e74]:
+      - generic [ref=e75]:
+        - heading "Impact Through Numbers" [level=2] [ref=e76]
+        - paragraph [ref=e77]: Measurable results across projects and platforms
+      - generic [ref=e78]:
+        - generic [ref=e80]:
+          - img [ref=e83]
+          - heading "3+" [level=3] [ref=e87]
+          - heading "Years of Experience" [level=4] [ref=e88]
+          - paragraph [ref=e89]: Years specializing in deterministic test automation
+        - generic [ref=e91]:
+          - img [ref=e94]
+          - heading "10+" [level=3] [ref=e99]
+          - heading "Projects Delivered" [level=4] [ref=e100]
+          - paragraph [ref=e101]: Delivered with measurable quality improvements
+        - generic [ref=e103]:
+          - img [ref=e106]
+          - heading "5" [level=3] [ref=e109]: "5"
+          - heading "Core Stacks" [level=4] [ref=e110]
+          - paragraph [ref=e111]: Playwright, PyTest, XCUITest, AWS CodeBuild, PostgreSQL
+        - generic [ref=e113]:
+          - img [ref=e116]
+          - heading "3" [level=3] [ref=e120]: "3"
+          - heading "Impact Domains" [level=4] [ref=e121]
+          - paragraph [ref=e122]: UI & API Automation, CI/CD Integration, Data-Driven Testing
+      - paragraph [ref=e124]: UI & API Automation, CI/CD Pipeline Integration, Deterministic Test Architecture
+    - generic [ref=e125]:
+      - img [ref=e130]
+      - generic [ref=e137]:
+        - generic [ref=e138]:
+          - generic [ref=e141]: Technologies & Tools
+          - heading "Technologies & Tools" [level=2] [ref=e142]
+          - paragraph [ref=e143]: Leveraging modern tools and technologies to ensure software quality
+        - generic [ref=e144]:
+          - article "Automation Testing" [ref=e146]:
+            - generic [ref=e147]:
+              - generic [ref=e148]:
+                - generic [ref=e149]:
+                  - img [ref=e151]
+                  - generic [ref=e155]: Testing
+                - generic [ref=e156]:
+                  - heading "Automation Testing" [level=3] [ref=e157]
+                  - paragraph [ref=e158]: Framework-first approach to robust UI/API automation with traceable results and CI gates.
+                - list "Tools and technologies" [ref=e159]:
+                  - listitem [ref=e160]:
+                    - button "Playwright" [ref=e161] [cursor=pointer]
+                  - listitem [ref=e162]:
+                    - button "PyTest" [ref=e163] [cursor=pointer]
+                  - listitem [ref=e164]:
+                    - button "XCUITest" [ref=e165] [cursor=pointer]
+                  - listitem [ref=e166]:
+                    - button "TypeScript" [ref=e167] [cursor=pointer]
+                  - listitem [ref=e168]:
+                    - button "Swift" [ref=e169] [cursor=pointer]
+                - generic [ref=e170]:
+                  - generic [ref=e171]:
+                    - generic [ref=e172]: Proficiency
+                    - status [ref=e173]: 90%
+                  - progressbar "Proficiency" [ref=e174]
+                - generic [ref=e176]:
+                  - heading "Real World Impact" [level=4] [ref=e177]
+                  - paragraph [ref=e178]: Shipped Playwright suites integrated with AWS CodeBuild/CodeArtifact; regression time down ~40% and flaky tests down ~70%.
+              - complementary "Detailed Overview" [ref=e179]:
+                - heading "Detailed Overview" [level=4] [ref=e180]
+                - generic [ref=e181]:
+                  - generic [ref=e182]:
+                    - heading "Playwright (TypeScript)" [level=5] [ref=e183]
+                    - paragraph [ref=e184]: E2E + integration tests with page objects, fixtures, env configs, and tracing.
+                  - generic [ref=e185]:
+                    - heading "PyTest" [level=5] [ref=e186]
+                    - paragraph [ref=e187]: Fast, modular automation for API and integration layers.
+                  - generic [ref=e188]:
+                    - heading "XCUITest (Swift)" [level=5] [ref=e189]
+                    - paragraph [ref=e190]: Native iOS UI automation for mobile coverage.
+          - generic [ref=e191]:
+            - button "Previous technology" [ref=e193] [cursor=pointer]:
+              - img [ref=e194]
+            - generic [ref=e196]:
+              - button "Go to slide 1" [ref=e197] [cursor=pointer]
+              - button "Go to slide 2" [ref=e198] [cursor=pointer]
+              - button "Go to slide 3" [ref=e199] [cursor=pointer]
+              - button "Go to slide 4" [ref=e200] [cursor=pointer]
+            - button "Next technology" [ref=e202] [cursor=pointer]:
+              - img [ref=e203]
+    - generic [ref=e207]:
+      - generic [ref=e208]:
+        - heading "Explore My Portfolio" [level=2] [ref=e209]
+        - paragraph [ref=e210]: Navigate through different sections to learn about my experience, projects, and insights
+      - generic [ref=e211]:
+        - link "About Me Learn about my background, experience, and the skills I've developed as a QA automation specialist. Learn more ->" [ref=e213] [cursor=pointer]:
+          - /url: /my-portfolio/about
+          - generic [ref=e214]:
+            - img [ref=e217]
+            - heading "About Me" [level=3] [ref=e222]
+            - paragraph [ref=e223]: Learn about my background, experience, and the skills I've developed as a QA automation specialist.
+            - generic [ref=e224]:
+              - generic [ref=e225]: Learn more
+              - generic [ref=e226]: "->"
+        - generic [ref=e228]:
+          - img [ref=e231]
+          - heading "My Work" [level=3] [ref=e234]
+          - paragraph [ref=e235]: TBD - Coming soon
+          - generic [ref=e236]:
+            - img [ref=e237]
+            - generic [ref=e240]: Disabled
+        - link "Blog Read my latest articles and insights on software testing, automation, and quality assurance practices. Learn more ->" [ref=e242] [cursor=pointer]:
+          - /url: /my-portfolio/blog
+          - generic [ref=e243]:
+            - img [ref=e246]
+            - heading "Blog" [level=3] [ref=e249]
+            - paragraph [ref=e250]: Read my latest articles and insights on software testing, automation, and quality assurance practices.
+            - generic [ref=e251]:
+              - generic [ref=e252]: Learn more
+              - generic [ref=e253]: "->"
+        - link "Get in Touch Have a question or project in mind? Let's connect and discuss how I can help you. Learn more ->" [ref=e255] [cursor=pointer]:
+          - /url: /my-portfolio/contact
+          - generic [ref=e256]:
+            - img [ref=e259]
+            - heading "Get in Touch" [level=3] [ref=e262]
+            - paragraph [ref=e263]: Have a question or project in mind? Let's connect and discuss how I can help you.
+            - generic [ref=e264]:
+              - generic [ref=e265]: Learn more
+              - generic [ref=e266]: "->"
+  - contentinfo [ref=e267]:
+    - generic [ref=e268]:
+      - generic [ref=e269]:
+        - generic [ref=e271]:
+          - heading "About" [level=3] [ref=e272]
+          - paragraph [ref=e273]: Dedicated QA Engineer with a passion for ensuring software excellence through comprehensive testing and quality control.
+        - generic [ref=e275]:
+          - heading "Contact" [level=3] [ref=e276]
+          - generic [ref=e277]:
+            - link "gorpapyan2@gmail.com" [ref=e278] [cursor=pointer]:
+              - /url: mailto:gorpapyan2@gmail.com
+              - img [ref=e279]
+              - text: gorpapyan2@gmail.com
+            - link "+374 (98) 500-501" [ref=e282] [cursor=pointer]:
+              - /url: tel:+37498500501
+              - img [ref=e283]
+              - text: +374 (98) 500-501
+            - generic [ref=e285]:
+              - img [ref=e286]
+              - generic [ref=e289]: Armenia Kapan, Syunik
+        - generic [ref=e291]:
+          - heading "Quick Links" [level=3] [ref=e292]
+          - navigation [ref=e293]:
+            - link "About Me" [ref=e294] [cursor=pointer]:
+              - /url: /my-portfolio/about
+              - text: About Me
+            - link "Work" [ref=e295] [cursor=pointer]:
+              - /url: /my-portfolio/work
+              - text: Work
+            - link "Blog" [ref=e296] [cursor=pointer]:
+              - /url: /my-portfolio/blog
+              - text: Blog
+            - link "Contact" [ref=e297] [cursor=pointer]:
+              - /url: /my-portfolio/contact
+              - text: Contact
+        - generic [ref=e299]:
+          - heading "Connect" [level=3] [ref=e300]
+          - generic [ref=e301]:
+            - link "GitHub" [ref=e302] [cursor=pointer]:
+              - /url: https://github.com/gorpapyan2/
+              - img [ref=e303]
+            - link "LinkedIn" [ref=e306] [cursor=pointer]:
+              - /url: https://www.linkedin.com/in/gorpapyan2/
+              - img [ref=e307]
+            - link "X" [ref=e311] [cursor=pointer]:
+              - /url: https://x.com/gorpapyan22
+              - img [ref=e312]
+      - generic [ref=e316]:
+        - paragraph [ref=e317]: © 2026 Gor Papyan. All rights reserved.
+        - generic [ref=e318]:
+          - link "Privacy Policy" [ref=e319] [cursor=pointer]:
+            - /url: "#"
+          - link "Terms of Service" [ref=e320] [cursor=pointer]:
+            - /url: "#"
+```

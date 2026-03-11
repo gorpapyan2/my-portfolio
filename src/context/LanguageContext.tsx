@@ -1,6 +1,8 @@
 /* eslint-disable react-refresh/only-export-components */
 import React, { createContext, useContext, useState } from 'react';
-// DB-only i18n: no static fallback here
+import { en } from '../translations/en';
+import { ru } from '../translations/ru';
+import { am } from '../translations/am';
 import { useTranslationService } from '../lib/services/useTranslationService';
 
 export type Language = 'en' | 'ru' | 'am';
@@ -30,11 +32,14 @@ export function LanguageProvider({ children }: { children: React.ReactNode }) {
   
   // Always call the hook, but handle errors gracefully
   const translationService = useTranslationService();
+  const staticTranslations: Record<Language, Record<string, string>> = { en, ru, am };
 
   const t = (key: string): string => {
     const supabaseTranslations = translationService.translations[language];
     const value = supabaseTranslations ? supabaseTranslations[key] : undefined;
     if (value && value.length > 0) return value;
+    const staticValue = staticTranslations[language]?.[key] ?? staticTranslations.en?.[key];
+    if (staticValue && staticValue.length > 0) return staticValue;
     if (import.meta && (import.meta as unknown as { env?: Record<string, unknown> }).env) {
       if ((import.meta as unknown as { env: Record<string, unknown> }).env.DEV) console.warn(`[i18n] Missing: ${key} (${language})`);
     }
