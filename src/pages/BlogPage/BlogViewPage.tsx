@@ -9,7 +9,6 @@ import { PageLayout } from '../../components/shared/PageLayout';
 import { MarkdownRenderer } from '../../components/markdown/MarkdownRenderer';
 import { Toc } from '../../components/markdown/Toc';
 import { BlogCard } from './BlogCard';
-import { ReadingProgress } from '../../components/ReadingProgress';
 import { ShareButton } from '../../components/ShareButton';
 import { useBlogService, type LocalizedBlogPost } from '../../lib/services/useBlogService';
 import { useToc } from '../../hooks/useToc';
@@ -113,8 +112,8 @@ export function BlogViewPage() {
                   <TranslationText translationKey="blog.error.retry" shimmerWidth="80px" />
                 )}
               </button>
-              <Link 
-                to=".." 
+              <Link
+                to=".."
                 relative="path"
                 className="btn btn-secondary inline-flex items-center gap-[var(--space-8)] text-[var(--text-muted)] hover:text-[var(--text)]"
               >
@@ -141,8 +140,8 @@ export function BlogViewPage() {
             <p className="text-[var(--text-muted)] mb-[var(--space-24)] text-[length:var(--font-200)]">
               <TranslationText translationKey="blog.notFound.description" as="span" shimmerWidth="300px" />
             </p>
-            <Link 
-              to=".." 
+            <Link
+              to=".."
               relative="path"
               className="btn btn-primary inline-flex items-center gap-[var(--space-8)]"
             >
@@ -169,13 +168,12 @@ export function BlogViewPage() {
 
   return (
     <PageLayout className="!overflow-visible">
-      <ReadingProgress />
       <div className="absolute inset-0 bg-gradient-to-b from-transparent via-blue-400/5 to-transparent" />
-      
+
       {/* Navigation */}
       <div className="mb-[var(--space-32)]">
-        <Link 
-          to=".." 
+        <Link
+          to=".."
           relative="path"
           className="inline-flex items-center gap-[var(--space-8)] text-[var(--text-muted)] hover:text-[var(--text)] transition-colors group"
         >
@@ -185,98 +183,98 @@ export function BlogViewPage() {
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-4 gap-[var(--space-32)]">
-          {/* Main Content */}
-          <div className="lg:col-span-3">
-            {/* Article Header */}
-            <div className="text-center mb-[var(--space-48)]">
-              <h1 className="text-[length:var(--font-800)] md:text-[length:var(--font-900)] font-semibold text-[var(--text)] mb-[var(--space-24)] leading-[var(--leading-tight)] tracking-[var(--tracking-tight)]">
-                {blogPost.title}
-              </h1>
-              
-              {/* Metadata */}
-              <div className="flex flex-wrap items-center justify-center gap-[var(--space-24)] text-[var(--text-muted)] mb-[var(--space-32)]">
-                <div className="flex items-center gap-[var(--space-8)]">
-                  <Calendar className="h-[var(--space-16)] w-[var(--space-16)]" />
-                  <span>{formattedDate}</span>
-                </div>
-                <div className="flex items-center gap-[var(--space-8)]">
-                  <Clock className="h-[var(--space-16)] w-[var(--space-16)]" />
-                  <span>{blogPost.read_time}</span>
-                </div>
-                <div className="flex items-center gap-[var(--space-8)]">
-                  <User className="h-[var(--space-16)] w-[var(--space-16)]" />
-                  <TranslationText translationKey="author.name" as="span" shimmerWidth="100px" />
-                </div>
-                <ShareButton 
-                  title={blogPost.title}
-                  url={currentUrl}
-                />
-              </div>
+        {/* Main Content */}
+        <div className="lg:col-span-3">
+          {/* Article Header */}
+          <div className="text-center mb-[var(--space-48)]">
+            <h1 className="text-[length:var(--font-800)] md:text-[length:var(--font-900)] font-semibold text-[var(--text)] mb-[var(--space-24)] leading-[var(--leading-tight)] tracking-[var(--tracking-tight)]">
+              {blogPost.title}
+            </h1>
 
-              {/* Featured Image */}
-              {hasImage && (
-                <div className="relative aspect-video overflow-hidden rounded-[var(--radius-xl)] mb-[var(--space-32)] shadow-[var(--shadow-md)]">
-                  <img
-                    src={blogPost.image || ''}
-                    alt={blogPost.title}
-                    className="w-full h-full object-cover"
-                    loading="lazy"
-                    decoding="async"
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent" />
-                </div>
-              )}
-
-              {/* Excerpt */}
-                <div className="text-[length:var(--font-400)] text-[var(--text-muted)] max-w-4xl mx-auto leading-[var(--leading-loose)]">
-                <p>{blogPost.excerpt}</p>
+            {/* Metadata */}
+            <div className="flex flex-wrap items-center justify-center gap-[var(--space-24)] text-[var(--text-muted)] mb-[var(--space-32)]">
+              <div className="flex items-center gap-[var(--space-8)]">
+                <Calendar className="h-[var(--space-16)] w-[var(--space-16)]" />
+                <span>{formattedDate}</span>
               </div>
+              <div className="flex items-center gap-[var(--space-8)]">
+                <Clock className="h-[var(--space-16)] w-[var(--space-16)]" />
+                <span>{blogPost.read_time}</span>
+              </div>
+              <div className="flex items-center gap-[var(--space-8)]">
+                <User className="h-[var(--space-16)] w-[var(--space-16)]" />
+                <TranslationText translationKey="author.name" as="span" shimmerWidth="100px" />
+              </div>
+              <ShareButton
+                title={blogPost.title}
+                url={currentUrl}
+              />
             </div>
 
-            {/* Article Content */}
-            <article className="prose prose-invert max-w-none mb-[var(--space-32)]">
-              {hasContent ? (
-                <MarkdownRenderer 
-                  content={blogPost.content || ''}
-                  className="prose-headings:text-[var(--text)] prose-headings:font-semibold prose-headings:tracking-[var(--tracking-tight)] prose-p:text-[var(--text-muted)] prose-li:text-[var(--text-muted)] prose-strong:text-[var(--text)] prose-code:text-accent prose-pre:bg-white/5 prose-blockquote:border-accent leading-[var(--leading-loose)]"
+            {/* Featured Image */}
+            {hasImage && (
+              <div className="relative aspect-video overflow-hidden rounded-[var(--radius-xl)] mb-[var(--space-32)] shadow-[var(--shadow-md)]">
+                <img
+                  src={blogPost.image || ''}
+                  alt={blogPost.title}
+                  className="w-full h-full object-cover"
+                  loading="lazy"
+                  decoding="async"
                 />
-              ) : (
-                <div className="text-center py-[var(--space-64)]">
-                  <BookOpen className="h-[var(--space-64)] w-[var(--space-64)] text-[var(--text-muted)] mx-auto mb-[var(--space-16)]" />
-                  <p className="text-[var(--text-muted)] text-[length:var(--font-300)]">
-                    <TranslationText translationKey="blog.noContent" as="span" shimmerWidth="200px" />
-                  </p>
-                </div>
-              )}
-            </article>
-
-            {/* Footer Navigation */}
-            <div className="flex flex-col sm:flex-row items-center justify-between gap-[var(--space-16)] pt-[var(--space-48)] mt-[var(--space-64)] border-t border-white/10">
-              <Link 
-                to=".." 
-                relative="path"
-                className="inline-flex items-center gap-[var(--space-8)] text-accent hover:text-[var(--text)] transition-colors group"
-              >
-                <ArrowLeft className="h-[var(--space-16)] w-[var(--space-16)] group-hover:-translate-x-1 transition-transform" />
-                <TranslationText translationKey="blog.back" shimmerWidth="100px" />
-              </Link>
-              
-              <div className="text-[length:var(--font-100)] text-[var(--text-muted)]">
-                <TranslationText translationKey="blog.publishedOn" shimmerWidth="120px" /> {formattedDate}
+                <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent" />
               </div>
+            )}
+
+            {/* Excerpt */}
+            <div className="text-[length:var(--font-400)] text-[var(--text-muted)] max-w-4xl mx-auto leading-[var(--leading-loose)]">
+              <p>{blogPost.excerpt}</p>
             </div>
           </div>
 
-          {/* Sidebar */}
-          <aside className="lg:col-span-1" aria-label="Table of contents sidebar">
-            <div className="sticky top-24 self-start stack [--stack-space:var(--space-24)]">
-              {/* Table of Contents */}
-              {headings.length > 0 && (
-                <Toc headings={headings} />
-              )}
+          {/* Article Content */}
+          <article className="prose prose-invert max-w-none mb-[var(--space-32)]">
+            {hasContent ? (
+              <MarkdownRenderer
+                content={blogPost.content || ''}
+                className="prose-headings:text-[var(--text)] prose-headings:font-semibold prose-headings:tracking-[var(--tracking-tight)] prose-p:text-[var(--text-muted)] prose-li:text-[var(--text-muted)] prose-strong:text-[var(--text)] prose-code:text-accent prose-pre:bg-white/5 prose-blockquote:border-accent leading-[var(--leading-loose)]"
+              />
+            ) : (
+              <div className="text-center py-[var(--space-64)]">
+                <BookOpen className="h-[var(--space-64)] w-[var(--space-64)] text-[var(--text-muted)] mx-auto mb-[var(--space-16)]" />
+                <p className="text-[var(--text-muted)] text-[length:var(--font-300)]">
+                  <TranslationText translationKey="blog.noContent" as="span" shimmerWidth="200px" />
+                </p>
+              </div>
+            )}
+          </article>
+
+          {/* Footer Navigation */}
+          <div className="flex flex-col sm:flex-row items-center justify-between gap-[var(--space-16)] pt-[var(--space-48)] mt-[var(--space-64)] border-t border-white/10">
+            <Link
+              to=".."
+              relative="path"
+              className="inline-flex items-center gap-[var(--space-8)] text-accent hover:text-[var(--text)] transition-colors group"
+            >
+              <ArrowLeft className="h-[var(--space-16)] w-[var(--space-16)] group-hover:-translate-x-1 transition-transform" />
+              <TranslationText translationKey="blog.back" shimmerWidth="100px" />
+            </Link>
+
+            <div className="text-[length:var(--font-100)] text-[var(--text-muted)]">
+              <TranslationText translationKey="blog.publishedOn" shimmerWidth="120px" /> {formattedDate}
             </div>
-          </aside>
+          </div>
         </div>
+
+        {/* Sidebar */}
+        <aside className="lg:col-span-1" aria-label="Table of contents sidebar">
+          <div className="sticky top-24 self-start stack [--stack-space:var(--space-24)]">
+            {/* Table of Contents */}
+            {headings.length > 0 && (
+              <Toc headings={headings} />
+            )}
+          </div>
+        </aside>
+      </div>
 
       {/* Related Posts Section */}
       {relatedPosts.length > 0 && (
@@ -289,10 +287,10 @@ export function BlogViewPage() {
               <TranslationText translationKey="blog.related.subtitle" as="span" shimmerWidth="250px" />
             </p>
           </div>
-          
+
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-[var(--space-32)]">
             {relatedPosts.map((post) => (
-              <BlogCard 
+              <BlogCard
                 key={post.id}
                 id={post.id}
                 title={post.title}

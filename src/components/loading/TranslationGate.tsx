@@ -1,6 +1,6 @@
 import { ReactNode } from 'react';
 import { useLanguage } from '../../context/LanguageContext';
-import { TranslationLoadingScreen } from './TranslationLoadingScreen';
+import { LoadingScreen } from './LoadingScreen';
 import { ErrorScreen } from './ErrorScreen';
 
 interface TranslationGateProps {
@@ -27,7 +27,7 @@ export function TranslationGate({ children }: TranslationGateProps) {
 
   // Show loading screen while translations are being fetched
   if (isLoading) {
-    return <TranslationLoadingScreen />;
+    return <LoadingScreen hint="Please wait while we load your preferred language..." />;
   }
 
   // Show error screen if translations failed to load
@@ -36,14 +36,14 @@ export function TranslationGate({ children }: TranslationGateProps) {
     const fallbackTitle = language === 'ru'
       ? 'Не удалось загрузить язык'
       : language === 'am'
-      ? 'Լեզուն բեռնել չհաջողվեց'
-      : 'Unable to Load Your Language';
+        ? 'Լեզուն բեռնել չհաջողվեց'
+        : 'Unable to Load Your Language';
 
     const fallbackMessage = language === 'ru'
       ? 'Мы не смогли загрузить настройки вашего языка. Это может быть временной проблемой.'
       : language === 'am'
-      ? 'Ձեր նախընտրած լեզվի կարգավորումները բեռնել չհաջողվեց: Սա կարող է լինել ժամանակավոր խնդիր:'
-      : "We couldn't load your preferred language settings. This might be a temporary issue.";
+        ? 'Ձեր նախընտրած լեզվի կարգավորումները բեռնել չհաջողվեց: Սա կարող է լինել ժամանակավոր խնդիր:'
+        : "We couldn't load your preferred language settings. This might be a temporary issue.";
 
     const fallbackRetry = language === 'ru' ? 'Попробовать снова' : language === 'am' ? 'Փորձել կրկին' : 'Try Again';
 

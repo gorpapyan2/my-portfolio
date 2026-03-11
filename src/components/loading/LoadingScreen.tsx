@@ -2,10 +2,13 @@ import { LoadingSpinner } from './LoadingSpinner';
 import { ParticlesBackground } from './ParticlesBackground';
 import { ProgressRing } from './ProgressRing';
 import { motion } from 'framer-motion';
+import { useMemo } from 'react';
 
 interface LoadingScreenProps {
   progress?: number;
   message?: string;
+  /** Optional hint line shown below the animated message (e.g. for translation loading) */
+  hint?: string;
 }
 
 const defaultMessages = [
@@ -14,11 +17,15 @@ const defaultMessages = [
   "Getting things ready for you...",
 ];
 
-export function LoadingScreen({ progress, message }: LoadingScreenProps) {
-  const displayMessage = message || defaultMessages[Math.floor(Math.random() * defaultMessages.length)];
+export function LoadingScreen({ progress, message, hint }: LoadingScreenProps) {
+  const displayMessage = useMemo(
+    () => message ?? defaultMessages[Math.floor(Math.random() * defaultMessages.length)],
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [],
+  );
 
   return (
-    <motion.div 
+    <motion.div
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
@@ -27,9 +34,9 @@ export function LoadingScreen({ progress, message }: LoadingScreenProps) {
       <div className="absolute inset-0 bg-gradient-to-br from-[var(--bg)] via-[var(--bg-elevated)] to-[var(--bg)]" />
       <div className="absolute inset-0 bg-[radial-gradient(1200px_700px_at_10%_-10%,rgba(var(--accent),0.12),transparent_55%),radial-gradient(900px_600px_at_90%_0%,rgba(120,180,255,0.08),transparent_55%)] opacity-80" />
       <ParticlesBackground />
-      
+
       <div className="relative flex flex-col items-center gap-[var(--space-32)] p-[var(--space-32)] z-10">
-        <motion.div 
+        <motion.div
           initial={{ scale: 0.8, opacity: 0 }}
           animate={{ scale: 1, opacity: 1 }}
           transition={{ duration: 0.5, ease: "easeOut" }}
@@ -38,8 +45,8 @@ export function LoadingScreen({ progress, message }: LoadingScreenProps) {
           <ProgressRing progress={progress} />
           <LoadingSpinner />
         </motion.div>
-        
-        <motion.div 
+
+        <motion.div
           initial={{ y: 20, opacity: 0 }}
           animate={{ y: 0, opacity: 1 }}
           transition={{ delay: 0.3, duration: 0.5 }}
@@ -48,11 +55,11 @@ export function LoadingScreen({ progress, message }: LoadingScreenProps) {
           <motion.p
             initial={{ opacity: 0 }}
             animate={{ opacity: [0.5, 1, 0.5] }}
-            transition={{ 
-              delay: 0.5, 
-              duration: 2, 
+            transition={{
+              delay: 0.5,
+              duration: 2,
               repeat: Infinity,
-              ease: "easeInOut" 
+              ease: "easeInOut"
             }}
             className="text-[length:var(--font-400)] font-medium text-[var(--text)] mb-[var(--space-8)]"
           >
@@ -78,6 +85,17 @@ export function LoadingScreen({ progress, message }: LoadingScreenProps) {
               />
             ))}
           </div>
+
+          {hint && (
+            <motion.p
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ delay: 1 }}
+              className="text-[length:var(--font-100)] text-[var(--text-muted)] mt-[var(--space-16)]"
+            >
+              {hint}
+            </motion.p>
+          )}
         </motion.div>
       </div>
 

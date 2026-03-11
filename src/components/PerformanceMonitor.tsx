@@ -9,7 +9,8 @@ export default function PerformanceMonitor({ enabled = false }: PerformanceMonit
   const [frameTime, setFrameTime] = useState(0);
 
   useEffect(() => {
-    if (!enabled) return;
+    // Only runs in development and when explicitly enabled
+    if (!import.meta.env.DEV || !enabled) return;
 
     let frameCount = 0;
     let lastTime = performance.now();
@@ -17,18 +18,18 @@ export default function PerformanceMonitor({ enabled = false }: PerformanceMonit
 
     const measurePerformance = (currentTime: number) => {
       frameCount++;
-      
+
       if (currentTime - lastTime >= 1000) {
         const currentFps = Math.round((frameCount * 1000) / (currentTime - lastTime));
         const currentFrameTime = (currentTime - lastTime) / frameCount;
-        
+
         setFps(currentFps);
         setFrameTime(Math.round(currentFrameTime * 100) / 100);
-        
+
         frameCount = 0;
         lastTime = currentTime;
       }
-      
+
       animationId = requestAnimationFrame(measurePerformance);
     };
 

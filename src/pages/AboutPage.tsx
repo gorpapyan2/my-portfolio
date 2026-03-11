@@ -5,7 +5,6 @@ import { PageHeader } from "@/components/shared/PageHeader";
 import { Card } from "@/components/shared/Card";
 import AboutMe from "@/components/AboutMe";
 import { KeyResults } from "@/components/about/KeyResults";
-import ScrollIndicator from "@/components/ScrollIndicator";
 import { SectionNavigation } from "@/components/SectionNavigation";
 import { Skills } from "@/components/about/Skills";
 import { TranslationText } from "@/components/shared/TranslationText";
@@ -14,7 +13,7 @@ import { useAboutPageData } from "@/hooks/useAboutPageData";
 // Lazy load heavy/utility components to reduce initial bundle
 const CVDownload = lazy(() => import("@/components/about/CVDownload").then(m => ({ default: m.CVDownload })));
 const ParticleBackground = lazy(() => import("@/components/ParticleBackground"));
-const Experience = lazy(() => import("@/components/about/Expirence").then(m => ({ default: m.Experience })));
+const Experience = lazy(() => import("@/components/about/Experience").then(m => ({ default: m.Experience })));
 const Education = lazy(() => import("@/components/about/Education").then(m => ({ default: m.Education })));
 const FloatingActions = lazy(() => import("@/components/FloatingActions"));
 const SoundEffects = lazy(() => import("@/components/SoundEffects"));
@@ -42,13 +41,13 @@ export function AboutPage() {
         <ParticleBackground />
       </Suspense>
       <SectionNavigation />
-      
+
       <PageLayout ariaLabel={t('pages.about.ariaLabel')}>
         <div
           className="absolute inset-0 bg-gradient-to-b from-transparent via-accent/5 to-transparent pointer-events-none"
           aria-hidden="true"
         />
-        
+
         <PageHeader
           icon={User}
           title={
@@ -65,7 +64,7 @@ export function AboutPage() {
             />
           }
         />
-        
+
         <div className="space-y-[var(--space-64)]">
           <AboutMe
             professionalJourney={aboutContent.professionalJourney}
@@ -77,7 +76,7 @@ export function AboutPage() {
           />
           <KeyResults items={aboutContent.keyResults} isLoading={aboutLoading} />
           <div className="h-px bg-gradient-to-r from-transparent via-accent/30 to-transparent" />
-          
+
           {/* Philosophy Narrative Section */}
           {/* <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -113,8 +112,7 @@ export function AboutPage() {
           </Card>
         </div>
       </PageLayout>
-      
-      <ScrollIndicator />
+
       <Suspense fallback={null}>
         <FloatingActions />
       </Suspense>
@@ -131,14 +129,14 @@ export function AboutPage() {
         </div>
       ) : null}
 
-      
+
       {/* Motion preference could be used to disable animations */}
       {!motionEnabled ? (
         <style>{`
           * { animation-duration: 0s !important; transition-duration: 0s !important; }
         `}</style>
       ) : null}
-      
+
       {/* Development mode - double-click to enable performance monitoring */}
       {import.meta.env.DEV ? (
         <button
